@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="bd386670-3e0b-4cbe-b8e2-bf7046199cff" revisionNumber="0">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        Specificity is a framework that extends existing .NET unit testing frameworks, including MbUnit,
+        NUnit, xUnit, MSTest and csUnit. These extensions provide a fluent API for specifying test assertions
+        as well as BDD style test classes.
+      </para>
+    </introduction>
+
+    <section>
+      <title>Why?</title>
+
+      <content>
+        <para>
+          Why another assertion library? Aren't the assertion APIs that come with the various unit test
+          frameworks good enough? Is this just a lame syntax change using the latest buzz word
+          "fluent API"?
+        </para>
+        <para>
+          The purpose of Specificity is actually to make assertions more discoverable and extensible.
+          Most assertion APIs use static methods, segmented on multiple static classes based on the type of
+          object you'll be making the assertion on. A generic Assert class holds assertions for Object types.
+          A StringAssert holds assertions for String types. A CollectionAssert holds assertions for ICollection
+          types. While reasonable in the .NET 2.0 era, this approach isn't overly discoverable. Without
+          documentation, would you have expected to find assertions for a List&gt;int&lt; in the CollectionAssert
+          class, or would your first instinct have been to look for a ListAssert class? More important is how
+          this design impacts extensibility. No assertion API is ever going to cover all of the assertions you
+          want to use. There will always be a need to extend or add your own assertions. Imagine, for instance,
+          you have some burning need for an assertion to check that a string contains no vowels, and there's no
+          such assertion in the StringAssert class. Because StringAssert is part of the framework, you can't
+          really modify it. So, you have to create your own class. But what in the heck would you name it? OK,
+          let's just not care and use something like MyStringAssert. That's certainly no longer discoverable.
+        </para>
+        <para>
+          With Specificity, the available assertions are discoverable through intellisense. You type
+          "Specify.That(foo)." and all of the assertions that are relevant to the type of "foo", and only the
+          assertions relevant to the type of "foo", show up in the intellisense menu. Extending the assertions
+          is easy. You still have to create a static class, but the name is less important because we use
+          extension methods for the assertions.
+        </para>
+        <para>
+          The fact that a fluent API is used by Specificity is a side effect of the goals, actually.
+        </para>
+        <para>
+          Specificity isn't tied to any unit test framework. It should work as a drop in replacement for the
+          assertion APIs in any unit test framework you want to use.
+        </para>
+      </content>
+    </section>
+
+    <relatedTopics>
+      <!-- Supported Link Types
+    
+         All of the following linking mechanisms may be used in the topic's content 
+         as well as in the related topics section.
+    
+    Linking to API reference documentation: 
+    
+		    <codeEntityReference>API reference ID</codeEntityReference>
+
+    Linking to external resources and custom HTML topics: 
+
+        <externalLink>
+          <linkText>  Required hyperlink text  </linkText>
+          <linkAlternateText>  Optional link title  </linkAlternateText>
+          <linkUri>  Required URI  </linkUri>
+        </externalLink>
+    
+    Linking to other conceptual topics: 
+    
+        <link xlink:href="GUID topic name (without file extension)" />
+        
+    Linking to named references:
+    
+        (Refer to the project's Help\Settings\links.xml file for more information)
+    
+        <link xref="id"> Optional link text </link>
+        <link vref="id or URI"> Optional link text </link>
+        
+    -->
+
+      <!-- Example Usage 
+
+      <codeEntityReference>T:MyNamespace.MyClass</codeEntityReference>
+      <codeEntityReference>P:MyNamespace.MyClass.MyProp</codeEntityReference>
+      <codeEntityReference>M:System.IO.File.OpenText(System.String)</codeEntityReference>
+
+      <externalLink>
+        <linkText>Sandcastle Styles</linkText>
+        <linkAlternateText>Sandcastle Styles on CodePlex</linkAlternateText>
+        <linkUri>http://www.codeplex.com/SandcastleStyles</linkUri>
+      </externalLink>
+
+      <externalLink>
+        <linkText>Change Log</linkText>
+        <linkUri>ChangeLog.html</linkUri>
+      </externalLink>
+
+      <link xlink:href="2BFD9215-1216-403d-8C46-8420A4D01B83"/>
+      
+      <link xref="home">Our Home Page</link>
+      <link vref="/controls/design.aspx">Control Architecture</link>
+      -->
+    </relatedTopics>
+
+  </developerConceptualDocument>
+</topic>
