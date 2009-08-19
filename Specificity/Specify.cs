@@ -41,19 +41,6 @@ namespace Testing.Specificity
             return new ConstrainedValue<Action>(action);
         }
 
-        internal static string Format(string format, params object[] parameters)
-        {
-            for (int i = 0; i < parameters.Length; ++i)
-            {
-                if (parameters[i] == null)
-                {
-                    parameters[i] = Messages.NullValue;
-                }
-            }
-
-            return string.Format(CultureInfo.CurrentUICulture, format, parameters);
-        }
-
         /// <summary>
         /// Throws a <see cref="ConstraintFailedException"/>.
         /// </summary>
@@ -78,7 +65,7 @@ namespace Testing.Specificity
             {
                 if (messageParameters != null && messageParameters.Length != 0)
                 {
-                    message = Format(message, messageParameters);
+                    message = string.Format(CultureInfo.CurrentCulture, message, messageParameters);
                 }
             }
 

@@ -44,4 +44,6 @@
             ReportTypes="html"
             ReportDirectory="$(BuildPath)\TestReports"/>
   </Target>
+  <Target Name="Deploy" DependsOnTargets="Clean;Test">
+  </Target>
 </Project>

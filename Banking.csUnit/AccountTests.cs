@@ -10,8 +10,8 @@
 namespace Banking.csUnitTests
 {
     using Banking;
-    using Testing.Specificity;
     using csUnit;
+    using Testing.Specificity;
 
     /// <summary>
     /// Tests for the <see cref="Account"/> type.

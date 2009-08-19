@@ -29,12 +29,19 @@ namespace Testing.Specificity
         /// </returns>
         protected override IEnumerable<ITestCommand> EnumerateTestCommands(MethodInfo method)
         {
-            foreach (ITestCommand command in BaseEnumerateTestCommands(method))
+            foreach (ITestCommand command in this.BaseEnumerateTestCommands(method))
             {
                 yield return new ObservationCommand(command);
             }
         }
 
+        /// <summary>
+        /// Calls the base <see cref="FactAttribute.EnumerateTestCommands"/>.
+        /// </summary>
+        /// <param name="method">The test method</param>
+        /// <returns>
+        /// The test commands which will execute the test runs for the given method
+        /// </returns>
         private IEnumerable<ITestCommand> BaseEnumerateTestCommands(MethodInfo method)
         {
             return base.EnumerateTestCommands(method);

@@ -1,4 +1,10 @@
-﻿// This test class illustrates how to use only the assertions from Specificity in a traditional TDD fashion using
+﻿//-----------------------------------------------------------------------------
+// <copyright file="AccountTests.cs" company="William E. Kempf">
+//     Copyright (c) William E. Kempf.
+// </copyright>
+//-----------------------------------------------------------------------------
+
+// This test class illustrates how to use only the assertions from Specificity in a traditional TDD fashion using
 // MSTest.
 
 namespace Banking.MSTest

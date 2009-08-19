@@ -10,8 +10,8 @@
 namespace Banking.MbUnitTests
 {
     using Banking;
-    using Testing.Specificity;
     using NUnit.Framework;
+    using Testing.Specificity;
 
     /// <summary>
     /// Tests for the <see cref="Account"/> type.

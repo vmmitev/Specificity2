@@ -8,8 +8,8 @@
 
 namespace Banking.csUnitTests
 {
-    using Testing.Specificity;
     using csUnit;
+    using Testing.Specificity;
 
     /// <summary>
     /// Base class for testing <see cref="AutomaticTellerMachine"/> scenarios.

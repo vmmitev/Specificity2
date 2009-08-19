@@ -8,8 +8,8 @@
 
 namespace Banking.MbUnitTests
 {
-    using Testing.Specificity;
     using NUnit.Framework;
+    using Testing.Specificity;
 
     /// <summary>
     /// Base class for testing <see cref="AutomaticTellerMachine"/> scenarios.

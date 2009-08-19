@@ -9,7 +9,6 @@ namespace Testing.Specificity
     using System;
     using System.Collections;
     using System.Reflection;
-    using System.Globalization;
 
     /// <summary>
     /// Provides extension methods for object assertions.
@@ -209,7 +208,8 @@ namespace Testing.Specificity
         /// </returns>
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<T> ShouldBeSameAs<T>(
-            this ConstrainedValue<T> self, T expected,
+            this ConstrainedValue<T> self,
+            T expected,
             string message,
             params object[] parameters) where T : class
         {
