@@ -6,8 +6,6 @@
 
 namespace Banking
 {
-    using System;
-
     /// <summary>
     /// Defines operations on a bank account.
     /// </summary>

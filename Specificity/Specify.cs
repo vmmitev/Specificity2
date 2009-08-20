@@ -8,8 +8,6 @@ namespace Testing.Specificity
 {
     using System;
     using System.Globalization;
-    using System.Text;
-    using Testing.Specificity.Properties;
 
     /// <summary>
     /// Static class used to start specifying assertions on a value.

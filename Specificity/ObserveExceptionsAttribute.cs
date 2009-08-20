@@ -6,9 +6,6 @@
 namespace Testing.Specificity
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Indicates that <see cref="ScenarioBase.Because"/> should record exceptions and not cause an immediate

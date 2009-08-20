@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Testing.Specificity.Properties {
-    using System;
-    
-    
+namespace Testing.Specificity.Properties
+{
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,319 +22,389 @@ namespace Testing.Specificity.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
-        
+    internal class Resources
+    {
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal Resources()
+        {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
-            get {
-                if (object.ReferenceEquals(resourceMan, null)) {
+        internal static global::System.Resources.ResourceManager ResourceManager
+        {
+            get
+            {
+                if (object.ReferenceEquals(resourceMan, null))
+                {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Testing.Specificity.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
-            get {
+        internal static global::System.Globalization.CultureInfo Culture
+        {
+            get
+            {
                 return resourceCulture;
             }
-            set {
+            set
+            {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Both collections are empty..
         /// </summary>
-        internal static string BothCollectionsEmpty {
-            get {
+        internal static string BothCollectionsEmpty
+        {
+            get
+            {
                 return ResourceManager.GetString("BothCollectionsEmpty", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Both collection references point to the same collection object..
         /// </summary>
-        internal static string BothSameCollection {
-            get {
+        internal static string BothSameCollection
+        {
+            get
+            {
                 return ResourceManager.GetString("BothSameCollection", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Both collections contain the same elements..
         /// </summary>
-        internal static string BothSameElements {
-            get {
+        internal static string BothSameElements
+        {
+            get
+            {
                 return ResourceManager.GetString("BothSameElements", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; failed. {1}.
         /// </summary>
-        internal static string ConstraintFailed {
-            get {
+        internal static string ConstraintFailed
+        {
+            get
+            {
                 return ResourceManager.GetString("ConstraintFailed", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to String &apos;{0}&apos; does not contain &apos;{1}&apos;..
         /// </summary>
-        internal static string ContainsFail {
-            get {
+        internal static string ContainsFail
+        {
+            get
+            {
                 return ResourceManager.GetString("ContainsFail", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Both collections contain the same elements..
         /// </summary>
-        internal static string ContainsSameElements {
-            get {
+        internal static string ContainsSameElements
+        {
+            get
+            {
                 return ResourceManager.GetString("ContainsSameElements", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Expected a difference greater than {0}. Expected value: {1}. Actual value: {2}..
         /// </summary>
-        internal static string DifferenceLessThanDelta {
-            get {
+        internal static string DifferenceLessThanDelta
+        {
+            get
+            {
                 return ResourceManager.GetString("DifferenceLessThanDelta", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Expected a difference no greater than {0}. Expected value: {1}. Actual value: {2}..
         /// </summary>
-        internal static string DifferenceMoreThanDelta {
-            get {
+        internal static string DifferenceMoreThanDelta
+        {
+            get
+            {
                 return ResourceManager.GetString("DifferenceMoreThanDelta", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to String &apos;{0}&apos; does not start with &apos;{1}&apos;..
         /// </summary>
-        internal static string DoesNotStartWith {
-            get {
+        internal static string DoesNotStartWith
+        {
+            get
+            {
                 return ResourceManager.GetString("DoesNotStartWith", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Duplicate element found: &lt;{0}&gt;..
         /// </summary>
-        internal static string DuplicateElement {
-            get {
+        internal static string DuplicateElement
+        {
+            get
+            {
                 return ResourceManager.GetString("DuplicateElement", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Expected element count: &lt;{0}&gt;. Actual element count: &lt;{1}&gt;..
         /// </summary>
-        internal static string ElementNumbersDoNotMatch {
-            get {
+        internal static string ElementNumbersDoNotMatch
+        {
+            get
+            {
                 return ResourceManager.GetString("ElementNumbersDoNotMatch", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Expected: &lt;{0}&gt;. Actual: &lt;{1}&gt;. Index: &lt;{2}&gt;..
         /// </summary>
-        internal static string ElementsAtIndexDoNotMatch {
-            get {
+        internal static string ElementsAtIndexDoNotMatch
+        {
+            get
+            {
                 return ResourceManager.GetString("ElementsAtIndexDoNotMatch", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Element at index {0} is not of the expected type. Expected type: &lt;{1}&gt;. Actual type: &lt;{2}&gt;..
         /// </summary>
-        internal static string ElementTypesAtIndexDoNotMatch {
-            get {
+        internal static string ElementTypesAtIndexDoNotMatch
+        {
+            get
+            {
                 return ResourceManager.GetString("ElementTypesAtIndexDoNotMatch", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Element at {0} is (null). Expected type: {1}..
         /// </summary>
-        internal static string ElementTypesAtIndexDoNotMatch2 {
-            get {
+        internal static string ElementTypesAtIndexDoNotMatch2
+        {
+            get
+            {
                 return ResourceManager.GetString("ElementTypesAtIndexDoNotMatch2", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to String &apos;{0}&apos; does not end with &apos;{1}&apos;..
         /// </summary>
-        internal static string EndsWithFail {
-            get {
+        internal static string EndsWithFail
+        {
+            get
+            {
                 return ResourceManager.GetString("EndsWithFail", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Expected any value except: &lt;{0}&gt;. Actual: &lt;{1}&gt;..
         /// </summary>
-        internal static string Equal {
-            get {
+        internal static string Equal
+        {
+            get
+            {
                 return ResourceManager.GetString("Equal", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Wrong type: {0}. Actual type: {1}..
         /// </summary>
-        internal static string EqualTypes {
-            get {
+        internal static string EqualTypes
+        {
+            get
+            {
                 return ResourceManager.GetString("EqualTypes", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Expected: &lt;{0}&gt;. Actual: &lt;{1}&gt;..
         /// </summary>
-        internal static string ExpectedNotActual {
-            get {
+        internal static string ExpectedNotActual
+        {
+            get
+            {
                 return ResourceManager.GetString("ExpectedNotActual", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Do not pass value types to ShouldBeSameAs(). Values converted to object types will never be the same. Consider using ShouldBeEqualTo() instead..
         /// </summary>
-        internal static string GivenValueTypes {
-            get {
+        internal static string GivenValueTypes
+        {
+            get
+            {
                 return ResourceManager.GetString("GivenValueTypes", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to String &apos;{0}&apos; does not match pattern &apos;{1}&apos;..
         /// </summary>
-        internal static string IsMatchFail {
-            get {
+        internal static string IsMatchFail
+        {
+            get
+            {
                 return ResourceManager.GetString("IsMatchFail", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to String &apos;{0}&apos; matches pattern &apos;{1}&apos;..
         /// </summary>
-        internal static string IsNotMatchFail {
-            get {
+        internal static string IsNotMatchFail
+        {
+            get
+            {
                 return ResourceManager.GetString("IsNotMatchFail", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The expected collection contains {0} occurrence(s) of &lt;{1}&gt;. The actual collection contains {2} occurrence(s)..
         /// </summary>
-        internal static string MismatchedElements {
-            get {
+        internal static string MismatchedElements
+        {
+            get
+            {
                 return ResourceManager.GetString("MismatchedElements", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Expected exception type: &lt;{0}&gt;..
         /// </summary>
-        internal static string NoExceptionThrown {
-            get {
+        internal static string NoExceptionThrown
+        {
+            get
+            {
                 return ResourceManager.GetString("NoExceptionThrown", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to String &apos;{0}&apos; contains &apos;{1}&apos;..
         /// </summary>
-        internal static string NotContainsFail {
-            get {
+        internal static string NotContainsFail
+        {
+            get
+            {
                 return ResourceManager.GetString("NotContainsFail", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to String &apos;{0}&apos; ends with &apos;{1}&apos;..
         /// </summary>
-        internal static string NotEndsWithFail {
-            get {
+        internal static string NotEndsWithFail
+        {
+            get
+            {
                 return ResourceManager.GetString("NotEndsWithFail", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Expected: &lt;{0}&gt;. Actual: &lt;{1}&gt;..
         /// </summary>
-        internal static string NotEqual {
-            get {
+        internal static string NotEqual
+        {
+            get
+            {
                 return ResourceManager.GetString("NotEqual", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Expected type: {0}. Actual type: {1}..
         /// </summary>
-        internal static string NotEqualTypes {
-            get {
+        internal static string NotEqualTypes
+        {
+            get
+            {
                 return ResourceManager.GetString("NotEqualTypes", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to (null).
         /// </summary>
-        internal static string NullValue {
-            get {
+        internal static string NullValue
+        {
+            get
+            {
                 return ResourceManager.GetString("NullValue", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to String &apos;{0}&apos; starts with &apos;{1}&apos;..
         /// </summary>
-        internal static string StartsWith {
-            get {
+        internal static string StartsWith
+        {
+            get
+            {
                 return ResourceManager.GetString("StartsWith", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Exception thrown: &lt;{0}&gt;..
         /// </summary>
-        internal static string UnexpectedException {
-            get {
+        internal static string UnexpectedException
+        {
+            get
+            {
                 return ResourceManager.GetString("UnexpectedException", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Expected exception type: &lt;{0}&gt;. Actual exception type: &lt;{1}&gt;..
         /// </summary>
-        internal static string UnexpectedExceptionType {
-            get {
+        internal static string UnexpectedExceptionType
+        {
+            get
+            {
                 return ResourceManager.GetString("UnexpectedExceptionType", resourceCulture);
             }
         }

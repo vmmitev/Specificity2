@@ -7,7 +7,6 @@ namespace Testing.Specificity
 {
     using System.ComponentModel;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Testing.Specificity;
 
     /// <summary>
     /// Base class for BDD style test classes.

@@ -12,6 +12,7 @@
     <Build>0</Build>
     <Revision>1</Revision>
     <SolutionInfoFile>$(MSBuildProjectDirectory)\SolutionInfo.cs</SolutionInfoFile>
+    <ProductWxsFile>$(MSBuildProjectDirectory)\WixSpecificity\Product.wxs</ProductWxsFile>
   </PropertyGroup>
   <Target Name="Version">
     <SvnVersion LocalPath="$(MSBuildProjectDirectory)">
@@ -24,6 +25,12 @@
     <FileUpdate Files="$(SolutionInfoFile)"
                 Regex="(\d+)\.(\d+)\.(\d+)\.(\d+)"
                 ReplacementText="$(Major).$(Minor).$(Build).$(Revision)"/>
+    <FileUpdate Files="$(ProductWxsFile)"
+                Regex="Version=&quot;(\d+)\.(\d+)\.(\d+)\.(\d+)&quot;"
+                ReplacementText="Version=&quot;$(Major).$(Minor).$(Build).$(Revision)&quot;"/>
+    <FileUpdate Files="$(ProductWxsFile)"
+                Regex="Name=&quot;Specificity (\d+)\.(\d+)&quot;"
+                ReplacementText="Name=&quot;Specificity $(Major).$(Minor)&quot;"/>
   </Target>
   <Target Name="Build" DependsOnTargets="Version">
     <MSBuild Projects="SpecificityFull.sln" Targets="Build" Properties="Configuration=$(Configuration);OutDir=$(OutDir)"/>
@@ -44,6 +51,15 @@
             ReportTypes="html"
             ReportDirectory="$(BuildPath)\TestReports"/>
   </Target>
-  <Target Name="Deploy" DependsOnTargets="Clean;Test">
+  <Target Name="Zip">
+    <ItemGroup>
+      <ZipFiles Include="**\*.*"
+                Exclude="**\bin\**;**\obj\**;**\.svn\**;**buildhelp\**;**\*.testrunconfig;**\*.user;**\*.suo"/>
+    </ItemGroup>
+    <Zip Files="@(ZipFiles)"
+         WorkingDirectory="$(BuildPath)"
+         ZipFileName="$(BuildPath)\SpecificitySource-$(Major).$(Minor).$(Build).$(Revision).zip"/>
+  </Target>
+  <Target Name="Deploy" DependsOnTargets="Clean;Build;Zip"><!-- Should be Clean;Test;Zip but tests aren't working! :( -->
   </Target>
 </Project>
