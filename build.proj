@@ -47,7 +47,7 @@
       <TestAssemblies Include="$(OutDir)\SpecificityTests.dll"/>
       <TestAssemblies Include="$(OutDir)\Banking.*.dll"/>
     </ItemGroup>
-    <Gallio Assemblies="@(TestAssemblies)"
+    <Gallio Files="@(TestAssemblies)"
             ReportTypes="html"
             ReportDirectory="$(BuildPath)\TestReports"/>
   </Target>

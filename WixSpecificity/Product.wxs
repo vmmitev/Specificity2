@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="0baad682-7f99-44e9-aa1b-648bd710f6dd" Name="Specificity 0.1" Language="1033" Version="0.1.09269.29511" Manufacturer="Codeplex" UpgradeCode="69c339f7-c6f1-4195-8e0a-5539b3bae69a">
+	<Product Id="0baad682-7f99-44e9-aa1b-648bd710f6dd" Name="Specificity 0.1" Language="1033" Version="0.1.09269.29582" Manufacturer="Codeplex" UpgradeCode="69c339f7-c6f1-4195-8e0a-5539b3bae69a">
 		<Package InstallerVersion="200" Compressed="yes" />
 
 		<Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
