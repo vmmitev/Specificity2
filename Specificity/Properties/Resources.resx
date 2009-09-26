@@ -210,4 +210,10 @@
   <data name="ContainsSameElements" xml:space="preserve">
     <value>Both collections contain the same elements.</value>
   </data>
+  <data name="SpecificationFailure" xml:space="preserve">
+    <value>Specification failed.</value>
+  </data>
+  <data name="SpecificationInconclusive" xml:space="preserve">
+    <value>Specification is inconclusive.</value>
+  </data>
 </root>

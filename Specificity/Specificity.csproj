@@ -62,8 +62,11 @@
     <Compile Include="CollectionConstraints.cs" />
     <Compile Include="ConstrainedValue.cs" />
     <Compile Include="ConstraintFailedException.cs" />
+    <Compile Include="ConstraintInconclusiveException.cs" />
+    <Compile Include="DefaultReportSpecificationResults.cs" />
     <Compile Include="EventWatcher.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IReportSpecificationResults.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="NumericConstraints.cs" />
     <Compile Include="ObjectConstraints.cs" />

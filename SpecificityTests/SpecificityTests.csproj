@@ -5,7 +5,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{5005B7E7-4AA3-4547-9884-3F2D7A61008F}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -59,6 +59,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecifyTests.cs" />
     <Compile Include="StringAssertionsTests.cs" />
+    <Compile Include="TestAssemblyInitializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Specificity.MSTest\Specificity.MSTest.csproj">

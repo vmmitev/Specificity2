@@ -8,12 +8,66 @@ namespace Testing.Specificity
 {
     using System;
     using System.Globalization;
+    using System.Linq;
+    using System.Threading;
 
     /// <summary>
     /// Static class used to start specifying assertions on a value.
     /// </summary>
     public static class Specify
     {
+        /// <summary>
+        /// The synchronization root object.
+        /// </summary>
+        private static object syncRoot = new object();
+
+        /// <summary>
+        /// The specification result reporting service.
+        /// </summary>
+        private static volatile IReportSpecificationResults reporter;
+
+        /// <summary>
+        /// Gets the specification result reporting service.
+        /// </summary>
+        /// <value>The specification result reporting service.</value>
+        private static IReportSpecificationResults SpecificationResultReporter
+        {
+            get
+            {
+                if (reporter == null)
+                {
+                    lock (syncRoot)
+                    {
+                        if (reporter == null)
+                        {
+                            var defaultServiceType = typeof(DefaultReportSpecificationResults);
+                            var serviceType = (from a in AppDomain.CurrentDomain.GetAssemblies()
+                                               from t in a.GetTypes()
+                                               where typeof(IReportSpecificationResults).IsAssignableFrom(t) &&
+                                                     t != defaultServiceType &&
+                                                     t != typeof(IReportSpecificationResults)
+                                               select t).FirstOrDefault() ?? defaultServiceType;
+                            reporter = (IReportSpecificationResults)Activator.CreateInstance(serviceType);
+                        }
+                    }
+                }
+
+                return reporter;
+            }
+        }
+
+        /// <summary>
+        /// Sets the service to be used when reporting specification results.
+        /// </summary>
+        /// <param name="service">The reporting service.</param>
+        public static void SetReportingService(IReportSpecificationResults service)
+        {
+            lock (syncRoot)
+            {
+                reporter = service;
+            }
+        }
+
         /// <summary>
         /// Starts an assertion chain in a fluent API.
         /// </summary>
@@ -37,6 +91,60 @@ namespace Testing.Specificity
         public static ConstrainedValue<Action> ThatAction(Action action)
         {
             return new ConstrainedValue<Action>(action);
+        }
+
+        /// <summary>
+        /// Fails the specification without checking any constraints.
+        /// </summary>
+        /// <exception cref="Exception">Always thrown. The exact type of this exception is dependent on what
+        /// testing framework is used.</exception>
+        public static void Failure()
+        {
+            Failure(Properties.Resources.SpecificationFailure);
+        }
+
+        /// <summary>
+        /// Fails the specification without checking any constraints.
+        /// </summary>
+        /// <param name="message">The message to display.</param>
+        /// <param name="parameters">The parameters used to format the message.</param>
+        /// <exception cref="Exception">Always thrown. The exact type of this exception is dependent on what
+        /// testing framework is used.</exception>
+        public static void Failure(string message, params object[] parameters)
+        {
+            if (parameters != null && parameters.Length > 0)
+            {
+                message = string.Format(CultureInfo.CurrentCulture, message, parameters);
+            }
+
+            SpecificationResultReporter.Failure(message);
+        }
+
+        /// <summary>
+        /// Indicates that a specification can not be verified.
+        /// </summary>
+        /// <exception cref="Exception">Always thrown. The exact type of this exception is dependent on what
+        /// testing framework is used.</exception>
+        public static void Inconclusive()
+        {
+            Inconclusive(Properties.Resources.SpecificationInconclusive);
+        }
+
+        /// <summary>
+        /// Indicates that a specification can not be verified.
+        /// </summary>
+        /// <param name="message">The message to display.</param>
+        /// <param name="parameters">The parameters used to format the message.</param>
+        /// <exception cref="Exception">Always thrown. The exact type of this exception is dependent on what
+        /// testing framework is used.</exception>
+        public static void Inconclusive(string message, params object[] parameters)
+        {
+            if (parameters != null && parameters.Length > 0)
+            {
+                message = string.Format(CultureInfo.CurrentCulture, message, parameters);
+            }
+
+            SpecificationResultReporter.Inconclusive(message);
         }
 
         /// <summary>
@@ -72,7 +180,12 @@ namespace Testing.Specificity
                 message = reason + " " + message;
             }
 
-            throw new ConstraintFailedException(constraint, message);
+            message = string.Format(
+                CultureInfo.CurrentCulture,
+                Properties.Resources.ConstraintFailed,
+                constraint,
+                message);
+            Failure(message);
         }
     }
 }
