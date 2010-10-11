@@ -7,6 +7,7 @@
 namespace Testing.Specificity
 {
     using System.Linq;
+    using System;
 
     /// <summary>
     /// Provides extension methods for <see cref="PropertyChangedWatcher"/> assertions.
@@ -26,6 +27,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<PropertyChangedWatcher> ShouldHaveSeen(this ConstrainedValue<PropertyChangedWatcher> self, string propertyName, string message, params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (self.Value.Where(e => e.PropertyName == propertyName).FirstOrDefault() == null)
             {
                 Specify.Fail("ShouldHaveSeen", message, parameters);
@@ -45,6 +51,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<PropertyChangedWatcher> ShouldHaveSeen(this ConstrainedValue<PropertyChangedWatcher> self, string propertyName)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldHaveSeen(propertyName, null);
         }
     }

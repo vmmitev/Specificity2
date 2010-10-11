@@ -28,6 +28,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<string> ShouldBeEqualTo(this ConstrainedValue<string> self, string expected, StringComparison comparisonType, string message, params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (string.Compare(expected, self.Value, comparisonType) != 0)
             {
                 Specify.Fail(
@@ -52,6 +57,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<string> ShouldBeEqualTo(this ConstrainedValue<string> self, string expected, StringComparison comparisonType)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldBeEqualTo(expected, comparisonType, null);
         }
 
@@ -69,6 +79,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<string> ShouldNotBeEqualTo(this ConstrainedValue<string> self, string expected, StringComparison comparisonType, string message, params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (string.Compare(expected, self.Value, comparisonType) == 0)
             {
                 Specify.Fail(
@@ -93,6 +108,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<string> ShouldNotBeEqualTo(this ConstrainedValue<string> self, string expected, StringComparison comparisonType)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldNotBeEqualTo(expected, comparisonType, null);
         }
 
@@ -108,6 +128,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<string> ShouldNotBeNullOrEmpty(this ConstrainedValue<string> self, string message, params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (string.IsNullOrEmpty(self.Value))
             {
                 Specify.Fail("ShouldNotBeNullOrEmpty", message, parameters);
@@ -126,6 +151,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<string> ShouldNotBeNullOrEmpty(this ConstrainedValue<string> self)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldNotBeNullOrEmpty(null);
         }
 
@@ -143,6 +173,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<string> ShouldContain(this ConstrainedValue<string> self, string substring, StringComparison comparisonType, string message, params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (0 > self.Value.IndexOf(substring, comparisonType))
             {
                 Specify.Fail(
@@ -167,6 +202,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<string> ShouldContain(this ConstrainedValue<string> self, string substring, StringComparison comparisonType)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldContain(substring, comparisonType, null);
         }
 
@@ -184,6 +224,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<string> ShouldNotContain(this ConstrainedValue<string> self, string substring, StringComparison comparisonType, string message, params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (0 <= self.Value.IndexOf(substring, comparisonType))
             {
                 Specify.Fail(
@@ -208,6 +253,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<string> ShouldNotContain(this ConstrainedValue<string> self, string substring, StringComparison comparisonType)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldNotContain(substring, comparisonType, null);
         }
 
@@ -224,6 +274,16 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<string> ShouldMatch(this ConstrainedValue<string> self, Regex pattern, string message, params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (pattern == null)
+            {
+                throw new ArgumentNullException("pattern");
+            }
+
             if (!pattern.IsMatch(self.Value))
             {
                 Specify.Fail(
@@ -247,6 +307,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<string> ShouldMatch(this ConstrainedValue<string> self, Regex pattern)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldMatch(pattern, null);
         }
 
@@ -263,6 +328,16 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<string> ShouldNotMatch(this ConstrainedValue<string> self, Regex pattern, string message, params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (pattern == null)
+            {
+                throw new ArgumentNullException("pattern");
+            }
+
             if (pattern.IsMatch(self.Value))
             {
                 Specify.Fail(
@@ -286,6 +361,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<string> ShouldNotMatch(this ConstrainedValue<string> self, Regex pattern)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldNotMatch(pattern, null);
         }
 
@@ -303,6 +383,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<string> ShouldEndWith(this ConstrainedValue<string> self, string substring, StringComparison comparisonType, string message, params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (!self.Value.EndsWith(substring, comparisonType))
             {
                 Specify.Fail(
@@ -327,6 +412,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<string> ShouldEndWith(this ConstrainedValue<string> self, string substring, StringComparison comparisonType)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldEndWith(substring, comparisonType, null);
         }
 
@@ -344,6 +434,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<string> ShouldNotEndWith(this ConstrainedValue<string> self, string substring, StringComparison comparisonType, string message, params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (self.Value.EndsWith(substring, comparisonType))
             {
                 Specify.Fail(
@@ -368,6 +463,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<string> ShouldNotEndWith(this ConstrainedValue<string> self, string substring, StringComparison comparisonType)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldNotEndWith(substring, comparisonType, null);
         }
 
@@ -385,6 +485,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<string> ShouldStartWith(this ConstrainedValue<string> self, string substring, StringComparison comparisonType, string message, params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (!self.Value.StartsWith(substring, comparisonType))
             {
                 Specify.Fail(
@@ -409,6 +514,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<string> ShouldStartWith(this ConstrainedValue<string> self, string substring, StringComparison comparisonType)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldStartWith(substring, comparisonType, null);
         }
 
@@ -426,6 +536,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<string> ShouldNotStartWith(this ConstrainedValue<string> self, string substring, StringComparison comparisonType, string message, params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (self.Value.StartsWith(substring, comparisonType))
             {
                 Specify.Fail(
@@ -450,6 +565,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<string> ShouldNotStartWith(this ConstrainedValue<string> self, string substring, StringComparison comparisonType)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldNotStartWith(substring, comparisonType, null);
         }
     }

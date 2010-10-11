@@ -32,6 +32,11 @@ namespace Testing.Specificity
             params object[] parameters)
             where T : class
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (self.Value != null)
             {
                 Specify.Fail("ShouldBeNull", message, parameters);
@@ -53,6 +58,11 @@ namespace Testing.Specificity
             this ConstrainedValue<T> self)
             where T : class
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldBeNull(null);
         }
 
@@ -73,6 +83,11 @@ namespace Testing.Specificity
             params object[] parameters)
             where T : class
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (self.Value == null)
             {
                 Specify.Fail("ShouldNotBeNull", message, parameters);
@@ -94,6 +109,11 @@ namespace Testing.Specificity
             this ConstrainedValue<T> self)
             where T : class
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldNotBeNull(null);
         }
 
@@ -116,6 +136,11 @@ namespace Testing.Specificity
             string message,
             params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (!object.Equals(expected, self.Value))
             {
                 Specify.Fail(
@@ -143,6 +168,11 @@ namespace Testing.Specificity
             this ConstrainedValue<TActual> self,
             TExpected expected)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldBeEqualTo(expected, null);
         }
 
@@ -165,6 +195,11 @@ namespace Testing.Specificity
             string message,
             params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (object.Equals(expected, self.Value))
             {
                 Specify.Fail(
@@ -192,6 +227,11 @@ namespace Testing.Specificity
             this ConstrainedValue<TActual> self,
             TExpected expected)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldNotBeEqualTo(expected, null);
         }
 
@@ -213,6 +253,11 @@ namespace Testing.Specificity
             string message,
             params object[] parameters) where T : class
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (!object.ReferenceEquals(expected, self.Value))
             {
                 if ((expected is ValueType) || (self.Value is ValueType))
@@ -245,6 +290,11 @@ namespace Testing.Specificity
             T expected)
             where T : class
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldBeSameAs(expected, null);
         }
 
@@ -267,6 +317,11 @@ namespace Testing.Specificity
             params object[] parameters)
             where T : class
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (object.ReferenceEquals(expected, self.Value))
             {
                 Specify.Fail("ShouldNotBeSameAs", message, parameters);
@@ -290,6 +345,11 @@ namespace Testing.Specificity
             T expected)
             where T : class
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldNotBeSameAs(expected, null);
         }
 
@@ -311,9 +371,14 @@ namespace Testing.Specificity
             string message,
             params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (expectedType == null)
             {
-                Specify.Fail("ShouldBeInstanceOfType", message, parameters);
+                throw new ArgumentNullException("expectedType");
             }
 
             if (!expectedType.IsInstanceOfType(self.Value))
@@ -342,6 +407,11 @@ namespace Testing.Specificity
             this ConstrainedValue<T> self,
             Type expectedType)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldBeInstanceOfType(expectedType, null);
         }
 
@@ -363,6 +433,16 @@ namespace Testing.Specificity
             string message,
             params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (wrongType == null)
+            {
+                throw new ArgumentNullException("wrongType");
+            }
+
             if (wrongType.IsInstanceOfType(self.Value))
             {
                 Specify.Fail(
@@ -389,6 +469,11 @@ namespace Testing.Specificity
             this ConstrainedValue<T> self,
             Type wrongType)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldNotBeInstanceOfType(wrongType, null);
         }
 
@@ -411,6 +496,11 @@ namespace Testing.Specificity
             string message,
             params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (!IsLogicallyEqual(self.Value, expected))
             {
                 Specify.Fail(
@@ -438,6 +528,11 @@ namespace Testing.Specificity
             this ConstrainedValue<T> self,
             T expected)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldBeLogicallyEqualTo(expected, null);
         }
 
@@ -460,6 +555,11 @@ namespace Testing.Specificity
             string message,
             params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (IsLogicallyEqual(self.Value, expected))
             {
                 Specify.Fail(
@@ -487,6 +587,11 @@ namespace Testing.Specificity
             this ConstrainedValue<T> self,
             T expected)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldNotBeEqualTo(expected, null);
         }
 

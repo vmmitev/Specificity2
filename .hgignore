@@ -1,0 +1,6 @@
+syntax: glob
+References
+**[Bb]in
+**[Oo]bj
+**.suo
+**.user

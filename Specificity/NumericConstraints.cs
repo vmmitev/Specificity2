@@ -27,6 +27,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<double> ShouldBeEqualTo(this ConstrainedValue<double> self, double expected, double delta, string message, params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (Math.Abs((double)(expected - self.Value)) > delta)
             {
                 Specify.Fail(
@@ -51,6 +56,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<double> ShouldBeEqualTo(this ConstrainedValue<double> self, double expected, double delta)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldBeEqualTo(expected, delta, null);
         }
 
@@ -68,6 +78,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<float> ShouldBeEqualTo(this ConstrainedValue<float> self, float expected, float delta, string message, params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (Math.Abs((double)(expected - self.Value)) > delta)
             {
                 Specify.Fail(
@@ -92,6 +107,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<float> ShouldBeEqualTo(this ConstrainedValue<float> self, float expected, float delta)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldBeEqualTo(expected, delta, null);
         }
 
@@ -109,6 +129,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<double> ShouldNotBeEqualTo(this ConstrainedValue<double> self, double expected, double delta, string message, params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (Math.Abs((double)(expected - self.Value)) <= delta)
             {
                 Specify.Fail(
@@ -133,6 +158,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<double> ShouldNotBeEqualTo(this ConstrainedValue<double> self, double expected, double delta)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldNotBeEqualTo(expected, delta, null);
         }
 
@@ -150,6 +180,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<float> ShouldNotBeEqualTo(this ConstrainedValue<float> self, float expected, float delta, string message, params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (Math.Abs((double)(expected - self.Value)) <= delta)
             {
                 Specify.Fail(
@@ -174,6 +209,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<float> ShouldNotBeEqualTo(this ConstrainedValue<float> self, float expected, float delta)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldNotBeEqualTo(expected, delta, null);
         }
     }

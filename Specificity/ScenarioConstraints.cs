@@ -16,7 +16,7 @@ namespace Testing.Specificity
         /// <summary>
         /// Verifies the <see cref="ScenarioBase"/> throws an exception.
         /// </summary>
-        /// <typeparam name="T">The constraind value type.</typeparam>
+        /// <typeparam name="T">The constrained value type.</typeparam>
         /// <param name="self">The specification value.</param>
         /// <param name="message">The message to use in failure exceptions.</param>
         /// <param name="parameters">The parameters used when formatting <paramref name="message"/>.</param>
@@ -26,13 +26,18 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<T> ShouldThrow<T>(this ConstrainedValue<T> self, string message, params object[] parameters) where T : ScenarioBase
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return ShouldThrow(self, typeof(Exception), message, parameters);
         }
 
         /// <summary>
         /// Verifies the <see cref="ScenarioBase"/> throws an exception.
         /// </summary>
-        /// <typeparam name="T">The constraind value type.</typeparam>
+        /// <typeparam name="T">The constrained value type.</typeparam>
         /// <param name="self">The specification value.</param>
         /// <returns>
         /// The <see cref="ConstrainedValue{ScenarioBase}"/> specification value.
@@ -40,13 +45,18 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<T> ShouldThrow<T>(this ConstrainedValue<T> self) where T : ScenarioBase
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return ShouldThrow(self, typeof(Exception), null);
         }
 
         /// <summary>
         /// Verifies the <see cref="ScenarioBase"/> throws an exception of the specified type.
         /// </summary>
-        /// <typeparam name="T">The constraind value type.</typeparam>
+        /// <typeparam name="T">The constrained value type.</typeparam>
         /// <param name="self">The specification value.</param>
         /// <param name="exceptionType">Type of the exception.</param>
         /// <param name="message">The message to use in failure exceptions.</param>
@@ -57,6 +67,16 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<T> ShouldThrow<T>(this ConstrainedValue<T> self, Type exceptionType, string message, params object[] parameters) where T : ScenarioBase
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (exceptionType == null)
+            {
+                throw new ArgumentNullException("exceptionType");
+            }
+
             ScenarioBase scenario = self.Value;
             if (scenario.Exception == null)
             {
@@ -84,7 +104,7 @@ namespace Testing.Specificity
         /// <summary>
         /// Verifies the <see cref="ScenarioBase"/> throws an exception of the specified type.
         /// </summary>
-        /// <typeparam name="T">The constraind value type.</typeparam>
+        /// <typeparam name="T">The constrained value type.</typeparam>
         /// <param name="self">The specification value.</param>
         /// <param name="exceptionType">Type of the exception.</param>
         /// <returns>
@@ -93,13 +113,18 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<T> ShouldThrow<T>(this ConstrainedValue<T> self, Type exceptionType) where T : ScenarioBase
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldThrow(exceptionType, null);
         }
 
         /// <summary>
         /// Verifies the <see cref="ScenarioBase"/> doesn't throw any exceptions.
         /// </summary>
-        /// <typeparam name="T">The constraind value type.</typeparam>
+        /// <typeparam name="T">The constrained value type.</typeparam>
         /// <param name="self">The specification value.</param>
         /// <param name="message">The message to use in failure exceptions.</param>
         /// <param name="parameters">The parameters used when formatting <paramref name="message"/>.</param>
@@ -109,6 +134,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<T> ShouldNotThrow<T>(this ConstrainedValue<T> self, string message, params object[] parameters) where T : ScenarioBase
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             ScenarioBase scenario = self.Value;
             if (scenario.Exception != null)
             {
@@ -125,7 +155,7 @@ namespace Testing.Specificity
         /// <summary>
         /// Verifies the <see cref="ScenarioBase"/> doesn't throw any exceptions.
         /// </summary>
-        /// <typeparam name="T">The constraind value type.</typeparam>
+        /// <typeparam name="T">The constrained value type.</typeparam>
         /// <param name="self">The specification value.</param>
         /// <returns>
         /// The <see cref="ConstrainedValue{ScenarioBase}"/> specification value.
@@ -133,6 +163,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<T> ShouldNotThrow<T>(this ConstrainedValue<T> self) where T : ScenarioBase
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldNotThrow(null);
         }
     }

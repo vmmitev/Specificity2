@@ -29,6 +29,11 @@ namespace Testing.Specificity
             string message,
             params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return ShouldHaveThrown(self, typeof(Exception), message, parameters);
         }
 
@@ -42,6 +47,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<Action> ShouldHaveThrown(this ConstrainedValue<Action> self)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return ShouldHaveThrown(self, typeof(Exception), null);
         }
 
@@ -65,6 +75,16 @@ namespace Testing.Specificity
             string message,
             params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (exceptionType == null)
+            {
+                throw new ArgumentNullException("exceptionType");
+            }
+
             Action action = self.Value;
             try
             {
@@ -107,6 +127,11 @@ namespace Testing.Specificity
             this ConstrainedValue<Action> self,
             Type exceptionType)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldHaveThrown(exceptionType, null);
         }
 
@@ -128,6 +153,11 @@ namespace Testing.Specificity
             string message,
             params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             Action action = self.Value;
             try
             {
@@ -155,6 +185,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<Action> ShouldNotHaveThrown(this ConstrainedValue<Action> self)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldNotHaveThrown(null);
         }
     }

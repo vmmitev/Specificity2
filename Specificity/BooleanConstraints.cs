@@ -4,6 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
 namespace Testing.Specificity
 {
     /// <summary>
@@ -26,6 +27,11 @@ namespace Testing.Specificity
             string message,
             params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (!self.Value)
             {
                 Specify.Fail("ShouldBeTrue", message, parameters);
@@ -44,6 +50,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<bool> ShouldBeTrue(this ConstrainedValue<bool> self)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldBeTrue(null);
         }
 
@@ -62,6 +73,11 @@ namespace Testing.Specificity
             string message,
             params object[] parameters)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (self.Value)
             {
                 Specify.Fail("ShouldBeFalse", message, parameters);
@@ -80,6 +96,11 @@ namespace Testing.Specificity
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
         public static ConstrainedValue<bool> ShouldBeFalse(this ConstrainedValue<bool> self)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldBeFalse(null);
         }
     }

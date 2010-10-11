@@ -117,6 +117,11 @@ namespace Testing.Specificity
         /// <param name="action">The <see cref="Action"/> to invoke.</param>
         protected void ObserveExceptions(Action action)
         {
+            if (action == null)
+            {
+                throw new ArgumentNullException("action");
+            }
+
             bool? oldValue = this.observeExceptions;
             this.observeExceptions = true;
             action();
@@ -134,6 +139,11 @@ namespace Testing.Specificity
         /// </returns>
         protected T ObserveExceptions<T>(Func<T> func)
         {
+            if (func == null)
+            {
+                throw new ArgumentNullException("func");
+            }
+
             bool? oldValue = this.observeExceptions;
             this.observeExceptions = true;
             T result = func();

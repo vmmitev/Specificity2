@@ -33,6 +33,11 @@ namespace Testing.Specificity
             params object[] parameters)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (self.Value.Count != 0)
             {
                 Specify.Fail("ShouldBeEmpty", message, parameters);
@@ -53,6 +58,11 @@ namespace Testing.Specificity
         public static ConstrainedValue<T> ShouldBeEmpty<T>(this ConstrainedValue<T> self)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldBeEmpty(null);
         }
 
@@ -73,6 +83,11 @@ namespace Testing.Specificity
             params object[] parameters)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (self.Value.Count == 0)
             {
                 Specify.Fail("ShouldNotBeEmpty", message, parameters);
@@ -93,6 +108,11 @@ namespace Testing.Specificity
         public static ConstrainedValue<T> ShouldNotBeEmpty<T>(this ConstrainedValue<T> self)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldNotBeEmpty(null);
         }
 
@@ -115,6 +135,16 @@ namespace Testing.Specificity
             params object[] parameters)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (expectedType == null)
+            {
+                throw new ArgumentNullException("expectedType");
+            }
+
             int num = 0;
             foreach (object item in self.Value)
             {
@@ -163,6 +193,11 @@ namespace Testing.Specificity
             Type expectedType)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldOnlyHaveItemsOfType(expectedType, null);
         }
 
@@ -183,6 +218,11 @@ namespace Testing.Specificity
             params object[] parameters)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             int num = 0;
             foreach (object item in self.Value)
             {
@@ -212,6 +252,11 @@ namespace Testing.Specificity
         public static ConstrainedValue<T> ShouldNotHaveNullItems<T>(this ConstrainedValue<T> self)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldNotHaveNullItems(null);
         }
 
@@ -232,6 +277,11 @@ namespace Testing.Specificity
             params object[] parameters)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             bool flag = false;
             Hashtable hashtable = new Hashtable();
             int index = 0;
@@ -283,6 +333,11 @@ namespace Testing.Specificity
         public static ConstrainedValue<T> ShouldHaveUniqueItems<T>(this ConstrainedValue<T> self)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldHaveUniqueItems(null);
         }
 
@@ -307,6 +362,11 @@ namespace Testing.Specificity
             params object[] parameters)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             string reason;
             if (!AreCollectionsEqual(expected, self.Value, comparer, out reason))
             {
@@ -337,6 +397,11 @@ namespace Testing.Specificity
             IComparer comparer)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldBeEqualTo(expected, comparer, null);
         }
 
@@ -361,6 +426,11 @@ namespace Testing.Specificity
             params object[] parameters)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             string reason;
             if (AreCollectionsEqual(expected, self.Value, comparer, out reason))
             {
@@ -391,6 +461,11 @@ namespace Testing.Specificity
             IComparer comparer)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldNotBeEqualTo(expected, comparer, null);
         }
 
@@ -413,6 +488,11 @@ namespace Testing.Specificity
             params object[] parameters)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if ((expected == null) != (self.Value == null))
             {
                 Specify.Fail(
@@ -469,6 +549,11 @@ namespace Testing.Specificity
             ICollection expected)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldBeEquivalentTo(expected, null);
         }
 
@@ -491,6 +576,11 @@ namespace Testing.Specificity
             params object[] parameters)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if ((expected == null) == (self.Value == null))
             {
                 if (object.ReferenceEquals(expected, self.Value))
@@ -502,32 +592,35 @@ namespace Testing.Specificity
                         parameters);
                 }
 
-                if (expected.Count == self.Value.Count)
+                if (expected != null)
                 {
-                    if (expected.Count == 0)
+                    if (expected.Count == self.Value.Count)
                     {
-                        Specify.Fail(
-                            "ShouldNotBeEquivalentTo",
-                            Messages.BothCollectionsEmpty,
-                            message,
-                            parameters);
-                    }
+                        if (expected.Count == 0)
+                        {
+                            Specify.Fail(
+                                "ShouldNotBeEquivalentTo",
+                                Messages.BothCollectionsEmpty,
+                                message,
+                                parameters);
+                        }
 
-                    int actualCount;
-                    int expectedCount;
-                    object mismatchedObject;
-                    if (!FindMismatchedElement(
-                        expected,
-                        self.Value,
-                        out expectedCount,
-                        out actualCount,
-                        out mismatchedObject))
-                    {
-                        Specify.Fail(
-                            "ShouldNotBeEquivalentTo",
-                            Messages.BothSameElements,
-                            message,
-                            parameters);
+                        int actualCount;
+                        int expectedCount;
+                        object mismatchedObject;
+                        if (!FindMismatchedElement(
+                            expected,
+                            self.Value,
+                            out expectedCount,
+                            out actualCount,
+                            out mismatchedObject))
+                        {
+                            Specify.Fail(
+                                "ShouldNotBeEquivalentTo",
+                                Messages.BothSameElements,
+                                message,
+                                parameters);
+                        }
                     }
                 }
             }
@@ -550,6 +643,11 @@ namespace Testing.Specificity
             ICollection expected)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldNotBeEquivalentTo(expected, null);
         }
 
@@ -572,6 +670,11 @@ namespace Testing.Specificity
             params object[] parameters)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             foreach (object item in self.Value)
             {
                 if (object.Equals(item, element))
@@ -599,6 +702,11 @@ namespace Testing.Specificity
             object element)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldContain(element, null);
         }
 
@@ -621,6 +729,11 @@ namespace Testing.Specificity
             params object[] parameters)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             int index = 0;
             foreach (object item in self.Value)
             {
@@ -653,6 +766,11 @@ namespace Testing.Specificity
             object element)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldNotContain(element, null);
         }
 
@@ -675,6 +793,11 @@ namespace Testing.Specificity
             params object[] parameters)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (!IsSubsetOf(self.Value, superset))
             {
                 Specify.Fail("ShouldBeSubsetOf", message, parameters);
@@ -698,6 +821,11 @@ namespace Testing.Specificity
             ICollection superset)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldBeSubsetOf(superset, null);
         }
 
@@ -720,6 +848,11 @@ namespace Testing.Specificity
             params object[] parameters)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (IsSubsetOf(self.Value, superset))
             {
                 Specify.Fail("ShouldNotBeSubsetOf", message, parameters);
@@ -743,6 +876,11 @@ namespace Testing.Specificity
             ICollection superset)
             where T : ICollection
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             return self.ShouldNotBeSubsetOf(superset, null);
         }
 

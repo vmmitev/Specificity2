@@ -8,6 +8,7 @@ namespace Testing.Specificity
 {
     using System.ComponentModel;
     using System.Diagnostics.CodeAnalysis;
+    using System;
 
     /// <summary>
     /// Defines a test helper that watches an object that implements <see cref="INotifyPropertyChanged"/> for
@@ -24,6 +25,11 @@ namespace Testing.Specificity
         /// <param name="source">The source object to watch.</param>
         public PropertyChangedWatcher(INotifyPropertyChanged source)
         {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
             source.PropertyChanged += this.EventHandler;
         }
     }

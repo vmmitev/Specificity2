@@ -27,7 +27,7 @@ namespace Testing.Specificity
         /// <returns>
         /// The test commands which will execute the test runs for the given method
         /// </returns>
-        protected override IEnumerable<ITestCommand> EnumerateTestCommands(MethodInfo method)
+        protected override IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
         {
             foreach (ITestCommand command in this.BaseEnumerateTestCommands(method))
             {
@@ -42,7 +42,7 @@ namespace Testing.Specificity
         /// <returns>
         /// The test commands which will execute the test runs for the given method
         /// </returns>
-        private IEnumerable<ITestCommand> BaseEnumerateTestCommands(MethodInfo method)
+        private IEnumerable<ITestCommand> BaseEnumerateTestCommands(IMethodInfo method)
         {
             return base.EnumerateTestCommands(method);
         }
