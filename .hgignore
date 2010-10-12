@@ -1,5 +1,6 @@
 syntax: glob
 References
+build
 **[Bb]in
 **[Oo]bj
 **.suo

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="0baad682-7f99-44e9-aa1b-648bd710f6dd" Name="Specificity 0.1" Language="1033" Version="0.1.09269.29582" Manufacturer="Codeplex" UpgradeCode="69c339f7-c6f1-4195-8e0a-5539b3bae69a">
+	<Product Id="0baad682-7f99-44e9-aa1b-648bd710f6dd" Name="Specificity 0.1" Language="1033" Version="0.1.0.1" Manufacturer="Codeplex" UpgradeCode="69c339f7-c6f1-4195-8e0a-5539b3bae69a">
 		<Package InstallerVersion="200" Compressed="yes" />
 
 		<Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
@@ -15,9 +15,9 @@
 					<Component Id="Specificity" Guid="7167a120-c3b4-4575-aeea-33112a37f9a8">
             <File Id="Specificity" Name="$(var.Specificity.TargetFileName)" Source="$(var.Specificity.TargetPath)" KeyPath="yes"/>
 					</Component>
-          <Component Id="Specificity.csUnit" Guid="4F2111B4-0C63-4536-A23B-13EEE0CEA453">
+          <!--<Component Id="Specificity.csUnit" Guid="4F2111B4-0C63-4536-A23B-13EEE0CEA453">
             <File Id="Specificity.csUnit" Name="$(var.Specificity.csUnit.TargetFileName)" Source="$(var.Specificity.csUnit.TargetPath)" KeyPath="yes"/>
-          </Component>
+          </Component>-->
           <Component Id="Specificity.MbUnit" Guid="8C9EF70A-436D-444a-9BD7-11279EF14307">
             <File Id="Specificity.MbUnit" Name="$(var.Specificity.MbUnit.TargetFileName)" Source="$(var.Specificity.MbUnit.TargetPath)" KeyPath="yes"/>
           </Component>
@@ -30,20 +30,20 @@
           <Component Id="Specificity.xUnit" Guid="77FA42A9-F645-49e8-8F7F-5DDCBF4EA78F">
             <File Id="Specificity.xUnit" Name="$(var.Specificity.xUnit.TargetFileName)" Source="$(var.Specificity.xUnit.TargetPath)" KeyPath="yes"/>
           </Component>
-          <Component Id="SpecificityDocs" Guid="219D3665-78D9-449f-BAB5-18666319C8E0">
+          <!--<Component Id="SpecificityDocs" Guid="219D3665-78D9-449f-BAB5-18666319C8E0">
             <File Id="SpecificityDocs" Name="SpecificityDocs.chm" Source="$(var.SpecificityDocs.TargetDir)SpecificityDocs.chm" KeyPath="yes"/>
-          </Component>
-          <Component Id="AssemblyFolders" Guid="7A213C18-3F94-4e40-8642-59E28114C400">
+          </Component>-->
+          <!--<Component Id="AssemblyFolders" Guid="7A213C18-3F94-4e40-8642-59E28114C400">
             <RegistryValue Id="AssemblyFolders"
                            Root="HKLM"
                            Key="Software\Microsoft\.NETFramework\AssemblyFolders\Specificity"
                            Type="string"
                            KeyPath="yes"
                            Value="[INSTALLDIRECTORY]"/>
-          </Component>
+          </Component>-->
         </Directory>
 			</Directory>
-      <Directory Id="ProgramMenuFolder">
+      <!--<Directory Id="ProgramMenuFolder">
         <Directory Id="ApplicationProgramsFolder" Name="Specificity">
           <Component Id="HelpShortcut" Guid="66A299D4-5AA9-497e-BB74-FFF3F0F417E6">
             <Shortcut Id="HelpShortcut"
@@ -55,19 +55,19 @@
             <RegistryValue Root="HKCU" Key="Software\Codeplex\Specificity" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
           </Component>
         </Directory>
-      </Directory>
+      </Directory>-->
 		</Directory>
 
 		<Feature Id="Specificity" Title="Specificity Components" Level="1">
 			<ComponentRef Id="Specificity" />
-      <ComponentRef Id="Specificity.csUnit" />
+      <!--<ComponentRef Id="Specificity.csUnit" />-->
       <ComponentRef Id="Specificity.MbUnit" />
       <ComponentRef Id="Specificity.MSTest" />
       <ComponentRef Id="Specificity.NUnit" />
       <ComponentRef Id="Specificity.xUnit" />
-      <ComponentRef Id="SpecificityDocs" />
+      <!--<ComponentRef Id="SpecificityDocs" />
       <ComponentRef Id="AssemblyFolders" />
-      <ComponentRef Id="HelpShortcut" />
+      <ComponentRef Id="HelpShortcut" />-->
     </Feature>
 	</Product>
 </Wix>

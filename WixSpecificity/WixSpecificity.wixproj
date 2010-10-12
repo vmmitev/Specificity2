@@ -1,4 +1,5 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -7,8 +8,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <OutputName>Specificity</OutputName>
     <OutputType>Package</OutputType>
-    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.0\Wix.targets</WixTargetsPath>
-    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.0\Wix.targets</WixTargetsPath>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.5\Wix2010.targets</WixTargetsPath>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.5\Wix2010.targets</WixTargetsPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
@@ -23,11 +24,6 @@
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Specificity.csUnit\Specificity.csUnit.csproj">
-      <Name>Specificity.csUnit</Name>
-      <Project>{aa181311-b52c-463e-bf4e-1ff3f76a8238}</Project>
-      <Private>True</Private>
-    </ProjectReference>
     <ProjectReference Include="..\Specificity.MbUnit\Specificity.MbUnit.csproj">
       <Name>Specificity.MbUnit</Name>
       <Project>{34b4813b-737d-48f9-ac55-4f143f3d8aaa}</Project>
@@ -48,11 +44,6 @@
       <Project>{2c9dbf39-72fe-48a1-9f1b-f3a20f5733b8}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\SpecificityDocs\SpecificityDocs.csproj">
-      <Name>SpecificityDocs</Name>
-      <Project>{030f6f13-5a13-4ffa-bd1b-7b517bf6f739}</Project>
-      <Private>True</Private>
-    </ProjectReference>
     <ProjectReference Include="..\Specificity\Specificity.csproj">
       <Name>Specificity</Name>
       <Project>{53e8972a-1b58-4b0a-b2f3-79a2fcb77c22}</Project>
@@ -65,6 +56,7 @@
   <ItemGroup>
     <WixExtension Include="WixUIExtension">
       <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
+      <Name>WixUIExtension</Name>
     </WixExtension>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />

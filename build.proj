@@ -15,12 +15,12 @@
     <ProductWxsFile>$(MSBuildProjectDirectory)\WixSpecificity\Product.wxs</ProductWxsFile>
   </PropertyGroup>
   <Target Name="Version">
-    <SvnVersion LocalPath="$(MSBuildProjectDirectory)">
+    <!--<SvnVersion LocalPath="$(MSBuildProjectDirectory)">
       <Output TaskParameter="Revision" PropertyName="Revision" />
     </SvnVersion>
     <Time Format="MMddy">
       <Output TaskParameter="FormattedTime" PropertyName="Build"/>
-    </Time>
+    </Time>-->
     <Message Text="Version: $(Major).$(Minor).$(Build).$(Revision)"/>
     <FileUpdate Files="$(SolutionInfoFile)"
                 Regex="(\d+)\.(\d+)\.(\d+)\.(\d+)"
