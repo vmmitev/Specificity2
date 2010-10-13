@@ -10,10 +10,11 @@ namespace Testing.Specificity
 
     /// <summary>
     /// Defines a wrapper for values used to distinguish values being specified with assertions in order to play
-    /// nicely with intellisense. Unless implementing an assertion, this is an implementation detail that may be
+    /// nicely with IntelliSense. Unless implementing an assertion, this is an implementation detail that may be
     /// ignored.
     /// </summary>
     /// <typeparam name="T">The type of the wrapped value.</typeparam>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public class ConstrainedValue<T>
     {
         /// <summary>
@@ -28,6 +29,15 @@ namespace Testing.Specificity
         internal ConstrainedValue(T value)
         {
             this.value = value;
+        }
+
+        /// <summary>
+        /// Gets the positive constraint.
+        /// </summary>
+        /// <value>The positive constraint.</value>
+        public Constraint<T> Should
+        {
+            get { return new Constraint<T>(this.value); }
         }
 
         /// <summary>

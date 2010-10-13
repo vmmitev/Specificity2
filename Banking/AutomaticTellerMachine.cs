@@ -4,6 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
 namespace Banking
 {
     /// <summary>
@@ -41,6 +42,11 @@ namespace Banking
         /// <param name="amount">The amount to withdraw.</param>
         public void Withdraw(Card card, double amount)
         {
+            if (card == null)
+            {
+                throw new ArgumentNullException("card");
+            }
+
             if (this.availableFunds < amount)
             {
                 throw new InsufficientFundsException();

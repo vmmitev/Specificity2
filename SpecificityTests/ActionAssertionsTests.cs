@@ -16,6 +16,78 @@ namespace Testing.SpecificityTests
     [TestClass]
     public class ActionAssertionsTests
     {
+        [TestMethod]
+        public void ShouldHaveThrown_GivenActionThatDoesNotThrow_ShouldFail()
+        {
+            try
+            {
+                Specify.ThatAction(() => { }).Should.HaveThrown();
+            }
+            catch (ConstraintFailedException)
+            {
+                return;
+            }
+            catch (AssertFailedException)
+            {
+                return;
+            }
+
+            Specify.Failure("Should.HaveThrown did not fail.");
+        }
+
+        [TestMethod]
+        public void ShouldHaveThrown_GivenActionThatThrows_ShouldNotFail()
+        {
+            try
+            {
+                Specify.ThatAction(() => { throw new InvalidOperationException(); }).Should.HaveThrown();
+            }
+            catch (ConstraintFailedException)
+            {
+                Specify.Failure("Should.HaveThrown failed.");
+            }
+            catch (AssertFailedException)
+            {
+                Specify.Failure("Should.HaveThrown failed");
+            }
+        }
+
+        [TestMethod]
+        public void ShouldNotHaveThrown_GivenActionThatThrows_ShouldFail()
+        {
+            try
+            {
+                Specify.ThatAction(() => { throw new InvalidOperationException(); }).Should.Not.HaveThrown();
+            }
+            catch (ConstraintFailedException)
+            {
+                return;
+            }
+            catch (AssertFailedException)
+            {
+                return;
+            }
+
+            Specify.Failure("Should.Not.HaveThrown did not fail.");
+        }
+
+        [TestMethod]
+        public void ShouldNotHaveThrown_GivenActionThatDoesNotThrow_ShouldNotFail()
+        {
+            try
+            {
+                Specify.ThatAction(() => { }).Should.Not.HaveThrown();
+            }
+            catch (ConstraintFailedException)
+            {
+                Specify.Failure("Should.Not.HaveThrown failed.");
+            }
+            catch (AssertFailedException)
+            {
+                Specify.Failure("Should.Not.HaveThrown failed.");
+            }
+        }
+
         /// <summary>
         /// Verifies that <see cref="ActionAssertions.ShouldThrow{TException}(ConstrainedValue{Action})"/> should fail when the
         /// specified action does not throw an exception.

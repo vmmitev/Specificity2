@@ -1,6 +1,7 @@
 syntax: glob
 References
 build
+TestResults
 **[Bb]in
 **[Oo]bj
 **.suo

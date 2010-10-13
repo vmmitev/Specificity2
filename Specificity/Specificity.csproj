@@ -83,13 +83,17 @@
     <Compile Include="BooleanConstraints.cs" />
     <Compile Include="CollectionConstraints.cs" />
     <Compile Include="ConstrainedValue.cs" />
+    <Compile Include="Constraint.cs" />
+    <Compile Include="ConstraintExtensions.cs" />
     <Compile Include="ConstraintFailedException.cs" />
     <Compile Include="ConstraintInconclusiveException.cs" />
     <Compile Include="DefaultReportSpecificationResults.cs" />
     <Compile Include="EventWatcher.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IConstraint.cs" />
     <Compile Include="IReportSpecificationResults.cs" />
     <Compile Include="Messages.cs" />
+    <Compile Include="NegativeConstraint.cs" />
     <Compile Include="NumericConstraints.cs" />
     <Compile Include="ObjectConstraints.cs" />
     <Compile Include="ObserveExceptionsAttribute.cs" />
