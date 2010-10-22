@@ -6,9 +6,9 @@
 
 namespace Testing.Specificity
 {
+    using System;
     using System.ComponentModel;
     using System.Diagnostics.CodeAnalysis;
-    using System;
 
     /// <summary>
     /// Defines a test helper that watches an object that implements <see cref="INotifyPropertyChanged"/> for

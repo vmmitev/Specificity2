@@ -10,95 +10,95 @@ namespace Testing.SpecificityTests
     using System.Collections.Generic;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Testing.Specificity;
+    using System.Linq;
 
-    /// <summary>
-    /// Provides tests for the <see cref="CollectionAssertions"/> extension methods.
-    /// </summary>
     [TestClass]
     public class CollectionAssertionsTests
     {
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldBeEmpty{T}(ConstrainedValue{T})"/> should not fail when given an
-        /// empty collection.
-        /// </summary>
         [TestMethod]
         public void ShouldBeEmpty_GivenEmptyCollection_ShouldNotFail()
         {
-            Specify.ThatAction(delegate
-            {
-                Specify.That(new int[] { }).ShouldBeEmpty();
-            }).ShouldNotHaveThrown();
+            Verify.That(() => Specify.That(Enumerable.Empty<int>()).Should.BeEmpty()).ShouldNotFail();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldBeEmpty{T}(ConstrainedValue{T})"/> should fail when given a
-        /// non-empty collection.
-        /// </summary>
         [TestMethod]
-        public void ShouldBeEmpty_GivenNonemptyCollection_ShouldFail()
+        public void ShouldBeEmtpy_GivenNonEmptyCollection_ShouldFail()
         {
-            Specify.ThatAction(delegate
-            {
-                Specify.That(new int[] { 1 }).ShouldBeEmpty();
-            }).ShouldHaveThrown(typeof(ConstraintFailedException));
+            Verify.That(() => Specify.That(Enumerable.Repeat<int>(1, 1)).Should.BeEmpty()).ShouldFail();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldNotBeEmpty{T}(ConstrainedValue{T})"/> should fail when given an
-        /// empty collection.
-        /// </summary>
         [TestMethod]
         public void ShouldNotBeEmpty_GivenEmptyCollection_ShouldFail()
         {
-            Specify.ThatAction(delegate
-            {
-                Specify.That(new int[] { }).ShouldNotBeEmpty();
-            }).ShouldHaveThrown(typeof(ConstraintFailedException));
+            Verify.That(() => Specify.That(Enumerable.Empty<int>()).Should.Not.BeEmpty()).ShouldFail();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldNotBeEmpty{T}(ConstrainedValue{T})"/> should not fail when given
-        /// a non-empty collection.
-        /// </summary>
         [TestMethod]
-        public void ShouldNotBeEmpty_GivenNonemptyCollection_ShouldNotFail()
+        public void ShouldNotBeEmpty_GivenNonEmptyCollection_ShouldNotFail()
         {
-            Specify.ThatAction(delegate
-            {
-                Specify.That(new int[] { 1 }).ShouldNotBeEmpty();
-            }).ShouldNotHaveThrown();
+            Verify.That(() => Specify.That(Enumerable.Repeat(1, 1)).Should.Not.BeEmpty()).ShouldNotFail();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldOnlyHaveItemsOfType{T}(ConstrainedValue{T}, System.Type)"/> should
-        /// not fail when given a collection containing only elements of the specified type.
-        /// </summary>
         [TestMethod]
-        public void ShouldOnlyHaveItemsOfType_GivenAllElementsOfSpecifiedType_ShouldNotFail()
+        public void ShouldHaveOnlyItemsOfType_GivenAllElementsOfSpecifiedType_ShouldNotFail()
         {
-            Specify.ThatAction(delegate
-            {
-                Specify.That(new object[] { 1, 2, 5 }).ShouldOnlyHaveItemsOfType(typeof(int));
-            }).ShouldNotHaveThrown();
+            Verify.That(() => Specify.That(Enumerable.Repeat<object>(1, 4)).Should.HaveOnlyItemsOfType(typeof(int))).ShouldNotFail();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldOnlyHaveItemsOfType{T}(ConstrainedValue{T}, System.Type)"/> should
-        /// fail when given a collection not containing only elements of the specified type.
-        /// </summary>
         [TestMethod]
-        public void ShouldOnlyHaveItemsOfType_GivenElementsOfDifferentType_ShouldFail()
+        public void ShouldHaveOnlyItemsOfType_GivenElementsOfDifferentType_ShouldFail()
         {
-            Specify.ThatAction(delegate
-            {
-                Specify.That(new object[] { 1, 2, 5.0 }).ShouldOnlyHaveItemsOfType(typeof(int));
-            }).ShouldHaveThrown(typeof(ConstraintFailedException));
+            Verify.That(() => Specify.That(new object[] { 1, 2, 5.0 }).Should.HaveOnlyItemsOfType(typeof(int))).ShouldFail();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldNotHaveNullItems{T}(ConstrainedValue{T})"/> should not fail when
-        /// collection does not contain <see langword="null"/> elements.
-        /// </summary>
+        [TestMethod]
+        public void ShouldNotHaveOnlyItemsOfType_GivenAllElementsOfSpecifiedType_ShouldFail()
+        {
+            Verify.That(() => Specify.That(Enumerable.Repeat<object>(1, 4)).Should.Not.HaveOnlyItemsOfType(typeof(int))).ShouldFail();
+        }
+
+        [TestMethod]
+        public void ShouldNotHaveOnlyItemsOfType_GivenElementsOfDifferentType_ShouldNotFail()
+        {
+            Verify.That(() => Specify.That(new object[] { 1, 2, 5.0 }).Should.Not.HaveOnlyItemsOfType(typeof(int))).ShouldNotFail();
+        }
+
+        [TestMethod]
+        public void LegacyShouldBeEmpty_GivenEmptyCollection_ShouldNotFail()
+        {
+            Verify.That(() => Specify.That(new int[] { }).ShouldBeEmpty()).ShouldNotFail();
+        }
+
+        [TestMethod]
+        public void LegacyShouldBeEmpty_GivenNonEmptyCollection_ShouldFail()
+        {
+            Verify.That(() => Specify.That(new int[] { 1 }).ShouldBeEmpty()).ShouldFail();
+        }
+
+        [TestMethod]
+        public void LegacyShouldNotBeEmpty_GivenEmptyCollection_ShouldFail()
+        {
+            Verify.That(() => Specify.That(new int[] { }).ShouldNotBeEmpty()).ShouldFail();
+        }
+
+        [TestMethod]
+        public void LegacyShouldNotBeEmpty_GivenNonEmptyCollection_ShouldNotFail()
+        {
+            Verify.That(() => Specify.That(new int[] { 1 }).ShouldNotBeEmpty()).ShouldNotFail();
+        }
+
+        [TestMethod]
+        public void LegacyShouldOnlyHaveItemsOfType_GivenAllElementsOfSpecifiedType_ShouldNotFail()
+        {
+            Verify.That(() => Specify.That(new object[] { 1, 2, 5 }).ShouldOnlyHaveItemsOfType(typeof(int))).ShouldNotFail();
+        }
+
+        [TestMethod]
+        public void LegacyShouldOnlyHaveItemsOfType_GivenElementsOfDifferentType_ShouldFail()
+        {
+            Verify.That(() => Specify.That(new object[] { 1, 2, 5.0 }).ShouldOnlyHaveItemsOfType(typeof(int))).ShouldFail();
+        }
+
         [TestMethod]
         public void ShouldNotHaveNullItems_GivenNonNullItems_ShouldNotFail()
         {
@@ -108,10 +108,6 @@ namespace Testing.SpecificityTests
             }).ShouldNotHaveThrown();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldNotHaveNullItems{T}(ConstrainedValue{T})"/> should fail when
-        /// collection contains <see langword="null"/> elements.
-        /// </summary>
         [TestMethod]
         public void ShouldNotHaveNullItems_GivenNullItems_ShouldFail()
         {
@@ -121,10 +117,6 @@ namespace Testing.SpecificityTests
             }).ShouldHaveThrown(typeof(ConstraintFailedException));
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldHaveUniqueItems{T}(ConstrainedValue{T})"/> should not fail
-        /// when given collection with unique items.
-        /// </summary>
         [TestMethod]
         public void ShouldHaveUniqueItems_GivenUniqueItems_ShouldNotFail()
         {
@@ -134,10 +126,6 @@ namespace Testing.SpecificityTests
             }).ShouldNotHaveThrown();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldHaveUniqueItems{T}(ConstrainedValue{T})"/> should fail
-        /// when not given collection with unique items.
-        /// </summary>
         [TestMethod]
         public void ShouldHaveUniqueItems_GivenNonUniqueItems_ShouldFail()
         {
@@ -147,10 +135,6 @@ namespace Testing.SpecificityTests
             }).ShouldHaveThrown(typeof(ConstraintFailedException));
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldBeEqualTo{T}(ConstrainedValue{T}, ICollection, IComparer)"/> should not fail
-        /// when given collections that are logically equal.
-        /// </summary>
         [TestMethod]
         public void ShouldBeEqualTo_GivenEqualCollections_ShouldNotFail()
         {
@@ -160,10 +144,6 @@ namespace Testing.SpecificityTests
             }).ShouldNotHaveThrown();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldBeEqualTo{T}(ConstrainedValue{T}, ICollection, IComparer)"/> should fail
-        /// when given collections that are not logically equal.
-        /// </summary>
         [TestMethod]
         public void ShouldBeEqualTo_GivenNonEqualCollections_ShouldFail()
         {
@@ -173,10 +153,6 @@ namespace Testing.SpecificityTests
             }).ShouldHaveThrown(typeof(ConstraintFailedException));
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldNotBeEqualTo{T}(ConstrainedValue{T}, ICollection, IComparer)"/> should fail
-        /// when given collections that are logically equal.
-        /// </summary>
         [TestMethod]
         public void ShouldNotBeEqualTo_GivenEqualCollections_ShouldFail()
         {
@@ -186,10 +162,6 @@ namespace Testing.SpecificityTests
             }).ShouldHaveThrown(typeof(ConstraintFailedException));
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldNotBeEqualTo{T}(ConstrainedValue{T}, ICollection, IComparer)"/> should not fail
-        /// when given collections that are not logically equal.
-        /// </summary>
         [TestMethod]
         public void ShouldNotBeEqualTo_GivenNonEqualCollections_ShouldNotFail()
         {
@@ -199,10 +171,6 @@ namespace Testing.SpecificityTests
             }).ShouldNotHaveThrown();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldBeEquivalentTo{T}(ConstrainedValue{T}, ICollection)"/> should not fail
-        /// when given the same collection.
-        /// </summary>
         [TestMethod]
         public void ShouldBeEquivalentTo_GivenSameCollection_ShouldNotFail()
         {
@@ -213,10 +181,6 @@ namespace Testing.SpecificityTests
             }).ShouldNotHaveThrown();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldBeEquivalentTo{T}(ConstrainedValue{T}, ICollection)"/> should not fail
-        /// when given collections that are logically equal.
-        /// </summary>
         [TestMethod]
         public void ShouldBeEquivalentTo_GivenEqualCollections_ShouldNotFail()
         {
@@ -230,10 +194,6 @@ namespace Testing.SpecificityTests
             }).ShouldNotHaveThrown();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldBeEquivalentTo{T}(ConstrainedValue{T}, ICollection)"/> should not fail
-        /// when given collections that are logically equivalent.
-        /// </summary>
         [TestMethod]
         public void ShouldBeEquivalentTo_GivenEquivalentCollections_ShouldNotFail()
         {
@@ -249,10 +209,6 @@ namespace Testing.SpecificityTests
             }).ShouldNotHaveThrown();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldBeEquivalentTo{T}(ConstrainedValue{T}, ICollection)"/> should fail
-        /// when given collections that differ in length.
-        /// </summary>
         [TestMethod]
         public void ShouldBeEquivalentTo_GivenCollectionsOfDifferentLength_ShouldFail()
         {
@@ -267,10 +223,6 @@ namespace Testing.SpecificityTests
             }).ShouldHaveThrown(typeof(ConstraintFailedException));
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldBeEquivalentTo{T}(ConstrainedValue{T}, ICollection)"/> should fail
-        /// when given collections with different items.
-        /// </summary>
         [TestMethod]
         public void ShouldBeEquivalentTo_GivenCollectionsWithDifferentItems_ShouldFail()
         {
@@ -284,10 +236,6 @@ namespace Testing.SpecificityTests
             }).ShouldHaveThrown(typeof(ConstraintFailedException));
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldNotBeEquivalentTo{T}(ConstrainedValue{T}, ICollection)"/> should fail
-        /// when given the same collection.
-        /// </summary>
         [TestMethod]
         public void ShouldNotBeEquivalentTo_GivenSameCollection_ShouldFail()
         {
@@ -298,10 +246,6 @@ namespace Testing.SpecificityTests
             }).ShouldHaveThrown(typeof(ConstraintFailedException));
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldNotBeEquivalentTo{T}(ConstrainedValue{T}, ICollection)"/> should fail
-        /// when given collections that are logically equal.
-        /// </summary>
         [TestMethod]
         public void ShouldNotBeEquivalentTo_GivenEqualCollections_ShouldFail()
         {
@@ -315,10 +259,6 @@ namespace Testing.SpecificityTests
             }).ShouldHaveThrown(typeof(ConstraintFailedException));
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldNotBeEquivalentTo{T}(ConstrainedValue{T}, ICollection)"/> should fail
-        /// when given collections that are logically equivalent.
-        /// </summary>
         [TestMethod]
         public void ShouldNotBeEquivalentTo_GivenEquivalentCollections_ShouldFail()
         {
@@ -334,10 +274,6 @@ namespace Testing.SpecificityTests
             }).ShouldHaveThrown(typeof(ConstraintFailedException));
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldNotBeEquivalentTo{T}(ConstrainedValue{T}, ICollection)"/> should fail
-        /// when given collections that differ in length.
-        /// </summary>
         [TestMethod]
         public void ShouldNotBeEquivalentTo_GivenCollectionsOfDifferentLength_ShouldNotFail()
         {
@@ -352,10 +288,6 @@ namespace Testing.SpecificityTests
             }).ShouldNotHaveThrown();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldNotBeEquivalentTo{T}(ConstrainedValue{T}, ICollection)"/> should fail
-        /// when given collections with different items.
-        /// </summary>
         [TestMethod]
         public void ShouldNotBeEquivalentTo_GivenCollectionsWithDifferentItems_ShouldNotFail()
         {
@@ -369,10 +301,6 @@ namespace Testing.SpecificityTests
             }).ShouldNotHaveThrown();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldContain{T}(ConstrainedValue{T}, object)"/> should not fail
-        /// when given an item in the collection.
-        /// </summary>
         [TestMethod]
         public void ShouldContain_GivenItemInCollection_ShouldNotFail()
         {
@@ -384,10 +312,6 @@ namespace Testing.SpecificityTests
             }).ShouldNotHaveThrown();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldContain{T}(ConstrainedValue{T}, object)"/> should fail
-        /// when given an item not in the collection.
-        /// </summary>
         [TestMethod]
         public void ShouldContain_GivenItemNotInCollection_ShouldFail()
         {
@@ -397,10 +321,6 @@ namespace Testing.SpecificityTests
             }).ShouldHaveThrown(typeof(ConstraintFailedException));
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldNotContain{T}(ConstrainedValue{T}, object)"/> should fail
-        /// when given an item in the collection.
-        /// </summary>
         [TestMethod]
         public void ShouldNotContain_GivenItemInCollection_ShouldFail()
         {
@@ -412,10 +332,6 @@ namespace Testing.SpecificityTests
             }).ShouldHaveThrown(typeof(ConstraintFailedException));
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldNotContain{T}(ConstrainedValue{T}, object)"/> should not fail
-        /// when given an item not in the collection.
-        /// </summary>
         [TestMethod]
         public void ShouldNotContain_GivenItemNotInCollection_ShouldNotFail()
         {
@@ -425,10 +341,6 @@ namespace Testing.SpecificityTests
             }).ShouldNotHaveThrown();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldBeSubsetOf{T}(ConstrainedValue{T}, ICollection)"/> should not fail
-        /// given empty collections.
-        /// </summary>
         [TestMethod]
         public void ShouldBeSubsetOf_GivenEmptyCollectionAndEmptySuperset_ShouldNotFail()
         {
@@ -438,10 +350,6 @@ namespace Testing.SpecificityTests
             }).ShouldNotHaveThrown();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldBeSubsetOf{T}(ConstrainedValue{T}, ICollection)"/> should not fail
-        /// given empty collections.
-        /// </summary>
         [TestMethod]
         public void ShouldBeSubsetOf_GiveEmptyCollectionAndNonemptySuperset_ShouldNotFail()
         {
@@ -453,10 +361,6 @@ namespace Testing.SpecificityTests
             }).ShouldNotHaveThrown();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldBeSubsetOf{T}(ConstrainedValue{T}, ICollection)"/> should not fail
-        /// given collections that are logically equal.
-        /// </summary>
         [TestMethod]
         public void ShouldBeSubsetOf_GivenEqualCollections_ShouldNotFail()
         {
@@ -470,10 +374,6 @@ namespace Testing.SpecificityTests
             }).ShouldNotHaveThrown();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldBeSubsetOf{T}(ConstrainedValue{T}, ICollection)"/> should not fail
-        /// given collections that are logically equivalent.
-        /// </summary>
         [TestMethod]
         public void ShouldBeSubsetOf_GivenEquivalentCollections_ShouldNotFail()
         {
@@ -489,10 +389,6 @@ namespace Testing.SpecificityTests
             }).ShouldNotHaveThrown();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldBeSubsetOf{T}(ConstrainedValue{T}, ICollection)"/> should fail
-        /// given collections with items not in the superset.
-        /// </summary>
         [TestMethod]
         public void ShouldBeSubsetOf_GivenCollectionWithItemsNotInSuperset_ShouldFail()
         {
@@ -504,10 +400,6 @@ namespace Testing.SpecificityTests
             }).ShouldHaveThrown(typeof(ConstraintFailedException));
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldNotBeSubsetOf{T}(ConstrainedValue{T}, ICollection)"/> should fail
-        /// given collections that are empty.
-        /// </summary>
         [TestMethod]
         public void ShouldNotBeSubsetOf_GivenEmptyCollectionAndEmptySuperset_ShouldFail()
         {
@@ -517,10 +409,6 @@ namespace Testing.SpecificityTests
             }).ShouldHaveThrown(typeof(ConstraintFailedException));
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldNotBeSubsetOf{T}(ConstrainedValue{T}, ICollection)"/> should fail
-        /// given empty collection and non-empty superset.
-        /// </summary>
         [TestMethod]
         public void ShouldNotBeSubsetOf_GiveEmptyCollectionAndNonemptySuperset_ShouldFail()
         {
@@ -532,10 +420,6 @@ namespace Testing.SpecificityTests
             }).ShouldHaveThrown(typeof(ConstraintFailedException));
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldNotBeSubsetOf{T}(ConstrainedValue{T}, ICollection)"/> should fail
-        /// given collections that are logically equal.
-        /// </summary>
         [TestMethod]
         public void ShouldNotBeSubsetOf_GivenEqualCollections_ShouldFail()
         {
@@ -549,10 +433,6 @@ namespace Testing.SpecificityTests
             }).ShouldHaveThrown(typeof(ConstraintFailedException));
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldNotBeSubsetOf{T}(ConstrainedValue{T}, ICollection)"/> should fail
-        /// given collections that are logically equivalent.
-        /// </summary>
         [TestMethod]
         public void ShouldNotBeSubsetOf_GivenEquivalentCollections_ShouldFail()
         {
@@ -568,10 +448,6 @@ namespace Testing.SpecificityTests
             }).ShouldHaveThrown(typeof(ConstraintFailedException));
         }
 
-        /// <summary>
-        /// Verifies that <see cref="CollectionAssertions.ShouldNotBeSubsetOf{T}(ConstrainedValue{T}, ICollection)"/> should not fail
-        /// given collection with items not in the superset.
-        /// </summary>
         [TestMethod]
         public void ShouldNotBeSubsetOf_GivenCollectionWithItemsNotInSuperset_ShouldNotFail()
         {

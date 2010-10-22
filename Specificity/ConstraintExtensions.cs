@@ -6,9 +6,9 @@
 
 namespace Testing.Specificity
 {
+    using System;
     using System.ComponentModel;
     using System.Globalization;
-    using System;
 
     /// <summary>
     /// Provides extension methods for <see cref="IConstraint{T}"/>.
@@ -24,7 +24,7 @@ namespace Testing.Specificity
         /// <param name="message">The message.</param>
         /// <param name="args">The arguments.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static void Fail<T>(this IConstraint<T> self, string message, params object[] args)
+        public static void FailIfNotNegated<T>(this IConstraint<T> self, string message, params object[] args)
         {
             if (self == null)
             {
@@ -58,34 +58,19 @@ namespace Testing.Specificity
             }
         }
 
-        internal static void Fail<T>(this IConstraint<T> self, string constraint, string reason, string message, object[] messageParameters)
+        /// <summary>
+        /// Formats the error message.
+        /// </summary>
+        /// <typeparam name="T">The constraint value type.</typeparam>
+        /// <param name="self">The constraint.</param>
+        /// <param name="constraint">The name of the constraint.</param>
+        /// <param name="reason">The reason for the failure.</param>
+        /// <param name="message">The user message.</param>
+        /// <param name="messageParameters">The parameters used to format the user message.</param>
+        /// <returns>The formatted error message.</returns>
+        internal static string FormatErrorMessage<T>(this IConstraint<T> self, string constraint, string reason, string message, object[] messageParameters)
         {
-            if (self == null)
-            {
-                throw new ArgumentNullException("self");
-            }
-
-            if (!self.IsNegated)
-            {
-                Specify.Failure(GetErrorMessage(constraint, reason, message, messageParameters));
-            }
-        }
-
-        internal static void FailIfNegated<T>(this IConstraint<T> self, string constraint, string reason, string message, object[] messageParameters)
-        {
-            if (self == null)
-            {
-                throw new ArgumentNullException("self");
-            }
-
-            if (self.IsNegated)
-            {
-                Specify.Failure(GetErrorMessage(constraint, reason, message, messageParameters));
-            }
-        }
-
-        private static string GetErrorMessage(string constraint, string reason, string message, object[] messageParameters)
-        {
+            // Format the user message.
             if (!string.IsNullOrEmpty(message))
             {
                 if (messageParameters != null && messageParameters.Length != 0)
@@ -94,10 +79,13 @@ namespace Testing.Specificity
                 }
             }
 
+            // Add the reason to the beginning.
             if (!string.IsNullOrEmpty(reason))
             {
                 message = reason + " " + message;
             }
+
+            constraint = (self.IsNegated ? "Should.Not." : "Should.") + constraint;
 
             message = string.Format(
                 CultureInfo.CurrentCulture,

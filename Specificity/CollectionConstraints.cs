@@ -10,130 +10,100 @@ namespace Testing.Specificity
     using System.Collections;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.ComponentModel;
+    using System.Linq;
 
     /// <summary>
     /// Provides extension methods for ICollection assertions.
     /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static class CollectionConstraints
     {
         /// <summary>
-        /// Verifies that the collection is empty.
+        /// Verifies whether the collection is empty or not.
         /// </summary>
         /// <typeparam name="T">The collection type.</typeparam>
-        /// <param name="self">The specification value.</param>
-        /// <param name="message">The message to use in failure exceptions.</param>
-        /// <param name="parameters">The parameters used when formatting <paramref name="message"/>.</param>
-        /// <returns>
-        /// The <see cref="ConstrainedValue{T}"/> specification value.
-        /// </returns>
-        /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
-        public static ConstrainedValue<T> ShouldBeEmpty<T>(
-            this ConstrainedValue<T> self,
-            string message,
-            params object[] parameters)
-            where T : ICollection
+        /// <param name="self">The constrained collection.</param>
+        public static void BeEmpty<T>(this IConstraint<T> self)
+            where T : IEnumerable
         {
             if (self == null)
             {
                 throw new ArgumentNullException("self");
             }
 
-            if (self.Value.Count != 0)
-            {
-                Specify.Fail("ShouldBeEmpty", message, parameters);
-            }
-
-            return self;
+            self.BeEmpty(null);
         }
 
         /// <summary>
-        /// Verifies that the collection is empty.
+        /// Verifies whether the collection is empty or not.
         /// </summary>
         /// <typeparam name="T">The collection type.</typeparam>
-        /// <param name="self">The specification value.</param>
-        /// <returns>
-        /// The <see cref="ConstrainedValue{T}"/> specification value.
-        /// </returns>
-        /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
-        public static ConstrainedValue<T> ShouldBeEmpty<T>(this ConstrainedValue<T> self)
-            where T : ICollection
+        /// <param name="self">The constrained collection.</param>
+        /// <param name="message">The message to display in case of failure.</param>
+        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
+        public static void BeEmpty<T>(this IConstraint<T> self, string message, params object[] parameters)
+            where T : IEnumerable
         {
             if (self == null)
             {
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldBeEmpty(null);
+            bool empty = false;
+            ICollection collection = self.Value as ICollection;
+            if (collection != null)
+            {
+                empty = collection.Count == 0;
+            }
+            else
+            {
+                var enumerator = self.Value.GetEnumerator();
+                empty = !enumerator.MoveNext();
+            }
+
+            if (!empty)
+            {
+                self.FailIfNotNegated(self.FormatErrorMessage("BeEmpty", null, message, parameters));
+            }
+            else
+            {
+                self.FailIfNegated(self.FormatErrorMessage("BeEmpty", null, message, parameters));
+            }
         }
 
         /// <summary>
-        /// Verifies that the collection is not empty.
+        /// Verifies whether the collection has only items of the specified type or not.
         /// </summary>
         /// <typeparam name="T">The collection type.</typeparam>
-        /// <param name="self">The specification value.</param>
-        /// <param name="message">The message to use in failure exceptions.</param>
-        /// <param name="parameters">The parameters used when formatting <paramref name="message"/>.</param>
-        /// <returns>
-        /// The <see cref="ConstrainedValue{T}"/> specification value.
-        /// </returns>
-        /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
-        public static ConstrainedValue<T> ShouldNotBeEmpty<T>(
-            this ConstrainedValue<T> self,
-            string message,
-            params object[] parameters)
-            where T : ICollection
+        /// <param name="self">The constrained collection.</param>
+        /// <param name="expectedType">The type expected for all items.</param>
+        public static void HaveOnlyItemsOfType<T>(this IConstraint<T> self, Type expectedType)
+            where T : IEnumerable
         {
             if (self == null)
             {
                 throw new ArgumentNullException("self");
             }
 
-            if (self.Value.Count == 0)
+            if (expectedType == null)
             {
-                Specify.Fail("ShouldNotBeEmpty", message, parameters);
+                throw new ArgumentNullException("expectedType");
             }
 
-            return self;
+            self.HaveOnlyItemsOfType(expectedType, null);
         }
 
         /// <summary>
-        /// Verifies that the collection is not empty.
+        /// Verifies whether the collection has only items of the specified type or not.
         /// </summary>
         /// <typeparam name="T">The collection type.</typeparam>
-        /// <param name="self">The specification value.</param>
-        /// <returns>
-        /// The <see cref="ConstrainedValue{T}"/> specification value.
-        /// </returns>
-        /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
-        public static ConstrainedValue<T> ShouldNotBeEmpty<T>(this ConstrainedValue<T> self)
-            where T : ICollection
-        {
-            if (self == null)
-            {
-                throw new ArgumentNullException("self");
-            }
-
-            return self.ShouldNotBeEmpty(null);
-        }
-
-        /// <summary>
-        /// Verifies that the collection only has items of the specified type.
-        /// </summary>
-        /// <typeparam name="T">The collection type.</typeparam>
-        /// <param name="self">The specification value.</param>
-        /// <param name="expectedType">The expected type.</param>
-        /// <param name="message">The message to use in failure exceptions.</param>
-        /// <param name="parameters">The parameters used when formatting <paramref name="message"/>.</param>
-        /// <returns>
-        /// The <see cref="ConstrainedValue{T}"/> specification value.
-        /// </returns>
-        /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
-        public static ConstrainedValue<T> ShouldOnlyHaveItemsOfType<T>(
-            this ConstrainedValue<T> self,
-            Type expectedType,
-            string message,
-            params object[] parameters)
-            where T : ICollection
+        /// <param name="self">The constrained collection.</param>
+        /// <param name="expectedType">The type expected for all items.</param>
+        /// <param name="message">The message to display in case of failure.</param>
+        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
+        public static void HaveOnlyItemsOfType<T>(this IConstraint<T> self, Type expectedType, string message, params object[] parameters)
+            where T : IEnumerable
         {
             if (self == null)
             {
@@ -165,117 +135,50 @@ namespace Testing.Specificity
                             expectedType);
                     }
 
-                    Specify.Fail(
-                        "ShouldOnlyHaveItemsOfType",
-                        reason,
-                        message,
-                        parameters);
+                    self.FailIfNotNegated(self.FormatErrorMessage("HaveOnlyItemsOfType", reason, message, parameters));
+                    return;
                 }
 
                 ++num;
             }
 
-            return self;
+            self.FailIfNegated(self.FormatErrorMessage("HaveOnlyItemsOfType", null, message, parameters));
         }
 
-        /// <summary>
-        /// Verifies that the collection only has items of the specified type.
-        /// </summary>
-        /// <typeparam name="T">The collection type.</typeparam>
-        /// <param name="self">The specification value.</param>
-        /// <param name="expectedType">The expected type.</param>
-        /// <returns>
-        /// The <see cref="ConstrainedValue{T}"/> specification value.
-        /// </returns>
-        /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
-        public static ConstrainedValue<T> ShouldOnlyHaveItemsOfType<T>(
-            this ConstrainedValue<T> self,
-            Type expectedType)
-            where T : ICollection
+        public static void HaveNullItems<T>(this IConstraint<T> self)
+            where T : IEnumerable
+        {
+            self.HaveNullItems(null);
+        }
+
+        public static void HaveNullItems<T>(this IConstraint<T> self, string message, params object[] parameters)
+            where T : IEnumerable
         {
             if (self == null)
             {
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldOnlyHaveItemsOfType(expectedType, null);
-        }
-
-        /// <summary>
-        /// Verifies that the collection does not contain any <see langword="null"/> values.
-        /// </summary>
-        /// <typeparam name="T">The collection type.</typeparam>
-        /// <param name="self">The specification value.</param>
-        /// <param name="message">The message to use in failure exceptions.</param>
-        /// <param name="parameters">The parameters used when formatting <paramref name="message"/>.</param>
-        /// <returns>
-        /// The <see cref="ConstrainedValue{T}"/> specification value.
-        /// </returns>
-        /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
-        public static ConstrainedValue<T> ShouldNotHaveNullItems<T>(
-            this ConstrainedValue<T> self,
-            string message,
-            params object[] parameters)
-            where T : ICollection
-        {
-            if (self == null)
-            {
-                throw new ArgumentNullException("self");
-            }
-
-            int num = 0;
-            foreach (object item in self.Value)
+            foreach (var item in self.Value)
             {
                 if (item == null)
                 {
-                    Specify.Fail(
-                        "ShouldNotHaveNullItems",
-                        message,
-                        parameters);
+                    self.FailIfNegated(self.FormatErrorMessage("HaveNullItems", null, message, parameters));
+                    return;
                 }
-
-                ++num;
             }
 
-            return self;
+            self.FailIfNotNegated(self.FormatErrorMessage("HaveNullItems", null, message, parameters));
         }
 
-        /// <summary>
-        /// Verifies that the collection does not contain any <see langword="null"/> values.
-        /// </summary>
-        /// <typeparam name="T">The collection type.</typeparam>
-        /// <param name="self">The specification value.</param>
-        /// <returns>
-        /// The <see cref="ConstrainedValue{T}"/> specification value.
-        /// </returns>
-        /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
-        public static ConstrainedValue<T> ShouldNotHaveNullItems<T>(this ConstrainedValue<T> self)
-            where T : ICollection
+        public static void HaveUniqueItems<T>(this IConstraint<T> self)
+            where T : IEnumerable
         {
-            if (self == null)
-            {
-                throw new ArgumentNullException("self");
-            }
-
-            return self.ShouldNotHaveNullItems(null);
+            self.HaveUniqueItems(null);
         }
 
-        /// <summary>
-        /// Verifies that the collection does not contain any duplicate values.
-        /// </summary>
-        /// <typeparam name="T">The collection type.</typeparam>
-        /// <param name="self">The specification value.</param>
-        /// <param name="message">The message to use in failure exceptions.</param>
-        /// <param name="parameters">The parameters used when formatting <paramref name="message"/>.</param>
-        /// <returns>
-        /// The <see cref="ConstrainedValue{T}"/> specification value.
-        /// </returns>
-        /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
-        public static ConstrainedValue<T> ShouldHaveUniqueItems<T>(
-            this ConstrainedValue<T> self,
-            string message,
-            params object[] parameters)
-            where T : ICollection
+        public static void HaveUniqueItems<T>(this IConstraint<T> self, string message, params object[] parameters)
+            where T : IEnumerable
         {
             if (self == null)
             {
@@ -295,20 +198,22 @@ namespace Testing.Specificity
                     }
                     else
                     {
-                        Specify.Fail(
-                            "ShouldHaveUniqueItems",
-                            Messages.DuplicateElement(Messages.NullValue),
-                            message,
-                            parameters);
+                        self.FailIfNotNegated(
+                            self.FormatErrorMessage(
+                                "HaveUniqueItems",
+                                Messages.DuplicateElement(Messages.NullValue),
+                                message,
+                                parameters));
                     }
                 }
                 else if (hashtable.Contains(item))
                 {
-                    Specify.Fail(
-                        "ShouldHaveUniqueItems",
-                        Messages.DuplicateElement(item),
-                        message,
-                        parameters);
+                    self.FailIfNotNegated(
+                        self.FormatErrorMessage(
+                            "HaveUniqueItems",
+                            Messages.DuplicateElement(item),
+                            message,
+                            parameters));
                 }
                 else
                 {
@@ -318,6 +223,401 @@ namespace Testing.Specificity
                 ++index;
             }
 
+            self.FailIfNegated(
+                self.FormatErrorMessage(
+                    "HaveUniqueItems",
+                    null,
+                    message,
+                    parameters));
+        }
+
+        public static void BeEqualTo<T>(this IConstraint<T> self, IEnumerable expected)
+            where T : IEnumerable
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.BeEqualTo(expected, Comparer.Default, null);
+        }
+
+        public static void BeEqualTo<T>(this IConstraint<T> self, IEnumerable expected, string message, params object[] parameters)
+            where T : IEnumerable
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.BeEqualTo(expected, Comparer.Default, message, parameters);
+        }
+
+        public static void BeEqualTo<T>(this IConstraint<T> self, IEnumerable expected, IComparer comparer)
+            where T : IEnumerable
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.BeEqualTo(expected, comparer, null);
+        }
+
+        public static void BeEqualTo<T>(this IConstraint<T> self, IEnumerable expected, IComparer comparer, string message, params object[] parameters)
+            where T : IEnumerable
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            string reason;
+            if (!AreCollectionsEqual(expected, self.Value, comparer, out reason))
+            {
+                self.FailIfNotNegated(
+                    self.FormatErrorMessage(
+                        "BeEqualTo",
+                        reason,
+                        message,
+                        parameters));
+            }
+            else
+            {
+                self.FailIfNegated(
+                    self.FormatErrorMessage(
+                        "BeEqualTo",
+                        reason,
+                        message,
+                        parameters));
+            }
+        }
+
+        public static void BeEquivalentTo<T>(this IConstraint<T> self, IEnumerable expected, IComparer comparer, string message, params object[] parameters)
+            where T : IEnumerable
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if ((expected == null) != (self.Value == null))
+            {
+                self.FailIfNotNegated(
+                    self.FormatErrorMessage(
+                        "BeEquivalentTo",
+                        null,
+                        message,
+                        parameters));
+            }
+            else if (expected == null && self.Value == null)
+            {
+                self.FailIfNegated(
+                    self.FormatErrorMessage(
+                        "BeEquivalentTo",
+                        null,
+                        message,
+                        parameters));
+            }
+
+            bool areReferencesEqual = object.ReferenceEquals(expected, self.Value);
+            if (areReferencesEqual)
+            {
+                self.FailIfNegated(
+                    self.FormatErrorMessage(
+                        "BeEquivalentTo",
+                        null,
+                        message,
+                        parameters));
+            }
+
+            if (!areReferencesEqual && expected != null)
+            {
+                int actualCount;
+                int expectedCount;
+                object mismatchedObject;
+                var expectedCollection = expected as ICollection ?? expected.Cast<object>().ToList();
+                var actualCollection = self.Value as ICollection ?? self.Value.Cast<object>().ToList();
+                if (expectedCollection.Count != actualCollection.Count)
+                {
+                    self.FailIfNotNegated(
+                        self.FormatErrorMessage(
+                            "BeEquivalentTo",
+                            Messages.ElementNumbersDoNotMatch(expectedCollection.Count, actualCollection.Count),
+                            message,
+                            parameters));
+                }
+
+                if ((expectedCollection.Count != 0) &&
+                    FindMismatchedElement(
+                        expectedCollection,
+                        actualCollection,
+                        out expectedCount,
+                        out actualCount,
+                        out mismatchedObject))
+                {
+                    self.FailIfNotNegated(
+                        self.FormatErrorMessage(
+                            "BeEquivalentTo",
+                            Messages.MismatchedElements(expectedCount, mismatchedObject, actualCount),
+                            message,
+                            parameters));
+                    return;
+                }
+            }
+
+            self.FailIfNegated(
+                self.FormatErrorMessage(
+                    "BeEquivalentTo",
+                    null,
+                    message,
+                    parameters));
+        }
+
+        /// <summary>
+        /// Verifies that the collection is empty.
+        /// </summary>
+        /// <typeparam name="T">The collection type.</typeparam>
+        /// <param name="self">The specification value.</param>
+        /// <param name="message">The message to use in failure exceptions.</param>
+        /// <param name="parameters">The parameters used when formatting <paramref name="message"/>.</param>
+        /// <returns>
+        /// The <see cref="ConstrainedValue{T}"/> specification value.
+        /// </returns>
+        /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static ConstrainedValue<T> ShouldBeEmpty<T>(
+            this ConstrainedValue<T> self,
+            string message,
+            params object[] parameters)
+            where T : ICollection
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.Should.BeEmpty(message, parameters);
+            return self;
+        }
+
+        /// <summary>
+        /// Verifies that the collection is empty.
+        /// </summary>
+        /// <typeparam name="T">The collection type.</typeparam>
+        /// <param name="self">The specification value.</param>
+        /// <returns>
+        /// The <see cref="ConstrainedValue{T}"/> specification value.
+        /// </returns>
+        /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static ConstrainedValue<T> ShouldBeEmpty<T>(this ConstrainedValue<T> self)
+            where T : ICollection
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.Should.BeEmpty(null);
+            return self;
+        }
+
+        /// <summary>
+        /// Verifies that the collection is not empty.
+        /// </summary>
+        /// <typeparam name="T">The collection type.</typeparam>
+        /// <param name="self">The specification value.</param>
+        /// <param name="message">The message to use in failure exceptions.</param>
+        /// <param name="parameters">The parameters used when formatting <paramref name="message"/>.</param>
+        /// <returns>
+        /// The <see cref="ConstrainedValue{T}"/> specification value.
+        /// </returns>
+        /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static ConstrainedValue<T> ShouldNotBeEmpty<T>(
+            this ConstrainedValue<T> self,
+            string message,
+            params object[] parameters)
+            where T : ICollection
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.Should.Not.BeEmpty(message, parameters);
+            return self;
+        }
+
+        /// <summary>
+        /// Verifies that the collection is not empty.
+        /// </summary>
+        /// <typeparam name="T">The collection type.</typeparam>
+        /// <param name="self">The specification value.</param>
+        /// <returns>
+        /// The <see cref="ConstrainedValue{T}"/> specification value.
+        /// </returns>
+        /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static ConstrainedValue<T> ShouldNotBeEmpty<T>(this ConstrainedValue<T> self)
+            where T : ICollection
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.Should.Not.BeEmpty(null);
+            return self;
+        }
+
+        /// <summary>
+        /// Verifies that the collection only has items of the specified type.
+        /// </summary>
+        /// <typeparam name="T">The collection type.</typeparam>
+        /// <param name="self">The specification value.</param>
+        /// <param name="expectedType">The expected type.</param>
+        /// <param name="message">The message to use in failure exceptions.</param>
+        /// <param name="parameters">The parameters used when formatting <paramref name="message"/>.</param>
+        /// <returns>
+        /// The <see cref="ConstrainedValue{T}"/> specification value.
+        /// </returns>
+        /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static ConstrainedValue<T> ShouldOnlyHaveItemsOfType<T>(
+            this ConstrainedValue<T> self,
+            Type expectedType,
+            string message,
+            params object[] parameters)
+            where T : ICollection
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (expectedType == null)
+            {
+                throw new ArgumentNullException("expectedType");
+            }
+
+            self.Should.HaveOnlyItemsOfType(expectedType, message, parameters);
+            return self;
+        }
+
+        /// <summary>
+        /// Verifies that the collection only has items of the specified type.
+        /// </summary>
+        /// <typeparam name="T">The collection type.</typeparam>
+        /// <param name="self">The specification value.</param>
+        /// <param name="expectedType">The expected type.</param>
+        /// <returns>
+        /// The <see cref="ConstrainedValue{T}"/> specification value.
+        /// </returns>
+        /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static ConstrainedValue<T> ShouldOnlyHaveItemsOfType<T>(
+            this ConstrainedValue<T> self,
+            Type expectedType)
+            where T : ICollection
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (expectedType == null)
+            {
+                throw new ArgumentNullException("expectedType");
+            }
+
+            self.Should.HaveOnlyItemsOfType(expectedType, null);
+            return self;
+        }
+
+        /// <summary>
+        /// Verifies that the collection does not contain any <see langword="null"/> values.
+        /// </summary>
+        /// <typeparam name="T">The collection type.</typeparam>
+        /// <param name="self">The specification value.</param>
+        /// <param name="message">The message to use in failure exceptions.</param>
+        /// <param name="parameters">The parameters used when formatting <paramref name="message"/>.</param>
+        /// <returns>
+        /// The <see cref="ConstrainedValue{T}"/> specification value.
+        /// </returns>
+        /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static ConstrainedValue<T> ShouldNotHaveNullItems<T>(
+            this ConstrainedValue<T> self,
+            string message,
+            params object[] parameters)
+            where T : ICollection
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.Should.Not.HaveNullItems(message, parameters);
+            return self;
+        }
+
+        /// <summary>
+        /// Verifies that the collection does not contain any <see langword="null"/> values.
+        /// </summary>
+        /// <typeparam name="T">The collection type.</typeparam>
+        /// <param name="self">The specification value.</param>
+        /// <returns>
+        /// The <see cref="ConstrainedValue{T}"/> specification value.
+        /// </returns>
+        /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static ConstrainedValue<T> ShouldNotHaveNullItems<T>(this ConstrainedValue<T> self)
+            where T : ICollection
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.Should.Not.HaveNullItems(null);
+            return self;
+        }
+
+        /// <summary>
+        /// Verifies that the collection does not contain any duplicate values.
+        /// </summary>
+        /// <typeparam name="T">The collection type.</typeparam>
+        /// <param name="self">The specification value.</param>
+        /// <param name="message">The message to use in failure exceptions.</param>
+        /// <param name="parameters">The parameters used when formatting <paramref name="message"/>.</param>
+        /// <returns>
+        /// The <see cref="ConstrainedValue{T}"/> specification value.
+        /// </returns>
+        /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static ConstrainedValue<T> ShouldHaveUniqueItems<T>(
+            this ConstrainedValue<T> self,
+            string message,
+            params object[] parameters)
+            where T : ICollection
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.Should.HaveUniqueItems(message, parameters);
             return self;
         }
 
@@ -330,6 +630,8 @@ namespace Testing.Specificity
         /// The <see cref="ConstrainedValue{T}"/> specification value.
         /// </returns>
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static ConstrainedValue<T> ShouldHaveUniqueItems<T>(this ConstrainedValue<T> self)
             where T : ICollection
         {
@@ -338,7 +640,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldHaveUniqueItems(null);
+            self.Should.HaveUniqueItems(null);
+            return self;
         }
 
         /// <summary>
@@ -354,6 +657,8 @@ namespace Testing.Specificity
         /// The <see cref="ConstrainedValue{T}"/> specification value.
         /// </returns>
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static ConstrainedValue<T> ShouldBeEqualTo<T>(
             this ConstrainedValue<T> self,
             ICollection expected,
@@ -367,16 +672,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            string reason;
-            if (!AreCollectionsEqual(expected, self.Value, comparer, out reason))
-            {
-                Specify.Fail(
-                    "ShouldBeEqualTo",
-                    reason,
-                    message,
-                    parameters);
-            }
-
+            self.Should.BeEqualTo(expected, comparer, message, parameters);
             return self;
         }
 
@@ -391,6 +687,8 @@ namespace Testing.Specificity
         /// The <see cref="ConstrainedValue{T}"/> specification value.
         /// </returns>
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static ConstrainedValue<T> ShouldBeEqualTo<T>(
             this ConstrainedValue<T> self,
             ICollection expected,
@@ -402,7 +700,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldBeEqualTo(expected, comparer, null);
+            self.Should.BeEqualTo(expected, comparer, null);
+            return self;
         }
 
         /// <summary>
@@ -418,6 +717,8 @@ namespace Testing.Specificity
         /// The <see cref="ConstrainedValue{T}"/> specification value.
         /// </returns>
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static ConstrainedValue<T> ShouldNotBeEqualTo<T>(
             this ConstrainedValue<T> self,
             ICollection expected,
@@ -455,6 +756,8 @@ namespace Testing.Specificity
         /// The <see cref="ConstrainedValue{T}"/> specification value.
         /// </returns>
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static ConstrainedValue<T> ShouldNotBeEqualTo<T>(
             this ConstrainedValue<T> self,
             ICollection expected,
@@ -481,6 +784,8 @@ namespace Testing.Specificity
         /// The <see cref="ConstrainedValue{T}"/> specification value.
         /// </returns>
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static ConstrainedValue<T> ShouldBeEquivalentTo<T>(
             this ConstrainedValue<T> self,
             ICollection expected,
@@ -493,44 +798,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            if ((expected == null) != (self.Value == null))
-            {
-                Specify.Fail(
-                    "ShouldBeEquivalentTo",
-                    message,
-                    parameters);
-            }
-
-            if (!object.ReferenceEquals(expected, self.Value) && (expected != null))
-            {
-                int actualCount;
-                int expectedCount;
-                object mismatchedObject;
-                if (expected.Count != self.Value.Count)
-                {
-                    Specify.Fail(
-                        "ShouldBeEquivalentTo",
-                        Messages.ElementNumbersDoNotMatch(expected.Count, self.Value.Count),
-                        message,
-                        parameters);
-                }
-
-                if ((expected.Count != 0) &&
-                    FindMismatchedElement(
-                        expected,
-                        self.Value,
-                        out expectedCount,
-                        out actualCount,
-                        out mismatchedObject))
-                {
-                    Specify.Fail(
-                        "ShouldBeEquivalentTo",
-                        Messages.MismatchedElements(expectedCount, mismatchedObject, actualCount),
-                        message,
-                        parameters);
-                }
-            }
-
+            self.Should.BeEquivalentTo(expected, Comparer.Default, message, parameters);
             return self;
         }
 
@@ -544,6 +812,8 @@ namespace Testing.Specificity
         /// The <see cref="ConstrainedValue{T}"/> specification value.
         /// </returns>
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static ConstrainedValue<T> ShouldBeEquivalentTo<T>(
             this ConstrainedValue<T> self,
             ICollection expected)
@@ -554,7 +824,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldBeEquivalentTo(expected, null);
+            self.Should.BeEquivalentTo(expected, Comparer.Default, null);
+            return self;
         }
 
         /// <summary>
@@ -569,6 +840,8 @@ namespace Testing.Specificity
         /// The <see cref="ConstrainedValue{T}"/> specification value.
         /// </returns>
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static ConstrainedValue<T> ShouldNotBeEquivalentTo<T>(
             this ConstrainedValue<T> self,
             ICollection expected,
@@ -581,50 +854,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            if ((expected == null) == (self.Value == null))
-            {
-                if (object.ReferenceEquals(expected, self.Value))
-                {
-                    Specify.Fail(
-                        "ShouldNotBeEquivalentTo",
-                        Messages.BothSameCollection,
-                        message,
-                        parameters);
-                }
-
-                if (expected != null)
-                {
-                    if (expected.Count == self.Value.Count)
-                    {
-                        if (expected.Count == 0)
-                        {
-                            Specify.Fail(
-                                "ShouldNotBeEquivalentTo",
-                                Messages.BothCollectionsEmpty,
-                                message,
-                                parameters);
-                        }
-
-                        int actualCount;
-                        int expectedCount;
-                        object mismatchedObject;
-                        if (!FindMismatchedElement(
-                            expected,
-                            self.Value,
-                            out expectedCount,
-                            out actualCount,
-                            out mismatchedObject))
-                        {
-                            Specify.Fail(
-                                "ShouldNotBeEquivalentTo",
-                                Messages.BothSameElements,
-                                message,
-                                parameters);
-                        }
-                    }
-                }
-            }
-
+            self.Should.Not.BeEquivalentTo(expected, Comparer.Default, message, parameters);
             return self;
         }
 
@@ -638,6 +868,8 @@ namespace Testing.Specificity
         /// The <see cref="ConstrainedValue{T}"/> specification value.
         /// </returns>
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static ConstrainedValue<T> ShouldNotBeEquivalentTo<T>(
             this ConstrainedValue<T> self,
             ICollection expected)
@@ -648,7 +880,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldNotBeEquivalentTo(expected, null);
+            self.Should.Not.BeEquivalentTo(expected, Comparer.Default, null);
+            return self;
         }
 
         /// <summary>
@@ -663,6 +896,8 @@ namespace Testing.Specificity
         /// The <see cref="ConstrainedValue{T}"/> specification value.
         /// </returns>
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static ConstrainedValue<T> ShouldContain<T>(
             this ConstrainedValue<T> self,
             object element,
@@ -697,6 +932,8 @@ namespace Testing.Specificity
         /// The <see cref="ConstrainedValue{T}"/> specification value.
         /// </returns>
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static ConstrainedValue<T> ShouldContain<T>(
             this ConstrainedValue<T> self,
             object element)
@@ -722,6 +959,8 @@ namespace Testing.Specificity
         /// The <see cref="ConstrainedValue{T}"/> specification value.
         /// </returns>
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static ConstrainedValue<T> ShouldNotContain<T>(
             this ConstrainedValue<T> self,
             object element,
@@ -761,6 +1000,8 @@ namespace Testing.Specificity
         /// The <see cref="ConstrainedValue{T}"/> specification value.
         /// </returns>
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static ConstrainedValue<T> ShouldNotContain<T>(
             this ConstrainedValue<T> self,
             object element)
@@ -786,6 +1027,8 @@ namespace Testing.Specificity
         /// The <see cref="ConstrainedValue{T}"/> specification value.
         /// </returns>
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static ConstrainedValue<T> ShouldBeSubsetOf<T>(
             this ConstrainedValue<T> self,
             ICollection superset,
@@ -816,6 +1059,8 @@ namespace Testing.Specificity
         /// The <see cref="ConstrainedValue{T}"/> specification value.
         /// </returns>
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static ConstrainedValue<T> ShouldBeSubsetOf<T>(
             this ConstrainedValue<T> self,
             ICollection superset)
@@ -841,6 +1086,8 @@ namespace Testing.Specificity
         /// The <see cref="ConstrainedValue{T}"/> specification value.
         /// </returns>
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static ConstrainedValue<T> ShouldNotBeSubsetOf<T>(
             this ConstrainedValue<T> self,
             ICollection superset,
@@ -871,6 +1118,8 @@ namespace Testing.Specificity
         /// The <see cref="ConstrainedValue{T}"/> specification value.
         /// </returns>
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static ConstrainedValue<T> ShouldNotBeSubsetOf<T>(
             this ConstrainedValue<T> self,
             ICollection superset)
@@ -895,8 +1144,8 @@ namespace Testing.Specificity
         /// <see langword="true"/> if the collections are equal; otherwise <see langowrd="false"/>.
         /// </returns>
         private static bool AreCollectionsEqual(
-            ICollection expected,
-            ICollection actual,
+            IEnumerable expected,
+            IEnumerable actual,
             IComparer comparer,
             out string reason)
         {
@@ -908,14 +1157,19 @@ namespace Testing.Specificity
                     return false;
                 }
 
-                if (expected.Count != actual.Count)
+                var expectedCollection = expected as ICollection;
+                var actualCollection = actual as ICollection;
+                if (expectedCollection != null && actualCollection != null)
                 {
-                    reason = string.Format(
-                        CultureInfo.CurrentUICulture,
-                        Properties.Resources.ElementNumbersDoNotMatch,
-                        expected.Count,
-                        actual.Count);
-                    return false;
+                    if (expectedCollection.Count != actualCollection.Count)
+                    {
+                        reason = string.Format(
+                            CultureInfo.CurrentUICulture,
+                            Properties.Resources.ElementNumbersDoNotMatch,
+                            expectedCollection.Count,
+                            actualCollection.Count);
+                        return false;
+                    }
                 }
 
                 IEnumerator expectedEnumerator = expected.GetEnumerator();

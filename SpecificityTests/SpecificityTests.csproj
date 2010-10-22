@@ -83,6 +83,7 @@
     <Compile Include="SpecifyTests.cs" />
     <Compile Include="StringAssertionsTests.cs" />
     <Compile Include="TestAssemblyInitializer.cs" />
+    <Compile Include="Verify.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Specificity.MSTest\Specificity.MSTest.csproj">

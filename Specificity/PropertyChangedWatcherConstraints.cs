@@ -6,8 +6,8 @@
 
 namespace Testing.Specificity
 {
-    using System.Linq;
     using System;
+    using System.Linq;
 
     /// <summary>
     /// Provides extension methods for <see cref="PropertyChangedWatcher"/> assertions.

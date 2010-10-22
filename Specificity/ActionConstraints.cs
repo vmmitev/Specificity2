@@ -7,19 +7,19 @@
 namespace Testing.Specificity
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
-    /// Provides extension methods for assertions on <see cref="Action"/> delegates.
+    /// Provides extension methods for specifications on <see cref="Action"/> delegates.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class ActionConstraints
     {
         /// <summary>
-        /// Verifies the <see cref="Action"/> threw an exception.
+        /// Tests whether or not the <see cref="Action"/> threw an exception.
         /// </summary>
-        /// <param name="self">The action.</param>
+        /// <param name="self">The action constraint.</param>
         public static void HaveThrown(this IConstraint<Action> self)
         {
             if (self == null)
@@ -31,11 +31,11 @@ namespace Testing.Specificity
         }
 
         /// <summary>
-        /// Verifies the <see cref="Action"/> threw an exception.
+        /// Tests whether or not the <see cref="Action"/> threw an exception.
         /// </summary>
-        /// <param name="self">The action.</param>
-        /// <param name="message">The message.</param>
-        /// <param name="parameters">The parameters.</param>
+        /// <param name="self">The action constraint.</param>
+        /// <param name="message">The message to display in case of failure.</param>
+        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
         public static void HaveThrown(this IConstraint<Action> self, string message, params object[] parameters)
         {
             if (self == null)
@@ -47,10 +47,10 @@ namespace Testing.Specificity
         }
 
         /// <summary>
-        /// Verifies the <see cref="Action"/> threw an exception.
+        /// Tests whether or not the <see cref="Action"/> threw an exception of the specified type.
         /// </summary>
-        /// <param name="self">The action.</param>
-        /// <param name="exceptionType">Type of the exception.</param>
+        /// <param name="self">The action constraint.</param>
+        /// <param name="exceptionType">Type of the exception to test for.</param>
         public static void HaveThrown(this IConstraint<Action> self, Type exceptionType)
         {
             if (self == null)
@@ -67,12 +67,12 @@ namespace Testing.Specificity
         }
 
         /// <summary>
-        /// Verifies the <see cref="Action"/> threw an exception.
+        /// Tests whether or not the <see cref="Action"/> threw an exception of the specified type.
         /// </summary>
-        /// <param name="self">The action.</param>
-        /// <param name="exceptionType">Type of the exception.</param>
-        /// <param name="message">The message.</param>
-        /// <param name="parameters">The parameters.</param>
+        /// <param name="self">The action constraint.</param>
+        /// <param name="exceptionType">Type of the exception to test for.</param>
+        /// <param name="message">The message to display in case of failure.</param>
+        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
         [SuppressMessage("Microsoft.Design",
             "CA1031:DoNotCatchGeneralExceptionTypes",
             Justification = "The point is to report exception failures.")]
@@ -99,29 +99,32 @@ namespace Testing.Specificity
                 Type expectedType = exceptionType;
                 if (!expectedType.IsAssignableFrom(actualType))
                 {
-                    self.Fail(
-                        "ShouldHaveThrown",
-                        Messages.UnexpectedExceptionType(expectedType, actualType),
-                        message,
-                        parameters);
+                    self.FailIfNotNegated(
+                        self.FormatErrorMessage(
+                            "HaveThrown",
+                            Messages.UnexpectedExceptionType(expectedType, actualType),
+                            message,
+                            parameters));
                     return;
                 }
                 else
                 {
                     self.FailIfNegated(
-                        "ShouldNotHaveThrown",
-                        Messages.UnexpectedExceptionType(expectedType, actualType),
-                        message,
-                        parameters);
+                        self.FormatErrorMessage(
+                            "HaveThrown",
+                            Messages.UnexpectedException(actualType),
+                            message,
+                            parameters));
                     return;
                 }
             }
 
-            self.Fail(
-                "ShouldHaveThrown",
-                Messages.NoExceptionThrown(exceptionType),
-                message,
-                parameters);
+            self.FailIfNotNegated(
+                self.FormatErrorMessage(
+                    "HaveThrown",
+                    Messages.NoExceptionThrown(exceptionType),
+                    message,
+                    parameters));
         }
 
         /// <summary>
@@ -134,6 +137,7 @@ namespace Testing.Specificity
         /// The <see cref="ConstrainedValue{Action}"/> specification value.
         /// </returns>
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static ConstrainedValue<Action> ShouldHaveThrown(
             this ConstrainedValue<Action> self,
@@ -145,7 +149,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return ShouldHaveThrown(self, typeof(Exception), message, parameters);
+            self.Should.HaveThrown(typeof(Exception), message, parameters);
+            return self;
         }
 
         /// <summary>
@@ -156,6 +161,7 @@ namespace Testing.Specificity
         /// The <see cref="ConstrainedValue{Action}"/> specification value.
         /// </returns>
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static ConstrainedValue<Action> ShouldHaveThrown(this ConstrainedValue<Action> self)
         {
@@ -164,7 +170,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return ShouldHaveThrown(self, typeof(Exception), null);
+            self.Should.HaveThrown();
+            return self;
         }
 
         /// <summary>
@@ -178,6 +185,7 @@ namespace Testing.Specificity
         /// The <see cref="ConstrainedValue{Action}"/> specification value.
         /// </returns>
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [SuppressMessage("Microsoft.Design",
             "CA1031:DoNotCatchGeneralExceptionTypes",
@@ -198,33 +206,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("exceptionType");
             }
 
-            Action action = self.Value;
-            try
-            {
-                action();
-            }
-            catch (Exception e)
-            {
-                Type actualType = e.GetType();
-                Type expectedType = exceptionType;
-                if (!expectedType.IsAssignableFrom(actualType))
-                {
-                    Specify.Fail(
-                        "ShouldHaveThrown",
-                        Messages.UnexpectedExceptionType(expectedType, actualType),
-                        message,
-                        parameters);
-                }
-
-                return self;
-            }
-
-            Specify.Fail(
-                "ShouldHaveThrown",
-                Messages.NoExceptionThrown(exceptionType),
-                message,
-                parameters);
-            return null; // Will never get here, but must satisfy the compiler
+            self.Should.HaveThrown(exceptionType, message, parameters);
+            return self;
         }
 
         /// <summary>
@@ -236,6 +219,7 @@ namespace Testing.Specificity
         /// The <see cref="ConstrainedValue{Action}"/> specification value.
         /// </returns>
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static ConstrainedValue<Action> ShouldHaveThrown(
             this ConstrainedValue<Action> self,
@@ -246,7 +230,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldHaveThrown(exceptionType, null);
+            self.Should.HaveThrown(exceptionType);
+            return self;
         }
 
         /// <summary>
@@ -259,6 +244,7 @@ namespace Testing.Specificity
         /// The <see cref="ConstrainedValue{Action}"/> specification value.
         /// </returns>
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [SuppressMessage("Microsoft.Design",
             "CA1031:DoNotCatchGeneralExceptionTypes",
@@ -273,20 +259,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            Action action = self.Value;
-            try
-            {
-                action();
-            }
-            catch (Exception e)
-            {
-                Specify.Fail(
-                    "ShouldNotHaveThrown",
-                    Messages.UnexpectedException(e.GetType()),
-                    message,
-                    parameters);
-            }
-
+            self.Should.Not.HaveThrown(message, parameters);
             return self;
         }
 
@@ -298,6 +271,7 @@ namespace Testing.Specificity
         /// The <see cref="ConstrainedValue{Action}"/> specification value.
         /// </returns>
         /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        /// <remarks>This method will be obsolete in the future and is intentionally hidden from IntelliSense.</remarks>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static ConstrainedValue<Action> ShouldNotHaveThrown(this ConstrainedValue<Action> self)
         {
@@ -306,7 +280,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldNotHaveThrown(null);
+            self.Should.Not.HaveThrown();
+            return self;
         }
     }
 }

@@ -16,177 +16,61 @@ namespace Testing.SpecificityTests
     [TestClass]
     public class ActionAssertionsTests
     {
+        private static readonly Action DoNotThrow = () => { };
+        private static readonly Action Throw = () => { throw new InvalidOperationException(); };
+
         [TestMethod]
         public void ShouldHaveThrown_GivenActionThatDoesNotThrow_ShouldFail()
         {
-            try
-            {
-                Specify.ThatAction(() => { }).Should.HaveThrown();
-            }
-            catch (ConstraintFailedException)
-            {
-                return;
-            }
-            catch (AssertFailedException)
-            {
-                return;
-            }
-
-            Specify.Failure("Should.HaveThrown did not fail.");
+            Verify.That(() => Specify.ThatAction(DoNotThrow).Should.HaveThrown()).ShouldFail();
         }
 
         [TestMethod]
         public void ShouldHaveThrown_GivenActionThatThrows_ShouldNotFail()
         {
-            try
-            {
-                Specify.ThatAction(() => { throw new InvalidOperationException(); }).Should.HaveThrown();
-            }
-            catch (ConstraintFailedException)
-            {
-                Specify.Failure("Should.HaveThrown failed.");
-            }
-            catch (AssertFailedException)
-            {
-                Specify.Failure("Should.HaveThrown failed");
-            }
+            Verify.That(() => Specify.ThatAction(Throw).Should.HaveThrown()).ShouldNotFail();
         }
 
         [TestMethod]
         public void ShouldNotHaveThrown_GivenActionThatThrows_ShouldFail()
         {
-            try
-            {
-                Specify.ThatAction(() => { throw new InvalidOperationException(); }).Should.Not.HaveThrown();
-            }
-            catch (ConstraintFailedException)
-            {
-                return;
-            }
-            catch (AssertFailedException)
-            {
-                return;
-            }
-
-            Specify.Failure("Should.Not.HaveThrown did not fail.");
+            Verify.That(() => Specify.ThatAction(Throw).Should.Not.HaveThrown()).ShouldFail();
         }
 
         [TestMethod]
         public void ShouldNotHaveThrown_GivenActionThatDoesNotThrow_ShouldNotFail()
         {
-            try
-            {
-                Specify.ThatAction(() => { }).Should.Not.HaveThrown();
-            }
-            catch (ConstraintFailedException)
-            {
-                Specify.Failure("Should.Not.HaveThrown failed.");
-            }
-            catch (AssertFailedException)
-            {
-                Specify.Failure("Should.Not.HaveThrown failed.");
-            }
+            Verify.That(() => Specify.ThatAction(DoNotThrow).Should.Not.HaveThrown()).ShouldNotFail();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="ActionAssertions.ShouldThrow{TException}(ConstrainedValue{Action})"/> should fail when the
-        /// specified action does not throw an exception.
-        /// </summary>
         [TestMethod]
         public void ShouldThrow_GivenActionThatDoesNotThrow_ShouldFail()
         {
-            try
-            {
-                Specify.ThatAction(delegate
-                {
-                }).ShouldHaveThrown(typeof(ConstraintFailedException));
-            }
-            catch (ConstraintFailedException)
-            {
-                return;
-            }
-
-            Assert.Fail("ShouldThrow did not fail.");
+            Verify.That(() => Specify.ThatAction(DoNotThrow).ShouldHaveThrown()).ShouldFail();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="ActionAssertions.ShouldThrow{TException}(ConstrainedValue{Action})"/> should fail when the
-        /// specified action throws a different exception type.
-        /// </summary>
         [TestMethod]
         public void ShouldThrow_GivenActionThatThrowsDifferentType_ShouldFail()
         {
-            try
-            {
-                Specify.ThatAction(delegate
-                {
-                    throw new InvalidOperationException();
-                }).ShouldHaveThrown(typeof(ArgumentNullException));
-            }
-            catch (ConstraintFailedException)
-            {
-                return;
-            }
-
-            Assert.Fail("ShouldThrow did not fail.");
+            Verify.That(() => Specify.ThatAction(Throw).ShouldHaveThrown(typeof(ArgumentNullException))).ShouldFail();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="ActionAssertions.ShouldThrow{TException}(ConstrainedValue{Action})"/> should not fail when the
-        /// specified action throws the specified exception type.
-        /// </summary>
         [TestMethod]
         public void ShouldThrow_GivenActionThatThrowsCompatibleExceptionType_ShouldNotFail()
         {
-            try
-            {
-                Specify.ThatAction(delegate
-                {
-                    throw new InvalidOperationException();
-                }).ShouldHaveThrown(typeof(InvalidOperationException));
-            }
-            catch (ConstraintFailedException)
-            {
-                Assert.Fail("ShouldThrow failed");
-            }
+            Verify.That(() => Specify.ThatAction(Throw).ShouldHaveThrown(typeof(InvalidOperationException))).ShouldNotFail();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="ActionAssertions.ShouldNotThrow(ConstrainedValue{Action})"/> should fail when specified action throws.
-        /// </summary>
         [TestMethod]
         public void ShouldNotThrow_GivenActionThatThrows_ShouldFail()
         {
-            try
-            {
-                Specify.ThatAction(delegate
-                {
-                    throw new InvalidOperationException();
-                }).ShouldNotHaveThrown();
-            }
-            catch (ConstraintFailedException)
-            {
-                return;
-            }
-
-            Assert.Fail("ShouldNotThrow did not fail.");
+            Verify.That(() => Specify.ThatAction(Throw).ShouldNotHaveThrown()).ShouldFail();
         }
 
-        /// <summary>
-        /// Verifies that <see cref="ActionAssertions.ShouldNotThrow(ConstrainedValue{Action})"/> should not fail when specified
-        /// action does not throw.
-        /// </summary>
         [TestMethod]
         public void ShouldNotThrow_GivenActionThatDoesNotThrow_ShouldNotFail()
         {
-            try
-            {
-                Specify.ThatAction(delegate { }).ShouldNotHaveThrown();
-            }
-            catch (ConstraintFailedException)
-            {
-                Assert.Fail("ShouldNotThrow failed.");
-            }
+            Verify.That(() => Specify.ThatAction(DoNotThrow).ShouldNotHaveThrown()).ShouldNotFail();
         }
     }
 }
