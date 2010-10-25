@@ -14,6 +14,182 @@ namespace Testing.Specificity
     /// </summary>
     public static class StringConstraints
     {
+        public static void BeEqualTo(this IConstraint<string> self, string expected, StringComparison comparisonType)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.BeEqualTo(expected, comparisonType);
+        }
+
+        public static void BeEqualTo(this IConstraint<string> self, string expected, StringComparison comparisonType, string message, params object[] parameters)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (string.Compare(expected, self.Value, comparisonType) != 0)
+            {
+                self.FailIfNotNegated(
+                    self.FormatErrorMessage(
+                        "BeEqualTo",
+                        Messages.NotEqual(expected, self.Value),
+                        message,
+                        parameters));
+            }
+            else
+            {
+                self.FailIfNegated(
+                    self.FormatErrorMessage(
+                        "BeEqualTo",
+                        Messages.Equal(expected, self.Value),
+                        message,
+                        parameters));
+            }
+        }
+
+        public static void BeNullOrEmpty(this IConstraint<string> self, string message, params object[] parameters)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (!string.IsNullOrEmpty(self.Value))
+            {
+                self.FailIfNotNegated(
+                    self.FormatErrorMessage(
+                        "BeNullOrEmpty",
+                        null,
+                        message,
+                        parameters));
+            }
+            else
+            {
+                self.FailIfNegated(
+                    self.FormatErrorMessage(
+                        "BeNullOrEmpty",
+                        null,
+                        message,
+                        parameters));
+            }
+        }
+
+        public static void Contain(this IConstraint<string> self, string substring, StringComparison comparisonType)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.Contain(substring, comparisonType);
+        }
+
+        public static void Contain(this IConstraint<string> self, string substring, StringComparison comparisonType, string message, params object[] parameters)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (0 > self.Value.IndexOf(substring, comparisonType))
+            {
+                self.FailIfNotNegated(
+                    self.FormatErrorMessage(
+                        "Contain",
+                        Messages.ContainsFail(self.Value, substring),
+                        message,
+                        parameters));
+            }
+            else
+            {
+                self.FailIfNegated(
+                    self.FormatErrorMessage(
+                        "Contain",
+                        Messages.NotContainsFail(self.Value, substring),
+                        message,
+                        parameters));
+
+            }
+        }
+
+        public static void Match(this IConstraint<string> self, Regex pattern)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (pattern == null)
+            {
+                throw new ArgumentNullException("pattern");
+            }
+
+            self.Match(pattern, null);
+        }
+
+        public static void Match(this IConstraint<string> self, Regex pattern, string message, params object[] parameters)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (pattern == null)
+            {
+                throw new ArgumentNullException("pattern");
+            }
+
+            if (!pattern.IsMatch(self.Value))
+            {
+                self.FailIfNotNegated(
+                    self.FormatErrorMessage(
+                        "Match",
+                        Messages.IsMatchFail(self.Value, pattern),
+                        message,
+                        parameters));
+            }
+            else
+            {
+                self.FailIfNegated(
+                    self.FormatErrorMessage(
+                        "Match",
+                        Messages.IsNotMatchFail(self.Value, pattern),
+                        message,
+                        parameters));
+            }
+        }
+
+        public static void EndWith(this IConstraint<string> self, string substring, StringComparison comparisonType, string message, params object[] parameters)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (!self.Value.EndsWith(substring, comparisonType))
+            {
+                self.FailIfNotNegated(
+                    self.FormatErrorMessage(
+                        "EndWith",
+                        Messages.EndsWithFail(self.Value, substring),
+                        message,
+                        parameters));
+            }
+            else
+            {
+                self.FailIfNegated(
+                    self.FormatErrorMessage(
+                        "EndWith",
+                        Messages.NotEndsWithFail(self.Value, substring),
+                        message,
+                        parameters));
+            }
+        }
+
         /// <summary>
         /// Verifies the specification value value is equal to an expected value.
         /// </summary>
@@ -33,15 +209,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            if (string.Compare(expected, self.Value, comparisonType) != 0)
-            {
-                Specify.Fail(
-                    "ShouldBeEqualTo",
-                    Messages.NotEqual(expected, self.Value),
-                    message,
-                    parameters);
-            }
-
+            self.Should.BeEqualTo(expected, comparisonType, message, parameters);
             return self;
         }
 
@@ -62,7 +230,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldBeEqualTo(expected, comparisonType, null);
+            self.Should.BeEqualTo(expected, comparisonType, null);
+            return self;
         }
 
         /// <summary>
@@ -84,15 +253,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            if (string.Compare(expected, self.Value, comparisonType) == 0)
-            {
-                Specify.Fail(
-                    "ShouldNotBeEqualTo",
-                    Messages.Equal(expected, self.Value), 
-                    message,
-                    parameters);
-            }
-
+            self.Should.Not.BeEqualTo(expected, comparisonType, message, parameters);
             return self;
         }
 
@@ -113,7 +274,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldNotBeEqualTo(expected, comparisonType, null);
+            self.Should.Not.BeEqualTo(expected, comparisonType, null);
+            return self;
         }
 
         /// <summary>
@@ -133,11 +295,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            if (string.IsNullOrEmpty(self.Value))
-            {
-                Specify.Fail("ShouldNotBeNullOrEmpty", message, parameters);
-            }
-
+            self.Should.Not.BeNullOrEmpty(message, parameters);
             return self;
         }
 
@@ -156,7 +314,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldNotBeNullOrEmpty(null);
+            self.Should.Not.BeNullOrEmpty(null);
+            return self;
         }
 
         /// <summary>
@@ -178,15 +337,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            if (0 > self.Value.IndexOf(substring, comparisonType))
-            {
-                Specify.Fail(
-                    "ShouldContain",
-                    Messages.ContainsFail(self.Value, substring),
-                    message,
-                    parameters);
-            }
-
+            self.Should.Contain(substring, comparisonType, message, parameters);
             return self;
         }
 
@@ -207,7 +358,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldContain(substring, comparisonType, null);
+            self.Should.Contain(substring, comparisonType, null);
+            return self;
         }
 
         /// <summary>
@@ -229,15 +381,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            if (0 <= self.Value.IndexOf(substring, comparisonType))
-            {
-                Specify.Fail(
-                    "ShouldNotContain",
-                    Messages.NotContainsFail(self.Value, substring),
-                    message,
-                    parameters);
-            }
-
+            self.Should.Not.Contain(substring, comparisonType, message, parameters);
             return self;
         }
 
@@ -258,14 +402,15 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldNotContain(substring, comparisonType, null);
+            self.Should.Not.Contain(substring, comparisonType, null);
+            return self;
         }
 
         /// <summary>
         /// Verifies the specification value value matches the specified regular expression pattern.
         /// </summary>
         /// <param name="self">The specification value.</param>
-        /// <param name="pattern">The regular expression pattern to match agains.</param>
+        /// <param name="pattern">The regular expression pattern to match against.</param>
         /// <param name="message">The message to use in failure exceptions.</param>
         /// <param name="parameters">The parameters used when formatting <paramref name="message"/>.</param>
         /// <returns>
@@ -284,15 +429,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("pattern");
             }
 
-            if (!pattern.IsMatch(self.Value))
-            {
-                Specify.Fail(
-                    "ShouldMatch",
-                    Messages.IsMatchFail(self.Value, pattern),
-                    message,
-                    parameters);
-            }
-
+            self.Should.Match(pattern, message, parameters);
             return self;
         }
 
@@ -312,14 +449,20 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldMatch(pattern, null);
+            if (pattern == null)
+            {
+                throw new ArgumentNullException("pattern");
+            }
+
+            self.Should.Match(pattern, null);
+            return self;
         }
 
         /// <summary>
         /// Verifies the specification value value does not match the specified regular expression pattern.
         /// </summary>
         /// <param name="self">The specification value.</param>
-        /// <param name="pattern">The regular expression pattern to match agains.</param>
+        /// <param name="pattern">The regular expression pattern to match against.</param>
         /// <param name="message">The message to use in failure exceptions.</param>
         /// <param name="parameters">The parameters used when formatting <paramref name="message"/>.</param>
         /// <returns>
@@ -338,15 +481,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("pattern");
             }
 
-            if (pattern.IsMatch(self.Value))
-            {
-                Specify.Fail(
-                    "ShouldNotMatch",
-                    Messages.IsNotMatchFail(self.Value, pattern),
-                    message,
-                    parameters);
-            }
-
+            self.Should.Not.Match(pattern, message, parameters);
             return self;
         }
 
@@ -366,7 +501,13 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldNotMatch(pattern, null);
+            if (pattern == null)
+            {
+                throw new ArgumentNullException("pattern");
+            }
+
+            self.Should.Not.Match(pattern, null);
+            return self;
         }
 
         /// <summary>
@@ -388,15 +529,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            if (!self.Value.EndsWith(substring, comparisonType))
-            {
-                Specify.Fail(
-                    "ShouldEndWith",
-                    Messages.EndsWithFail(self.Value, substring),
-                    message,
-                    parameters);
-            }
-
+            self.Should.EndWith(substring, comparisonType, message, parameters);
             return self;
         }
 
@@ -417,7 +550,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldEndWith(substring, comparisonType, null);
+            self.Should.EndWith(substring, comparisonType, null);
+            return self;
         }
 
         /// <summary>
@@ -439,15 +573,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            if (self.Value.EndsWith(substring, comparisonType))
-            {
-                Specify.Fail(
-                    "ShouldNotEndWith",
-                    Messages.NotEndsWithFail(self.Value, substring),
-                    message,
-                    parameters);
-            }
-
+            self.Should.Not.EndWith(substring, comparisonType, message, parameters);
             return self;
         }
 
@@ -468,7 +594,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldNotEndWith(substring, comparisonType, null);
+            self.Should.Not.EndWith(substring, comparisonType, null);
+            return self;
         }
 
         /// <summary>

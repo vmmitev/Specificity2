@@ -14,6 +14,43 @@ namespace Testing.Specificity
     /// </summary>
     public static class PropertyChangedWatcherConstrains
     {
+        public static void HaveSeen(this IConstraint<PropertyChangedWatcher> self, string propertyName)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.HaveSeen(propertyName, null);
+        }
+
+        public static void HaveSeen(this IConstraint<PropertyChangedWatcher> self, string propertyName, string message, params object[] parameters)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (self.Value.Where(e => e.PropertyName == propertyName).FirstOrDefault() == null)
+            {
+                self.FailIfNotNegated(
+                    self.FormatErrorMessage(
+                        "HaveSeen",
+                        null,
+                        message,
+                        parameters));
+            }
+            else
+            {
+                self.FailIfNegated(
+                    self.FormatErrorMessage(
+                        "HaveSeen",
+                        null,
+                        message,
+                        parameters));
+            }
+        }
+
         /// <summary>
         /// Verifies that a specified property change notification was raised.
         /// </summary>
@@ -32,11 +69,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            if (self.Value.Where(e => e.PropertyName == propertyName).FirstOrDefault() == null)
-            {
-                Specify.Fail("ShouldHaveSeen", message, parameters);
-            }
-
+            self.Should.HaveSeen(propertyName, message, parameters);
             return self;
         }
 
@@ -56,7 +89,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldHaveSeen(propertyName, null);
+            self.Should.HaveSeen(propertyName, null);
+            return self;
         }
     }
 }

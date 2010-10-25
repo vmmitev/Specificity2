@@ -7,12 +7,125 @@
 namespace Testing.Specificity
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Provides extension methods for assertions on <see cref="ScenarioBase"/> types.
     /// </summary>
     public static class ScenarioConstraints
     {
+        /// <summary>
+        /// Tests whether or not the <see cref="Action"/> threw an exception.
+        /// </summary>
+        /// <param name="self">The action constraint.</param>
+        public static void HaveThrown<T>(this IConstraint<T> self)
+            where T : ScenarioBase
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.HaveThrown(typeof(Exception), null);
+        }
+
+        /// <summary>
+        /// Tests whether or not the <see cref="Action"/> threw an exception.
+        /// </summary>
+        /// <param name="self">The action constraint.</param>
+        /// <param name="message">The message to display in case of failure.</param>
+        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
+        public static void HaveThrown<T>(this IConstraint<T> self, string message, params object[] parameters)
+            where T : ScenarioBase
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.HaveThrown(typeof(Exception), message, parameters);
+        }
+
+        /// <summary>
+        /// Tests whether or not the <see cref="Action"/> threw an exception of the specified type.
+        /// </summary>
+        /// <param name="self">The action constraint.</param>
+        /// <param name="exceptionType">Type of the exception to test for.</param>
+        public static void HaveThrown<T>(this IConstraint<T> self, Type exceptionType)
+            where T : ScenarioBase
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (exceptionType == null)
+            {
+                throw new ArgumentNullException("exceptionType");
+            }
+
+            self.HaveThrown(exceptionType, null);
+        }
+
+        /// <summary>
+        /// Tests whether or not the <see cref="Action"/> threw an exception of the specified type.
+        /// </summary>
+        /// <param name="self">The action constraint.</param>
+        /// <param name="exceptionType">Type of the exception to test for.</param>
+        /// <param name="message">The message to display in case of failure.</param>
+        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
+        [SuppressMessage("Microsoft.Design",
+            "CA1031:DoNotCatchGeneralExceptionTypes",
+            Justification = "The point is to report exception failures.")]
+        public static void HaveThrown<T>(this IConstraint<T> self, Type exceptionType, string message, params object[] parameters)
+            where T : ScenarioBase
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (exceptionType == null)
+            {
+                throw new ArgumentNullException("exceptionType");
+            }
+
+            if (self.Value.Exception != null)
+            {
+                Type actualType = self.Value.Exception.GetType();
+                Type expectedType = exceptionType;
+                if (!expectedType.IsAssignableFrom(actualType))
+                {
+                    self.FailIfNotNegated(
+                        self.FormatErrorMessage(
+                            "HaveThrown",
+                            Messages.UnexpectedExceptionType(expectedType, actualType),
+                            message,
+                            parameters));
+                    return;
+                }
+                else
+                {
+                    self.FailIfNegated(
+                        self.FormatErrorMessage(
+                            "HaveThrown",
+                            Messages.UnexpectedException(actualType),
+                            message,
+                            parameters));
+                    return;
+                }
+            }
+            else
+            {
+                self.FailIfNotNegated(
+                    self.FormatErrorMessage(
+                        "HaveThrown",
+                        Messages.NoExceptionThrown(exceptionType),
+                        message,
+                        parameters));
+            }
+        }
+
         /// <summary>
         /// Verifies the <see cref="ScenarioBase"/> throws an exception.
         /// </summary>
@@ -31,7 +144,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return ShouldThrow(self, typeof(Exception), message, parameters);
+            self.Should.HaveThrown(typeof(Exception), message, parameters);
+            return self;
         }
 
         /// <summary>
@@ -50,7 +164,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return ShouldThrow(self, typeof(Exception), null);
+            self.Should.HaveThrown(typeof(Exception), null);
+            return self;
         }
 
         /// <summary>
@@ -77,27 +192,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("exceptionType");
             }
 
-            ScenarioBase scenario = self.Value;
-            if (scenario.Exception == null)
-            {
-                Specify.Fail(
-                    "ShouldThrow",
-                    Messages.NoExceptionThrown(exceptionType),
-                    message,
-                    parameters);
-            }
-
-            Type actualType = scenario.Exception.GetType();
-            Type expectedType = exceptionType;
-            if (!expectedType.IsAssignableFrom(actualType))
-            {
-                Specify.Fail(
-                    "ShouldThrow",
-                    Messages.UnexpectedExceptionType(expectedType, actualType),
-                    message,
-                    parameters);
-            }
-
+            self.Should.HaveThrown(exceptionType, message, parameters);
             return self;
         }
 
@@ -118,7 +213,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldThrow(exceptionType, null);
+            self.Should.HaveThrown(exceptionType, null);
+            return self;
         }
 
         /// <summary>
@@ -139,16 +235,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            ScenarioBase scenario = self.Value;
-            if (scenario.Exception != null)
-            {
-                Specify.Fail(
-                    "ShouldNotThrow",
-                    Messages.UnexpectedException(scenario.Exception.GetType()),
-                    message,
-                    parameters);
-            }
-
+            self.Should.Not.HaveThrown(typeof(Exception), message, parameters);
             return self;
         }
 
@@ -168,7 +255,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldNotThrow(null);
+            self.Should.Not.HaveThrown(typeof(Exception), null);
+            return self;
         }
     }
 }

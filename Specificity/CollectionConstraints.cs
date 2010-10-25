@@ -374,6 +374,85 @@ namespace Testing.Specificity
                     parameters));
         }
 
+        public static void Contain<T>(this IConstraint<T> self, object element)
+            where T : IEnumerable
+        {
+            self.Contain(element, null);
+        }
+
+        public static void Contain<T>(this IConstraint<T> self, object element, string message, params object[] parameters)
+            where T : IEnumerable
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            foreach (object item in self.Value)
+            {
+                if (object.Equals(item, element))
+                {
+                    self.FailIfNegated(
+                        self.FormatErrorMessage(
+                            "Contain",
+                            null,
+                            message,
+                            parameters));
+                    return;
+                }
+            }
+
+            self.FailIfNotNegated(
+                self.FormatErrorMessage(
+                    "Contain",
+                    null,
+                    message,
+                    parameters));
+        }
+
+        public static void BeSubsetOf<T>(this IConstraint<T> self, IEnumerable superset)
+            where T : IEnumerable
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.BeSubsetOf(superset, null);
+        }
+
+        public static void BeSubsetOf<T>(
+            this IConstraint<T> self,
+            IEnumerable superset,
+            string message,
+            params object[] parameters)
+            where T : IEnumerable
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (!IsSubsetOf(self.Value, superset))
+            {
+                self.FailIfNotNegated(
+                    self.FormatErrorMessage(
+                        "BeSubsetOf",
+                        null,
+                        message,
+                        parameters));
+            }
+            else
+            {
+                self.FailIfNegated(
+                    self.FormatErrorMessage(
+                        "BeSubsetOf",
+                        null,
+                        message,
+                        parameters));
+            }
+        }
+
         /// <summary>
         /// Verifies that the collection is empty.
         /// </summary>
@@ -910,15 +989,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            foreach (object item in self.Value)
-            {
-                if (object.Equals(item, element))
-                {
-                    return self;
-                }
-            }
-
-            Specify.Fail("ShouldContain", message, parameters);
+            self.Should.Contain(element, message, parameters);
             return self;
         }
 
@@ -944,7 +1015,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldContain(element, null);
+            self.Should.Contain(element, null);
+            return self;
         }
 
         /// <summary>
@@ -973,20 +1045,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            int index = 0;
-            foreach (object item in self.Value)
-            {
-                if (object.Equals(item, element))
-                {
-                    Specify.Fail(
-                        "ShouldNotContain",
-                        message,
-                        parameters);
-                }
-
-                ++index;
-            }
-
+            self.Should.Not.Contain(element, message, parameters);
             return self;
         }
 
@@ -1012,11 +1071,12 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldNotContain(element, null);
+            self.Should.Not.Contain(element, null);
+            return self;
         }
 
         /// <summary>
-        /// Verifies the collection is a subset of the specired collection.
+        /// Verifies the collection is a subset of the specified collection.
         /// </summary>
         /// <typeparam name="T">The collection type.</typeparam>
         /// <param name="self">The specification value.</param>
@@ -1041,16 +1101,12 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            if (!IsSubsetOf(self.Value, superset))
-            {
-                Specify.Fail("ShouldBeSubsetOf", message, parameters);
-            }
-
+            self.Should.BeSubsetOf(superset, message, parameters);
             return self;
         }
 
         /// <summary>
-        /// Verifies the collection is a subset of the specired collection.
+        /// Verifies the collection is a subset of the specified collection.
         /// </summary>
         /// <typeparam name="T">The collection type.</typeparam>
         /// <param name="self">The specification value.</param>
@@ -1071,11 +1127,12 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldBeSubsetOf(superset, null);
+            self.Should.BeSubsetOf(superset, null);
+            return self;
         }
 
         /// <summary>
-        /// Verifies the collection is not a subset of the specired collection.
+        /// Verifies the collection is not a subset of the specified collection.
         /// </summary>
         /// <typeparam name="T">The collection type.</typeparam>
         /// <param name="self">The specification value.</param>
@@ -1100,16 +1157,12 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            if (IsSubsetOf(self.Value, superset))
-            {
-                Specify.Fail("ShouldNotBeSubsetOf", message, parameters);
-            }
-
+            self.Should.Not.BeSubsetOf(superset, message, parameters);
             return self;
         }
 
         /// <summary>
-        /// Verifies the collection is not a subset of the specired collection.
+        /// Verifies the collection is not a subset of the specified collection.
         /// </summary>
         /// <typeparam name="T">The collection type.</typeparam>
         /// <param name="self">The specification value.</param>
@@ -1130,7 +1183,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldNotBeSubsetOf(superset, null);
+            self.Should.Not.BeSubsetOf(superset, null);
+            return self;
         }
 
         /// <summary>
@@ -1245,7 +1299,7 @@ namespace Testing.Specificity
         /// <returns>
         /// A dictionary mapping the element to the number of times it was found in the collection.
         /// </returns>
-        private static Dictionary<object, int> GetElementCounts(ICollection collection, out int nullCount)
+        private static Dictionary<object, int> GetElementCounts(IEnumerable collection, out int nullCount)
         {
             Dictionary<object, int> dictionary = new Dictionary<object, int>();
             nullCount = 0;
@@ -1275,7 +1329,7 @@ namespace Testing.Specificity
         /// <see langword="true"/> if <paramref name="subset"/> is a subset of <paramref name="superset"/>; otherwise,
         /// <see langword="false"/>.
         /// </returns>
-        private static bool IsSubsetOf(ICollection subset, ICollection superset)
+        private static bool IsSubsetOf(IEnumerable subset, IEnumerable superset)
         {
             int subsetNullCount;
             int supersetNullCount;

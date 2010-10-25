@@ -13,6 +13,80 @@ namespace Testing.Specificity
     /// </summary>
     public static class NumericConstraints
     {
+        public static void BeEqualTo(this IConstraint<double> self, double expected, double delta)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.BeEqualTo(expected, delta, null);
+        }
+
+        public static void BeEqualTo(this IConstraint<double> self, double expected, double delta, string message, params object[] parameters)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (Math.Abs((double)(expected - self.Value)) > delta)
+            {
+                self.FailIfNotNegated(
+                    self.FormatErrorMessage(
+                    "BeEqualTo",
+                    Messages.DifferenceMoreThanDelta(delta, expected, self.Value),
+                    message,
+                    parameters));
+            }
+            else
+            {
+                self.FailIfNegated(
+                    self.FormatErrorMessage(
+                    "BeEqualTo",
+                    Messages.DifferenceLessThanDelta(delta, expected, self.Value),
+                    message,
+                    parameters));
+            }
+        }
+
+        public static void BeEqualTo(this IConstraint<float> self, float expected, float delta)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.BeEqualTo(expected, delta, null);
+        }
+
+        public static void BeEqualTo(this IConstraint<float> self, float expected, float delta, string message, params object[] parameters)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (Math.Abs((float)(expected - self.Value)) > delta)
+            {
+                self.FailIfNotNegated(
+                    self.FormatErrorMessage(
+                    "BeEqualTo",
+                    Messages.DifferenceMoreThanDelta(delta, expected, self.Value),
+                    message,
+                    parameters));
+            }
+            else
+            {
+                self.FailIfNegated(
+                    self.FormatErrorMessage(
+                    "BeEqualTo",
+                    Messages.DifferenceLessThanDelta(delta, expected, self.Value),
+                    message,
+                    parameters));
+            }
+        }
+
         /// <summary>
         /// Verifies the specification value value is equal to an expected value.
         /// </summary>
@@ -32,15 +106,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            if (Math.Abs((double)(expected - self.Value)) > delta)
-            {
-                Specify.Fail(
-                    "ShouldBeEqualTo",
-                    Messages.DifferenceMoreThanDelta(delta, expected, self.Value),
-                    message,
-                    parameters);
-            }
-
+            self.Should.BeEqualTo(expected, delta, message, parameters);
             return self;
         }
 
@@ -61,7 +127,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldBeEqualTo(expected, delta, null);
+            self.Should.BeEqualTo(expected, delta, null);
+            return self;
         }
 
         /// <summary>
@@ -83,15 +150,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            if (Math.Abs((double)(expected - self.Value)) > delta)
-            {
-                Specify.Fail(
-                    "ShouldBeEqualTo",
-                    Messages.DifferenceMoreThanDelta(delta, expected, self.Value),
-                    message,
-                    parameters);
-            }
-
+            self.Should.BeEqualTo(expected, delta, message, parameters);
             return self;
         }
 
@@ -112,7 +171,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldBeEqualTo(expected, delta, null);
+            self.Should.BeEqualTo(expected, delta, null);
+            return self;
         }
 
         /// <summary>
@@ -134,15 +194,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            if (Math.Abs((double)(expected - self.Value)) <= delta)
-            {
-                Specify.Fail(
-                    "ShouldNotBeEqualTo",
-                    Messages.DifferenceLessThanDelta(delta, expected, self.Value),
-                    message,
-                    parameters);
-            }
-
+            self.Should.Not.BeEqualTo(expected, delta, message, parameters);
             return self;
         }
 
@@ -163,7 +215,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldNotBeEqualTo(expected, delta, null);
+            self.Should.Not.BeEqualTo(expected, delta, null);
+            return self;
         }
 
         /// <summary>
@@ -185,15 +238,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            if (Math.Abs((double)(expected - self.Value)) <= delta)
-            {
-                Specify.Fail(
-                    "ShouldNotBeEqualTo",
-                    Messages.DifferenceLessThanDelta(delta, expected, self.Value),
-                    message,
-                    parameters);
-            }
-
+            self.Should.Not.BeEqualTo(expected, delta, message, parameters);
             return self;
         }
 
@@ -214,7 +259,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldNotBeEqualTo(expected, delta, null);
+            self.Should.Not.BeEqualTo(expected, delta, null);
+            return self;
         }
     }
 }

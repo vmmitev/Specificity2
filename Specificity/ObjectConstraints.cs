@@ -15,21 +15,18 @@ namespace Testing.Specificity
     /// </summary>
     public static class ObjectConstraints
     {
-        /// <summary>
-        /// Verifies the object reference is <see langword="null"/>.
-        /// </summary>
-        /// <typeparam name="T">The specification value type.</typeparam>
-        /// <param name="self">The specification value.</param>
-        /// <param name="message">The message to use in failure exceptions.</param>
-        /// <param name="parameters">The parameters used when formatting <paramref name="message"/>.</param>
-        /// <returns>
-        /// The <see cref="ConstrainedValue{T}"/> specification value.
-        /// </returns>
-        /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
-        public static ConstrainedValue<T> ShouldBeNull<T>(
-            this ConstrainedValue<T> self,
-            string message,
-            params object[] parameters)
+        public static void BeNull<T>(this IConstraint<T> self)
+            where T : class
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.BeNull(null);
+        }
+
+        public static void BeNull<T>(this IConstraint<T> self, string message, params object[] parameters)
             where T : class
         {
             if (self == null)
@@ -39,9 +36,207 @@ namespace Testing.Specificity
 
             if (self.Value != null)
             {
-                Specify.Fail("ShouldBeNull", message, parameters);
+                self.FailIfNotNegated(
+                    self.FormatErrorMessage(
+                    "BeNull",
+                    null,
+                    message,
+                    parameters));
+            }
+            else
+            {
+                self.FailIfNegated(
+                    self.FormatErrorMessage(
+                    "BeNull",
+                    null,
+                    message,
+                    parameters));
+            }
+        }
+
+        public static void BeEqualTo<TExpected, TActual>(this IConstraint<TActual> self, TExpected expected)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
             }
 
+            self.BeEqualTo(expected, null);
+        }
+
+        public static void BeEqualTo<TExpected, TActual>(this IConstraint<TActual> self, TExpected expected, string message, params object[] parameters)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (!object.Equals(expected, self.Value))
+            {
+                self.FailIfNotNegated(
+                    self.FormatErrorMessage(
+                    "BeEqualTo",
+                    Messages.NotEqual(expected, self.Value),
+                    message,
+                    parameters));
+            }
+            else
+            {
+                self.FailIfNegated(
+                    self.FormatErrorMessage(
+                    "BeEqualTo",
+                    Messages.Equal(expected, self.Value),
+                    message,
+                    parameters));
+            }
+        }
+
+        public static void BeSameAs<T>(this IConstraint<T> self, T expected)
+            where T : class
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.BeSameAs(expected, null);
+        }
+
+        public static void BeSameAs<T>(this IConstraint<T> self, T expected, string message, params object[] parameters)
+            where T : class
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (!object.ReferenceEquals(expected, self.Value))
+            {
+                self.FailIfNotNegated(
+                    self.FormatErrorMessage(
+                    "BeSameAs",
+                    null,
+                    message,
+                    parameters));
+            }
+            else
+            {
+                self.FailIfNegated(
+                    self.FormatErrorMessage(
+                    "BeSameAs",
+                    null,
+                    message,
+                    parameters));
+            }
+        }
+
+        public static void BeInstanceOfType<T>(this IConstraint<T> self, Type expectedType)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (expectedType == null)
+            {
+                throw new ArgumentNullException("expectedType");
+            }
+
+            self.BeInstanceOfType(expectedType, null);
+        }
+
+        public static void BeInstanceOfType<T>(this IConstraint<T> self, Type expectedType, string message, params object[] parameters)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (expectedType == null)
+            {
+                throw new ArgumentNullException("expectedType");
+            }
+
+            if (!expectedType.IsInstanceOfType(self.Value))
+            {
+                self.FailIfNotNegated(
+                    self.FormatErrorMessage(
+                    "BeInstanceOfType",
+                    Messages.NotEqualTypes(expectedType, self.Value.GetType()),
+                    message,
+                    parameters));
+            }
+            else
+            {
+                self.FailIfNegated(
+                    self.FormatErrorMessage(
+                    "BeInstanceOfType",
+                    Messages.EqualTypes(expectedType, self.Value.GetType()),
+                    message,
+                    parameters));
+            }
+        }
+
+        public static void BeLogicallyEqualTo<T>(this IConstraint<T> self, T expected)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.BeLogicallyEqualTo(expected, null);
+        }
+
+        public static void BeLogicallyEqualTo<T>(this IConstraint<T> self, T expected, string message, params object[] parameters)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (!IsLogicallyEqual(self.Value, expected))
+            {
+                self.FailIfNotNegated(
+                    self.FormatErrorMessage(
+                    "BeLogicallyEqualTo",
+                    Messages.NotEqual(expected, self.Value),
+                    message,
+                    parameters));
+            }
+            else
+            {
+                self.FailIfNegated(
+                    self.FormatErrorMessage(
+                    "BeLogicallyEqualTo",
+                    Messages.Equal(expected, self.Value),
+                    message,
+                    parameters));
+            }
+        }
+
+        /// <summary>
+        /// Verifies the object reference is <see langword="null"/>.
+        /// </summary>
+        /// <typeparam name="T">The specification value type.</typeparam>
+        /// <param name="self">The specification value.</param>
+        /// <param name="message">The message to use in failure exceptions.</param>
+        /// <param name="parameters">The parameters used when formatting <paramref name="message"/>.</param>
+        /// <returns>
+        /// The <see cref="ConstrainedValue{T}"/> specification value.
+        /// </returns>
+        /// <exception cref="ConstraintFailedException">The assertion failed.</exception>
+        public static ConstrainedValue<T> ShouldBeNull<T>(
+            this ConstrainedValue<T> self,
+            string message,
+            params object[] parameters)
+            where T : class
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.Should.BeNull(message, parameters);
             return self;
         }
 
@@ -63,7 +258,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldBeNull(null);
+            self.Should.BeNull(null);
+            return self;
         }
 
         /// <summary>
@@ -88,11 +284,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            if (self.Value == null)
-            {
-                Specify.Fail("ShouldNotBeNull", message, parameters);
-            }
-
+            self.Should.Not.BeNull(message, parameters);
             return self;
         }
 
@@ -114,7 +306,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldNotBeNull(null);
+            self.Should.Not.BeNull(null);
+            return self;
         }
 
         /// <summary>
@@ -141,15 +334,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            if (!object.Equals(expected, self.Value))
-            {
-                Specify.Fail(
-                    "ShouldBeEqualTo",
-                    Messages.NotEqual(expected, self.Value),
-                    message,
-                    parameters);
-            }
-
+            self.Should.BeEqualTo(expected, message, parameters);
             return self;
         }
 
@@ -173,7 +358,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldBeEqualTo(expected, null);
+            self.Should.BeEqualTo(expected, null);
+            return self;
         }
 
         /// <summary>
@@ -200,15 +386,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            if (object.Equals(expected, self.Value))
-            {
-                Specify.Fail(
-                    "ShouldNotBeEqualTo",
-                    Messages.Equal(expected, self.Value),
-                    message,
-                    parameters);
-            }
-
+            self.Should.Not.BeEqualTo(expected, message, parameters);
             return self;
         }
 
@@ -232,7 +410,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldNotBeEqualTo(expected, null);
+            self.Should.Not.BeEqualTo(expected, null);
+            return self;
         }
 
         /// <summary>
@@ -258,20 +437,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            if (!object.ReferenceEquals(expected, self.Value))
-            {
-                if ((expected is ValueType) || (self.Value is ValueType))
-                {
-                    Specify.Fail(
-                        "ShouldBeSameAs",
-                        Messages.GivenValueTypes,
-                        message,
-                        parameters);
-                }
-
-                Specify.Fail("ShouldBeSameAs", message, parameters);
-            }
-
+            self.Should.BeSameAs(expected);
             return self;
         }
 
@@ -295,7 +461,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldBeSameAs(expected, null);
+            self.Should.BeSameAs(expected, null);
+            return self;
         }
 
         /// <summary>
@@ -322,11 +489,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            if (object.ReferenceEquals(expected, self.Value))
-            {
-                Specify.Fail("ShouldNotBeSameAs", message, parameters);
-            }
-
+            self.Should.Not.BeSameAs(expected, message, parameters);
             return self;
         }
 
@@ -350,7 +513,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldNotBeSameAs(expected, null);
+            self.Should.Not.BeSameAs(expected, null);
+            return self;
         }
 
         /// <summary>
@@ -381,15 +545,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("expectedType");
             }
 
-            if (!expectedType.IsInstanceOfType(self.Value))
-            {
-                Specify.Fail(
-                    "ShouldBeInstanceOfType",
-                    Messages.NotEqualTypes(expectedType, self.Value.GetType()),
-                    message,
-                    parameters);
-            }
-
+            self.Should.BeInstanceOfType(expectedType, message, parameters);
             return self;
         }
 
@@ -412,7 +568,13 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldBeInstanceOfType(expectedType, null);
+            if (expectedType == null)
+            {
+                throw new ArgumentNullException("expectedType");
+            }
+
+            self.Should.BeInstanceOfType(expectedType, null);
+            return self;
         }
 
         /// <summary>
@@ -443,15 +605,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("wrongType");
             }
 
-            if (wrongType.IsInstanceOfType(self.Value))
-            {
-                Specify.Fail(
-                    "ShouldNotBeInstanceOfType",
-                    Messages.EqualTypes(wrongType, self.Value.GetType()),
-                    message,
-                    parameters);
-            }
-
+            self.Should.Not.BeInstanceOfType(wrongType, message, parameters);
             return self;
         }
 
@@ -474,7 +628,13 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldNotBeInstanceOfType(wrongType, null);
+            if (wrongType == null)
+            {
+                throw new ArgumentNullException("wrongType");
+            }
+
+            self.Should.Not.BeInstanceOfType(wrongType, null);
+            return self;
         }
 
         /// <summary>
@@ -501,15 +661,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            if (!IsLogicallyEqual(self.Value, expected))
-            {
-                Specify.Fail(
-                    "ShouldBeLogicallyEqual",
-                    Messages.NotEqual(expected, self.Value),
-                    message,
-                    parameters);
-            }
-
+            self.Should.BeLogicallyEqualTo(expected, message, parameters);
             return self;
         }
 
@@ -533,7 +685,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldBeLogicallyEqualTo(expected, null);
+            self.Should.BeLogicallyEqualTo(expected, null);
+            return self;
         }
 
         /// <summary>
@@ -560,15 +713,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            if (IsLogicallyEqual(self.Value, expected))
-            {
-                Specify.Fail(
-                    "ShouldNotBeLogicallyEqual",
-                    Messages.Equal(expected, self.Value),
-                    message,
-                    parameters);
-            }
-
+            self.Should.Not.BeLogicallyEqualTo(expected, message, parameters);
             return self;
         }
 
@@ -592,7 +737,8 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            return self.ShouldNotBeEqualTo(expected, null);
+            self.Should.Not.BeLogicallyEqualTo(expected, null);
+            return self;
         }
 
         /// <summary>
