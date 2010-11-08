@@ -72,12 +72,6 @@ namespace Testing.Specificity
             }
         }
 
-        /// <summary>
-        /// Verifies whether the collection has only items of the specified type or not.
-        /// </summary>
-        /// <typeparam name="T">The collection type.</typeparam>
-        /// <param name="self">The constrained collection.</param>
-        /// <param name="expectedType">The type expected for all items.</param>
         public static void HaveOnlyItemsOfType<T>(this IConstraint<T> self, Type expectedType)
             where T : IEnumerable
         {

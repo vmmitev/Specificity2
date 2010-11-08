@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{55528C08-53F1-4237-A177-2A397C6CEF71}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Specificity.Silverlight</RootNamespace>
+    <AssemblyName>Specificity.Silverlight</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+  </PropertyGroup>
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>Bin\Debug\Specificity.Silverlight.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>Bin\Release\Specificity.Silverlight.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Windows.Browser" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity\ActionConstraints.cs">
+      <Link>ActionConstraints.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity\BooleanConstraints.cs">
+      <Link>BooleanConstraints.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity\CollectionConstraints.cs">
+      <Link>CollectionConstraints.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity\ConstrainedValue.cs">
+      <Link>ConstrainedValue.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity\Constraint.cs">
+      <Link>Constraint.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity\ConstraintExtensions.cs">
+      <Link>ConstraintExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity\ConstraintFailedException.cs">
+      <Link>ConstraintFailedException.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity\ConstraintResult.cs">
+      <Link>ConstraintResult.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity\ConstraintResultType.cs">
+      <Link>ConstraintResultType.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity\EventWatcher.cs">
+      <Link>EventWatcher.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity\GlobalSuppressions.cs">
+      <Link>GlobalSuppressions.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity\IConstraint.cs">
+      <Link>IConstraint.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity\Messages.cs">
+      <Link>Messages.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity\NegativeConstraint.cs">
+      <Link>NegativeConstraint.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity\NumericConstraints.cs">
+      <Link>NumericConstraints.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity\ObjectConstraints.cs">
+      <Link>ObjectConstraints.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity\Properties\Resources.Designer.cs">
+      <Link>Properties\Resources.Designer.cs</Link>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="..\Specificity\PropertyChangedWatcher.cs">
+      <Link>PropertyChangedWatcher.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity\StringConstraints.cs">
+      <Link>StringConstraints.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Specificity\Properties\Resources.resx">
+      <Link>Properties\Resources.resx</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="49c776e8-dc34-41ce-accc-3f087d274f8f" />
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
