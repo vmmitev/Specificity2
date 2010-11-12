@@ -58,6 +58,7 @@
     <Compile Include="ConstraintResult.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IConstraint.cs" />
+    <Compile Include="ItemOrder.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="NegativeConstraint.cs" />
     <Compile Include="NumericConstraints.cs" />

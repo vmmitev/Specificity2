@@ -79,7 +79,7 @@ namespace Testing.Specificity
         /// <param name="expected">The expected value.</param>
         /// <exception cref="ConstraintFailedException">The constraint failed. The exact type of exception thrown will
         /// depend on the unit test framework, if any, in use.</exception>
-        public static void BeEqualTo<TExpected, TActual>(this IConstraint<TActual> self, TExpected expected)
+        public static void BeEqualTo<TExpected, TActual>(this IConstraint<TExpected> self, TActual expected)
         {
             if (self == null)
             {
@@ -100,7 +100,7 @@ namespace Testing.Specificity
         /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
         /// <exception cref="ConstraintFailedException">The constraint failed. The exact type of exception thrown will
         /// depend on the unit test framework, if any, in use.</exception>
-        public static void BeEqualTo<TExpected, TActual>(this IConstraint<TActual> self, TExpected expected, string message, params object[] parameters)
+        public static void BeEqualTo<TExpected, TActual>(this IConstraint<TExpected> self, TActual expected, string message, params object[] parameters)
         {
             if (self == null)
             {

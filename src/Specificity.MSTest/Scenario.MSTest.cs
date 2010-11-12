@@ -22,7 +22,7 @@ namespace Testing.Specificity
         /// </remarks>
         [TestInitialize]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void InitializeSpecificationBase()
+        public void InitializeScenario()
         {
             this.BeforeEachObservation();
         }
@@ -35,7 +35,7 @@ namespace Testing.Specificity
         /// </remarks>
         [TestCleanup]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void CleanupSpecificationBase()
+        public void CleanupScenario()
         {
             this.AfterEachObservation();
         }

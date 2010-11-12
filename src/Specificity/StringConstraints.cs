@@ -30,7 +30,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            self.BeEqualTo(expected, comparisonType);
+            self.BeEqualTo(expected, comparisonType, null);
         }
 
         /// <summary>
@@ -83,6 +83,8 @@ namespace Testing.Specificity
             {
                 throw new ArgumentNullException("self");
             }
+
+            self.BeNullOrEmpty(null);
         }
 
         /// <summary>
@@ -125,6 +127,42 @@ namespace Testing.Specificity
         /// </summary>
         /// <param name="self">The constrained value.</param>
         /// <param name="substring">The substring to verify is contained by the constrained value.</param>
+        /// <exception cref="ConstraintFailedException">The constraint failed. The exact type of exception thrown will
+        /// depend on the unit test framework, if any, in use.</exception>
+        public static void Contain(this IConstraint<string> self, string substring)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.Contain(substring, StringComparison.Ordinal, null);
+        }
+
+        /// <summary>
+        /// Verifies the constrained <see cref="String"/> contains the specified substring.
+        /// </summary>
+        /// <param name="self">The constrained value.</param>
+        /// <param name="substring">The substring to verify is contained by the constrained value.</param>
+        /// <param name="message">The message to display in case of failure.</param>
+        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
+        /// <exception cref="ConstraintFailedException">The constraint failed. The exact type of exception thrown will
+        /// depend on the unit test framework, if any, in use.</exception>
+        public static void Contain(this IConstraint<string> self, string substring, string message, params object[] parameters)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.Contain(substring, StringComparison.Ordinal, message, parameters);
+        }
+
+        /// <summary>
+        /// Verifies the constrained <see cref="String"/> contains the specified substring.
+        /// </summary>
+        /// <param name="self">The constrained value.</param>
+        /// <param name="substring">The substring to verify is contained by the constrained value.</param>
         /// <param name="comparisonType">The <see cref="StringComparison"/> to use to compare the values.</param>
         /// <exception cref="ConstraintFailedException">The constraint failed. The exact type of exception thrown will
         /// depend on the unit test framework, if any, in use.</exception>
@@ -135,7 +173,7 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            self.Contain(substring, comparisonType);
+            self.Contain(substring, comparisonType, null);
         }
 
         /// <summary>
@@ -173,6 +211,52 @@ namespace Testing.Specificity
                         message,
                         parameters));
             }
+        }
+
+        /// <summary>
+        /// Verifies the constrained <see cref="String"/> matches the specified regular expression pattern.
+        /// </summary>
+        /// <param name="self">The constrained value.</param>
+        /// <param name="pattern">The regular expression pattern to match.</param>
+        /// <exception cref="ConstraintFailedException">The constraint failed. The exact type of exception thrown will
+        /// depend on the unit test framework, if any, in use.</exception>
+        public static void Match(this IConstraint<string> self, string pattern)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (string.IsNullOrEmpty(pattern))
+            {
+                throw new ArgumentNullException("pattern");
+            }
+
+            self.Match(new Regex(pattern), null);
+        }
+
+        /// <summary>
+        /// Verifies the constrained <see cref="String"/> matches the specified regular expression pattern.
+        /// </summary>
+        /// <param name="self">The constrained value.</param>
+        /// <param name="pattern">The regular expression pattern to match.</param>
+        /// <param name="message">The message to display in case of failure.</param>
+        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
+        /// <exception cref="ConstraintFailedException">The constraint failed. The exact type of exception thrown will
+        /// depend on the unit test framework, if any, in use.</exception>
+        public static void Match(this IConstraint<string> self, string pattern, string message, params object[] parameters)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (string.IsNullOrEmpty(pattern))
+            {
+                throw new ArgumentNullException("pattern");
+            }
+
+            self.Match(new Regex(pattern), message, parameters);
         }
 
         /// <summary>
@@ -243,6 +327,52 @@ namespace Testing.Specificity
         /// </summary>
         /// <param name="self">The constrained value.</param>
         /// <param name="substring">The substring to search for at the end of the constrained value.</param>
+        /// <exception cref="ConstraintFailedException">The constraint failed. The exact type of exception thrown will
+        /// depend on the unit test framework, if any, in use.</exception>
+        public static void EndWith(this IConstraint<string> self, string substring)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (string.IsNullOrEmpty(substring))
+            {
+                throw new ArgumentNullException("substring");
+            }
+
+            self.EndWith(substring, StringComparison.Ordinal, null);
+        }
+
+        /// <summary>
+        /// Verifies the constrained <see cref="String"/> ends with the specified substring.
+        /// </summary>
+        /// <param name="self">The constrained value.</param>
+        /// <param name="substring">The substring to search for at the end of the constrained value.</param>
+        /// <param name="message">The message to display in case of failure.</param>
+        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
+        /// <exception cref="ConstraintFailedException">The constraint failed. The exact type of exception thrown will
+        /// depend on the unit test framework, if any, in use.</exception>
+        public static void EndWith(this IConstraint<string> self, string substring, string message, params object[] parameters)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (string.IsNullOrEmpty(substring))
+            {
+                throw new ArgumentNullException("substring");
+            }
+
+            self.EndWith(substring, StringComparison.Ordinal, message, parameters);
+        }
+
+        /// <summary>
+        /// Verifies the constrained <see cref="String"/> ends with the specified substring.
+        /// </summary>
+        /// <param name="self">The constrained value.</param>
+        /// <param name="substring">The substring to search for at the end of the constrained value.</param>
         /// <param name="comparisonType">The <see cref="StringComparison"/> to use to compare the values.</param>
         /// <exception cref="ConstraintFailedException">The constraint failed. The exact type of exception thrown will
         /// depend on the unit test framework, if any, in use.</exception>
@@ -251,6 +381,11 @@ namespace Testing.Specificity
             if (self == null)
             {
                 throw new ArgumentNullException("self");
+            }
+
+            if (string.IsNullOrEmpty(substring))
+            {
+                throw new ArgumentNullException("substring");
             }
 
             self.EndWith(substring, comparisonType, null);
@@ -271,6 +406,11 @@ namespace Testing.Specificity
             if (self == null)
             {
                 throw new ArgumentNullException("self");
+            }
+
+            if (string.IsNullOrEmpty(substring))
+            {
+                throw new ArgumentNullException("substring");
             }
 
             if (!self.Value.EndsWith(substring, comparisonType))
@@ -298,6 +438,52 @@ namespace Testing.Specificity
         /// </summary>
         /// <param name="self">The constrained value.</param>
         /// <param name="substring">The substring to search for at the start of the constrained value.</param>
+        /// <exception cref="ConstraintFailedException">The constraint failed. The exact type of exception thrown will
+        /// depend on the unit test framework, if any, in use.</exception>
+        public static void StartWith(this IConstraint<string> self, string substring)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (string.IsNullOrEmpty(substring))
+            {
+                throw new ArgumentNullException("substring");
+            }
+
+            self.StartWith(substring, StringComparison.Ordinal, null);
+        }
+
+        /// <summary>
+        /// Verifies the constrained <see cref="String"/> starts with the specified substring.
+        /// </summary>
+        /// <param name="self">The constrained value.</param>
+        /// <param name="substring">The substring to search for at the start of the constrained value.</param>
+        /// <param name="message">The message to display in case of failure.</param>
+        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
+        /// <exception cref="ConstraintFailedException">The constraint failed. The exact type of exception thrown will
+        /// depend on the unit test framework, if any, in use.</exception>
+        public static void StartWith(this IConstraint<string> self, string substring, string message, params object[] parameters)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (string.IsNullOrEmpty(substring))
+            {
+                throw new ArgumentNullException("substring");
+            }
+
+            self.StartWith(substring, StringComparison.Ordinal, message, parameters);
+        }
+
+        /// <summary>
+        /// Verifies the constrained <see cref="String"/> starts with the specified substring.
+        /// </summary>
+        /// <param name="self">The constrained value.</param>
+        /// <param name="substring">The substring to search for at the start of the constrained value.</param>
         /// <param name="comparisonType">The <see cref="StringComparison"/> to use to compare the values.</param>
         /// <exception cref="ConstraintFailedException">The constraint failed. The exact type of exception thrown will
         /// depend on the unit test framework, if any, in use.</exception>
@@ -306,6 +492,11 @@ namespace Testing.Specificity
             if (self == null)
             {
                 throw new ArgumentNullException("self");
+            }
+
+            if (string.IsNullOrEmpty(substring))
+            {
+                throw new ArgumentNullException("substring");
             }
 
             self.StartWith(substring, comparisonType, null);
@@ -326,6 +517,11 @@ namespace Testing.Specificity
             if (self == null)
             {
                 throw new ArgumentNullException("self");
+            }
+
+            if (string.IsNullOrEmpty(substring))
+            {
+                throw new ArgumentNullException("substring");
             }
 
             if (!self.Value.StartsWith(substring, comparisonType))

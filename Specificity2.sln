@@ -5,7 +5,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Specificity", "src\Specific
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F713EC16-31A1-47AA-B2FB-41E879EC6D0A}"
 	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
 		src\SolutionInfo.cs = src\SolutionInfo.cs
+		Specificity2.vsmdi = Specificity2.vsmdi
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Specificity.Silverlight", "src\Specificity.Silverlight\Specificity.Silverlight.csproj", "{55528C08-53F1-4237-A177-2A397C6CEF71}"
@@ -18,7 +21,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Specificity.XUnit", "src\Sp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Specificity.NUnit", "src\Specificity.NUnit\Specificity.NUnit.csproj", "{AB6462AA-7DFB-4756-908E-5044D20F1B76}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Specificity", "src\tests\Test.Specificity\Test.Specificity.csproj", "{0D30735D-523C-4358-8100-53819D2C6F22}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F6F85D33-AB70-409E-881E-A578C73A8C5E}"
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Specificity2.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -48,8 +58,15 @@ Global
 		{AB6462AA-7DFB-4756-908E-5044D20F1B76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB6462AA-7DFB-4756-908E-5044D20F1B76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB6462AA-7DFB-4756-908E-5044D20F1B76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D30735D-523C-4358-8100-53819D2C6F22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D30735D-523C-4358-8100-53819D2C6F22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D30735D-523C-4358-8100-53819D2C6F22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D30735D-523C-4358-8100-53819D2C6F22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0D30735D-523C-4358-8100-53819D2C6F22} = {F6F85D33-AB70-409E-881E-A578C73A8C5E}
 	EndGlobalSection
 EndGlobal

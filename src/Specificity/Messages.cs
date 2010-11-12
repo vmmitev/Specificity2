@@ -40,7 +40,7 @@ namespace Testing.Specificity
         /// <value>A message string indicating the collections contain the same elements.</value>
         public static string ContainsSameElements
         {
-            get { return GetMessage(ContainsSameElements); }
+            get { return GetMessage("ContainsSameElements"); }
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Testing.Specificity
         /// <returns>A message string indicating the constraint failed.</returns>
         public static string ConstraintFailed(string constraint)
         {
-            return Format("CosntraintFailed", constraint);
+            return Format("ConstraintFailed", constraint);
         }
 
         /// <summary>
@@ -325,7 +325,8 @@ namespace Testing.Specificity
         /// <returns>The formatted string.</returns>
         private static string Format(string name, params object[] parameters)
         {
-            return string.Format(CultureInfo.CurrentCulture, GetMessage(name), parameters);
+            string format = GetMessage(name);
+            return string.Format(CultureInfo.CurrentCulture, format, parameters);
         }
     }
 }

@@ -244,6 +244,7 @@ namespace Testing.Specificity
                                 Messages.DuplicateElement(Messages.NullValue),
                                 message,
                                 parameters));
+                        return;
                     }
                 }
                 else if (hashtable.ContainsKey(item))
@@ -254,6 +255,7 @@ namespace Testing.Specificity
                             Messages.DuplicateElement(item),
                             message,
                             parameters));
+                    return;
                 }
                 else
                 {
@@ -279,107 +281,6 @@ namespace Testing.Specificity
         /// <param name="expected">The expected collection.</param>
         /// <exception cref="ConstraintFailedException">The constraint failed. The exact type of exception thrown will
         /// depend on the unit test framework, if any, in use.</exception>
-        public static void BeEqualTo<T>(this IConstraint<T> self, IEnumerable expected)
-            where T : IEnumerable
-        {
-            if (self == null)
-            {
-                throw new ArgumentNullException("self");
-            }
-
-            self.BeEqualTo(expected, Comparer<object>.Default, null);
-        }
-
-        /// <summary>
-        /// Verifies the constrained collection is equal to the specified collection.
-        /// </summary>
-        /// <typeparam name="T">The type of the constrained collection.</typeparam>
-        /// <param name="self">The constrained collection.</param>
-        /// <param name="expected">The expected collection.</param>
-        /// <param name="message">The message to display in case of failure.</param>
-        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
-        /// <exception cref="ConstraintFailedException">The constraint failed. The exact type of exception thrown will
-        /// depend on the unit test framework, if any, in use.</exception>
-        public static void BeEqualTo<T>(this IConstraint<T> self, IEnumerable expected, string message, params object[] parameters)
-            where T : IEnumerable
-        {
-            if (self == null)
-            {
-                throw new ArgumentNullException("self");
-            }
-
-            self.BeEqualTo(expected, Comparer<object>.Default, message, parameters);
-        }
-
-        /// <summary>
-        /// Verifies the constrained collection is equal to the specified collection.
-        /// </summary>
-        /// <typeparam name="T">The type of the constrained collection.</typeparam>
-        /// <param name="self">The constrained collection.</param>
-        /// <param name="expected">The expected collection.</param>
-        /// <param name="comparer">The comparer used to compare the items.</param>
-        /// <exception cref="ConstraintFailedException">The constraint failed. The exact type of exception thrown will
-        /// depend on the unit test framework, if any, in use.</exception>
-        public static void BeEqualTo<T>(this IConstraint<T> self, IEnumerable expected, IComparer comparer)
-            where T : IEnumerable
-        {
-            if (self == null)
-            {
-                throw new ArgumentNullException("self");
-            }
-
-            self.BeEqualTo(expected, comparer, null);
-        }
-
-        /// <summary>
-        /// Verifies the constrained collection is equal to the specified collection.
-        /// </summary>
-        /// <typeparam name="T">The type of the constrained collection.</typeparam>
-        /// <param name="self">The constrained collection.</param>
-        /// <param name="expected">The expected collection.</param>
-        /// <param name="comparer">The comparer used to compare the items.</param>
-        /// <param name="message">The message to display in case of failure.</param>
-        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
-        /// <exception cref="ConstraintFailedException">The constraint failed. The exact type of exception thrown will
-        /// depend on the unit test framework, if any, in use.</exception>
-        public static void BeEqualTo<T>(this IConstraint<T> self, IEnumerable expected, IComparer comparer, string message, params object[] parameters)
-            where T : IEnumerable
-        {
-            if (self == null)
-            {
-                throw new ArgumentNullException("self");
-            }
-
-            string reason;
-            if (!AreCollectionsEqual(expected, self.Value, comparer, out reason))
-            {
-                self.FailIfNotNegated(
-                    self.FormatErrorMessage(
-                        "BeEqualTo",
-                        reason,
-                        message,
-                        parameters));
-            }
-            else
-            {
-                self.FailIfNegated(
-                    self.FormatErrorMessage(
-                        "BeEqualTo",
-                        reason,
-                        message,
-                        parameters));
-            }
-        }
-
-        /// <summary>
-        /// Verifies the constrained collection is equivalent (contains the same values, though possibly in a different
-        /// order) to the specified collection.
-        /// </summary>
-        /// <typeparam name="T">The type of the constrained collection.</typeparam>
-        /// <param name="self">The constrained collection.</param>
-        /// <param name="expected">The expected collection.</param>
-        /// <exception cref="ConstraintFailedException">The constraint failed. The exact type of exception thrown will
-        /// depend on the unit test framework, if any, in use.</exception>
         public static void BeEquivalentTo<T>(this IConstraint<T> self, IEnumerable expected)
             where T : IEnumerable
         {
@@ -388,12 +289,11 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            self.BeEquivalentTo(expected, Comparer<object>.Default, null);
+            self.BeEquivalentTo(expected, ItemOrder.Same, Comparer<object>.Default, null);
         }
 
         /// <summary>
-        /// Verifies the constrained collection is equivalent (contains the same values, though possibly in a different
-        /// order) to the specified collection.
+        /// Verifies the constrained collection is equal to the specified collection.
         /// </summary>
         /// <typeparam name="T">The type of the constrained collection.</typeparam>
         /// <param name="self">The constrained collection.</param>
@@ -410,12 +310,11 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            self.BeEquivalentTo(expected, Comparer<object>.Default, message, parameters);
+            self.BeEquivalentTo(expected, ItemOrder.Same, Comparer<object>.Default, message, parameters);
         }
 
         /// <summary>
-        /// Verifies the constrained collection is equivalent (contains the same values, though possibly in a different
-        /// order) to the specified collection.
+        /// Verifies the constrained collection is equal to the specified collection.
         /// </summary>
         /// <typeparam name="T">The type of the constrained collection.</typeparam>
         /// <param name="self">The constrained collection.</param>
@@ -431,17 +330,11 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
-            if (comparer == null)
-            {
-                throw new ArgumentNullException("comparer");
-            }
-
-            self.BeEquivalentTo(expected, comparer, null);
+            self.BeEquivalentTo(expected, ItemOrder.Same, comparer, null);
         }
 
         /// <summary>
-        /// Verifies the constrained collection is equivalent (contains the same values, though possibly in a different
-        /// order) to the specified collection.
+        /// Verifies the constrained collection is equal to the specified collection.
         /// </summary>
         /// <typeparam name="T">The type of the constrained collection.</typeparam>
         /// <param name="self">The constrained collection.</param>
@@ -459,6 +352,101 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("self");
             }
 
+            self.BeEquivalentTo(expected, ItemOrder.Same, comparer, message, parameters);
+        }
+
+        /// <summary>
+        /// Verifies the constrained collection is equivalent (contains the same values, though possibly in a different
+        /// order) to the specified collection.
+        /// </summary>
+        /// <typeparam name="T">The type of the constrained collection.</typeparam>
+        /// <param name="self">The constrained collection.</param>
+        /// <param name="expected">The expected collection.</param>
+        /// <param name="order">The expected item order.</param>
+        /// <exception cref="ConstraintFailedException">The constraint failed. The exact type of exception thrown will
+        /// depend on the unit test framework, if any, in use.</exception>
+        public static void BeEquivalentTo<T>(this IConstraint<T> self, IEnumerable expected, ItemOrder order)
+            where T : IEnumerable
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.BeEquivalentTo(expected, order, Comparer<object>.Default, null);
+        }
+
+        /// <summary>
+        /// Verifies the constrained collection is equivalent (contains the same values, though possibly in a different
+        /// order) to the specified collection.
+        /// </summary>
+        /// <typeparam name="T">The type of the constrained collection.</typeparam>
+        /// <param name="self">The constrained collection.</param>
+        /// <param name="expected">The expected collection.</param>
+        /// <param name="order">The expected item order.</param>
+        /// <param name="message">The message to display in case of failure.</param>
+        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
+        /// <exception cref="ConstraintFailedException">The constraint failed. The exact type of exception thrown will
+        /// depend on the unit test framework, if any, in use.</exception>
+        public static void BeEquivalentTo<T>(this IConstraint<T> self, IEnumerable expected, ItemOrder order, string message, params object[] parameters)
+            where T : IEnumerable
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            self.BeEquivalentTo(expected, order, Comparer<object>.Default, message, parameters);
+        }
+
+        /// <summary>
+        /// Verifies the constrained collection is equivalent (contains the same values, though possibly in a different
+        /// order) to the specified collection.
+        /// </summary>
+        /// <typeparam name="T">The type of the constrained collection.</typeparam>
+        /// <param name="self">The constrained collection.</param>
+        /// <param name="expected">The expected collection.</param>
+        /// <param name="order">The expected item order.</param>
+        /// <param name="comparer">The comparer used to compare the items.</param>
+        /// <exception cref="ConstraintFailedException">The constraint failed. The exact type of exception thrown will
+        /// depend on the unit test framework, if any, in use.</exception>
+        public static void BeEquivalentTo<T>(this IConstraint<T> self, IEnumerable expected, ItemOrder order, IComparer comparer)
+            where T : IEnumerable
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (comparer == null)
+            {
+                throw new ArgumentNullException("comparer");
+            }
+
+            self.BeEquivalentTo(expected, order, comparer, null);
+        }
+
+        /// <summary>
+        /// Verifies the constrained collection is equivalent (contains the same values, though possibly in a different
+        /// order) to the specified collection.
+        /// </summary>
+        /// <typeparam name="T">The type of the constrained collection.</typeparam>
+        /// <param name="self">The constrained collection.</param>
+        /// <param name="expected">The expected collection.</param>
+        /// <param name="order">The expected item order.</param>
+        /// <param name="comparer">The comparer used to compare the items.</param>
+        /// <param name="message">The message to display in case of failure.</param>
+        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
+        /// <exception cref="ConstraintFailedException">The constraint failed. The exact type of exception thrown will
+        /// depend on the unit test framework, if any, in use.</exception>
+        public static void BeEquivalentTo<T>(this IConstraint<T> self, IEnumerable expected, ItemOrder order, IComparer comparer, string message, params object[] parameters)
+            where T : IEnumerable
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
             if (comparer == null)
             {
                 throw new ArgumentNullException("comparer");
@@ -466,12 +454,13 @@ namespace Testing.Specificity
 
             if ((expected == null) != (self.Value == null))
             {
-                self.FailIfNotNegated(
+                self.FailIfNegated(
                     self.FormatErrorMessage(
                         "BeEquivalentTo",
                         null,
                         message,
                         parameters));
+                return;
             }
             else if (expected == null && self.Value == null)
             {
@@ -481,6 +470,7 @@ namespace Testing.Specificity
                         null,
                         message,
                         parameters));
+                return;
             }
 
             bool areReferencesEqual = object.ReferenceEquals(expected, self.Value);
@@ -492,9 +482,10 @@ namespace Testing.Specificity
                         null,
                         message,
                         parameters));
+                return;
             }
 
-            if (!areReferencesEqual && expected != null)
+            if (order == ItemOrder.Any)
             {
                 int actualCount;
                 int expectedCount;
@@ -527,14 +518,36 @@ namespace Testing.Specificity
                             parameters));
                     return;
                 }
-            }
 
-            self.FailIfNegated(
-                self.FormatErrorMessage(
-                    "BeEquivalentTo",
-                    null,
-                    message,
-                    parameters));
+                self.FailIfNegated(
+                    self.FormatErrorMessage(
+                        "BeEquivalentTo",
+                        null,
+                        message,
+                        parameters));
+            }
+            else
+            {
+                string reason;
+                if (!AreCollectionsEqual(expected, self.Value, comparer, out reason))
+                {
+                    self.FailIfNotNegated(
+                        self.FormatErrorMessage(
+                            "BeEqualTo ",
+                            reason,
+                            message,
+                            parameters));
+                }
+                else
+                {
+                    self.FailIfNegated(
+                        self.FormatErrorMessage(
+                            "BeEqualTo",
+                            reason,
+                            message,
+                            parameters));
+                }
+            }
         }
 
         /// <summary>
@@ -724,7 +737,7 @@ namespace Testing.Specificity
         /// <param name="expectedCount">The expected count.</param>
         /// <param name="mismatchedElement">The mismatched element.</param>
         /// <returns>
-        /// <see langword="true"/> if a mismatched element is found; otherwise <see langword="false"/>.
+        /// <see langword="true"/> if a mismatched element is Scenario; otherwise <see langword="false"/>.
         /// </returns>
         private static bool FindMismatchedElement(ICollection actual, ICollection expected, out int actualCount, out int expectedCount, out object mismatchedElement)
         {
@@ -757,12 +770,12 @@ namespace Testing.Specificity
         }
 
         /// <summary>
-        /// Gets the total number of times that elements are found in the collection.
+        /// Gets the total number of times that elements are Scenario in the collection.
         /// </summary>
         /// <param name="collection">The collection.</param>
         /// <param name="nullCount">The null count.</param>
         /// <returns>
-        /// A dictionary mapping the element to the number of times it was found in the collection.
+        /// A dictionary mapping the element to the number of times it was Scenario in the collection.
         /// </returns>
         private static Dictionary<object, int> GetElementCounts(IEnumerable collection, out int nullCount)
         {
