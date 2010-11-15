@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
+  <Import Project="$(MSBuildProjectDirectory)\packages\StyleCop.4.4\Microsoft.StyleCop.targets" /> 
+  <UsingTask AssemblyFile="C:\Program Files (x86)\Gallio\bin\Gallio.MSBuildTasks.dll" TaskName="Gallio" Condition="Exists('C:\Program Files (x86)\Gallio\bin\Gallio.MSBuildTasks.dll')"/>
+  <UsingTask AssemblyFile="C:\Program Files\Gallio\bin\Gallio.MSBuildTasks.dll" TaskName="Gallio" Condition="Exists('C:\Program Files\Gallio\bin\Gallio.MSBuildTasks.dll')"/>
+  <PropertyGroup>
+    <BuildPath Condition="'$(BuildPath)'==''">$(MSBuildProjectDirectory)\build</BuildPath>
+    <OutDir Condition="'$(OutDir)'==''">$(BuildPath)\bin\</OutDir>
+    <PackagesDir>$(MSBuildProjectDirectory)\packages</PackagesDir>
+    <Configuration Condition="'$(Configuration)'==''">Release</Configuration>
+    <Major>0</Major>
+    <Minor>5</Minor>
+    <Build>0</Build>
+    <Revision>1</Revision>
+    <SolutionInfoFile>$(MSBuildProjectDirectory)\src\SolutionInfo.cs</SolutionInfoFile>
+  </PropertyGroup>
+  <Target Name="Version">
+    <!--<SvnVersion LocalPath="$(MSBuildProjectDirectory)">
+      <Output TaskParameter="Revision" PropertyName="Revision" />
+    </SvnVersion>
+    <Time Format="MMddy">
+      <Output TaskParameter="FormattedTime" PropertyName="Build"/>
+    </Time>-->
+    <Version VersionFile="version.txt" RevisionType="Increment">
+      <Output TaskParameter="Major" PropertyName="Major"/>
+      <Output TaskParameter="Minor" PropertyName="Minor" />
+      <Output TaskParameter="Build" PropertyName="Build" />
+      <Output TaskParameter="Revision" PropertyName="Revision" />
+    </Version>
+    <Message Text="Version: $(Major).$(Minor).$(Build).$(Revision)"/>
+    <AssemblyInfo CodeLanguage="CS"
+                  OutputFile="$(MSBuildProjectDirectory)\src\SolutionInfo.cs"
+                  AssemblyCompany="Specificity"
+                  AssemblyCopyright="Copyright © 2008-2010"
+                  AssemblyTrademark=""
+                  AssemblyCulture=""
+                  AssemblyVersion="$(Major).$(Minor).$(Build).$(Revision)"
+                  AssemblyFileVersion="$(Major).$(Minor).$(Build).$(Revision)" />
+  </Target>
+  <Target Name="Build" DependsOnTargets="Version">
+    <MSBuild Projects="Specificity2.sln" Targets="Build" Properties="Configuration=$(Configuration);OutDir=$(OutDir);RunCodeAnalysis=true;CodeAnalysisTreatWarningsAsErrors=true"/>
+  </Target>
+  <Target Name="Rebuild" DependsOnTargets="Version">
+    <MSBuild Projects="Specificity2.sln" Targets="Rebuild" Properties="Configuration=$(Configuration);OutDir=$(OutDir);RunCodeAnalysis=true;CodeAnalysisTreatWarningsAsErrors=true"/>
+  </Target>
+  <Target Name="Clean">
+    <MSBuild Projects="Specificity2.sln" Targets="Clean" Properties="Configuration=$(Configuration);OutDir=$(OutDir);RunCodeAnalysis=true;CodeAnalysisTreatWarningsAsErrors=true"/>
+    <RemoveDir Directories="$(BuildPath)"/>
+  </Target>
+  <Target Name="Test" DependsOnTargets="Build">
+    <ItemGroup>
+      <TestAssemblies Include="$(OutDir)Test.Specificity.dll"/>
+      <!--<TestAssemblies Include="$(OutDir)\Banking.*.dll"/>-->
+    </ItemGroup>
+    <Gallio Files="@(TestAssemblies)"
+            ReportTypes="html"
+            ReportDirectory="$(BuildPath)\TestReports"/>
+  </Target>
+  <Target Name="Package" DependsOnTargets="Build">
+    <ItemGroup>
+      <NuSpecFiles Include="$(MSBuildProjectDirectory)\*.nuspec" />
+    </ItemGroup>
+    <XmlUpdate XmlFileName="%(NuSpecFiles.FullPath)"
+               Xpath="//package/metadata/version"
+               Value="$(Major).$(Minor).$(Build).$(Revision)"/>
+    <Exec WorkingDirectory="$(BuildPath)" Command="&quot;$(PackagesDir)\nuget\nuget.exe&quot; pack -o &quot;$(BuildPath)&quot; -b &quot;$(OutDir)&quot; &quot;%(NuSpecFiles.FullPath)&quot;"/>
+  </Target>
+  <Target Name="Deploy" DependsOnTargets="Clean;Build;Test;Package">
+  </Target>
+</Project>
