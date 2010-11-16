@@ -14,6 +14,7 @@
     <Build>0</Build>
     <Revision>1</Revision>
     <SolutionInfoFile>$(MSBuildProjectDirectory)\src\SolutionInfo.cs</SolutionInfoFile>
+    <BuildOptions>Configuration=$(Configuration);OutDir=$(OutDir);RunCodeAnalysis=true;CodeAnalysisTreatWarningsAsErrors=true;StyleCopEnabled=true;StyleCopTreatErrorsAsWarnings=false</BuildOptions>
   </PropertyGroup>
   <Target Name="Version">
     <!--<SvnVersion LocalPath="$(MSBuildProjectDirectory)">
@@ -38,14 +39,14 @@
                   AssemblyVersion="$(Major).$(Minor).$(Build).$(Revision)"
                   AssemblyFileVersion="$(Major).$(Minor).$(Build).$(Revision)" />
   </Target>
-  <Target Name="Build" DependsOnTargets="Version">
-    <MSBuild Projects="Specificity2.sln" Targets="Build" Properties="Configuration=$(Configuration);OutDir=$(OutDir);RunCodeAnalysis=true;CodeAnalysisTreatWarningsAsErrors=true"/>
+  <Target Name="Build">
+    <MSBuild Projects="Specificity2.sln" Targets="Build" Properties="$(BuildOptions)"/>
   </Target>
-  <Target Name="Rebuild" DependsOnTargets="Version">
-    <MSBuild Projects="Specificity2.sln" Targets="Rebuild" Properties="Configuration=$(Configuration);OutDir=$(OutDir);RunCodeAnalysis=true;CodeAnalysisTreatWarningsAsErrors=true"/>
+  <Target Name="Rebuild">
+    <MSBuild Projects="Specificity2.sln" Targets="Rebuild" Properties="$(BuildOptions)"/>
   </Target>
   <Target Name="Clean">
-    <MSBuild Projects="Specificity2.sln" Targets="Clean" Properties="Configuration=$(Configuration);OutDir=$(OutDir);RunCodeAnalysis=true;CodeAnalysisTreatWarningsAsErrors=true"/>
+    <MSBuild Projects="Specificity2.sln" Targets="Clean" Properties="$(BuildOptions)"/>
     <RemoveDir Directories="$(BuildPath)"/>
   </Target>
   <Target Name="Test" DependsOnTargets="Build">
@@ -66,6 +67,6 @@
                Value="$(Major).$(Minor).$(Build).$(Revision)"/>
     <Exec WorkingDirectory="$(BuildPath)" Command="&quot;$(PackagesDir)\nuget\nuget.exe&quot; pack -o &quot;$(BuildPath)&quot; -b &quot;$(OutDir)&quot; &quot;%(NuSpecFiles.FullPath)&quot;"/>
   </Target>
-  <Target Name="Deploy" DependsOnTargets="Clean;Build;Test;Package">
+  <Target Name="Deploy" DependsOnTargets="Clean;Version;Build;Test;Package">
   </Target>
 </Project>
