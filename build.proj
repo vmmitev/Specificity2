@@ -40,7 +40,7 @@
                   AssemblyFileVersion="$(Major).$(Minor).$(Build).$(Revision)" />
   </Target>
   <Target Name="Build">
-    <MSBuild Projects="Specificity2.sln" Targets="Build" Properties="$(BuildOptions)"/>
+    <MSBuild Projects="Specificity.sln" Targets="Build" Properties="$(BuildOptions)"/>
   </Target>
   <Target Name="Rebuild">
     <MSBuild Projects="Specificity2.sln" Targets="Rebuild" Properties="$(BuildOptions)"/>
