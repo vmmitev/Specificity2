@@ -18,8 +18,8 @@
     <ValidateXaml>true</ValidateXaml>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
   </PropertyGroup>
-  <!-- This property group is only here to support building this project using the 
-       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+  <!-- This property group is only here to support building this project using the
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs
        to set the TargetFrameworkVersion to v3.5 -->
   <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
@@ -129,7 +129,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
-  <Import Project="$(MSBuildProjectDirectory)\..\..\packages\StyleCop.4.4\Microsoft.StyleCop.targets"
+  <Import Project="$(MSBuildExtensionsPath)\StyleCop\v4.5\StyleCop.Targets"
           Condition="'$(StyleCopEnabled)' != 'false'"/>
   <ProjectExtensions>
     <VisualStudio>
@@ -139,7 +139,7 @@
       <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="49c776e8-dc34-41ce-accc-3f087d274f8f" />
     </VisualStudio>
   </ProjectExtensions>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

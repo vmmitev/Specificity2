@@ -48,6 +48,16 @@ namespace Testing.Specificity
         }
 
         /// <summary>
+        /// Gets the time the test should be limited to running before automatically failing.
+        /// </summary>
+        /// <value>The timeout value, in milliseconds; if zero, the test will not have
+        /// a timeout.</value>
+        public int Timeout
+        {
+            get { throw new System.NotImplementedException(); }
+        }
+
+        /// <summary>
         /// Executes the test method.
         /// </summary>
         /// <param name="testClass">The instance of the test class</param>

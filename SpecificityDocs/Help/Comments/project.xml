@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<doc>
-  <members>
-    <member name="N:Testing.Specificity">
-      <summary>Contains types that extend existing .NET unit testing frameworks, including MbUnit, NUnit, xUnit, MSTest and csUnit. These extensions provide a fluent API for specifying test assertions as well as BDD style test classes.</summary>
-    </member>
-  </members>
-</doc>
