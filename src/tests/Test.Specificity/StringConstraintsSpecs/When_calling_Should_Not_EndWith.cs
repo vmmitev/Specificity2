@@ -12,11 +12,11 @@ namespace Test.Specificity.StringConstraintsSpecs
     public static class When_calling_Should_Not_EndWith
     {
         [TestClass]
-        public class with_substring_found_at_start : Scenario
+        public class with_substring_found_at_start : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat("foo bar").Should.EndWith("bar");
+                Specify.That("foo bar").Should.EndWith("bar");
             }
 
             [TestMethod]
@@ -27,11 +27,11 @@ namespace Test.Specificity.StringConstraintsSpecs
         }
 
         [TestClass]
-        public class with_string_not_found_at_end : Scenario
+        public class with_string_not_found_at_end : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat("foo bar").Should.EndWith("baz");
+                Specify.That("foo bar").Should.EndWith("baz");
             }
 
             [TestMethod]
@@ -42,11 +42,11 @@ namespace Test.Specificity.StringConstraintsSpecs
         }
 
         [TestClass]
-        public class with_string_not_found_at_end_and_given_message : Scenario
+        public class with_string_not_found_at_end_and_given_message : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat("foo bar").Should.EndWith("baz", "magic {0}", "xyzzy");
+                Specify.That("foo bar").Should.EndWith("baz", "magic {0}", "xyzzy");
             }
 
             [TestMethod]

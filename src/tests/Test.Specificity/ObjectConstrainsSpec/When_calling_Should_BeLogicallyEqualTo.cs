@@ -22,11 +22,11 @@ namespace Test.Specificity.ObjectConstrainsSpec
         }
 
         [TestClass]
-        public class with_objects_that_are_logically_equal : Scenario
+        public class with_objects_that_are_logically_equal : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(new TestObject("xyzzy")).Should.BeLogicallyEqualTo(new TestObject("xyzzy"));
+                Specify.That(new TestObject("xyzzy")).Should.BeLogicallyEqualTo(new TestObject("xyzzy"));
             }
 
             [TestMethod]
@@ -37,11 +37,11 @@ namespace Test.Specificity.ObjectConstrainsSpec
         }
 
         [TestClass]
-        public class with_objects_that_are_not_logically_equal : Scenario
+        public class with_objects_that_are_not_logically_equal : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(new TestObject("magic")).Should.BeLogicallyEqualTo(new TestObject("xyzzy"));
+                Specify.That(new TestObject("magic")).Should.BeLogicallyEqualTo(new TestObject("xyzzy"));
             }
 
             [TestMethod]
@@ -52,11 +52,11 @@ namespace Test.Specificity.ObjectConstrainsSpec
         }
 
         [TestClass]
-        public class with_objects_that_are_not_logically_equal_and_given_message : Scenario
+        public class with_objects_that_are_not_logically_equal_and_given_message : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(new TestObject("magic")).Should.BeLogicallyEqualTo(new TestObject("xyzzy"), "magic {0}", "xyzzy");
+                Specify.That(new TestObject("magic")).Should.BeLogicallyEqualTo(new TestObject("xyzzy"), "magic {0}", "xyzzy");
             }
 
             [TestMethod]

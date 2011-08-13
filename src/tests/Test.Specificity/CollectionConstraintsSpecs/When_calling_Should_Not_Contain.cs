@@ -23,11 +23,11 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_item_in_collection : Scenario
+        public class with_item_in_collection : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(Collection).Should.Not.Contain("bar");
+                Specify.That(Collection).Should.Not.Contain("bar");
             }
 
             [TestMethod]
@@ -38,11 +38,11 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_item_not_in_collection : Scenario
+        public class with_item_not_in_collection : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(Collection).Should.Not.Contain("xyzzy");
+                Specify.That(Collection).Should.Not.Contain("xyzzy");
             }
 
             [TestMethod]
@@ -53,11 +53,11 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_item_in_collection_and_given_message : Scenario
+        public class with_item_in_collection_and_given_message : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(Collection).Should.Not.Contain("bar", "magic {0}", "xyzzy");
+                Specify.That(Collection).Should.Not.Contain("bar", "magic {0}", "xyzzy");
             }
 
             [TestMethod]

@@ -15,7 +15,7 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyCompany("Specificity")]
 [assembly: AssemblyCopyright("Copyright © 2008-2010")]
-[assembly: AssemblyVersion("0.2.0.1")]
-[assembly: AssemblyFileVersion("0.2.0.1")]
+[assembly: AssemblyVersion("0.2.0.2")]
+[assembly: AssemblyFileVersion("0.2.0.2")]
 
 

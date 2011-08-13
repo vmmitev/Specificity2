@@ -60,66 +60,9 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
-    <Compile Include="..\Specificity\ActionConstraints.cs">
-      <Link>ActionConstraints.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity\BooleanConstraints.cs">
-      <Link>BooleanConstraints.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity\CollectionConstraints.cs">
-      <Link>CollectionConstraints.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity\ConstrainedValue.cs">
-      <Link>ConstrainedValue.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity\Constraint.cs">
-      <Link>Constraint.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity\ConstraintExtensions.cs">
-      <Link>ConstraintExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity\ConstraintFailedException.cs">
-      <Link>ConstraintFailedException.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity\ConstraintResult.cs">
-      <Link>ConstraintResult.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity\ConstraintResultType.cs">
-      <Link>ConstraintResultType.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity\EventWatcher.cs">
-      <Link>EventWatcher.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity\GlobalSuppressions.cs">
-      <Link>GlobalSuppressions.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity\IConstraint.cs">
-      <Link>IConstraint.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity\ItemOrder.cs">
-      <Link>ItemOrder.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity\Messages.cs">
-      <Link>Messages.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity\NegativeConstraint.cs">
-      <Link>NegativeConstraint.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity\NumericConstraints.cs">
-      <Link>NumericConstraints.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity\ObjectConstraints.cs">
-      <Link>ObjectConstraints.cs</Link>
-    </Compile>
     <Compile Include="..\Specificity\Properties\Resources.Designer.cs">
       <Link>Properties\Resources.Designer.cs</Link>
       <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="..\Specificity\PropertyChangedWatcher.cs">
-      <Link>PropertyChangedWatcher.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity\StringConstraints.cs">
-      <Link>StringConstraints.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -129,14 +72,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
-  <Import Project="$(MSBuildExtensionsPath)\StyleCop\v4.5\StyleCop.Targets"
-          Condition="'$(StyleCopEnabled)' != 'false'"/>
+  <Import Project="$(MSBuildExtensionsPath)\StyleCop\v4.5\StyleCop.Targets" Condition="'$(StyleCopEnabled)' != 'false'" />
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
         <SilverlightProjectProperties />
       </FlavorProperties>
-      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="49c776e8-dc34-41ce-accc-3f087d274f8f" />
+      <UserProperties ProjectLinkReference="49c776e8-dc34-41ce-accc-3f087d274f8f" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

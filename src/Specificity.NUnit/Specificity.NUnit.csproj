@@ -58,12 +58,69 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="..\Specificity.MSTest\ActionConstraints.cs">
+      <Link>ActionConstraints.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity.MSTest\BooleanConstraints.cs">
+      <Link>BooleanConstraints.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity.MSTest\CollectionConstraints.cs">
+      <Link>CollectionConstraints.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity.MSTest\ConstrainedValue.cs">
+      <Link>ConstrainedValue.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity.MSTest\Constraint.cs">
+      <Link>Constraint.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity.MSTest\ConstraintExtensions.cs">
+      <Link>ConstraintExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity.MSTest\ConstraintFailedException.cs">
+      <Link>ConstraintFailedException.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity.MSTest\ConstraintFailedException.Full.cs">
+      <Link>ConstraintFailedException.Full.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity.MSTest\ConstraintResult.cs">
+      <Link>ConstraintResult.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity.MSTest\ConstraintResultType.cs">
+      <Link>ConstraintResultType.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity.MSTest\EventWatcher.cs">
+      <Link>EventWatcher.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity.MSTest\GlobalSuppressions.cs">
+      <Link>GlobalSuppressions.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity.MSTest\IConstraint.cs">
+      <Link>IConstraint.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity.MSTest\ItemOrder.cs">
+      <Link>ItemOrder.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity.MSTest\Messages.cs">
+      <Link>Messages.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity.MSTest\NegativeConstraint.cs">
+      <Link>NegativeConstraint.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity.MSTest\NumericConstraints.cs">
+      <Link>NumericConstraints.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity.MSTest\ObjectConstraints.cs">
+      <Link>ObjectConstraints.cs</Link>
+    </Compile>
     <Compile Include="..\Specificity.MSTest\ObserveExceptionsAttribute.cs">
       <Link>ObserveExceptionsAttribute.cs</Link>
     </Compile>
     <Compile Include="..\Specificity.MSTest\Properties\Resources.Designer.cs">
       <Link>Properties\Resources.Designer.cs</Link>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="..\Specificity.MSTest\PropertyChangedWatcher.cs">
+      <Link>PropertyChangedWatcher.cs</Link>
     </Compile>
     <Compile Include="..\Specificity.MSTest\Scenario.cs">
       <Link>Scenario.cs</Link>
@@ -73,6 +130,9 @@
     </Compile>
     <Compile Include="..\Specificity.MSTest\Specify.cs">
       <Link>Specify.cs</Link>
+    </Compile>
+    <Compile Include="..\Specificity.MSTest\StringConstraints.cs">
+      <Link>StringConstraints.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scenario.NUnit.cs" />
@@ -93,11 +153,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(MSBuildExtensionsPath)\StyleCop\v4.5\StyleCop.Targets"
-          Condition="'$(StyleCopEnabled)' != 'false'"/>
+  <Import Project="$(MSBuildExtensionsPath)\StyleCop\v4.5\StyleCop.Targets" Condition="'$(StyleCopEnabled)' != 'false'" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties ProjectLinkReference="57902a21-06ec-41ab-a7a5-fd23f4cbea8e" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
+      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="57902a21-06ec-41ab-a7a5-fd23f4cbea8e" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

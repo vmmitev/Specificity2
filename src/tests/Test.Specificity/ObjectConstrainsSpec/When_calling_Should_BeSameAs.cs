@@ -14,11 +14,11 @@ namespace Test.Specificity.ObjectConstrainsSpec
         private static object reference = new object();
 
         [TestClass]
-        public class with_same_reference : Scenario
+        public class with_same_reference : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(reference).Should.BeSameAs(reference);
+                Specify.That(reference).Should.BeSameAs(reference);
             }
 
             [TestMethod]
@@ -29,11 +29,11 @@ namespace Test.Specificity.ObjectConstrainsSpec
         }
 
         [TestClass]
-        public class with_different_references : Scenario
+        public class with_different_references : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(reference).Should.BeSameAs(new object());
+                Specify.That(reference).Should.BeSameAs(new object());
             }
 
             [TestMethod]
@@ -44,11 +44,11 @@ namespace Test.Specificity.ObjectConstrainsSpec
         }
 
         [TestClass]
-        public class with_different_references_and_given_message : Scenario
+        public class with_different_references_and_given_message : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(reference).Should.BeSameAs(new object(), "magic {0}", "xyzzy");
+                Specify.That(reference).Should.BeSameAs(new object(), "magic {0}", "xyzzy");
             }
 
             [TestMethod]

@@ -13,11 +13,11 @@ namespace Test.Specificity.StringConstraintsSpecs
     public static class When_calling_Should_Not_Contain
     {
         [TestClass]
-        public class with_substring : Scenario
+        public class with_substring : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat("foo bar").Should.Not.Contain("bar");
+                Specify.That("foo bar").Should.Not.Contain("bar");
             }
 
             [TestMethod]
@@ -28,11 +28,11 @@ namespace Test.Specificity.StringConstraintsSpecs
         }
 
         [TestClass]
-        public class with_string_not_contained_in_actual_string : Scenario
+        public class with_string_not_contained_in_actual_string : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat("foo bar").Should.Not.Contain("baz");
+                Specify.That("foo bar").Should.Not.Contain("baz");
             }
 
             [TestMethod]
@@ -43,11 +43,11 @@ namespace Test.Specificity.StringConstraintsSpecs
         }
 
         [TestClass]
-        public class with_substring_differing_in_case_using_OrdinalIgnoreCase_comparison : Scenario
+        public class with_substring_differing_in_case_using_OrdinalIgnoreCase_comparison : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat("foo bar").Should.Not.Contain("BAR", StringComparison.OrdinalIgnoreCase);
+                Specify.That("foo bar").Should.Not.Contain("BAR", StringComparison.OrdinalIgnoreCase);
             }
 
             [TestMethod]
@@ -58,11 +58,11 @@ namespace Test.Specificity.StringConstraintsSpecs
         }
 
         [TestClass]
-        public class with_substring_and_given_message : Scenario
+        public class with_substring_and_given_message : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat("foo bar").Should.Not.Contain("bar", "magic {0}", "xyzzy");
+                Specify.That("foo bar").Should.Not.Contain("bar", "magic {0}", "xyzzy");
             }
 
             [TestMethod]

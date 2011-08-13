@@ -12,11 +12,11 @@ namespace Test.Specificity.StringConstraintsSpecs
     public static class When_calling_Should_BeNullOrEmpty
     {
         [TestClass]
-        public class with_null : Scenario
+        public class with_null : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat<string>(null).Should.BeNullOrEmpty();
+                Specify.That<string>(null).Should.BeNullOrEmpty();
             }
 
             [TestMethod]
@@ -27,11 +27,11 @@ namespace Test.Specificity.StringConstraintsSpecs
         }
 
         [TestClass]
-        public class with_empty : Scenario
+        public class with_empty : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(string.Empty).Should.BeNullOrEmpty();
+                Specify.That(string.Empty).Should.BeNullOrEmpty();
             }
 
             [TestMethod]
@@ -42,11 +42,11 @@ namespace Test.Specificity.StringConstraintsSpecs
         }
 
         [TestClass]
-        public class with_non_empty_string : Scenario
+        public class with_non_empty_string : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat("xyzzy").Should.BeNullOrEmpty();
+                Specify.That("xyzzy").Should.BeNullOrEmpty();
             }
 
             [TestMethod]
@@ -57,11 +57,11 @@ namespace Test.Specificity.StringConstraintsSpecs
         }
 
         [TestClass]
-        public class with_non_empty_string_and_given_message : Scenario
+        public class with_non_empty_string_and_given_message : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat("xyzzy").Should.BeNullOrEmpty("magic {0}", "xyzzy");
+                Specify.That("xyzzy").Should.BeNullOrEmpty("magic {0}", "xyzzy");
             }
 
             [TestMethod]

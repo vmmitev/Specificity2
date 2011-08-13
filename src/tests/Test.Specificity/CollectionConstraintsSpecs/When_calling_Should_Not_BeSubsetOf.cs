@@ -24,11 +24,11 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_superset : Scenario
+        public class with_superset : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(Collection).Should.Not.BeSubsetOf(Collection.Concat(new string[] { "xyzzy" }));
+                Specify.That(Collection).Should.Not.BeSubsetOf(Collection.Concat(new string[] { "xyzzy" }));
             }
 
             [TestMethod]
@@ -39,11 +39,11 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_subset : Scenario
+        public class with_subset : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(Collection).Should.Not.BeSubsetOf(Collection.Skip(1));
+                Specify.That(Collection).Should.Not.BeSubsetOf(Collection.Skip(1));
             }
 
             [TestMethod]
@@ -54,11 +54,11 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_superset_and_given_message : Scenario
+        public class with_superset_and_given_message : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(Collection).Should.Not.BeSubsetOf(Collection.Concat(new string[] { "xyzzy" }), "magic {0}", "xyzzy");
+                Specify.That(Collection).Should.Not.BeSubsetOf(Collection.Concat(new string[] { "xyzzy" }), "magic {0}", "xyzzy");
             }
 
             [TestMethod]
@@ -69,11 +69,11 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_subset_in_different_order : Scenario
+        public class with_subset_in_different_order : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(Collection).Should.Not.BeSubsetOf(Collection.Skip(1).Reverse());
+                Specify.That(Collection).Should.Not.BeSubsetOf(Collection.Skip(1).Reverse());
             }
 
             [TestMethod]

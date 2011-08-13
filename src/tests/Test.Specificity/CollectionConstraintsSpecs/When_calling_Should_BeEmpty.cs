@@ -30,11 +30,11 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_empty_enumerable : Scenario
+        public class with_empty_enumerable : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(EmptyEnumerable).Should.BeEmpty();
+                Specify.That(EmptyEnumerable).Should.BeEmpty();
             }
 
             [TestMethod]
@@ -45,11 +45,11 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_non_empty_enumerable : Scenario
+        public class with_non_empty_enumerable : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(NonEmptyEnumerable).Should.BeEmpty();
+                Specify.That(NonEmptyEnumerable).Should.BeEmpty();
             }
 
             [TestMethod]
@@ -60,11 +60,11 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_non_empty_enumerable_and_given_message : Scenario
+        public class with_non_empty_enumerable_and_given_message : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(NonEmptyEnumerable).Should.BeEmpty("magic {0}", "xyzzy");
+                Specify.That(NonEmptyEnumerable).Should.BeEmpty("magic {0}", "xyzzy");
             }
 
             [TestMethod]

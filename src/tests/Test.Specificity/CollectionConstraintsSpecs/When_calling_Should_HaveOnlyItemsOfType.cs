@@ -31,11 +31,11 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_collection_of_specified_type : Scenario
+        public class with_collection_of_specified_type : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(AllStrings).Should.HaveOnlyItemsOfType(typeof(string));
+                Specify.That(AllStrings).Should.HaveOnlyItemsOfType(typeof(string));
             }
 
             [TestMethod]
@@ -46,11 +46,11 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_collection_of_mixed_types : Scenario
+        public class with_collection_of_mixed_types : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(Mixed).Should.HaveOnlyItemsOfType(typeof(string));
+                Specify.That(Mixed).Should.HaveOnlyItemsOfType(typeof(string));
             }
 
             [TestMethod]
@@ -61,11 +61,11 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_collection_of_mixed_types_and_given_message : Scenario
+        public class with_collection_of_mixed_types_and_given_message : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(Mixed).Should.HaveOnlyItemsOfType(typeof(string), "magic {0}", "xyzzy");
+                Specify.That(Mixed).Should.HaveOnlyItemsOfType(typeof(string), "magic {0}", "xyzzy");
             }
 
             [TestMethod]

@@ -32,11 +32,11 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_collection_containing_null_items : Scenario
+        public class with_collection_containing_null_items : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(WithNulls).Should.Not.HaveNullItems();
+                Specify.That(WithNulls).Should.Not.HaveNullItems();
             }
 
             [TestMethod]
@@ -47,11 +47,11 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_collection_that_does_not_contain_null_items : Scenario
+        public class with_collection_that_does_not_contain_null_items : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(WithoutNulls).Should.Not.HaveNullItems();
+                Specify.That(WithoutNulls).Should.Not.HaveNullItems();
             }
 
             [TestMethod]
@@ -62,11 +62,11 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_collection_containing_null_items_and_given_message : Scenario
+        public class with_collection_containing_null_items_and_given_message : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(WithNulls).Should.Not.HaveNullItems("magic {0}", "xyzzy");
+                Specify.That(WithNulls).Should.Not.HaveNullItems("magic {0}", "xyzzy");
             }
 
             [TestMethod]

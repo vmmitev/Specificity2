@@ -12,11 +12,11 @@ namespace Test.Specificity.ObjectConstrainsSpec
     public static class When_calling_Should_Not_BeInstanceOfType
     {
         [TestClass]
-        public class when_given_instance_of_type : Scenario
+        public class when_given_instance_of_type : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat("foo").Should.Not.BeInstanceOfType(typeof(string));
+                Specify.That("foo").Should.Not.BeInstanceOfType(typeof(string));
             }
 
             [TestMethod]
@@ -27,11 +27,11 @@ namespace Test.Specificity.ObjectConstrainsSpec
         }
 
         [TestClass]
-        public class when_given_instance_of_derived_type : Scenario
+        public class when_given_instance_of_derived_type : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(this).Should.Not.BeInstanceOfType(typeof(Scenario));
+                Specify.That(this).Should.Not.BeInstanceOfType(typeof(TestScenario));
             }
 
             [TestMethod]
@@ -42,11 +42,11 @@ namespace Test.Specificity.ObjectConstrainsSpec
         }
 
         [TestClass]
-        public class when_given_instance_of_different_type : Scenario
+        public class when_given_instance_of_different_type : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat("foo").Should.Not.BeInstanceOfType(typeof(Scenario));
+                Specify.That("foo").Should.Not.BeInstanceOfType(typeof(Scenario));
             }
 
             [TestMethod]
@@ -57,11 +57,11 @@ namespace Test.Specificity.ObjectConstrainsSpec
         }
 
         [TestClass]
-        public class when_given_instance_of_type_and_given_message : Scenario
+        public class when_given_instance_of_type_and_given_message : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat("foo").Should.Not.BeInstanceOfType(typeof(string), "magic {0}", "xyzzy");
+                Specify.That("foo").Should.Not.BeInstanceOfType(typeof(string), "magic {0}", "xyzzy");
             }
 
             [TestMethod]

@@ -25,19 +25,19 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_same_reference : Scenario
+        public class with_same_reference : TestScenario
         {
             private IList reference;
 
-            protected override void EstablishContext()
+            public override void EstablishContext()
             {
                 base.EstablishContext();
                 this.reference = Collection.ToList();
             }
 
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat<ICollection>(this.reference).Should.Not.BeEquivalentTo(this.reference);
+                Specify.That<ICollection>(this.reference).Should.Not.BeEquivalentTo(this.reference);
             }
 
             [TestMethod]
@@ -48,11 +48,11 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_different_references_of_equal_items : Scenario
+        public class with_different_references_of_equal_items : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(Collection.ToList()).Should.Not.BeEquivalentTo(Collection.ToList());
+                Specify.That(Collection.ToList()).Should.Not.BeEquivalentTo(Collection.ToList());
             }
 
             [TestMethod]
@@ -63,11 +63,11 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_collections_of_different_sizes : Scenario
+        public class with_collections_of_different_sizes : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(Collection).Should.Not.BeEquivalentTo(Collection.Skip(1));
+                Specify.That(Collection).Should.Not.BeEquivalentTo(Collection.Skip(1));
             }
 
             [TestMethod]
@@ -78,11 +78,11 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_collections_with_same_items_in_different_order : Scenario
+        public class with_collections_with_same_items_in_different_order : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(Collection).Should.Not.BeEquivalentTo(Collection.Reverse());
+                Specify.That(Collection).Should.Not.BeEquivalentTo(Collection.Reverse());
             }
 
             [TestMethod]
@@ -93,11 +93,11 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_same_reference_and_given_message : Scenario
+        public class with_same_reference_and_given_message : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(Collection).Should.Not.BeEquivalentTo(Collection, "magic {0}", "xyzzy");
+                Specify.That(Collection).Should.Not.BeEquivalentTo(Collection, "magic {0}", "xyzzy");
             }
 
             [TestMethod]
@@ -108,11 +108,11 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_collections_with_same_items_in_different_order_and_ItemSort_Any_specified : Scenario
+        public class with_collections_with_same_items_in_different_order_and_ItemSort_Any_specified : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(Collection).Should.Not.BeEquivalentTo(Collection.Reverse(), ItemOrder.Any);
+                Specify.That(Collection).Should.Not.BeEquivalentTo(Collection.Reverse(), ItemOrder.Any);
             }
 
             [TestMethod]

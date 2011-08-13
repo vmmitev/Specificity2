@@ -12,11 +12,11 @@ namespace Test.Specificity.NumericConstraintsSpec
     public static class When_calling_Should_Not_BeEqualTo
     {
         [TestClass]
-        public class with_double_within_postive_delta : Scenario
+        public class with_double_within_postive_delta : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(10.0d).Should.Not.BeEqualTo(10.2d, 0.5d);
+                Specify.That(10.0d).Should.Not.BeEqualTo(10.2d, 0.5d);
             }
 
             [TestMethod]
@@ -27,11 +27,11 @@ namespace Test.Specificity.NumericConstraintsSpec
         }
 
         [TestClass]
-        public class with_double_within_negative_delta : Scenario
+        public class with_double_within_negative_delta : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(10.0d).Should.Not.BeEqualTo(9.8d, 0.5d);
+                Specify.That(10.0d).Should.Not.BeEqualTo(9.8d, 0.5d);
             }
 
             [TestMethod]
@@ -42,11 +42,11 @@ namespace Test.Specificity.NumericConstraintsSpec
         }
 
         [TestClass]
-        public class with_double_not_within_delta : Scenario
+        public class with_double_not_within_delta : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(10.0d).Should.Not.BeEqualTo(9.4d, 0.5d);
+                Specify.That(10.0d).Should.Not.BeEqualTo(9.4d, 0.5d);
             }
 
             [TestMethod]
@@ -57,11 +57,11 @@ namespace Test.Specificity.NumericConstraintsSpec
         }
 
         [TestClass]
-        public class with_double_within_delta_and_given_message : Scenario
+        public class with_double_within_delta_and_given_message : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(10.0d).Should.Not.BeEqualTo(9.8d, 0.5d, "magic {0}", "xyzzy");
+                Specify.That(10.0d).Should.Not.BeEqualTo(9.8d, 0.5d, "magic {0}", "xyzzy");
             }
 
             [TestMethod]
@@ -72,11 +72,11 @@ namespace Test.Specificity.NumericConstraintsSpec
         }
 
         [TestClass]
-        public class with_float_within_postive_delta : Scenario
+        public class with_float_within_postive_delta : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(10.0f).Should.Not.BeEqualTo(10.2f, 0.5f);
+                Specify.That(10.0f).Should.Not.BeEqualTo(10.2f, 0.5f);
             }
 
             [TestMethod]
@@ -87,11 +87,11 @@ namespace Test.Specificity.NumericConstraintsSpec
         }
 
         [TestClass]
-        public class with_float_within_negative_delta : Scenario
+        public class with_float_within_negative_delta : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(10.0f).Should.Not.BeEqualTo(9.8f, 0.5f);
+                Specify.That(10.0f).Should.Not.BeEqualTo(9.8f, 0.5f);
             }
 
             [TestMethod]
@@ -102,11 +102,11 @@ namespace Test.Specificity.NumericConstraintsSpec
         }
 
         [TestClass]
-        public class with_float_not_within_delta : Scenario
+        public class with_float_not_within_delta : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(10.0f).Should.Not.BeEqualTo(9.4f, 0.5f);
+                Specify.That(10.0f).Should.Not.BeEqualTo(9.4f, 0.5f);
             }
 
             [TestMethod]
@@ -117,11 +117,11 @@ namespace Test.Specificity.NumericConstraintsSpec
         }
 
         [TestClass]
-        public class with_float_within_delta_and_given_message : Scenario
+        public class with_float_within_delta_and_given_message : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(10.0f).Should.Not.BeEqualTo(9.8f, 0.5f, "magic {0}", "xyzzy");
+                Specify.That(10.0f).Should.Not.BeEqualTo(9.8f, 0.5f, "magic {0}", "xyzzy");
             }
 
             [TestMethod]

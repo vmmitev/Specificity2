@@ -12,11 +12,11 @@ namespace Test.Specificity.StringConstraintsSpecs
     public static class When_calling_Should_Not_Match
     {
         [TestClass]
-        public class with_pattern_that_matches : Scenario
+        public class with_pattern_that_matches : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat("xyzzy").Should.Not.Match("xy.*");
+                Specify.That("xyzzy").Should.Not.Match("xy.*");
             }
 
             [TestMethod]
@@ -27,11 +27,11 @@ namespace Test.Specificity.StringConstraintsSpecs
         }
 
         [TestClass]
-        public class with_pattern_that_does_not_match : Scenario
+        public class with_pattern_that_does_not_match : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat("xyzzy").Should.Not.Match("a+");
+                Specify.That("xyzzy").Should.Not.Match("a+");
             }
 
             [TestMethod]
@@ -42,11 +42,11 @@ namespace Test.Specificity.StringConstraintsSpecs
         }
 
         [TestClass]
-        public class with_pattern_that_matches_and_given_message : Scenario
+        public class with_pattern_that_matches_and_given_message : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat("xyzzy").Should.Not.Match("xy.*", "magic {0}", "xyzzy");
+                Specify.That("xyzzy").Should.Not.Match("xy.*", "magic {0}", "xyzzy");
             }
 
             [TestMethod]

@@ -1,17 +1,15 @@
 ﻿//-----------------------------------------------------------------------------
-// <copyright file="Scenario.cs" company="William E. Kempf">
+// <copyright file="TestScenario.cs" company="William E. Kempf">
 //     Copyright (c) William E. Kempf.
 // </copyright>
 //-----------------------------------------------------------------------------
 
 namespace Test.Specificity
 {
-    using System;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Testing.Specificity;
 
     [TestClass]
-    public abstract class Scenario
+    public abstract class TestScenario
     {
         private string message;
 
@@ -23,21 +21,21 @@ namespace Test.Specificity
             {
                 this.Because();
             }
-            catch (ConstraintFailedException ex)
+            catch (AssertFailedException ex)
             {
                 this.message = ex.Message;
             }
         }
 
-        protected ConstrainedValue<T> SpecifyThat<T>(T value)
-        {
-            return new ConstrainedValue<T>(value);
-        }
+        ////protected ConstrainedValue<T> Specify.That<T>(T value)
+        ////{
+        ////    return new ConstrainedValue<T>(value);
+        ////}
 
-        protected ConstrainedValue<Action> SpecifyThatAction(Action action)
-        {
-            return new ConstrainedValue<Action>(action);
-        }
+        ////protected ConstrainedValue<Action> Specify.ThatAction(Action action)
+        ////{
+        ////    return new ConstrainedValue<Action>(action);
+        ////}
 
         protected void ShouldHaveFailed()
         {
@@ -55,10 +53,10 @@ namespace Test.Specificity
             Assert.IsNull(this.message, "The specification constraint failed.");
         }
 
-        protected virtual void EstablishContext()
+        public virtual void EstablishContext()
         {
         }
 
-        protected abstract void Because();
+        public abstract void Because();
     }
 }

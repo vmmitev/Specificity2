@@ -13,11 +13,11 @@ namespace Test.Specificity.ActionConstraintsSpecs
     public static class When_calling_Should_HaveThrown
     {
         [TestClass]
-        public class with_action_that_does_throw : Scenario
+        public class with_action_that_does_throw : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThatAction(() => { throw new InvalidOperationException(); }).Should.HaveThrown();
+                Specify.ThatAction(() => { throw new InvalidOperationException(); }).Should.HaveThrown();
             }
 
             [TestMethod]
@@ -28,11 +28,11 @@ namespace Test.Specificity.ActionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_action_that_does_not_throw : Scenario
+        public class with_action_that_does_not_throw : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThatAction(() => { }).Should.HaveThrown();
+                Specify.ThatAction(() => { }).Should.HaveThrown();
             }
 
             [TestMethod]
@@ -43,11 +43,11 @@ namespace Test.Specificity.ActionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_action_that_does_not_throw_and_given_message : Scenario
+        public class with_action_that_does_not_throw_and_given_message : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThatAction(() => { }).Should.HaveThrown("magic {0}", "xyzzy");
+                Specify.ThatAction(() => { }).Should.HaveThrown("magic {0}", "xyzzy");
             }
 
             [TestMethod]
@@ -58,11 +58,11 @@ namespace Test.Specificity.ActionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_action_that_throws_specified_type : Scenario
+        public class with_action_that_throws_specified_type : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThatAction(() => { throw new ArgumentNullException(); }).Should.HaveThrown(typeof(ArgumentException));
+                Specify.ThatAction(() => { throw new ArgumentNullException(); }).Should.HaveThrown(typeof(ArgumentException));
             }
 
             [TestMethod]
@@ -73,11 +73,11 @@ namespace Test.Specificity.ActionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_action_that_throws_different_type : Scenario
+        public class with_action_that_throws_different_type : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThatAction(() => { throw new InvalidOperationException(); }).Should.HaveThrown(typeof(ArgumentException));
+                Specify.ThatAction(() => { throw new InvalidOperationException(); }).Should.HaveThrown(typeof(ArgumentException));
             }
 
             [TestMethod]
@@ -88,11 +88,11 @@ namespace Test.Specificity.ActionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_action_that_throws_different_type_and_given_message : Scenario
+        public class with_action_that_throws_different_type_and_given_message : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThatAction(() => { throw new InvalidOperationException(); }).Should.HaveThrown(typeof(ArgumentException), "magic {0}", "xyzzy");
+                Specify.ThatAction(() => { throw new InvalidOperationException(); }).Should.HaveThrown(typeof(ArgumentException), "magic {0}", "xyzzy");
             }
 
             [TestMethod]

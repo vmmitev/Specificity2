@@ -51,11 +51,11 @@ namespace Test.Specificity.ObjectConstrainsSpec
         }
 
         [TestClass]
-        public class with_same_reference : Scenario
+        public class with_same_reference : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(reference).Should.Not.BeEqualTo(reference);
+                Specify.That(reference).Should.Not.BeEqualTo(reference);
             }
 
             [TestMethod]
@@ -66,11 +66,11 @@ namespace Test.Specificity.ObjectConstrainsSpec
         }
 
         [TestClass]
-        public class with_equal_objects : Scenario
+        public class with_equal_objects : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(reference).Should.Not.BeEqualTo(reference.Clone());
+                Specify.That(reference).Should.Not.BeEqualTo(reference.Clone());
             }
 
             [TestMethod]
@@ -81,11 +81,11 @@ namespace Test.Specificity.ObjectConstrainsSpec
         }
 
         [TestClass]
-        public class with_objects_that_are_not_equal : Scenario
+        public class with_objects_that_are_not_equal : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(reference).Should.Not.BeEqualTo(new TestObject("xyzzy"));
+                Specify.That(reference).Should.Not.BeEqualTo(new TestObject("xyzzy"));
             }
 
             [TestMethod]
@@ -96,11 +96,11 @@ namespace Test.Specificity.ObjectConstrainsSpec
         }
 
         [TestClass]
-        public class with_equal_objects_and_given_message : Scenario
+        public class with_equal_objects_and_given_message : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(reference).Should.Not.BeEqualTo(reference.Clone(), "magic {0}", "xyzzy");
+                Specify.That(reference).Should.Not.BeEqualTo(reference.Clone(), "magic {0}", "xyzzy");
             }
 
             [TestMethod]

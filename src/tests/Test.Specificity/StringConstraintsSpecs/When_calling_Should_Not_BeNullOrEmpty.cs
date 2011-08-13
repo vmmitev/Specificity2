@@ -12,11 +12,11 @@ namespace Test.Specificity.StringConstraintsSpecs
     public static class When_calling_Should_Not_BeNullOrEmpty
     {
         [TestClass]
-        public class with_null : Scenario
+        public class with_null : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat<string>(null).Should.Not.BeNullOrEmpty();
+                Specify.That<string>(null).Should.Not.BeNullOrEmpty();
             }
 
             [TestMethod]
@@ -27,11 +27,11 @@ namespace Test.Specificity.StringConstraintsSpecs
         }
 
         [TestClass]
-        public class with_empty : Scenario
+        public class with_empty : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(string.Empty).Should.Not.BeNullOrEmpty();
+                Specify.That(string.Empty).Should.Not.BeNullOrEmpty();
             }
 
             [TestMethod]
@@ -42,11 +42,11 @@ namespace Test.Specificity.StringConstraintsSpecs
         }
 
         [TestClass]
-        public class with_non_empty_string : Scenario
+        public class with_non_empty_string : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat("xyzzy").Should.Not.BeNullOrEmpty();
+                Specify.That("xyzzy").Should.Not.BeNullOrEmpty();
             }
 
             [TestMethod]
@@ -57,11 +57,11 @@ namespace Test.Specificity.StringConstraintsSpecs
         }
 
         [TestClass]
-        public class with_empty_string_and_given_message : Scenario
+        public class with_empty_string_and_given_message : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(string.Empty).Should.Not.BeNullOrEmpty("magic {0}", "xyzzy");
+                Specify.That(string.Empty).Should.Not.BeNullOrEmpty("magic {0}", "xyzzy");
             }
 
             [TestMethod]

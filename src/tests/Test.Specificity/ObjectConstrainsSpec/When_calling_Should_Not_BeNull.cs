@@ -12,11 +12,11 @@ namespace Test.Specificity.ObjectConstrainsSpec
     public static class When_calling_Should_Not_BeNull
     {
         [TestClass]
-        public class with_null : Scenario
+        public class with_null : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat<object>(null).Should.Not.BeNull();
+                Specify.That<object>(null).Should.Not.BeNull();
             }
 
             [TestMethod]
@@ -27,11 +27,11 @@ namespace Test.Specificity.ObjectConstrainsSpec
         }
 
         [TestClass]
-        public class with_reference : Scenario
+        public class with_reference : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(new object()).Should.Not.BeNull();
+                Specify.That(new object()).Should.Not.BeNull();
             }
 
             [TestMethod]
@@ -42,11 +42,11 @@ namespace Test.Specificity.ObjectConstrainsSpec
         }
 
         [TestClass]
-        public class with_null_and_given_message : Scenario
+        public class with_null_and_given_message : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat<object>(null).Should.Not.BeNull("magic {0}", "xyzzy");
+                Specify.That<object>(null).Should.Not.BeNull("magic {0}", "xyzzy");
             }
 
             [TestMethod]

@@ -42,11 +42,11 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_collection_of_unique_items : Scenario
+        public class with_collection_of_unique_items : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(Unique).Should.Not.HaveUniqueItems();
+                Specify.That(Unique).Should.Not.HaveUniqueItems();
             }
 
             [TestMethod]
@@ -57,11 +57,11 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_collection_containing_duplicate_items : Scenario
+        public class with_collection_containing_duplicate_items : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(NonUnique).Should.Not.HaveUniqueItems();
+                Specify.That(NonUnique).Should.Not.HaveUniqueItems();
             }
 
             [TestMethod]
@@ -72,11 +72,11 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_collection_of_unique_items_and_given_message : Scenario
+        public class with_collection_of_unique_items_and_given_message : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(Unique).Should.Not.HaveUniqueItems("magic {0}", "xyzzy");
+                Specify.That(Unique).Should.Not.HaveUniqueItems("magic {0}", "xyzzy");
             }
 
             [TestMethod]
@@ -87,11 +87,11 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         }
 
         [TestClass]
-        public class with_collection_containing_multiple_null_references : Scenario
+        public class with_collection_containing_multiple_null_references : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(MultipleNulls).Should.Not.HaveUniqueItems();
+                Specify.That(MultipleNulls).Should.Not.HaveUniqueItems();
             }
 
             [TestMethod]

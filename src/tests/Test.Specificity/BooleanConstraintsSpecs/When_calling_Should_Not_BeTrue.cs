@@ -12,11 +12,11 @@ namespace Test.Specificity.BooleanConstraintsSpecs
     public static class When_calling_Should_Not_BeTrue
     {
         [TestClass]
-        public class with_true : Scenario
+        public class with_true : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(true).Should.Not.BeTrue();
+                Specify.That(true).Should.Not.BeTrue();
             }
 
             [TestMethod]
@@ -27,11 +27,11 @@ namespace Test.Specificity.BooleanConstraintsSpecs
         }
 
         [TestClass]
-        public class with_false : Scenario
+        public class with_false : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(false).Should.Not.BeTrue();
+                Specify.That(false).Should.Not.BeTrue();
             }
 
             [TestMethod]
@@ -42,11 +42,11 @@ namespace Test.Specificity.BooleanConstraintsSpecs
         }
 
         [TestClass]
-        public class with_true_and_given_message : Scenario
+        public class with_true_and_given_message : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat(true).Should.Not.BeTrue("magic {0}", "xyzzy");
+                Specify.That(true).Should.Not.BeTrue("magic {0}", "xyzzy");
             }
 
             [TestMethod]

@@ -13,11 +13,11 @@ namespace Test.Specificity.StringConstraintsSpecs
     public static class When_calling_Should_BeEqualTo
     {
         [TestClass]
-        public class with_equal_strings_using_Ordinal_comparison : Scenario
+        public class with_equal_strings_using_Ordinal_comparison : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat("xyzzy").Should.BeEqualTo("xyzzy", StringComparison.Ordinal);
+                Specify.That("xyzzy").Should.BeEqualTo("xyzzy", StringComparison.Ordinal);
             }
 
             [TestMethod]
@@ -28,11 +28,11 @@ namespace Test.Specificity.StringConstraintsSpecs
         }
 
         [TestClass]
-        public class with_strings_that_differ_in_case_using_Ordinal_comparision : Scenario
+        public class with_strings_that_differ_in_case_using_Ordinal_comparision : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat("xyzzy").Should.BeEqualTo("XYZZY", StringComparison.Ordinal);
+                Specify.That("xyzzy").Should.BeEqualTo("XYZZY", StringComparison.Ordinal);
             }
 
             [TestMethod]
@@ -43,11 +43,11 @@ namespace Test.Specificity.StringConstraintsSpecs
         }
 
         [TestClass]
-        public class with_string_that_differ_using_Ordinal_comparison : Scenario
+        public class with_string_that_differ_using_Ordinal_comparison : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat("xyzzy").Should.BeEqualTo("magic", StringComparison.Ordinal);
+                Specify.That("xyzzy").Should.BeEqualTo("magic", StringComparison.Ordinal);
             }
 
             [TestMethod]
@@ -58,11 +58,11 @@ namespace Test.Specificity.StringConstraintsSpecs
         }
 
         [TestClass]
-        public class with_equal_strings_using_OrdinalIgnoreCase_comparison : Scenario
+        public class with_equal_strings_using_OrdinalIgnoreCase_comparison : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat("xyzzy").Should.BeEqualTo("xyzzy", StringComparison.OrdinalIgnoreCase);
+                Specify.That("xyzzy").Should.BeEqualTo("xyzzy", StringComparison.OrdinalIgnoreCase);
             }
 
             [TestMethod]
@@ -73,11 +73,11 @@ namespace Test.Specificity.StringConstraintsSpecs
         }
 
         [TestClass]
-        public class with_strings_that_differ_in_case_using_OrdinalIgnoreCase_comparison : Scenario
+        public class with_strings_that_differ_in_case_using_OrdinalIgnoreCase_comparison : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat("xyzzy").Should.BeEqualTo("XYZZY", StringComparison.OrdinalIgnoreCase);
+                Specify.That("xyzzy").Should.BeEqualTo("XYZZY", StringComparison.OrdinalIgnoreCase);
             }
 
             [TestMethod]
@@ -88,11 +88,11 @@ namespace Test.Specificity.StringConstraintsSpecs
         }
 
         [TestClass]
-        public class with_strings_that_differ_using_OrdinalIgnoreCase_comparison : Scenario
+        public class with_strings_that_differ_using_OrdinalIgnoreCase_comparison : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat("xyzzy").Should.BeEqualTo("magic", StringComparison.OrdinalIgnoreCase);
+                Specify.That("xyzzy").Should.BeEqualTo("magic", StringComparison.OrdinalIgnoreCase);
             }
 
             [TestMethod]
@@ -103,11 +103,11 @@ namespace Test.Specificity.StringConstraintsSpecs
         }
 
         [TestClass]
-        public class with_strings_that_differ_and_given_message : Scenario
+        public class with_strings_that_differ_and_given_message : TestScenario
         {
-            protected override void Because()
+            public override void Because()
             {
-                SpecifyThat("xyzzy").Should.BeEqualTo("magic", StringComparison.Ordinal, "magic {0}", "xyzzy");
+                Specify.That("xyzzy").Should.BeEqualTo("magic", StringComparison.Ordinal, "magic {0}", "xyzzy");
             }
 
             [TestMethod]
