@@ -72,6 +72,6 @@
     <ItemGroup>
       <NuPkgFiles Include="$(BuildPath)\*.nupkg"/>
     </ItemGroup>
-    <Exec WorkingDirectory="$(BuildPath)" Command="$(NuGetDirectory)\nuget.exe push %(NuPkgFiles.FullPath)"/>
+    <Exec WorkingDirectory="$(BuildPath)" Command="$(NuGetDirectory)\nuget.exe push %(NuPkgFiles.FullPath) $(NuGetApiKey)"/>
   </Target>
 </Project>
