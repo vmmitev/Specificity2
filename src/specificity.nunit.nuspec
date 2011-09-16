@@ -1,16 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package>
   <metadata>
-    <id>Specificity.xUnit</id>
-    <title>Specificity - xUnit</title>
-    <version>0.2.0.2</version>
+    <id>Specificity.NUnit</id>
+    <title>Specificity - NUnit</title>
+    <version>0.2.0.6</version>
     <authors>William E. Kempf</authors>
     <description>Specificity is a unit test fluent assertion library.</description>
     <language>en-US</language>
     <projectUrl>http://specificity.codeplex.com</projectUrl>
+    <dependencies>
+      <dependency id="NUnit" />
+    </dependencies>
   </metadata>
   <files>
-    <file src="Specificity.dll" target="lib/4.0" />
-    <file src="Specificity.xUnit.dll" target="lib/4.0" />
+    <file src="Specificity.MbUnit.dll" target="lib/4.0" />
   </files>
 </package>

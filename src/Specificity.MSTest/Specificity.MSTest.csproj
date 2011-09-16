@@ -84,12 +84,6 @@
     <Compile Include="StringConstraints.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Specificity\Specificity.csproj">
-      <Project>{49C776E8-DC34-41CE-ACCC-3F087D274F8F}</Project>
-      <Name>Specificity</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

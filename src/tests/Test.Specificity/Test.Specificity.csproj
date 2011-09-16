@@ -97,10 +97,6 @@
       <Project>{57902A21-06EC-41AB-A7A5-FD23F4CBEA8E}</Project>
       <Name>Specificity.MSTest</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Specificity\Specificity.csproj">
-      <Project>{49C776E8-DC34-41CE-ACCC-3F087D274F8F}</Project>
-      <Name>Specificity</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\StyleCop\v4.5\StyleCop.Targets" Condition="'$(StyleCopEnabled)' != 'false'" />

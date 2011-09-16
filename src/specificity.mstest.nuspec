@@ -3,14 +3,13 @@
   <metadata>
     <id>Specificity.MSTest</id>
     <title>Specificity - MSTest</title>
-    <version>0.2.0.2</version>
+    <version>0.2.0.6</version>
     <authors>William E. Kempf</authors>
     <description>Specificity is a unit test fluent assertion library.</description>
     <language>en-US</language>
     <projectUrl>http://specificity.codeplex.com</projectUrl>
   </metadata>
   <files>
-    <file src="Specificity.dll" target="lib/4.0" />
     <file src="Specificity.MSTest.dll" target="lib/4.0" />
   </files>
 </package>

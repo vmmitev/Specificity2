@@ -60,13 +60,17 @@
   </Target>
   <Target Name="Package" DependsOnTargets="Build">
     <ItemGroup>
-      <NuSpecFiles Include="$(MSBuildProjectDirectory)\*.nuspec" />
+      <NuSpecFiles Include="$(MSBuildProjectDirectory)\src\*.nuspec" />
     </ItemGroup>
     <XmlUpdate XmlFileName="%(NuSpecFiles.FullPath)"
                Xpath="//package/metadata/version"
                Value="$(Major).$(Minor).$(Build).$(Revision)"/>
-    <Exec WorkingDirectory="$(BuildPath)" Command="&quot;$(PackagesDir)\nuget\nuget.exe&quot; pack -o &quot;$(BuildPath)&quot; -b &quot;$(OutDir)&quot; &quot;%(NuSpecFiles.FullPath)&quot;"/>
+    <Exec WorkingDirectory="$(BuildPath)" Command="$(PackagesDir)\nuget\nuget.exe pack %(NuSpecFiles.FullPath) -o $(BuildPath) -base $(OutDir)"/>
   </Target>
   <Target Name="Deploy" DependsOnTargets="Clean;Version;Build;Test;Package">
+    <ItemGroup>
+      <NuPkgFiles Include="$(BuildPath)\*.nupkg"/>
+    </ItemGroup>
+    <Exec WorkingDirectory="$(BuildPath)" Command="$(PackagesDir)\nuget\nuget.exe push %(NuPkgFiles.FullPath)"/>
   </Target>
 </Project>
