@@ -15,6 +15,7 @@
     <Revision>1</Revision>
     <SolutionInfoFile>$(MSBuildProjectDirectory)\src\SolutionInfo.cs</SolutionInfoFile>
     <BuildOptions>Configuration=$(Configuration);OutDir=$(OutDir);RunCodeAnalysis=true;CodeAnalysisTreatWarningsAsErrors=true;StyleCopEnabled=true;StyleCopTreatErrorsAsWarnings=false</BuildOptions>
+    <NuGetDirectory>$(MSBuildProjectDirectory)\.nuget</NuGetDirectory>
   </PropertyGroup>
   <Target Name="Version">
     <!--<SvnVersion LocalPath="$(MSBuildProjectDirectory)">
@@ -65,12 +66,12 @@
     <XmlUpdate XmlFileName="%(NuSpecFiles.FullPath)"
                Xpath="//package/metadata/version"
                Value="$(Major).$(Minor).$(Build).$(Revision)"/>
-    <Exec WorkingDirectory="$(BuildPath)" Command="$(PackagesDir)\nuget\nuget.exe pack %(NuSpecFiles.FullPath) -o $(BuildPath) -base $(OutDir)"/>
+    <Exec WorkingDirectory="$(BuildPath)" Command="$(NuGetDirectory)\nuget.exe pack %(NuSpecFiles.FullPath) -o $(BuildPath) -base $(OutDir)"/>
   </Target>
   <Target Name="Deploy" DependsOnTargets="Clean;Version;Build;Test;Package">
     <ItemGroup>
       <NuPkgFiles Include="$(BuildPath)\*.nupkg"/>
     </ItemGroup>
-    <Exec WorkingDirectory="$(BuildPath)" Command="$(PackagesDir)\nuget\nuget.exe push %(NuPkgFiles.FullPath)"/>
+    <Exec WorkingDirectory="$(BuildPath)" Command="$(NuGetDirectory)\nuget.exe push %(NuPkgFiles.FullPath)"/>
   </Target>
 </Project>
