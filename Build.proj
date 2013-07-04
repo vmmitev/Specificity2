@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
-  <Import Project="$(MSBuildExtensionsPath)\StyleCop\v4.5\StyleCop.Targets" />
+  <Import Project="$(MSBuildProjectDirectory)\.build\MSBuild.Community.Tasks.Targets"/>
   <UsingTask AssemblyFile="C:\Program Files (x86)\Gallio\bin\Gallio.MSBuildTasks.dll" TaskName="Gallio" Condition="Exists('C:\Program Files (x86)\Gallio\bin\Gallio.MSBuildTasks.dll')"/>
   <UsingTask AssemblyFile="C:\Program Files\Gallio\bin\Gallio.MSBuildTasks.dll" TaskName="Gallio" Condition="Exists('C:\Program Files\Gallio\bin\Gallio.MSBuildTasks.dll')"/>
   <PropertyGroup>

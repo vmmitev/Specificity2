@@ -4,8 +4,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using System;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
@@ -15,6 +15,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("Specificity")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -22,6 +24,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("349b4909-47d6-4af8-ab26-9123d7512cfb")]
-
-[assembly: CLSCompliant(true)]
+[assembly: Guid("5cec2c43-8c4c-4991-b679-391680488ec8")]
