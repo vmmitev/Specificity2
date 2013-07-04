@@ -6,6 +6,7 @@
 
 namespace Test.Specificity.ObjectConstrainsSpec
 {
+    using System.Diagnostics.CodeAnalysis;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Testing.Specificity;
 
@@ -16,6 +17,7 @@ namespace Test.Specificity.ObjectConstrainsSpec
         [TestClass]
         public class with_same_reference : TestScenario
         {
+            [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed.")]
             public override void Because()
             {
                 Specify.That(reference).Should.BeSameAs(reference);

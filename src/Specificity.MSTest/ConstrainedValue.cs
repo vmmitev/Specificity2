@@ -7,6 +7,7 @@
 namespace Testing.Specificity
 {
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Defines a wrapper for values used to distinguish values being specified with assertions in order to play
@@ -15,6 +16,7 @@ namespace Testing.Specificity
     /// </summary>
     /// <typeparam name="T">The type of the wrapped value.</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed.")]
     public class ConstrainedValue<T>
     {
         /// <summary>

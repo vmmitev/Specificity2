@@ -8,6 +8,7 @@ namespace Test.Specificity.CollectionConstraintsSpecs
 {
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Testing.Specificity;
@@ -95,6 +96,7 @@ namespace Test.Specificity.CollectionConstraintsSpecs
         [TestClass]
         public class with_same_reference_and_given_message : TestScenario
         {
+            [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed.")]
             public override void Because()
             {
                 Specify.That(Collection).Should.Not.BeEquivalentTo(Collection, "magic {0}", "xyzzy");

@@ -14,5 +14,5 @@
 // "In Project Suppression File".
 // You do not need to add suppressions to this file manually.
 
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes", Scope = "member", Target = "Testing.Specificity.EventWatcher`1.#System.Collections.Generic.ICollection`1<!0>.Add(!0)")]
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes", Scope = "member", Target = "Testing.Specificity.EventWatcher`1.#System.Collections.Generic.ICollection`1<!0>.Remove(!0)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes", Scope = "member", Target = "Testing.Specificity.EventWatcher`1.#System.Collections.Generic.ICollection`1<!0>.Add(!0)", Justification = "The operation is invalid.")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes", Scope = "member", Target = "Testing.Specificity.EventWatcher`1.#System.Collections.Generic.ICollection`1<!0>.Remove(!0)", Justification = "The operation is invalid.")]
