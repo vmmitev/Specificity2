@@ -41,7 +41,7 @@ namespace Testing.Specificity
         /// <param name="message">The message to display in the test results.</param>
         public void Inconclusive(string message)
         {
-            throw new AssertException("Inconclusive");
+            throw new AssertException("Inconclusive. " + message);
         }
     }
 }
