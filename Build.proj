@@ -9,7 +9,7 @@
     <PackagesDir>$(MSBuildProjectDirectory)\packages</PackagesDir>
     <Configuration Condition="'$(Configuration)'==''">Release</Configuration>
     <Major>0</Major>
-    <Minor>5</Minor>
+    <Minor>6</Minor>
     <Build>0</Build>
     <Revision>1</Revision>
     <SolutionInfoFile>$(MSBuildProjectDirectory)\src\SolutionInfo.cs</SolutionInfoFile>

@@ -10,9 +10,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Testing.Specificity</RootNamespace>
     <AssemblyName>Specificity.NUnit</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -25,6 +26,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Specificity.NUnit.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -34,19 +36,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Specificity.NUnit.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+    <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.mocks, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NUnit.2.5.10.11092\lib\nunit.mocks.dll</HintPath>
-    </Reference>
-    <Reference Include="pnunit.framework, Version=1.0.4109.34242, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NUnit.2.5.10.11092\lib\pnunit.framework.dll</HintPath>
+      <HintPath>..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -60,98 +55,23 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
-    <Compile Include="..\Specificity.MSTest\ActionConstraints.cs">
-      <Link>ActionConstraints.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity.MSTest\BooleanConstraints.cs">
-      <Link>BooleanConstraints.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity.MSTest\CollectionConstraints.cs">
-      <Link>CollectionConstraints.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity.MSTest\ConstrainedValue.cs">
-      <Link>ConstrainedValue.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity.MSTest\Constraint.cs">
-      <Link>Constraint.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity.MSTest\ConstraintExtensions.cs">
-      <Link>ConstraintExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity.MSTest\ConstraintFailedException.cs">
-      <Link>ConstraintFailedException.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity.MSTest\ConstraintFailedException.Full.cs">
-      <Link>ConstraintFailedException.Full.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity.MSTest\ConstraintResult.cs">
-      <Link>ConstraintResult.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity.MSTest\ConstraintResultType.cs">
-      <Link>ConstraintResultType.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity.MSTest\EventWatcher.cs">
-      <Link>EventWatcher.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity.MSTest\GlobalSuppressions.cs">
-      <Link>GlobalSuppressions.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity.MSTest\IConstraint.cs">
-      <Link>IConstraint.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity.MSTest\ItemOrder.cs">
-      <Link>ItemOrder.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity.MSTest\Messages.cs">
-      <Link>Messages.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity.MSTest\NegativeConstraint.cs">
-      <Link>NegativeConstraint.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity.MSTest\NumericConstraints.cs">
-      <Link>NumericConstraints.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity.MSTest\ObjectConstraints.cs">
-      <Link>ObjectConstraints.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity.MSTest\ObserveExceptionsAttribute.cs">
-      <Link>ObserveExceptionsAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity.MSTest\Properties\Resources.Designer.cs">
-      <Link>Properties\Resources.Designer.cs</Link>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="..\Specificity.MSTest\PropertyChangedWatcher.cs">
-      <Link>PropertyChangedWatcher.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity.MSTest\Scenario.cs">
-      <Link>Scenario.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity.MSTest\ScenarioConstraints.cs">
-      <Link>ScenarioConstraints.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity.MSTest\Specify.cs">
-      <Link>Specify.cs</Link>
-    </Compile>
-    <Compile Include="..\Specificity.MSTest\StringConstraints.cs">
-      <Link>StringConstraints.cs</Link>
-    </Compile>
+    <Compile Include="AggregateAssertionException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scenario.NUnit.cs" />
-    <Compile Include="Specify.NUnit.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\Specificity.MSTest\Properties\Resources.resx">
-      <Link>Properties\Resources.resx</Link>
-    </EmbeddedResource>
+    <Compile Include="SpecifyAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Specificity\Specificity.csproj">
+      <Project>{52ef5df6-979e-4c66-8c8c-53e78dbbbd64}</Project>
+      <Name>Specificity</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="57902a21-06ec-41ab-a7a5-fd23f4cbea8e" />
+      <UserProperties ProjectLinkReference="57902a21-06ec-41ab-a7a5-fd23f4cbea8e" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />

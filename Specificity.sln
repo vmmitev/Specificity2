@@ -26,8 +26,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Specificity.XUnit", "src\Sp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Specificity.NUnit", "src\Specificity.NUnit\Specificity.NUnit.csproj", "{AB6462AA-7DFB-4756-908E-5044D20F1B76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Specificity", "src\tests\Test.Specificity\Test.Specificity.csproj", "{0D30735D-523C-4358-8100-53819D2C6F22}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Specificity", "src\Specificity\Specificity.csproj", "{52EF5DF6-979E-4C66-8C8C-53E78DBBBD64}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{C22F5933-7070-4BFF-92EA-C4FE4C172A66}"
@@ -36,6 +34,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{C22F59
 		.build\MSBuild.Community.Tasks.dll = .build\MSBuild.Community.Tasks.dll
 		.build\MSBuild.Community.Tasks.targets = .build\MSBuild.Community.Tasks.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Specificity.Tests", "src\tests\Specificity.Tests\Specificity.Tests.csproj", "{539076DE-DA3C-40A9-9ECE-0B8DD38D5493}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -62,19 +62,19 @@ Global
 		{AB6462AA-7DFB-4756-908E-5044D20F1B76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB6462AA-7DFB-4756-908E-5044D20F1B76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB6462AA-7DFB-4756-908E-5044D20F1B76}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0D30735D-523C-4358-8100-53819D2C6F22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0D30735D-523C-4358-8100-53819D2C6F22}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0D30735D-523C-4358-8100-53819D2C6F22}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0D30735D-523C-4358-8100-53819D2C6F22}.Release|Any CPU.Build.0 = Release|Any CPU
 		{52EF5DF6-979E-4C66-8C8C-53E78DBBBD64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{52EF5DF6-979E-4C66-8C8C-53E78DBBBD64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52EF5DF6-979E-4C66-8C8C-53E78DBBBD64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52EF5DF6-979E-4C66-8C8C-53E78DBBBD64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{539076DE-DA3C-40A9-9ECE-0B8DD38D5493}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{539076DE-DA3C-40A9-9ECE-0B8DD38D5493}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{539076DE-DA3C-40A9-9ECE-0B8DD38D5493}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{539076DE-DA3C-40A9-9ECE-0B8DD38D5493}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{0D30735D-523C-4358-8100-53819D2C6F22} = {F6F85D33-AB70-409E-881E-A578C73A8C5E}
+		{539076DE-DA3C-40A9-9ECE-0B8DD38D5493} = {F6F85D33-AB70-409E-881E-A578C73A8C5E}
 	EndGlobalSection
 EndGlobal
