@@ -29,7 +29,7 @@ namespace Testing.Specificity
             {
                 throw new ArgumentNullException("self");
             }
-            
+
             if (!self.Value)
             {
                 self.FailIfNotNegated(self.FormatErrorMessage("BeTrue", null, message, args));

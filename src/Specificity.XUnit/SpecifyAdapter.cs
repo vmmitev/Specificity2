@@ -8,7 +8,6 @@ namespace Testing.Specificity
 {
     using System;
     using System.Collections.Generic;
-    using Xunit;
     using Xunit.Sdk;
 
     /// <summary>

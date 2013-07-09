@@ -52,6 +52,7 @@
     <Compile Include="ActionConstraintsTests.cs" />
     <Compile Include="BooleanConstraintsTests.cs" />
     <Compile Include="CollectionConstraintsTests.cs" />
+    <Compile Include="DistributionTests.cs" />
     <Compile Include="NumericConstraintsTests.cs" />
     <Compile Include="ObjectConstraintsTests.cs" />
     <Compile Include="ObjectFactoryTests.cs" />

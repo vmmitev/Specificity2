@@ -48,6 +48,7 @@
     </Compile>
     <Compile Include="ActionConstraints.cs" />
     <Compile Include="BooleanConstraints.cs" />
+    <Compile Include="Classifier.cs" />
     <Compile Include="CollectionConstraints.cs" />
     <Compile Include="ConstrainedValue.cs" />
     <Compile Include="Constraint.cs" />

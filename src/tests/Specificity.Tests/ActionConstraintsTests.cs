@@ -231,7 +231,7 @@ namespace Testing.Specificity.Tests
 
             Specify.Failure("Specification did not fail.");
         }
-        
+
         [TestMethod]
         public void HaveThrownForActionThatThrowsGivenExpectedExceptionTypeMessageAndArgsShouldNotFail()
         {
