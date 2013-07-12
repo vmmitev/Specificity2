@@ -343,27 +343,20 @@ namespace Testing.Specificity
         }
 
         /// <summary>
-        /// Register the standard factories with the <see cref="IObjectFactoryRegistry"/>.
+        /// Registers factory methods using the specified <see cref="IObjectFactoryRegistrar"/> type.
         /// </summary>
-        /// <param name="registry">The registry to register factory methods with.</param>
-        [ObjectFactoryRegistrar]
-        public static void RegisterFactories(IObjectFactoryRegistry registry)
+        /// <typeparam name="TRegistrar">The registrar type.</typeparam>
+        /// <param name="registry">The registry.</param>
+        public static void Register<TRegistrar>(this IObjectFactoryRegistry registry)
+            where TRegistrar : IObjectFactoryRegistrar, new()
         {
-            registry.Register(typeof(float), f => f.AnyFloat());
-            registry.Register(typeof(long), f => f.AnyLong());
-            registry.Register(typeof(ulong), f => f.AnyULong());
-            registry.Register(typeof(int), f => f.AnyInt());
-            registry.Register(typeof(uint), f => f.AnyUInt());
-            registry.Register(typeof(short), f => f.AnyShort());
-            registry.Register(typeof(ushort), f => f.AnyUShort());
-            registry.Register(typeof(byte), f => f.AnyByte());
-            registry.Register(typeof(char), f => f.AnyChar());
-            registry.Register(typeof(bool), f => f.AnyInt() % 2 == 0);
-            registry.Register(typeof(string), f => f.AnyString());
-            registry.Register(typeof(DateTime), f => f.AnyDateTime());
-            registry.Register(typeof(DateTimeOffset), f => f.AnyDateTimeOffset());
-            registry.Register(typeof(TimeSpan), f => f.AnyTimeSpan());
-            registry.Register(typeof(Guid), f => Guid.NewGuid());
+            if (registry == null)
+            {
+                throw new ArgumentNullException("registry");
+            }
+
+            var registrar = new TRegistrar();
+            registrar.Register(registry);
         }
     }
 }
