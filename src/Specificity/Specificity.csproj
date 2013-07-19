@@ -63,6 +63,7 @@
     <Compile Include="IObjectFactoryRegistrar.cs" />
     <Compile Include="ISpecifyAdapter.cs" />
     <Compile Include="Messages.cs" />
+    <Compile Include="NamespaceDoc.cs" />
     <Compile Include="NegativeConstraint.cs" />
     <Compile Include="NumericConstraints.cs" />
     <Compile Include="ObjectConstraints.cs" />
