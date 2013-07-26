@@ -4,6 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
 namespace Testing.Specificity
 {
     /// <summary>
@@ -25,6 +26,6 @@ namespace Testing.Specificity
         /// </summary>
         /// <typeparam name="T">The type of object to generate.</typeparam>
         /// <returns>A pseudo-random instance of the specified type.</returns>
-        T Any<T>();
+        object Any(Type type);
     }
 }

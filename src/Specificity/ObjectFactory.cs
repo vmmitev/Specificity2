@@ -127,25 +127,20 @@ namespace Testing.Specificity
             return (distribution.NextDouble(this.random) * (maximum - minimum)) + minimum;
         }
 
-        /// <summary>
-        /// Generate a pseudo-random object of the specified type.
-        /// </summary>
-        /// <typeparam name="T">The type of object to generate.</typeparam>
-        /// <returns>A pseudo-random instance of the specified type.</returns>
-        public T Any<T>()
+        public object Any(Type type)
         {
             Func<IObjectFactory, object> factory;
-            if (this.factories.TryGetValue(typeof(T), out factory))
+            if (this.factories.TryGetValue(type, out factory))
             {
-                return (T)factory(this);
+                return factory(this);
             }
 
-            if (default(T) is IEnumerable)
+            if (typeof(IEnumerable).IsAssignableFrom(type))
             {
-                return this.CreateCollection<T>();
+                return this.CreateCollection(type);
             }
 
-            return this.CreateObject<T>();
+            return this.CreateObject(type);
         }
 
         /// <summary>
@@ -183,11 +178,48 @@ namespace Testing.Specificity
         /// Creates an instance of the specified collection type, caching the dynamically
         /// created factory used.
         /// </summary>
-        /// <typeparam name="T">The collection type to create.</typeparam>
         /// <returns>An instance of the specified collection type.</returns>
-        private T CreateCollection<T>()
+        private object CreateCollection(Type type)
         {
+            var itemType = GetEnumerableItemType(type);
+            if (itemType != null)
+            {
+                return this.AnyEnumerable(itemType);
+            }
+
+            if (type.IsAbstract || type.IsInterface)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var ctors = from c in type.GetConstructors()
+                        let args = c.GetParameters()
+                        where args.Length == 1
+                        let argItemType = GetEnumerableItemType(args[0].ParameterType)
+                        where argItemType != null
+                        select new { Ctor = c, ItemType = argItemType };
+            var ctor = ctors.SingleOrDefault();
+            if (ctor != null)
+            {
+                return ctor.Ctor.Invoke(new[] { this.AnyEnumerable(ctor.ItemType) });
+            }
+
             throw new InvalidOperationException();
+        }
+
+        private Type GetEnumerableItemType(Type type)
+        {
+            if (type == typeof(IEnumerable))
+            {
+                return typeof(object);
+            }
+
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            {
+                return type.GetGenericArguments().Single();
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -196,9 +228,8 @@ namespace Testing.Specificity
         /// </summary>
         /// <typeparam name="T">The type of the object to create.</typeparam>
         /// <returns>An instance of the specified type.</returns>
-        private T CreateObject<T>()
+        private object CreateObject(Type type)
         {
-            var type = typeof(T);
             if (type.IsInterface || type.IsAbstract)
             {
                 throw new InvalidOperationException("Cannot create interface or abstract class " + type + ".");
@@ -216,7 +247,7 @@ namespace Testing.Specificity
             var factory = this.CreateFactory(ctor);
             ObjectFactory.DefaultFactories[type] = factory;
             this.factories[type] = factory;
-            return (T)factory(this);
+            return factory(this);
         }
 
         /// <summary>
@@ -240,10 +271,11 @@ namespace Testing.Specificity
         /// <param name="parameter">The parameter to create an expression for.</param>
         /// <param name="factory">The factory parameter expression.</param>
         /// <returns>A parameter expression for the specified parameter.</returns>
-        private MethodCallExpression GetParameterExpression(ParameterInfo parameter, ParameterExpression factory)
+        private Expression GetParameterExpression(ParameterInfo parameter, ParameterExpression factory)
         {
-            var anyMethod = ObjectFactory.AnyMethod.MakeGenericMethod(new[] { parameter.ParameterType });
-            return Expression.Call(factory, anyMethod);
+            var anyMethod = ObjectFactory.AnyMethod;
+            var call = Expression.Call(factory, anyMethod, Expression.Constant(parameter.ParameterType));
+            return Expression.Convert(call, parameter.ParameterType);
         }
     }
 }

@@ -7,8 +7,11 @@
 namespace Testing.Specificity
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
+    using System.Reflection;
     using System.Text;
 
     /// <summary>
@@ -34,6 +37,51 @@ namespace Testing.Specificity
             .Select(c => (char)c)
             .Where(c => char.IsLetter(c))
             .ToArray();
+
+        public static T Any<T>(this IObjectFactory factory)
+        {
+            if (factory == null)
+            {
+                throw new ArgumentNullException("factory");
+            }
+
+            var result = factory.Any(typeof(T));
+            return (T)result;
+        }
+
+        public static IEnumerable AnyEnumerable(this IObjectFactory factory, Type type, int minimumLength = 0, int maximumLength = 20, Func<IObjectFactory, object> itemFactory = null)
+        {
+            if (factory == null)
+            {
+                throw new ArgumentNullException("factory");
+            }
+
+            itemFactory = itemFactory ?? (f => f.Any(type));
+            int length = factory.AnyInt(minimumLength, maximumLength);
+            var method = typeof(ObjectFactoryExtensions).GetMethod("AnyEnumerableInternal", BindingFlags.NonPublic | BindingFlags.Static);
+            method = method.MakeGenericMethod(type);
+            return (IEnumerable)method.Invoke(null, new object[] { factory, length, itemFactory });
+        }
+
+        public static IEnumerable<T> AnyEnumerable<T>(this IObjectFactory factory, int minimumLength = 0, int maximumLength = 20, Func<IObjectFactory, T> itemFactory = null)
+        {
+            if (factory == null)
+            {
+                throw new ArgumentNullException("factory");
+            }
+
+            itemFactory = itemFactory ?? (f => f.Any<T>());
+            int length = factory.AnyInt(minimumLength, maximumLength);
+            return AnyEnumerableInternal<T>(factory, length, f => itemFactory(f));
+        }
+
+        private static IEnumerable<T> AnyEnumerableInternal<T>(IObjectFactory factory, int length, Func<IObjectFactory, object> itemFactory)
+        {
+            for (int i = 0; i < length; ++i)
+            {
+                yield return (T)itemFactory(factory);
+            }
+        }
 
         /// <summary>
         /// Generate a pseudo-random <see cref="Single"/> value.

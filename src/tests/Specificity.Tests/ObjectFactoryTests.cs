@@ -7,6 +7,8 @@
 namespace Testing.Specificity.Tests
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -193,9 +195,27 @@ namespace Testing.Specificity.Tests
         }
 
         [TestMethod]
+        public void AnyOfIEnumerableShouldReturnRandomEnumerable()
+        {
+            this.TestFactory<IEnumerable>();
+        }
+
+        [TestMethod]
+        public void AnyOfIEnumerableOfIntShouldReturnRandomEnumerableOfInt()
+        {
+            this.TestFactory<IEnumerable<int>>();
+        }
+
+        [TestMethod]
         public void AnyOfSimpleTypeShouldReturnRandomSimpleType()
         {
             this.TestFactory<SimpleType>();
+        }
+
+        [TestMethod]
+        public void AnyOfListOfIntShouldReturnRandomListOfInt()
+        {
+            this.TestFactory<List<int>>();
         }
 
         private void TestFactory<T>()
