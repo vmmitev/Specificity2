@@ -4,9 +4,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using System;
 namespace Testing.Specificity
 {
+    using System;
+
     /// <summary>
     /// Defines an interface that can be used to create pseudo-random values.
     /// </summary>
@@ -24,7 +25,7 @@ namespace Testing.Specificity
         /// <summary>
         /// Generate a pseudo-random object of the specified type.
         /// </summary>
-        /// <typeparam name="T">The type of object to generate.</typeparam>
+        /// <param name="type">The type of object to create.</param>
         /// <returns>A pseudo-random instance of the specified type.</returns>
         object Any(Type type);
     }

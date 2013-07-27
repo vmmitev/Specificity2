@@ -38,6 +38,12 @@ namespace Testing.Specificity
             .Where(c => char.IsLetter(c))
             .ToArray();
 
+        /// <summary>
+        /// Generate a pseudo-random object of the specified type.
+        /// </summary>
+        /// <typeparam name="T">The type of object to create.</typeparam>
+        /// <param name="factory">The object factory.</param>
+        /// <returns>A pseudo-random instance of the specified type.</returns>
         public static T Any<T>(this IObjectFactory factory)
         {
             if (factory == null)
@@ -49,6 +55,15 @@ namespace Testing.Specificity
             return (T)result;
         }
 
+        /// <summary>
+        /// Generates an <see cref="IEnumerable"/> of pseudo-random objects of the specified type.
+        /// </summary>
+        /// <param name="factory">The object factory.</param>
+        /// <param name="type">The type of items to create.</param>
+        /// <param name="minimumLength">The minimum length of the collection.</param>
+        /// <param name="maximumLength">The maximum length of the collection.</param>
+        /// <param name="itemFactory">The factory method used to create the items.</param>
+        /// <returns>A collection of pseudo-random object of the specified type.</returns>
         public static IEnumerable AnyEnumerable(this IObjectFactory factory, Type type, int minimumLength = 0, int maximumLength = 20, Func<IObjectFactory, object> itemFactory = null)
         {
             if (factory == null)
@@ -63,6 +78,15 @@ namespace Testing.Specificity
             return (IEnumerable)method.Invoke(null, new object[] { factory, length, itemFactory });
         }
 
+        /// <summary>
+        /// Generates an <see cref="IEnumerable{T}"/> of pseudo-random objects of the specified type.
+        /// </summary>
+        /// <typeparam name="T">The type of items to create.</typeparam>
+        /// <param name="factory">The object factory.</param>
+        /// <param name="minimumLength">The minimum length of the collection.</param>
+        /// <param name="maximumLength">The maximum length of the collection.</param>
+        /// <param name="itemFactory">The factory method used to create the items.</param>
+        /// <returns>A collection of pseudo-random object of the specified type.</returns>
         public static IEnumerable<T> AnyEnumerable<T>(this IObjectFactory factory, int minimumLength = 0, int maximumLength = 20, Func<IObjectFactory, T> itemFactory = null)
         {
             if (factory == null)
@@ -73,14 +97,6 @@ namespace Testing.Specificity
             itemFactory = itemFactory ?? (f => f.Any<T>());
             int length = factory.AnyInt(minimumLength, maximumLength);
             return AnyEnumerableInternal<T>(factory, length, f => itemFactory(f));
-        }
-
-        private static IEnumerable<T> AnyEnumerableInternal<T>(IObjectFactory factory, int length, Func<IObjectFactory, object> itemFactory)
-        {
-            for (int i = 0; i < length; ++i)
-            {
-                yield return (T)itemFactory(factory);
-            }
         }
 
         /// <summary>
@@ -405,6 +421,22 @@ namespace Testing.Specificity
 
             var registrar = new TRegistrar();
             registrar.Register(registry);
+        }
+
+        /// <summary>
+        /// Creates an pseudo-random <see cref="IEnumerable{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the items to create.</typeparam>
+        /// <param name="factory">The object factory.</param>
+        /// <param name="length">The length of the collection to create.</param>
+        /// <param name="itemFactory">The factory method used to create the items.</param>
+        /// <returns>A pseudo-random collection.</returns>
+        private static IEnumerable<T> AnyEnumerableInternal<T>(IObjectFactory factory, int length, Func<IObjectFactory, object> itemFactory)
+        {
+            for (int i = 0; i < length; ++i)
+            {
+                yield return (T)itemFactory(factory);
+            }
         }
     }
 }

@@ -8,14 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 [assembly: AssemblyCompany("Specificity")]
 [assembly: AssemblyCopyright("Copyright © 2008-2010")]
 [assembly: AssemblyVersion("0.2.0.8")]
 [assembly: AssemblyFileVersion("0.2.0.8")]
-
-

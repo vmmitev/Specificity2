@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿//-----------------------------------------------------------------------------
+// <copyright file="NamespaceDoc.cs" company="William E. Kempf">
+//     Copyright (c) William E. Kempf.
+// </copyright>
+//-----------------------------------------------------------------------------
 
 namespace Testing.Specificity
 {
+    using System.Runtime.CompilerServices;
+
     /// <summary>
     /// The <see cref="N:Testing.Specificity"/> namespace contains classes that can be used in unit test
     /// projects for specifying test assertions in a fluent and extensible manner, verifying conceptual contracts
@@ -14,7 +15,7 @@ namespace Testing.Specificity
     /// relevant.
     /// </summary>
     [CompilerGenerated]
-    class NamespaceDoc
+    internal class NamespaceDoc
     {
     }
 }

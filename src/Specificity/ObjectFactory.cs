@@ -127,6 +127,11 @@ namespace Testing.Specificity
             return (distribution.NextDouble(this.random) * (maximum - minimum)) + minimum;
         }
 
+        /// <summary>
+        /// Generate a pseudo-random object of the specified type.
+        /// </summary>
+        /// <param name="type">The type of object to create.</param>
+        /// <returns>A pseudo-random instance of the specified type.</returns>
         public object Any(Type type)
         {
             Func<IObjectFactory, object> factory;
@@ -178,10 +183,11 @@ namespace Testing.Specificity
         /// Creates an instance of the specified collection type, caching the dynamically
         /// created factory used.
         /// </summary>
+        /// <param name="type">The type of the items to create.</param>
         /// <returns>An instance of the specified collection type.</returns>
         private object CreateCollection(Type type)
         {
-            var itemType = GetEnumerableItemType(type);
+            var itemType = this.GetEnumerableItemType(type);
             if (itemType != null)
             {
                 return this.AnyEnumerable(itemType);
@@ -195,7 +201,7 @@ namespace Testing.Specificity
             var ctors = from c in type.GetConstructors()
                         let args = c.GetParameters()
                         where args.Length == 1
-                        let argItemType = GetEnumerableItemType(args[0].ParameterType)
+                        let argItemType = this.GetEnumerableItemType(args[0].ParameterType)
                         where argItemType != null
                         select new { Ctor = c, ItemType = argItemType };
             var ctor = ctors.SingleOrDefault();
@@ -207,6 +213,11 @@ namespace Testing.Specificity
             throw new InvalidOperationException();
         }
 
+        /// <summary>
+        /// Gets the type of the items in the enumerable.
+        /// </summary>
+        /// <param name="type">The enumerable type.</param>
+        /// <returns>The type of the items in the enumerable.</returns>
         private Type GetEnumerableItemType(Type type)
         {
             if (type == typeof(IEnumerable))
@@ -226,7 +237,7 @@ namespace Testing.Specificity
         /// Creates an instance of the specified type, caching the dynamically created
         /// factory used.
         /// </summary>
-        /// <typeparam name="T">The type of the object to create.</typeparam>
+        /// <param name="type">The type of the object to create.</param>
         /// <returns>An instance of the specified type.</returns>
         private object CreateObject(Type type)
         {
