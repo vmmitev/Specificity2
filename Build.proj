@@ -9,7 +9,7 @@
     <Minor>6</Minor>
     <Build>0</Build>
     <Revision>1</Revision>
-    <BuildOptions>Configuration=$(Configuration);OutDir=$(OutDir);RunCodeAnalysis=true;CodeAnalysisTreatWarningsAsErrors=true</BuildOptions>
+    <BuildOptions>Configuration=$(Configuration);OutDir=$(OutDir);RunCodeAnalysis=true</BuildOptions> <!-- CodeAnalysisTreatWarningsAsErrors -->
     <NuGetDirectory>$(MSBuildProjectDirectory)\.nuget</NuGetDirectory>
   </PropertyGroup>
   <Target Name="Build">
