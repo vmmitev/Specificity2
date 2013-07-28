@@ -5,13 +5,14 @@
     <OutDir Condition="'$(OutDir)'==''">$(BuildPath)\bin\</OutDir>
     <PackagesDir>$(MSBuildProjectDirectory)\packages</PackagesDir>
     <Configuration Condition="'$(Configuration)'==''">Release</Configuration>
-    <Major>0</Major>
-    <Minor>6</Minor>
-    <Build>0</Build>
-    <Revision>1</Revision>
+    <Major Condition="'$(Major)'==''">0</Major>
+    <Minor Condition="'$(Mindor)'==''">6</Minor>
+    <Build Condition="'$(Build)'==''">0</Build>
+    <Revision Condition="'$(Revision)'==''">1</Revision>
     <BuildOptions>Configuration=$(Configuration);OutDir=$(OutDir);RunCodeAnalysis=true</BuildOptions> <!-- CodeAnalysisTreatWarningsAsErrors -->
     <NuGetDirectory>$(MSBuildProjectDirectory)\.nuget</NuGetDirectory>
   </PropertyGroup>
+  <Import Project="$(MSBuildProjectDirectory)\.build\MSBuild.Community.Tasks.targets"/>
   <Target Name="Build">
     <MSBuild Projects="Specificity.sln" Targets="Build" Properties="$(BuildOptions)"/>
   </Target>
@@ -29,6 +30,9 @@
     <XmlUpdate XmlFileName="%(NuSpecFiles.FullPath)"
                Xpath="//package/metadata/version"
                Value="$(Major).$(Minor).$(Build).$(Revision)"/>
+    <XmlUpdate XmlFileName="%(NuSpecFiles.FullPath)"
+               XPath="//package/metadata/dependencies/dependency[@id='Specificity']/@version"
+               Value="[$(Major).$(Minor).$(Build).$(Revision)]"/>
     <Exec WorkingDirectory="$(BuildPath)" Command="$(NuGetDirectory)\nuget.exe pack %(NuSpecFiles.FullPath) -o $(BuildPath) -base $(OutDir)"/>
   </Target>
 </Project>
