@@ -8,7 +8,7 @@
 *.sln.docstates
 
 /packages
-/.build
+# /.build
 
 # Build results
 
