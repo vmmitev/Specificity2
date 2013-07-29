@@ -24,7 +24,10 @@
     <MSBuild Projects="Specificity.sln" Targets="Clean" Properties="$(BuildOptions)"/>
     <RemoveDir Directories="$(BuildPath)"/>
   </Target>
-  <Target Name="Package" DependsOnTargets="Build">
+  <Target Name="Documentation">
+    <MSBuild Projects="$(MSBuildProjectDirectory)\documentation\Documentation.sln" Targets="Build" Properties="$(BuildOptions)"/>
+  </Target>
+  <Target Name="Package" DependsOnTargets="Rebuild;Documentation">
     <ItemGroup>
       <NuSpecFiles Include="$(MSBuildProjectDirectory)\src\*.nuspec" />
     </ItemGroup>
