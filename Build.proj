@@ -9,15 +9,23 @@
     <Major Condition="'$(Major)'==''">0</Major>
     <Minor Condition="'$(Mindor)'==''">6</Minor>
     <Build Condition="'$(Build)'==''">0</Build>
-    <Revision Condition="'$(Revision)'==''">1</Revision>
+    <Revision Condition="'$(Revision)'==''">0</Revision>
+    <VCSNumber Condition="'$(VCSNumber)'==''">DevBuild</VCSNumber>
     <BuildOptions>Configuration=$(Configuration);OutDir=$(OutDir);RunCodeAnalysis=true</BuildOptions> <!-- CodeAnalysisTreatWarningsAsErrors -->
     <NuGetDirectory>$(MSBuildProjectDirectory)\.nuget</NuGetDirectory>
   </PropertyGroup>
   <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets"/>
-  <Target Name="Build">
+  <Target Name="Version">
+    <AssemblyInfo CodeLanguage="CS"
+                  OutputFile="$(MSBuildProjectDirectory)\src\SolutionInfo.cs"
+                  AssemblyVersion="$(Major).$(Minor).$(Build).$(Revision)"
+                  AssemblyFileVersion="$(Major).$(Minor).$(Build).$(Revision)"
+                  AssemblyInformationalVersion="$(Major).$(Minor).$(Build).$(Revision).$(VCSNumber)"/>
+  </Target>
+  <Target Name="Build" DependsOnTargets="Version">
     <MSBuild Projects="Specificity.sln" Targets="Build" Properties="$(BuildOptions)"/>
   </Target>
-  <Target Name="Rebuild">
+  <Target Name="Rebuild" DependsOnTargets="Version">
     <MSBuild Projects="Specificity.sln" Targets="Rebuild" Properties="$(BuildOptions)"/>
   </Target>
   <Target Name="Clean">

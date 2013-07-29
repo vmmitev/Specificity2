@@ -3,13 +3,13 @@
   <metadata>
     <id>Specificity.MSTest</id>
     <title>Specificity - MSTest</title>
-    <version>0.6.0.1</version>
+    <version>0.6.0.0</version>
     <authors>William E. Kempf</authors>
     <description>Specificity is a unit test fluent assertion library.</description>
     <language>en-US</language>
     <projectUrl>http://specificity.codeplex.com</projectUrl>
     <dependencies>
-      <dependency id="Specificity" version="[0.6.0.1]" />
+      <dependency id="Specificity" version="[0.6.0.0]" />
     </dependencies>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
