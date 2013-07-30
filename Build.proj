@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
+    <Nightly Condition="'$(Nightly)'==''">true</Nightly>
     <MSBuildCommunityTasksPath Condition="'$(MSBuildCommunityTasksPath)' == ''">$(MSBuildProjectDirectory)\.build</MSBuildCommunityTasksPath>
     <BuildPath Condition="'$(BuildPath)'==''">$(MSBuildProjectDirectory)\build</BuildPath>
     <OutDir Condition="'$(OutDir)'==''">$(BuildPath)\bin\</OutDir>
@@ -40,12 +41,16 @@
     <ItemGroup>
       <NuSpecFiles Include="$(MSBuildProjectDirectory)\src\*.nuspec" />
     </ItemGroup>
+    <PropertyGroup>
+      <PkgVersion Condition="'$(Nightly)'!=''">$(Major).$(Minor).$(Revision)-alpha$([System.String]::Format('{0:0000}',$([System.Convert]::ToInt32($(Build)))))</PkgVersion>
+      <PkgVersion Condition="'$(Nightly)'==''">$(Major).$(Minor).$(Revision)</PkgVersion>
+    </PropertyGroup>
     <XmlUpdate XmlFileName="%(NuSpecFiles.FullPath)"
                Xpath="//package/metadata/version"
-               Value="$(Major).$(Minor).$(Build).$(Revision)"/>
+               Value="$(PkgVersion)"/>
     <XmlUpdate XmlFileName="%(NuSpecFiles.FullPath)"
                XPath="//package/metadata/dependencies/dependency[@id='Specificity']/@version"
-               Value="[$(Major).$(Minor).$(Build).$(Revision)]"/>
+               Value="[$(PkgVersion)]"/>
     <Exec WorkingDirectory="$(BuildPath)" Command="$(NuGetDirectory)\nuget.exe pack %(NuSpecFiles.FullPath) -o $(BuildPath) -base $(OutDir)"/>
   </Target>
 </Project>

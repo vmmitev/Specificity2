@@ -3,13 +3,13 @@
   <metadata>
     <id>Specificity.MbUnit</id>
     <title>Specificity - MbUnit</title>
-    <version>0.6.0.0</version>
+    <version>0.6.0-alpha0000</version>
     <authors>William E. Kempf</authors>
     <description>Specificity is a unit test fluent assertion library.</description>
     <language>en-US</language>
     <projectUrl>http://specificity.codeplex.com</projectUrl>
     <dependencies>
-      <dependency id="Specificity" version="[0.6.0.0]" />
+      <dependency id="Specificity" version="[0.6.0-alpha0000]" />
       <dependency id="Gallio" />
     </dependencies>
   </metadata>
