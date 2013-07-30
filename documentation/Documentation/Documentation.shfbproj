@@ -20,11 +20,14 @@
     <HtmlHelpName>SpecificityDocumentation</HtmlHelpName>
     <Language>en-US</Language>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\..\src\Specificity\Specificity.csproj" />
-      <DocumentationSource sourceFile="..\..\src\Specificity.MbUnit\Specificity.MbUnit.csproj" />
-      <DocumentationSource sourceFile="..\..\src\Specificity.MSTest\Specificity.MSTest.csproj" />
-      <DocumentationSource sourceFile="..\..\src\Specificity.NUnit\Specificity.NUnit.csproj" />
-      <DocumentationSource sourceFile="..\..\src\Specificity.XUnit\Specificity.XUnit.csproj" />
+      <DocumentationSource sourceFile="..\..\build\bin\Specificity.dll" />
+      <DocumentationSource sourceFile="..\..\build\bin\Specificity.xml" />
+      <DocumentationSource sourceFile="..\..\build\bin\Specificity.MSTest.dll" />
+      <DocumentationSource sourceFile="..\..\build\bin\Specificity.MSTest.xml" />
+      <DocumentationSource sourceFile="..\..\build\bin\Specificity.NUnit.dll" />
+      <DocumentationSource sourceFile="..\..\build\bin\Specificity.NUnit.xml" />
+      <DocumentationSource sourceFile="..\..\build\bin\Specificity.XUnit.dll" />
+      <DocumentationSource sourceFile="..\..\build\bin\Specificity.XUnit.xml" />
     </DocumentationSources>
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
     <HelpFileFormat>HtmlHelp1, MSHelpViewer</HelpFileFormat>
