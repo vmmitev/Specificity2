@@ -35,7 +35,7 @@
   <Target Name="Documentation">
     <MSBuild Projects="$(MSBuildProjectDirectory)\documentation\Documentation.sln" Targets="Build" Properties="$(BuildOptions)"/>
   </Target>
-  <Target Name="Package" DependsOnTargets="Rebuild;Documentation">
+  <Target Name="Package" DependsOnTargets="Clean;Rebuild;Documentation">
     <ItemGroup>
       <NuSpecFiles Include="$(MSBuildProjectDirectory)\src\*.nuspec" />
     </ItemGroup>
