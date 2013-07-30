@@ -21,6 +21,7 @@
                   AssemblyVersion="$(Major).$(Minor).$(Build).$(Revision)"
                   AssemblyFileVersion="$(Major).$(Minor).$(Build).$(Revision)"
                   AssemblyInformationalVersion="$(Major).$(Minor).$(Build).$(Revision).$(VCSNumber)"/>
+    <Message Text="##teamcity[buildnumber '$(Major).$(Minor).$(Build).$(Revision)']"/>
   </Target>
   <Target Name="Build" DependsOnTargets="Version">
     <MSBuild Projects="Specificity.sln" Targets="Build" Properties="$(BuildOptions)"/>
