@@ -12,5 +12,7 @@
   <files>
     <file src="Specificity.dll" target="lib/4.5" />
     <file src="..\..\documentation\documentation\help\*.*" exclude="..\..\documentation\documentation\help\*.log" target="docs" />
+    <file src="..\..\src\specificityinit.ps1" target="tools\init.ps1" />
+    <file src="..\..\src\SpecificityDocumentation.psm1" target="tools" />
   </files>
 </package>
