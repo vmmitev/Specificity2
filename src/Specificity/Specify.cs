@@ -22,7 +22,6 @@ namespace Testing.Specificity
         /// </summary>
         private static readonly string[] PlatformAssemblies = new[]
             {
-                "Specificity.MbUni",
                 "Specificity.MSTest",
                 "Specificity.NUnit",
                 "Specificity.XUnit"
@@ -43,11 +42,16 @@ namespace Testing.Specificity
         /// </summary>
         static Specify()
         {
-            var assembly = Specify.PlatformAssemblies.Select(n => Specify.TryLoadAssembly(n))
-                .First(a => a != null);
-            var adapterType = assembly.GetTypes()
-                .First(t => t.GetInterfaces().Any(i => i == typeof(ISpecifyAdapter)));
-            Specify.Adapter = (ISpecifyAdapter)Activator.CreateInstance(adapterType);
+            var assemblyName = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(a => a.GetReferencedAssemblies())
+                .Where(a => PlatformAssemblies.Contains(a.Name)).FirstOrDefault();
+            if (assemblyName != null)
+            {
+                var assembly = Assembly.Load(assemblyName);
+                var adapterType = assembly.GetTypes()
+                    .First(t => t.GetInterfaces().Any(i => i == typeof(ISpecifyAdapter)));
+                Specify.Adapter = (ISpecifyAdapter)Activator.CreateInstance(adapterType);
+            }
         }
 
         /// <summary>

@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
+    <BuildContribRoot Condition="'$(BuildContribRoot)'==''">$(MSBuildProjectDirectory)\build\contrib</BuildContribRoot>
+    <OutputRoot Condition="'$(OutputRoot)'==''">$(MSBuildProjectDirectory)\Output</OutputRoot>
     <Nightly Condition="'$(Nightly)'==''">true</Nightly>
+    <LocalBuildExtensionsPath Condition="'$(LocalBuildExtensionsPath)'==''">$(MSBuildProjectDirectory)\.build</LocalBuildExtensionsPath>
     <MSBuildCommunityTasksPath Condition="'$(MSBuildCommunityTasksPath)' == ''">$(MSBuildProjectDirectory)\.build</MSBuildCommunityTasksPath>
     <BuildPath Condition="'$(BuildPath)'==''">$(MSBuildProjectDirectory)\build</BuildPath>
     <OutDir Condition="'$(OutDir)'==''">$(BuildPath)\bin\</OutDir>
@@ -15,7 +18,14 @@
     <BuildOptions>Configuration=$(Configuration);OutDir=$(OutDir);RunCodeAnalysis=true</BuildOptions> <!-- CodeAnalysisTreatWarningsAsErrors -->
     <NuGetDirectory>$(MSBuildProjectDirectory)\.nuget</NuGetDirectory>
   </PropertyGroup>
+  <ItemGroup>
+    <VSTestAssemblies Include="$(OutDir)\*Tests.dll"/>
+    <AllConfigurations Include="Release">
+        <Configuration>Debug</Configuration>
+    </AllConfigurations>
+  </ItemGroup>
   <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets"/>
+  <Import Project="$(LocalBuildExtensionsPath)\Build.Common.UnitTest.targets"/>
   <Target Name="Version">
     <AssemblyInfo CodeLanguage="CS"
                   OutputFile="$(MSBuildProjectDirectory)\src\SolutionInfo.cs"
@@ -37,7 +47,7 @@
   <Target Name="Documentation">
     <MSBuild Projects="$(MSBuildProjectDirectory)\documentation\Documentation.sln" Targets="Build" Properties="$(BuildOptions)"/>
   </Target>
-  <Target Name="Package" DependsOnTargets="Clean;Rebuild;Documentation">
+  <Target Name="Package" DependsOnTargets="Clean;Rebuild;VSTest;Documentation">
     <ItemGroup>
       <NuSpecFiles Include="$(MSBuildProjectDirectory)\src\*.nuspec" />
     </ItemGroup>
