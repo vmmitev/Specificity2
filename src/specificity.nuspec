@@ -11,6 +11,6 @@
   </metadata>
   <files>
     <file src="Specificity.dll" target="lib/4.5" />
-    <file src="..\..\documentation\documentation\help\*.*" exclude="..\..\documentation\documentation\help\*.log" target="content\docs" />
+    <file src="..\..\documentation\documentation\help\*.*" exclude="..\..\documentation\documentation\help\*.log" target="docs" />
   </files>
 </package>
