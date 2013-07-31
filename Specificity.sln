@@ -6,11 +6,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Local.testsettings = Local.testsettings
 		Readme.txt = Readme.txt
 		src\SolutionInfo.cs = src\SolutionInfo.cs
-		src\specificity.mstest.nuspec = src\specificity.mstest.nuspec
-		src\specificity.nunit.nuspec = src\specificity.nunit.nuspec
-		src\specificity.nuspec = src\specificity.nuspec
-		src\specificity.xunit.nuspec = src\specificity.xunit.nuspec
 		Specificity2.vsmdi = Specificity2.vsmdi
+		src\SpecificityDocumentation.psm1 = src\SpecificityDocumentation.psm1
+		src\specificityinit.ps1 = src\specificityinit.ps1
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
@@ -29,6 +27,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{C22F59
 		Build.proj = Build.proj
 		.build\MSBuild.Community.Tasks.dll = .build\MSBuild.Community.Tasks.dll
 		.build\MSBuild.Community.Tasks.targets = .build\MSBuild.Community.Tasks.targets
+		src\specificity.mstest.nuspec = src\specificity.mstest.nuspec
+		src\specificity.nunit.nuspec = src\specificity.nunit.nuspec
+		src\specificity.nuspec = src\specificity.nuspec
+		src\specificity.xunit.nuspec = src\specificity.xunit.nuspec
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Specificity.Tests", "src\tests\Specificity.Tests\Specificity.Tests.csproj", "{539076DE-DA3C-40A9-9ECE-0B8DD38D5493}"
