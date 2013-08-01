@@ -2,6 +2,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <LocalBuildExtensionDirectory Condition="'$(LocalBuildExtensionDirectory)'==''">$(MSBuildProjectDirectory)\.build</LocalBuildExtensionDirectory>
+    <MSBuildCommunityTasksPath Condition="'$(MSBuildCommunityTasksPath)'==''">$(LocalBuildExtensionDirectory)</MSBuildCommunityTasksPath>
 
     <Major Condition="'$(Major)'==''">0</Major>
     <Minor Condition="'$(Minor)'==''">1</Minor>
@@ -22,7 +23,7 @@
 
     <VsInstallDir Condition="'$(VsInstallDir)'==''">C:\Program Files (x86)\Microsoft Visual Studio 11.0\</VsInstallDir>
     <VsTestConsoleExe Condition="'$(VsTestConsoleExe)'==''">$(VsInstallDir)Common7\IDE\CommonExtensions\Microsoft\TestWindow\VSTest.Console.exe</VsTestConsoleExe>
-    <TestLogger Condition="'$(TestLogger)'=='' and '$(TEAMCITY_VERSION)'!=''">trx</TestLogger> <!-- Change to TeamCity once extension has been installed: https://github.com/JakeGinnivan/VSTest.TeamCityLogger -->
+    <TestLogger Condition="'$(TestLogger)'=='' and '$(TEAMCITY_VERSION)'!=''">TeamCity</TestLogger>
     <TestLogger Condition="'$(TestLogger)'==''">trx</TestLogger>
 
     <NuGetExe Condition="'$(NuGetExe)'==''">$(MSBuildProjectDirectory)\.nuget\nuget.exe</NuGetExe>
@@ -31,6 +32,11 @@
   </PropertyGroup>
 
   <Import Project="$(LocalBuildExtensionDirectory)\MSBuild.Community.Tasks.targets"/>
+
+<Target Name="Foo">
+  <Message Text="$(MSBuildCommunityTasksPath)"/>
+  <Message Text="$(MSBuildCommunityTasksLib)"/>
+</Target>
 
   <!-- Version -->
   <Target Name="VersionValidateSettings">
