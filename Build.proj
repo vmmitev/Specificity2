@@ -1,66 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Package" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <BuildContribRoot Condition="'$(BuildContribRoot)'==''">$(MSBuildProjectDirectory)\build\contrib</BuildContribRoot>
-    <OutputRoot Condition="'$(OutputRoot)'==''">$(MSBuildProjectDirectory)\Output</OutputRoot>
-    <Nightly Condition="'$(Nightly)'==''">true</Nightly>
-    <LocalBuildExtensionsPath Condition="'$(LocalBuildExtensionsPath)'==''">$(MSBuildProjectDirectory)\.build</LocalBuildExtensionsPath>
-    <MSBuildCommunityTasksPath Condition="'$(MSBuildCommunityTasksPath)' == ''">$(MSBuildProjectDirectory)\.build</MSBuildCommunityTasksPath>
-    <BuildPath Condition="'$(BuildPath)'==''">$(MSBuildProjectDirectory)\build</BuildPath>
-    <OutDir Condition="'$(OutDir)'==''">$(BuildPath)\bin\</OutDir>
-    <PackagesDir>$(MSBuildProjectDirectory)\packages</PackagesDir>
-    <Configuration Condition="'$(Configuration)'==''">Release</Configuration>
+    <LocalBuildExtensionDirectory Condition="'$(LocalBuildExtension)'==''">$(MSBuildProjectDirectory)\.build</LocalBuildExtensionDirectory>
     <Major Condition="'$(Major)'==''">0</Major>
     <Minor Condition="'$(Mindor)'==''">6</Minor>
-    <Build Condition="'$(Build)'==''">0</Build>
     <Revision Condition="'$(Revision)'==''">0</Revision>
-    <VCSNumber Condition="'$(VCSNumber)'==''">DevBuild</VCSNumber>
-    <BuildOptions>Configuration=$(Configuration);OutDir=$(OutDir);RunCodeAnalysis=true</BuildOptions> <!-- CodeAnalysisTreatWarningsAsErrors -->
-    <NuGetDirectory>$(MSBuildProjectDirectory)\.nuget</NuGetDirectory>
+    <TestAssemblySpec>$(MSBuildProjectDirectory)\build\bin\*Tests.dll</TestAssemblySpec>
   </PropertyGroup>
   <ItemGroup>
-    <VSTestAssemblies Include="$(OutDir)\*Tests.dll"/>
-    <AllConfigurations Include="Release">
-        <Configuration>Debug</Configuration>
-    </AllConfigurations>
+    <AssemblyInfoFiles Include="$(MSBuildProjectDirectory)\src\SolutionInfo.cs"/>
+    <BuildProjectFiles Include="$(MSBuildProjectDirectory)\Specificity.sln"/>
+    <DocumentationProjectFiles Include="$(MSBuildProjectDirectory)\documentation\Documentation.sln"/>
+    <NuSpecFiles Include="$(MSBuildProjectDirectory)\src\*.nuspec"/>
   </ItemGroup>
-  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets"/>
-  <Import Project="$(LocalBuildExtensionsPath)\Build.Common.UnitTest.targets"/>
-  <Target Name="Version">
-    <AssemblyInfo CodeLanguage="CS"
-                  OutputFile="$(MSBuildProjectDirectory)\src\SolutionInfo.cs"
-                  AssemblyVersion="$(Major).$(Minor).$(Build).$(Revision)"
-                  AssemblyFileVersion="$(Major).$(Minor).$(Build).$(Revision)"
-                  AssemblyInformationalVersion="$(Major).$(Minor).$(Build).$(Revision).$(VCSNumber)"/>
-    <Message Text="##teamcity[buildNumber '$(Major).$(Minor).$(Build).$(Revision)']"/>
-  </Target>
-  <Target Name="Build" DependsOnTargets="Version">
-    <MSBuild Projects="Specificity.sln" Targets="Build" Properties="$(BuildOptions)"/>
-  </Target>
-  <Target Name="Rebuild" DependsOnTargets="Version">
-    <MSBuild Projects="Specificity.sln" Targets="Rebuild" Properties="$(BuildOptions)"/>
-  </Target>
-  <Target Name="Clean">
-    <MSBuild Projects="Specificity.sln" Targets="Clean" Properties="$(BuildOptions)"/>
-    <RemoveDir Directories="$(BuildPath)"/>
-  </Target>
-  <Target Name="Documentation">
-    <MSBuild Projects="$(MSBuildProjectDirectory)\documentation\Documentation.sln" Targets="Build" Properties="$(BuildOptions)"/>
-  </Target>
-  <Target Name="Package" DependsOnTargets="Clean;Rebuild;VSTest;Documentation">
-    <ItemGroup>
-      <NuSpecFiles Include="$(MSBuildProjectDirectory)\src\*.nuspec" />
-    </ItemGroup>
-    <PropertyGroup>
-      <PkgVersion Condition="'$(Nightly)'!=''">$(Major).$(Minor).$(Revision)-alpha$([System.String]::Format('{0:0000}',$([System.Convert]::ToInt32($(Build)))))</PkgVersion>
-      <PkgVersion Condition="'$(Nightly)'==''">$(Major).$(Minor).$(Revision)</PkgVersion>
-    </PropertyGroup>
-    <XmlUpdate XmlFileName="%(NuSpecFiles.FullPath)"
-               Xpath="//package/metadata/version"
-               Value="$(PkgVersion)"/>
+
+  <Import Project="$(LocalBuildExtensionDirectory)\Build.Common.targets"/>
+
+  <!-- Packages that depend on Specificity must do so with the specific package version. -->
+  <Target Name="BeforePackage">
     <XmlUpdate XmlFileName="%(NuSpecFiles.FullPath)"
                XPath="//package/metadata/dependencies/dependency[@id='Specificity']/@version"
                Value="[$(PkgVersion)]"/>
-    <Exec WorkingDirectory="$(BuildPath)" Command="$(NuGetDirectory)\nuget.exe pack %(NuSpecFiles.FullPath) -o $(BuildPath) -base $(OutDir)"/>
   </Target>
 </Project>
