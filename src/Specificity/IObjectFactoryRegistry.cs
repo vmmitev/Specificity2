@@ -19,5 +19,11 @@ namespace Testing.Specificity
         /// <param name="type">The type of object created by the factory.</param>
         /// <param name="factoryMethod">The factory method.</param>
         void Register(Type type, Func<IObjectFactory, object> factoryMethod);
+
+        /// <summary>
+        /// Registers a customization object that can change how objects are created.
+        /// </summary>
+        /// <param name="customization">The customization to apply.</param>
+        void Customize(ObjectFactoryCustomization customization);
     }
 }

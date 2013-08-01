@@ -10,6 +10,4 @@
 
 [assembly: System.Reflection.AssemblyVersion("0.6.0.0")]
 [assembly: System.Reflection.AssemblyFileVersion("0.6.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersion("0.6.0.0")]
-
-
+[assembly: System.Reflection.AssemblyInformationalVersion("0.6.0.0.DevBuild")]

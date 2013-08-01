@@ -38,7 +38,7 @@ namespace Testing.Specificity
         /// <summary>
         /// Static object factory methods.
         /// </summary>
-        private static readonly DefaultObjectFactoryRegistry DefaultFactories;
+        private static readonly DefaultObjectFactoryRegistry DefaultRegistryInstance;
 
         /// <summary>
         /// The pseudo-random number generator used when creating objects.
@@ -49,6 +49,11 @@ namespace Testing.Specificity
         /// The registered object factory methods.
         /// </summary>
         private readonly Dictionary<Type, Func<IObjectFactory, object>> factories = new Dictionary<Type, Func<IObjectFactory, object>>();
+
+        /// <summary>
+        /// The registered customizations.
+        /// </summary>
+        private readonly Stack<ObjectFactoryCustomization> customizations = new Stack<ObjectFactoryCustomization>();
 
         /// <summary>
         /// Initializes static members of the <see cref="ObjectFactory"/> class.
@@ -72,7 +77,7 @@ namespace Testing.Specificity
             registry.Register(typeof(DateTimeOffset), f => f.AnyDateTimeOffset());
             registry.Register(typeof(TimeSpan), f => f.AnyTimeSpan());
             registry.Register(typeof(Guid), f => Guid.NewGuid());
-            ObjectFactory.DefaultFactories = registry;
+            ObjectFactory.DefaultRegistryInstance = registry;
         }
 
         /// <summary>
@@ -93,20 +98,24 @@ namespace Testing.Specificity
         public ObjectFactory(int seed)
         {
             this.random = new Random(seed);
-            foreach (var kv in ObjectFactory.DefaultFactories)
+            foreach (var kv in ObjectFactory.DefaultRegistryInstance)
             {
                 this.factories[kv.Key] = kv.Value;
+            }
+
+            foreach (var customization in ObjectFactory.DefaultRegistryInstance.Customizations)
+            {
+                this.customizations.Push(customization);
             }
         }
 
         /// <summary>
-        /// Registers default factory methods using the specified <see cref="IObjectFactoryRegistrar"/> type.
+        /// Gets the default registry used to register factories and customizations used by all <see cref="ObjectFactory"/>
+        /// instances.
         /// </summary>
-        /// <typeparam name="TRegistrar">The registrar type.</typeparam>
-        public static void Register<TRegistrar>()
-            where TRegistrar : IObjectFactoryRegistrar, new()
+        public static IObjectFactoryRegistry DefaultRegistry
         {
-            ObjectFactory.DefaultFactories.Register<TRegistrar>();
+            get { return ObjectFactory.DefaultRegistryInstance; }
         }
 
         /// <summary>
@@ -140,6 +149,13 @@ namespace Testing.Specificity
                 return factory(this);
             }
 
+            object result;
+            var context = new CustomizationContext(this.customizations);
+            if (context.CallNextCustomization(type, this, out result))
+            {
+                return result;
+            }
+
             if (typeof(IEnumerable).IsAssignableFrom(type))
             {
                 return this.CreateCollection(type);
@@ -156,6 +172,15 @@ namespace Testing.Specificity
         public void Register(Type type, Func<IObjectFactory, object> factory)
         {
             this.factories[type] = factory;
+        }
+
+        /// <summary>
+        /// Registers a customization object that can change how objects are created.
+        /// </summary>
+        /// <param name="customization">The customization to apply.</param>
+        public void Customize(ObjectFactoryCustomization customization)
+        {
+            this.customizations.Push(customization);
         }
 
         /// <summary>
@@ -256,7 +281,7 @@ namespace Testing.Specificity
             }
 
             var factory = this.CreateFactory(ctor);
-            ObjectFactory.DefaultFactories[type] = factory;
+            ObjectFactory.DefaultRegistryInstance[type] = factory;
             this.factories[type] = factory;
             return factory(this);
         }

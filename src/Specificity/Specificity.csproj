@@ -54,6 +54,7 @@
     <Compile Include="Constraint.cs" />
     <Compile Include="ConstraintExtensions.cs" />
     <Compile Include="ContractVerifier.cs" />
+    <Compile Include="CustomizationContext.cs" />
     <Compile Include="Distribution.cs" />
     <Compile Include="EventWatcher.cs" />
     <Compile Include="GlobalSuppressions.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="NumericConstraints.cs" />
     <Compile Include="ObjectConstraints.cs" />
     <Compile Include="ObjectFactory.cs" />
+    <Compile Include="ObjectFactoryCustomization.cs" />
     <Compile Include="ObjectFactoryExtensions.cs" />
     <Compile Include="ObjectFactoryRegistrarAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

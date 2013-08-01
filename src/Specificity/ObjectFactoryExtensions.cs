@@ -424,6 +424,17 @@ namespace Testing.Specificity
         }
 
         /// <summary>
+        /// Freezes the specified instance as the result for any further calls to obtain an object of the specified type.
+        /// </summary>
+        /// <param name="registry">The registry.</param>
+        /// <param name="type">The type to freeze.</param>
+        /// <param name="instance">The instance to return for any further calls to obtain an object of the specified type.</param>
+        public static void Freeze(this IObjectFactoryRegistry registry, Type type, object instance)
+        {
+            registry.Register(type, f => instance);
+        }
+
+        /// <summary>
         /// Creates an pseudo-random <see cref="IEnumerable{T}"/>.
         /// </summary>
         /// <typeparam name="T">The type of the items to create.</typeparam>
