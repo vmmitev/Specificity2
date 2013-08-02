@@ -2,12 +2,15 @@
 <package>
   <metadata>
     <id>Specificity.xUnit</id>
-    <title>Specificity - xUnit</title>
     <version>0.6.0-alpha0000</version>
+    <title>Specificity - xUnit</title>
     <authors>William E. Kempf</authors>
     <description>Specificity is a unit test fluent assertion library.</description>
     <language>en-US</language>
     <projectUrl>http://specificity.codeplex.com</projectUrl>
+    <licenseUrl>http://specificity.codeplex.com/license</licenseUrl>
+    <copyright>Copyright (c) William E. Kempf.</copyright>
+    <tags>Specificity xUnit TDD BDD Fluent Assert Test Testing</tags>
     <dependencies>
       <dependency id="xunit" />
       <dependency id="Specificity" version="[0.6.0-alpha0000]" />

@@ -2,12 +2,15 @@
 <package>
   <metadata>
     <id>Specificity</id>
-    <title>Specificity</title>
     <version>0.6.0-alpha0000</version>
+    <title>Specificity</title>
     <authors>William E. Kempf</authors>
     <description>Specificity is a unit test fluent assertion library.</description>
     <language>en-US</language>
     <projectUrl>http://specificity.codeplex.com</projectUrl>
+    <licenseUrl>http://specificity.codeplex.com/license</licenseUrl>
+    <copyright>Copyright (c) William E. Kempf.</copyright>
+    <tags>Specificity MSTest xUnit NUnit TDD BDD Fluent Assert Test Testing</tags>
   </metadata>
   <files>
     <file src="Specificity.dll" target="lib/4.5" />

@@ -33,6 +33,26 @@
 
   <Import Project="$(LocalBuildExtensionDirectory)\MSBuild.Community.Tasks.targets"/>
 
+  <!-- Restore -->
+  <PropertyGroup>
+    <RestoreDependsOn>
+      BeforeRestore;
+      CoreRestore;
+      AfterRestore;
+      $(RestoreDependsOn);
+    </RestoreDependsOn>
+  </PropertyGroup>
+  <Target Name="Restore" DependsOnTargets="$(RestoreDependsOn)"/>
+  <Target Name="BeforeRestore"/>
+  <Target Name="AfterRestore"/>
+  <Target Name="CoreRestore">
+    <ItemGroup>
+      <_ConfigFiles Include="$(MSBuildProjectDirectory)\**\packages.config"/>
+    </ItemGroup>
+    <Message Text="Restoring packages for [%(_ConfigFiles.FullPath)]"/>
+    <Exec WorkingDirectory="$(MSBuildProjectDirectory)" Command="&quot;$(NuGetExe)&quot; install %(_ConfigFiles.FullPath) -o &quot;$(MSBuildProjectDirectory)\packages&quot;"/>
+  </Target>
+
   <!-- Version -->
   <Target Name="VersionValidateSettings">
     <ItemGroup>
@@ -90,7 +110,8 @@
                   OutputFile="%(AssemblyInfoFiles.FullPath)"
                   AssemblyVersion="$(AssemblyVersion)"
                   AssemblyFileVersion="$(AssemblyFileVersion)"
-                  AssemblyInformationalVersion="$(AssemblyInformationalVersion)"/>
+                  AssemblyInformationalVersion="$(AssemblyInformationalVersion)"
+		  AssemblyCopyright="Copyright (c) William E. Kempf."/>
     <Message Condition="'$(TEAMCITY_VERSION)'!=''"
              Text="##teamcity[buildNumber '$(AssemblyVersion)']"/>
   </Target>
@@ -379,6 +400,7 @@
     <PackageDependsOn>
       PackageValidateSettings;
       Clean;
+      Version;
       Build;
       Test;
       BeforePackage;
