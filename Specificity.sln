@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.20623.1 VSUPREVIEW
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F713EC16-31A1-47AA-B2FB-41E879EC6D0A}"
 	ProjectSection(SolutionItems) = preProject
 		Local.testsettings = Local.testsettings
@@ -40,6 +42,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Specificity.XUnit.Tests", "src\tests\Specificity.XUnit.Tests\Specificity.XUnit.Tests.csproj", "{C3CFCDBD-2A78-4282-ADD4-97A8812B0841}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Specificity.Fakes", "src\Specificity.Fakes\Specificity.Fakes.csproj", "{E19724FB-F2E2-4A15-B511-8AF7B9880D22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTypes", "src\tests\TestTypes\TestTypes.csproj", "{B3D985D5-AEA7-4C4E-AF93-14FB32795795}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -82,6 +86,10 @@ Global
 		{E19724FB-F2E2-4A15-B511-8AF7B9880D22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E19724FB-F2E2-4A15-B511-8AF7B9880D22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E19724FB-F2E2-4A15-B511-8AF7B9880D22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3D985D5-AEA7-4C4E-AF93-14FB32795795}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3D985D5-AEA7-4C4E-AF93-14FB32795795}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3D985D5-AEA7-4C4E-AF93-14FB32795795}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3D985D5-AEA7-4C4E-AF93-14FB32795795}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,5 +98,6 @@ Global
 		{539076DE-DA3C-40A9-9ECE-0B8DD38D5493} = {F6F85D33-AB70-409E-881E-A578C73A8C5E}
 		{F298D777-76AF-4788-8D5D-C5298811ED82} = {F6F85D33-AB70-409E-881E-A578C73A8C5E}
 		{C3CFCDBD-2A78-4282-ADD4-97A8812B0841} = {F6F85D33-AB70-409E-881E-A578C73A8C5E}
+		{B3D985D5-AEA7-4C4E-AF93-14FB32795795} = {F6F85D33-AB70-409E-881E-A578C73A8C5E}
 	EndGlobalSection
 EndGlobal

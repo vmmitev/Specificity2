@@ -4,7 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace Specificity.Fakes
+namespace Testing.Specificity
 {
     using System;
     using System.ComponentModel;

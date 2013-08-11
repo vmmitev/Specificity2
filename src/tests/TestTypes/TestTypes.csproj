@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C3CFCDBD-2A78-4282-ADD4-97A8812B0841}</ProjectGuid>
+    <ProjectGuid>{B3D985D5-AEA7-4C4E-AF93-14FB32795795}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Testing.Specificity</RootNamespace>
-    <AssemblyName>Specificity.XUnit.Tests</AssemblyName>
+    <RootNamespace>TestTypes</RootNamespace>
+    <AssemblyName>TestTypes</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
@@ -39,26 +39,13 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="xunit">
-      <HintPath>..\..\..\packages\xunit.1.9.1\lib\net20\xunit.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ISimpleInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SpecifyTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Specificity.XUnit\Specificity.XUnit.csproj">
-      <Project>{ada3a388-4b7e-459a-9bb6-18a1d57c098b}</Project>
-      <Name>Specificity.XUnit</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Specificity\Specificity.csproj">
-      <Project>{52ef5df6-979e-4c66-8c8c-53e78dbbbd64}</Project>
-      <Name>Specificity</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

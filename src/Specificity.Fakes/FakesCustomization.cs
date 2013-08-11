@@ -4,11 +4,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace Specificity.Fakes
+namespace Testing.Specificity
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using Microsoft.QualityTools.Testing.Fakes.Stubs;
     using Testing.Specificity;
 
     /// <summary>
@@ -17,22 +19,38 @@ namespace Specificity.Fakes
     /// </summary>
     public sealed class FakesCustomization : ObjectFactoryCustomization
     {
-        /// <summary>
-        /// Referenced Fakes assemblies.
-        /// </summary>
-        private static readonly Assembly[] FakesAssemblies;
+        private static readonly Dictionary<Type, Type> KnownStubs;
 
-        /// <summary>
-        /// Initializes static members of the <see cref="FakesCustomization"/> class.
-        /// </summary>
         static FakesCustomization()
         {
-            FakesAssemblies = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(a => a.GetReferencedAssemblies())
-                .Where(n => n.Name.EndsWith(".Fakes"))
-                .Distinct()
-                .Select(n => Assembly.Load(n))
-                .ToArray();
+            EnsureFakesAssembliesAreLoaded();
+            var stubs = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(a => a.GetTypes())
+                .Where(t => !t.IsInterface && !t.IsAbstract && typeof(IStub).IsAssignableFrom(t));
+            KnownStubs = stubs.ToDictionary(t => GetStubbedType(t));
+        }
+
+        private static void EnsureFakesAssembliesAreLoaded()
+        {
+            var referencedAssemblies = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(a => a.GetReferencedAssemblies());
+            foreach (var name in referencedAssemblies)
+            {
+                if (name.Name.EndsWith(".Fakes"))
+                {
+                    Assembly.Load(name);
+                }
+            }
+        }
+
+        private static Type GetStubbedType(Type stubType)
+        {
+            return (from t in stubType.GetInterfaces()
+                    where t.IsGenericType
+                    let d = t.GetGenericTypeDefinition()
+                    where d == typeof(IStub<>)
+                    select t.GetGenericArguments().First())
+                   .First();
         }
 
         /// <summary>
@@ -45,12 +63,8 @@ namespace Specificity.Fakes
         /// <returns><see langword="true"/> if an instance of the specified type was obtained; otherwise <see langword="false"/></returns>
         public override bool TryGetAny(Type type, IObjectFactory factory, CustomizationContext context, out object result)
         {
-            var stubName = "Stub" + type.Name;
-            var stubNamespace = type.Namespace + ".Fakes";
-            var stubType = FakesAssemblies.SelectMany(a => a.GetTypes())
-                .Where(t => t.Namespace == stubNamespace && t.Name == stubName)
-                .FirstOrDefault();
-            if (stubType != null)
+            Type stubType;
+            if (KnownStubs.TryGetValue(type, out stubType))
             {
                 result = factory.Any(stubType);
                 return true;

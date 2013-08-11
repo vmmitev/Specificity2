@@ -37,8 +37,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="TestTypes.Fakes">
+      <HintPath>FakesAssemblies\TestTypes.Fakes.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -53,17 +57,23 @@
     <Compile Include="BooleanConstraintsTests.cs" />
     <Compile Include="CollectionConstraintsTests.cs" />
     <Compile Include="DistributionTests.cs" />
+    <Compile Include="FakesCustomizationTests.cs" />
     <Compile Include="NumericConstraintsTests.cs" />
     <Compile Include="ObjectConstraintsTests.cs" />
     <Compile Include="ObjectFactoryTests.cs" />
     <Compile Include="SpecifyTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringConstraintsTests.cs" />
+    <Compile Include="TestInitialize.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <Fakes Include="Fakes\TestTypes.fakes" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Specificity.Fakes\Specificity.Fakes.csproj">
+      <Project>{e19724fb-f2e2-4a15-b511-8af7b9880d22}</Project>
+      <Name>Specificity.Fakes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Specificity.MSTest\Specificity.MSTest.csproj">
       <Project>{57902a21-06ec-41ab-a7a5-fd23f4cbea8e}</Project>
       <Name>Specificity.MSTest</Name>
@@ -72,6 +82,13 @@
       <Project>{52ef5df6-979e-4c66-8c8c-53e78dbbbd64}</Project>
       <Name>Specificity</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TestTypes\TestTypes.csproj">
+      <Project>{b3d985d5-aea7-4c4e-af93-14fb32795795}</Project>
+      <Name>TestTypes</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
@@ -102,7 +119,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <StyleCopMSBuildTargetsFile>..\..\..\packages\StyleCop.MSBuild.4.7.44.1\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
+    <StyleCopMSBuildTargetsFile>..\..\..\packages\StyleCop.MSBuild.4.7.45.0\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
   </PropertyGroup>
   <Import Condition="Exists('$(StyleCopMSBuildTargetsFile)')" Project="$(StyleCopMSBuildTargetsFile)" />
   <PropertyGroup>
