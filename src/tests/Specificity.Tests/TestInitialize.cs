@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿//-----------------------------------------------------------------------------
+// <copyright file="TestInitialize.cs" company="William E. Kempf">
+//     Copyright (c) William E. Kempf.
+// </copyright>
+//-----------------------------------------------------------------------------
 
 namespace Testing.Specificity.Tests
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class TestInitialize
     {

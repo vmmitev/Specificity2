@@ -70,6 +70,12 @@
       <_RequiredProperties Include="AssemblyInformationalVersion">
         <Value>$(AssemblyVersion)</Value>
       </_RequiredProperties>
+      <_RequiredProperties Include="AssemblyCompany">
+        <Value>$(AssemblyCompany)</Value>
+      </_RequiredProperties>
+      <_RequiredProperties Include="AssemblyCopyright">
+        <Value>$(AssemblyCopyright)</Value>
+      </_RequiredProperties>
 
       <_RequiredItems Include="AssemblyInfoFiles">
         <RequiredValue>@(AssemblyInfoFiles)</RequiredValue>
@@ -105,13 +111,15 @@
     <Message Text="AssemblyVersion: $(AssemblyVersion)"/>
     <Message Text="AssemblyFileVersion: $(AssemblyFileVersion)"/>
     <Message Text="AssemblyInformationalVersion: $(AssemblyInformationalVersion)"/>
+    <Message Text="AssemblyCompany: $(AssemblyCompany)"/>
 
     <AssemblyInfo CodeLanguage="CS"
                   OutputFile="%(AssemblyInfoFiles.FullPath)"
                   AssemblyVersion="$(AssemblyVersion)"
                   AssemblyFileVersion="$(AssemblyFileVersion)"
                   AssemblyInformationalVersion="$(AssemblyInformationalVersion)"
-		  AssemblyCopyright="Copyright (c) William E. Kempf."/>
+                  AssemblyCompany="$(AssemblyCompany)"
+            		  AssemblyCopyright="$(AssemblyCopyright)"/>
     <Message Condition="'$(TEAMCITY_VERSION)'!=''"
              Text="##teamcity[buildNumber '$(AssemblyVersion)']"/>
   </Target>

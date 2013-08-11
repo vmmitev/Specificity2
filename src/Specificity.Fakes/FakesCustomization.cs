@@ -11,7 +11,6 @@ namespace Testing.Specificity
     using System.Linq;
     using System.Reflection;
     using Microsoft.QualityTools.Testing.Fakes.Stubs;
-    using Testing.Specificity;
 
     /// <summary>
     /// Customizes an <see cref="ObjectFactory"/> to produce "auto-fakes" when asking for a type
@@ -19,8 +18,14 @@ namespace Testing.Specificity
     /// </summary>
     public sealed class FakesCustomization : ObjectFactoryCustomization
     {
+        /// <summary>
+        /// The known stub types.
+        /// </summary>
         private static readonly Dictionary<Type, Type> KnownStubs;
 
+        /// <summary>
+        /// Initializes static members of the <see cref="FakesCustomization"/> class.
+        /// </summary>
         static FakesCustomization()
         {
             EnsureFakesAssembliesAreLoaded();
@@ -28,29 +33,6 @@ namespace Testing.Specificity
                 .SelectMany(a => a.GetTypes())
                 .Where(t => !t.IsInterface && !t.IsAbstract && typeof(IStub).IsAssignableFrom(t));
             KnownStubs = stubs.ToDictionary(t => GetStubbedType(t));
-        }
-
-        private static void EnsureFakesAssembliesAreLoaded()
-        {
-            var referencedAssemblies = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(a => a.GetReferencedAssemblies());
-            foreach (var name in referencedAssemblies)
-            {
-                if (name.Name.EndsWith(".Fakes"))
-                {
-                    Assembly.Load(name);
-                }
-            }
-        }
-
-        private static Type GetStubbedType(Type stubType)
-        {
-            return (from t in stubType.GetInterfaces()
-                    where t.IsGenericType
-                    let d = t.GetGenericTypeDefinition()
-                    where d == typeof(IStub<>)
-                    select t.GetGenericArguments().First())
-                   .First();
         }
 
         /// <summary>
@@ -71,6 +53,37 @@ namespace Testing.Specificity
             }
 
             return context.CallNextCustomization(type, factory, out result);
+        }
+
+        /// <summary>
+        /// Ensure Fakes assemblies are loaded.
+        /// </summary>
+        private static void EnsureFakesAssembliesAreLoaded()
+        {
+            var referencedAssemblies = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(a => a.GetReferencedAssemblies());
+            foreach (var name in referencedAssemblies)
+            {
+                if (name.Name.EndsWith(".Fakes"))
+                {
+                    Assembly.Load(name);
+                }
+            }
+        }
+
+        /// <summary>
+        /// The the stubbed type from the stub type.
+        /// </summary>
+        /// <param name="stubType">The stub type.</param>
+        /// <returns>The stubbed type.</returns>
+        private static Type GetStubbedType(Type stubType)
+        {
+            return (from t in stubType.GetInterfaces()
+                    where t.IsGenericType
+                    let d = t.GetGenericTypeDefinition()
+                    where d == typeof(IStub<>)
+                    select t.GetGenericArguments().First())
+                   .First();
         }
     }
 }
