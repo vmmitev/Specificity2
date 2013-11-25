@@ -14,74 +14,6 @@ namespace Testing.Specificity.Tests
     public class SpecifyTests
     {
         [Test]
-        public void FailShouldThrowTestFailedException()
-        {
-            try
-            {
-                Specify.Failure();
-            }
-            catch (AssertionException)
-            {
-                return;
-            }
-
-            Assert.Fail("Specify.Fail did not throw an AssertFailedException");
-        }
-
-        [Test]
-        public void FailGivenMessageShouldThrowTestFailedExceptionWithMessage()
-        {
-            var message = "xyzzy";
-            try
-            {
-                Specify.Failure(message);
-            }
-            catch (AssertionException e)
-            {
-                StringAssert.EndsWith(e.Message, message);
-                return;
-            }
-
-            Assert.Fail("Specify.Fail did not throw an AssertFailedException");
-        }
-
-        [Test]
-        public void FailGivenMessageAndArgsShouldThrowTestFailedExceptionWithFormattedMessage()
-        {
-            string message = "{0}";
-            string arg = "xyzzy";
-            try
-            {
-                Specify.Failure(message, arg);
-            }
-            catch (AssertionException e)
-            {
-                StringAssert.EndsWith(e.Message, arg);
-                return;
-            }
-
-            Assert.Fail("Specify.Fail did not throw an AssertFailedException");
-        }
-
-        [Test]
-        public void FailGivenInnerExceptionsShouldThrowAggregateTestFailedException()
-        {
-            var exception = new Exception();
-            try
-            {
-                Specify.Failure(new[] { exception });
-            }
-            catch (AggregateAssertionException e)
-            {
-                Assert.AreSame(exception, e.InnerException);
-                Assert.AreSame(exception, e.InnerExceptions.FirstOrDefault());
-                return;
-            }
-
-            Assert.Fail("Specify.Fail did not throw an AggregateAssertFailedException");
-        }
-
-        [Test]
         public void FailGivenInnerExceptionsAndMessageShouldThrowAggregateTestFailedExceptionWithMessage()
         {
             var message = "xyzzy";
@@ -123,14 +55,85 @@ namespace Testing.Specificity.Tests
         }
 
         [Test]
-        public void InconclusiveShouldThrowTestInconclusiveException()
+        public void FailGivenInnerExceptionsShouldThrowAggregateTestFailedException()
+        {
+            var exception = new Exception();
+            try
+            {
+                Specify.Failure(new[] { exception });
+            }
+            catch (AggregateAssertionException e)
+            {
+                Assert.AreSame(exception, e.InnerException);
+                Assert.AreSame(exception, e.InnerExceptions.FirstOrDefault());
+                return;
+            }
+
+            Assert.Fail("Specify.Fail did not throw an AggregateAssertFailedException");
+        }
+
+        [Test]
+        public void FailGivenMessageAndArgsShouldThrowTestFailedExceptionWithFormattedMessage()
+        {
+            string message = "{0}";
+            string arg = "xyzzy";
+            try
+            {
+                Specify.Failure(message, arg);
+            }
+            catch (AssertionException e)
+            {
+                StringAssert.EndsWith(e.Message, arg);
+                return;
+            }
+
+            Assert.Fail("Specify.Fail did not throw an AssertFailedException");
+        }
+
+        [Test]
+        public void FailGivenMessageShouldThrowTestFailedExceptionWithMessage()
+        {
+            var message = "xyzzy";
+            try
+            {
+                Specify.Failure(message);
+            }
+            catch (AssertionException e)
+            {
+                StringAssert.EndsWith(e.Message, message);
+                return;
+            }
+
+            Assert.Fail("Specify.Fail did not throw an AssertFailedException");
+        }
+
+        [Test]
+        public void FailShouldThrowTestFailedException()
         {
             try
             {
-                Specify.Inonclusive();
+                Specify.Failure();
             }
-            catch (InconclusiveException)
+            catch (AssertionException)
             {
+                return;
+            }
+
+            Assert.Fail("Specify.Fail did not throw an AssertFailedException");
+        }
+
+        [Test]
+        public void InconclusiveGivenMessageAndArgsShouldThrowTestInconclusiveExceptionWithFormattedMessage()
+        {
+            string message = "{0}";
+            string arg = "xyzzy";
+            try
+            {
+                Specify.Inonclusive(message, arg);
+            }
+            catch (InconclusiveException e)
+            {
+                StringAssert.EndsWith(e.Message, arg);
                 return;
             }
 
@@ -155,17 +158,14 @@ namespace Testing.Specificity.Tests
         }
 
         [Test]
-        public void InconclusiveGivenMessageAndArgsShouldThrowTestInconclusiveExceptionWithFormattedMessage()
+        public void InconclusiveShouldThrowTestInconclusiveException()
         {
-            string message = "{0}";
-            string arg = "xyzzy";
             try
             {
-                Specify.Inonclusive(message, arg);
+                Specify.Inonclusive();
             }
-            catch (InconclusiveException e)
+            catch (InconclusiveException)
             {
-                StringAssert.EndsWith(e.Message, arg);
                 return;
             }
 

@@ -34,45 +34,9 @@ namespace Testing.Specificity.Tests
         }
 
         [TestMethod]
-        public void BeNullOrEmptyGivenNullShouldNotFail()
-        {
-            Specify.That((string)null).Should.BeNullOrEmpty();
-        }
-
-        [TestMethod]
-        public void BeNullOrEmptyNegatedGivenNullShouldFail()
-        {
-            try
-            {
-                Specify.That((string)null).Should.Not.BeNullOrEmpty();
-            }
-            catch (AssertFailedException)
-            {
-                return;
-            }
-
-            Specify.Failure("Specification did not fail.");
-        }
-
-        [TestMethod]
         public void BeNullOrEmptyGivenEmptyShouldNotFail()
         {
             Specify.That(string.Empty).Should.BeNullOrEmpty();
-        }
-
-        [TestMethod]
-        public void BeNullOrEmptyNegatedGivenEmptyShouldFail()
-        {
-            try
-            {
-                Specify.That(string.Empty).Should.Not.BeNullOrEmpty();
-            }
-            catch (AssertFailedException)
-            {
-                return;
-            }
-
-            Specify.Failure("Specification did not fail.");
         }
 
         [TestMethod]
@@ -91,23 +55,38 @@ namespace Testing.Specificity.Tests
         }
 
         [TestMethod]
+        public void BeNullOrEmptyGivenNullShouldNotFail()
+        {
+            Specify.That((string)null).Should.BeNullOrEmpty();
+        }
+
+        [TestMethod]
+        public void BeNullOrEmptyNegatedGivenEmptyShouldFail()
+        {
+            try
+            {
+                Specify.That(string.Empty).Should.Not.BeNullOrEmpty();
+            }
+            catch (AssertFailedException)
+            {
+                return;
+            }
+
+            Specify.Failure("Specification did not fail.");
+        }
+
+        [TestMethod]
         public void BeNullOrEmptyNegatedGivenNonEmptyStringShouldNotFail()
         {
             Specify.That("foo").Should.Not.BeNullOrEmpty();
         }
 
         [TestMethod]
-        public void BeNullOrWhiteSpaceGivenNullShouldNotFail()
-        {
-            Specify.That((string)null).Should.BeNullOrWhiteSpace();
-        }
-
-        [TestMethod]
-        public void BeNullOrWhiteSpaceNegatedGivenNullShouldFail()
+        public void BeNullOrEmptyNegatedGivenNullShouldFail()
         {
             try
             {
-                Specify.That((string)null).Should.Not.BeNullOrWhiteSpace();
+                Specify.That((string)null).Should.Not.BeNullOrEmpty();
             }
             catch (AssertFailedException)
             {
@@ -121,42 +100,6 @@ namespace Testing.Specificity.Tests
         public void BeNullOrWhiteSpaceGivenEmptyShouldNotFail()
         {
             Specify.That(string.Empty).Should.BeNullOrWhiteSpace();
-        }
-
-        [TestMethod]
-        public void BeNullOrWhiteSpaceNegatedGivenEmptyShouldFail()
-        {
-            try
-            {
-                Specify.That(string.Empty).Should.Not.BeNullOrWhiteSpace();
-            }
-            catch (AssertFailedException)
-            {
-                return;
-            }
-
-            Specify.Failure("Specification did not fail.");
-        }
-
-        [TestMethod]
-        public void BeNullOrWhiteSpaceGivenWhiteSpaceShouldNotfail()
-        {
-            Specify.That(" ").Should.BeNullOrWhiteSpace();
-        }
-
-        [TestMethod]
-        public void BeNullOrWhiteSpaceNegatedGivenWhiteSpaceShouldFail()
-        {
-            try
-            {
-                Specify.That(" ").Should.Not.BeNullOrWhiteSpace();
-            }
-            catch (AssertFailedException)
-            {
-                return;
-            }
-
-            Specify.Failure("Specification did not fail.");
         }
 
         [TestMethod]
@@ -175,23 +118,59 @@ namespace Testing.Specificity.Tests
         }
 
         [TestMethod]
+        public void BeNullOrWhiteSpaceGivenNullShouldNotFail()
+        {
+            Specify.That((string)null).Should.BeNullOrWhiteSpace();
+        }
+
+        [TestMethod]
+        public void BeNullOrWhiteSpaceGivenWhiteSpaceShouldNotfail()
+        {
+            Specify.That(" ").Should.BeNullOrWhiteSpace();
+        }
+
+        [TestMethod]
+        public void BeNullOrWhiteSpaceNegatedGivenEmptyShouldFail()
+        {
+            try
+            {
+                Specify.That(string.Empty).Should.Not.BeNullOrWhiteSpace();
+            }
+            catch (AssertFailedException)
+            {
+                return;
+            }
+
+            Specify.Failure("Specification did not fail.");
+        }
+
+        [TestMethod]
         public void BeNullOrWhiteSpaceNegatedGivenNonEmptyStringShouldNotFail()
         {
             Specify.That("foo").Should.Not.BeNullOrWhiteSpace();
         }
 
         [TestMethod]
-        public void ContainSubstringGivenSubstringShouldNotFail()
-        {
-            Specify.That("xyzzy").Should.Contain("zz");
-        }
-
-        [TestMethod]
-        public void ContainSubstringNegatedGivenSubstringShouldFail()
+        public void BeNullOrWhiteSpaceNegatedGivenNullShouldFail()
         {
             try
             {
-                Specify.That("xyzzy").Should.Not.Contain("zz");
+                Specify.That((string)null).Should.Not.BeNullOrWhiteSpace();
+            }
+            catch (AssertFailedException)
+            {
+                return;
+            }
+
+            Specify.Failure("Specification did not fail.");
+        }
+
+        [TestMethod]
+        public void BeNullOrWhiteSpaceNegatedGivenWhiteSpaceShouldFail()
+        {
+            try
+            {
+                Specify.That(" ").Should.Not.BeNullOrWhiteSpace();
             }
             catch (AssertFailedException)
             {
@@ -217,15 +196,21 @@ namespace Testing.Specificity.Tests
         }
 
         [TestMethod]
-        public void ContainSubstringNegatedGivenNonSubstringShouldNotFail()
-        {
-            Specify.That("xyzzy").Should.Not.Contain("zzz");
-        }
-
-        [TestMethod]
         public void ContainSubstringGivenOrdinalIgnoreCaseAndUppercaseSubstringShouldNotFail()
         {
             Specify.That("xyzzy").Should.Contain("ZZ", StringComparison.OrdinalIgnoreCase);
+        }
+
+        [TestMethod]
+        public void ContainSubstringGivenSubstringShouldNotFail()
+        {
+            Specify.That("xyzzy").Should.Contain("zz");
+        }
+
+        [TestMethod]
+        public void ContainSubstringNegatedGivenNonSubstringShouldNotFail()
+        {
+            Specify.That("xyzzy").Should.Not.Contain("zzz");
         }
 
         [TestMethod]
@@ -244,17 +229,11 @@ namespace Testing.Specificity.Tests
         }
 
         [TestMethod]
-        public void MatchGivenMatchingPatternShouldNotFail()
-        {
-            Specify.That("aaa").Should.Match("a+");
-        }
-
-        [TestMethod]
-        public void MatchNegatedGivenMatchingPatternShouldFail()
+        public void ContainSubstringNegatedGivenSubstringShouldFail()
         {
             try
             {
-                Specify.That("aaa").Should.Not.Match("a+");
+                Specify.That("xyzzy").Should.Not.Contain("zz");
             }
             catch (AssertFailedException)
             {
@@ -262,48 +241,12 @@ namespace Testing.Specificity.Tests
             }
 
             Specify.Failure("Specification did not fail.");
-        }
-
-        [TestMethod]
-        public void MatchGivenNonMatchingPatternShouldFail()
-        {
-            try
-            {
-                Specify.That("aaa").Should.Match("b+");
-            }
-            catch (AssertFailedException)
-            {
-                return;
-            }
-
-            Specify.Failure("Specification did not fail.");
-        }
-
-        [TestMethod]
-        public void MatchNegatedGivenNonMatchingPatternShouldNotFail()
-        {
-            Specify.That("aaa").Should.Not.Match("b+");
         }
 
         [TestMethod]
         public void EndWithGivenStringAtEndShouldNotFail()
         {
             Specify.That("xyzzy").Should.EndWith("zy");
-        }
-
-        [TestMethod]
-        public void EndWithNegatedGivenStringAtEndShouldFail()
-        {
-            try
-            {
-                Specify.That("xyzzy").Should.Not.EndWith("zy");
-            }
-            catch (AssertFailedException)
-            {
-                return;
-            }
-
-            Specify.Failure("Specification did not fail.");
         }
 
         [TestMethod]
@@ -322,23 +265,11 @@ namespace Testing.Specificity.Tests
         }
 
         [TestMethod]
-        public void EndWithNegatedGivenStringNotAtEndShouldNotFail()
-        {
-            Specify.That("xyzzzy").Should.Not.EndWith("42");
-        }
-
-        [TestMethod]
-        public void StartWithGivenStringAtStartShouldNotFail()
-        {
-            Specify.That("xyzzy").Should.StartWith("xy");
-        }
-
-        [TestMethod]
-        public void StartWithNegatedGivenStringAtStartShouldFail()
+        public void EndWithNegatedGivenStringAtEndShouldFail()
         {
             try
             {
-                Specify.That("xyzzy").Should.Not.StartWith("xy");
+                Specify.That("xyzzy").Should.Not.EndWith("zy");
             }
             catch (AssertFailedException)
             {
@@ -349,11 +280,80 @@ namespace Testing.Specificity.Tests
         }
 
         [TestMethod]
+        public void EndWithNegatedGivenStringNotAtEndShouldNotFail()
+        {
+            Specify.That("xyzzzy").Should.Not.EndWith("42");
+        }
+
+        [TestMethod]
+        public void MatchGivenMatchingPatternShouldNotFail()
+        {
+            Specify.That("aaa").Should.Match("a+");
+        }
+
+        [TestMethod]
+        public void MatchGivenNonMatchingPatternShouldFail()
+        {
+            try
+            {
+                Specify.That("aaa").Should.Match("b+");
+            }
+            catch (AssertFailedException)
+            {
+                return;
+            }
+
+            Specify.Failure("Specification did not fail.");
+        }
+
+        [TestMethod]
+        public void MatchNegatedGivenMatchingPatternShouldFail()
+        {
+            try
+            {
+                Specify.That("aaa").Should.Not.Match("a+");
+            }
+            catch (AssertFailedException)
+            {
+                return;
+            }
+
+            Specify.Failure("Specification did not fail.");
+        }
+
+        [TestMethod]
+        public void MatchNegatedGivenNonMatchingPatternShouldNotFail()
+        {
+            Specify.That("aaa").Should.Not.Match("b+");
+        }
+
+        [TestMethod]
+        public void StartWithGivenStringAtStartShouldNotFail()
+        {
+            Specify.That("xyzzy").Should.StartWith("xy");
+        }
+
+        [TestMethod]
         public void StartWithGivenStringNotAtStartShouldFail()
         {
             try
             {
                 Specify.That("xyzzy").Should.StartWith("42");
+            }
+            catch (AssertFailedException)
+            {
+                return;
+            }
+
+            Specify.Failure("Specification did not fail.");
+        }
+
+        [TestMethod]
+        public void StartWithNegatedGivenStringAtStartShouldFail()
+        {
+            try
+            {
+                Specify.That("xyzzy").Should.Not.StartWith("xy");
             }
             catch (AssertFailedException)
             {

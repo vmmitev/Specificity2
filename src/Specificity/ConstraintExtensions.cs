@@ -17,27 +17,6 @@ namespace Testing.Specificity
     public static class ConstraintExtensions
     {
         /// <summary>
-        /// Fails the specified constraint if it's not negated.
-        /// </summary>
-        /// <typeparam name="T">The constraint value type.</typeparam>
-        /// <param name="self">The constraint.</param>
-        /// <param name="message">The message.</param>
-        /// <param name="args">The arguments.</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public static void FailIfNotNegated<T>(this IConstraint<T> self, string message, params object[] args)
-        {
-            if (self == null)
-            {
-                throw new ArgumentNullException("self");
-            }
-
-            if (!self.IsNegated)
-            {
-                Specify.Failure(string.Format(CultureInfo.CurrentCulture, message, args));
-            }
-        }
-
-        /// <summary>
         /// Fails the specified constraint if it's negated.
         /// </summary>
         /// <typeparam name="T">The constraint value type.</typeparam>
@@ -53,6 +32,27 @@ namespace Testing.Specificity
             }
 
             if (self.IsNegated)
+            {
+                Specify.Failure(string.Format(CultureInfo.CurrentCulture, message, args));
+            }
+        }
+
+        /// <summary>
+        /// Fails the specified constraint if it's not negated.
+        /// </summary>
+        /// <typeparam name="T">The constraint value type.</typeparam>
+        /// <param name="self">The constraint.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="args">The arguments.</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static void FailIfNotNegated<T>(this IConstraint<T> self, string message, params object[] args)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (!self.IsNegated)
             {
                 Specify.Failure(string.Format(CultureInfo.CurrentCulture, message, args));
             }

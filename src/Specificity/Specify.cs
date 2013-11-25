@@ -18,16 +18,6 @@ namespace Testing.Specificity
     public static class Specify
     {
         /// <summary>
-        /// The platform adapter assembly names.
-        /// </summary>
-        private static readonly string[] PlatformAssemblies = new[]
-            {
-                "Specificity.MSTest",
-                "Specificity.NUnit",
-                "Specificity.XUnit"
-            };
-
-        /// <summary>
         /// The platform adapter instance.
         /// </summary>
         private static readonly ISpecifyAdapter Adapter;
@@ -36,6 +26,16 @@ namespace Testing.Specificity
         /// Records aggregate exceptions.
         /// </summary>
         private static readonly Stack<List<Exception>> AggregateExceptionStack = new Stack<List<Exception>>();
+
+        /// <summary>
+        /// The platform adapter assembly names.
+        /// </summary>
+        private static readonly string[] PlatformAssemblies = new[]
+            {
+                "Specificity.MSTest",
+                "Specificity.NUnit",
+                "Specificity.XUnit"
+            };
 
         /// <summary>
         /// Initializes static members of the <see cref="Specify"/> class.
@@ -51,6 +51,38 @@ namespace Testing.Specificity
                 var adapterType = assembly.GetTypes()
                     .First(t => t.GetInterfaces().Any(i => i == typeof(ISpecifyAdapter)));
                 Specify.Adapter = (ISpecifyAdapter)Activator.CreateInstance(adapterType);
+            }
+        }
+
+        /// <summary>
+        /// Tests multiple assertions.
+        /// </summary>
+        /// <param name="action">Action that performs multiple assertions.</param>
+        /// <param name="message">A message to display. This message can be seen in the unit test results.</param>
+        /// <param name="args">An array of parameters to use when formatting <paramref name="message"/>.</param>
+        public static void Aggregate(Action action, string message = null, params object[] args)
+        {
+            var exceptions = new List<Exception>();
+            Specify.AggregateExceptionStack.Push(exceptions);
+            try
+            {
+                action();
+            }
+            catch (Exception e)
+            {
+                if (!exceptions.Contains(e))
+                {
+                    exceptions.Add(e);
+                }
+            }
+            finally
+            {
+                Specify.AggregateExceptionStack.Pop();
+            }
+
+            if (exceptions.Any())
+            {
+                Specify.Failure(exceptions, message, args);
             }
         }
 
@@ -111,24 +143,6 @@ namespace Testing.Specificity
         public static void Inonclusive(string message = null, params object[] args)
         {
             Specify.Adapter.Inconclusive(message == null ? null : string.Format(message, args));
-        }
-
-        /// <summary>
-        /// Tests multiple assertions.
-        /// </summary>
-        /// <param name="action">Action that performs multiple assertions.</param>
-        /// <param name="message">A message to display. This message can be seen in the unit test results.</param>
-        /// <param name="args">An array of parameters to use when formatting <paramref name="message"/>.</param>
-        public static void Aggregate(Action action, string message = null, params object[] args)
-        {
-            var exceptions = new List<Exception>();
-            Specify.AggregateExceptionStack.Push(exceptions);
-            action();
-            Specify.AggregateExceptionStack.Pop();
-            if (exceptions.Any())
-            {
-                Specify.Failure(exceptions, message, args);
-            }
         }
 
         /// <summary>

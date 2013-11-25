@@ -14,14 +14,14 @@ namespace Testing.Specificity
     public abstract class Distribution
     {
         /// <summary>
-        /// Sigma used when calculating gaussian values.
-        /// </summary>
-        private const int SIGMA = 3;
-
-        /// <summary>
         /// Mean used when calculating gaussian values.
         /// </summary>
         private const double MEAN = 0.0;
+
+        /// <summary>
+        /// Sigma used when calculating gaussian values.
+        /// </summary>
+        private const int SIGMA = 3;
 
         /// <summary>
         /// Standard deviation used when calculating gaussian values.
@@ -29,9 +29,9 @@ namespace Testing.Specificity
         private const double STDDEV = 1.0;
 
         /// <summary>
-        /// The positive normal distribution random number generator.
+        /// The inverted normal distribution random number generator.
         /// </summary>
-        private static readonly Distribution PositiveNormalInstance = new PositiveNormalDistribution();
+        private static readonly Distribution InvertedNormalInstance = new InvertedNormalDistribution();
 
         /// <summary>
         /// The negative normal distribution random number generator.
@@ -39,9 +39,9 @@ namespace Testing.Specificity
         private static readonly Distribution NegativeNormalInstance = new NegativeNormalDistribution();
 
         /// <summary>
-        /// The inverted normal distribution random number generator.
+        /// The positive normal distribution random number generator.
         /// </summary>
-        private static readonly Distribution InvertedNormalInstance = new InvertedNormalDistribution();
+        private static readonly Distribution PositiveNormalInstance = new PositiveNormalDistribution();
 
         /// <summary>
         /// The uniform distribution random number generator.
@@ -57,11 +57,11 @@ namespace Testing.Specificity
 
         /// <summary>
         /// Gets a <see cref="Distribution"/> object that can be used to generate
-        /// positive normal pseudo-random numbers.
+        /// inverted normal pseudo-random numbers.
         /// </summary>
-        public static Distribution PositiveNormal
+        public static Distribution InvertedNormal
         {
-            get { return Distribution.PositiveNormalInstance; }
+            get { return Distribution.InvertedNormalInstance; }
         }
 
         /// <summary>
@@ -75,11 +75,11 @@ namespace Testing.Specificity
 
         /// <summary>
         /// Gets a <see cref="Distribution"/> object that can be used to generate
-        /// inverted normal pseudo-random numbers.
+        /// positive normal pseudo-random numbers.
         /// </summary>
-        public static Distribution InvertedNormal
+        public static Distribution PositiveNormal
         {
-            get { return Distribution.InvertedNormalInstance; }
+            get { return Distribution.PositiveNormalInstance; }
         }
 
         /// <summary>
@@ -114,9 +114,9 @@ namespace Testing.Specificity
         }
 
         /// <summary>
-        /// A <see cref="Distribution"/> used to create positive normal pseudo-random numbers.
+        /// A <see cref="Distribution"/> used to create inverted normal pseudo-random numbers.
         /// </summary>
-        private sealed class PositiveNormalDistribution : Distribution
+        private sealed class InvertedNormalDistribution : Distribution
         {
             /// <summary>
             /// Gets the next pseudo-radom double value.
@@ -125,7 +125,8 @@ namespace Testing.Specificity
             /// <returns>A uniform pseudo-random number.</returns>
             public override double NextDouble(Random random)
             {
-                return Math.Abs(this.NextGaussian(random));
+                double next = this.NextGaussian(random, SIGMA * 2);
+                return (next < 0) ? 1 + next : next;
             }
         }
 
@@ -146,9 +147,9 @@ namespace Testing.Specificity
         }
 
         /// <summary>
-        /// A <see cref="Distribution"/> used to create inverted normal pseudo-random numbers.
+        /// A <see cref="Distribution"/> used to create positive normal pseudo-random numbers.
         /// </summary>
-        private sealed class InvertedNormalDistribution : Distribution
+        private sealed class PositiveNormalDistribution : Distribution
         {
             /// <summary>
             /// Gets the next pseudo-radom double value.
@@ -157,8 +158,7 @@ namespace Testing.Specificity
             /// <returns>A uniform pseudo-random number.</returns>
             public override double NextDouble(Random random)
             {
-                double next = this.NextGaussian(random, SIGMA * 2);
-                return (next < 0) ? 1 + next : next;
+                return Math.Abs(this.NextGaussian(random));
             }
         }
 

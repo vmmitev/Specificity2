@@ -180,71 +180,6 @@ namespace Testing.Specificity
         }
 
         /// <summary>
-        /// Verifies the constrained <see cref="String"/> matches the specified regular expression pattern.
-        /// </summary>
-        /// <param name="self">The constrained value.</param>
-        /// <param name="pattern">The regular expression pattern to match.</param>
-        /// <param name="message">The message to display in case of failure.</param>
-        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
-        /// <exception cref="Exception">The constraint failed. The exact type of exception thrown will
-        /// depend on the unit test framework, if any, in use.</exception>
-        public static void Match(this IConstraint<string> self, string pattern, string message = null, params object[] parameters)
-        {
-            if (self == null)
-            {
-                throw new ArgumentNullException("self");
-            }
-
-            if (string.IsNullOrEmpty(pattern))
-            {
-                throw new ArgumentNullException("pattern");
-            }
-
-            self.Match(new Regex(pattern), message, parameters);
-        }
-
-        /// <summary>
-        /// Verifies the constrained <see cref="String"/> matches the specified regular expression pattern.
-        /// </summary>
-        /// <param name="self">The constrained value.</param>
-        /// <param name="pattern">The regular expression pattern to match.</param>
-        /// <param name="message">The message to display in case of failure.</param>
-        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
-        /// <exception cref="Exception">The constraint failed. The exact type of exception thrown will
-        /// depend on the unit test framework, if any, in use.</exception>
-        public static void Match(this IConstraint<string> self, Regex pattern, string message = null, params object[] parameters)
-        {
-            if (self == null)
-            {
-                throw new ArgumentNullException("self");
-            }
-
-            if (pattern == null)
-            {
-                throw new ArgumentNullException("pattern");
-            }
-
-            if (!pattern.IsMatch(self.Value))
-            {
-                self.FailIfNotNegated(
-                    self.FormatErrorMessage(
-                        "Match",
-                        Messages.IsMatchFail(self.Value, pattern),
-                        message,
-                        parameters));
-            }
-            else
-            {
-                self.FailIfNegated(
-                    self.FormatErrorMessage(
-                        "Match",
-                        Messages.IsNotMatchFail(self.Value, pattern),
-                        message,
-                        parameters));
-            }
-        }
-
-        /// <summary>
         /// Verifies the constrained <see cref="String"/> ends with the specified substring.
         /// </summary>
         /// <param name="self">The constrained value.</param>
@@ -305,6 +240,71 @@ namespace Testing.Specificity
                     self.FormatErrorMessage(
                         "EndWith",
                         Messages.NotEndsWithFail(self.Value, substring),
+                        message,
+                        parameters));
+            }
+        }
+
+        /// <summary>
+        /// Verifies the constrained <see cref="String"/> matches the specified regular expression pattern.
+        /// </summary>
+        /// <param name="self">The constrained value.</param>
+        /// <param name="pattern">The regular expression pattern to match.</param>
+        /// <param name="message">The message to display in case of failure.</param>
+        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
+        /// <exception cref="Exception">The constraint failed. The exact type of exception thrown will
+        /// depend on the unit test framework, if any, in use.</exception>
+        public static void Match(this IConstraint<string> self, string pattern, string message = null, params object[] parameters)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (string.IsNullOrEmpty(pattern))
+            {
+                throw new ArgumentNullException("pattern");
+            }
+
+            self.Match(new Regex(pattern), message, parameters);
+        }
+
+        /// <summary>
+        /// Verifies the constrained <see cref="String"/> matches the specified regular expression pattern.
+        /// </summary>
+        /// <param name="self">The constrained value.</param>
+        /// <param name="pattern">The regular expression pattern to match.</param>
+        /// <param name="message">The message to display in case of failure.</param>
+        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
+        /// <exception cref="Exception">The constraint failed. The exact type of exception thrown will
+        /// depend on the unit test framework, if any, in use.</exception>
+        public static void Match(this IConstraint<string> self, Regex pattern, string message = null, params object[] parameters)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (pattern == null)
+            {
+                throw new ArgumentNullException("pattern");
+            }
+
+            if (!pattern.IsMatch(self.Value))
+            {
+                self.FailIfNotNegated(
+                    self.FormatErrorMessage(
+                        "Match",
+                        Messages.IsMatchFail(self.Value, pattern),
+                        message,
+                        parameters));
+            }
+            else
+            {
+                self.FailIfNegated(
+                    self.FormatErrorMessage(
+                        "Match",
+                        Messages.IsNotMatchFail(self.Value, pattern),
                         message,
                         parameters));
             }

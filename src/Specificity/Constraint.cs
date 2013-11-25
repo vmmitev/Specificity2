@@ -25,15 +25,6 @@ namespace Testing.Specificity
         }
 
         /// <summary>
-        /// Gets a negative constraint for this instance.
-        /// </summary>
-        /// <value>The negative constraint for this instance.</value>
-        public NegativeConstraint<T> Not
-        {
-            get { return new NegativeConstraint<T>(this.Value); }
-        }
-
-        /// <summary>
         /// Gets a value indicating whether this instance is negated.
         /// </summary>
         /// <value>
@@ -43,6 +34,15 @@ namespace Testing.Specificity
         public bool IsNegated
         {
             get { return false; }
+        }
+
+        /// <summary>
+        /// Gets a negative constraint for this instance.
+        /// </summary>
+        /// <value>The negative constraint for this instance.</value>
+        public NegativeConstraint<T> Not
+        {
+            get { return new NegativeConstraint<T>(this.Value); }
         }
 
         /// <summary>

@@ -41,9 +41,9 @@ namespace Testing.Specificity
         private static readonly DefaultObjectFactoryRegistry DefaultRegistryInstance;
 
         /// <summary>
-        /// The pseudo-random number generator used when creating objects.
+        /// The registered customizations.
         /// </summary>
-        private readonly Random random;
+        private readonly Stack<ObjectFactoryCustomization> customizations = new Stack<ObjectFactoryCustomization>();
 
         /// <summary>
         /// The registered object factory methods.
@@ -51,9 +51,9 @@ namespace Testing.Specificity
         private readonly Dictionary<Type, Func<IObjectFactory, object>> factories = new Dictionary<Type, Func<IObjectFactory, object>>();
 
         /// <summary>
-        /// The registered customizations.
+        /// The pseudo-random number generator used when creating objects.
         /// </summary>
-        private readonly Stack<ObjectFactoryCustomization> customizations = new Stack<ObjectFactoryCustomization>();
+        private readonly Random random;
 
         /// <summary>
         /// Initializes static members of the <see cref="ObjectFactory"/> class.
@@ -119,24 +119,6 @@ namespace Testing.Specificity
         }
 
         /// <summary>
-        /// Generate a pseudo-random <see cref="Double"/> value.
-        /// </summary>
-        /// <param name="minimum">The minimum value to generate.</param>
-        /// <param name="maximum">The maximum value to generate.</param>
-        /// <param name="distribution">The distribution to use.</param>
-        /// <returns>A pseudo-random <see cref="Double"/> value.</returns>
-        public double AnyDouble(double minimum = double.MinValue, double maximum = double.MaxValue, Distribution distribution = null)
-        {
-            if (minimum >= maximum)
-            {
-                throw new ArgumentOutOfRangeException();
-            }
-
-            distribution = distribution ?? Distribution.Uniform;
-            return (distribution.NextDouble(this.random) * (maximum - minimum)) + minimum;
-        }
-
-        /// <summary>
         /// Generate a pseudo-random object of the specified type.
         /// </summary>
         /// <param name="type">The type of object to create.</param>
@@ -165,13 +147,21 @@ namespace Testing.Specificity
         }
 
         /// <summary>
-        /// Registers a factory method that can be used to create instances of the specified type.
+        /// Generate a pseudo-random <see cref="Double"/> value.
         /// </summary>
-        /// <param name="type">The type of object created by the factory.</param>
-        /// <param name="factory">The factory method.</param>
-        public void Register(Type type, Func<IObjectFactory, object> factory)
+        /// <param name="minimum">The minimum value to generate.</param>
+        /// <param name="maximum">The maximum value to generate.</param>
+        /// <param name="distribution">The distribution to use.</param>
+        /// <returns>A pseudo-random <see cref="Double"/> value.</returns>
+        public double AnyDouble(double minimum = double.MinValue, double maximum = double.MaxValue, Distribution distribution = null)
         {
-            this.factories[type] = factory;
+            if (minimum >= maximum)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            distribution = distribution ?? Distribution.Uniform;
+            return (distribution.NextDouble(this.random) * (maximum - minimum)) + minimum;
         }
 
         /// <summary>
@@ -181,6 +171,16 @@ namespace Testing.Specificity
         public void Customize(ObjectFactoryCustomization customization)
         {
             this.customizations.Push(customization);
+        }
+
+        /// <summary>
+        /// Registers a factory method that can be used to create instances of the specified type.
+        /// </summary>
+        /// <param name="type">The type of object created by the factory.</param>
+        /// <param name="factory">The factory method.</param>
+        public void Register(Type type, Func<IObjectFactory, object> factory)
+        {
+            this.factories[type] = factory;
         }
 
         /// <summary>
@@ -239,23 +239,18 @@ namespace Testing.Specificity
         }
 
         /// <summary>
-        /// Gets the type of the items in the enumerable.
+        /// Creates a factory using the specified constructor.
         /// </summary>
-        /// <param name="type">The enumerable type.</param>
-        /// <returns>The type of the items in the enumerable.</returns>
-        private Type GetEnumerableItemType(Type type)
+        /// <param name="ctor">The constructor to use when creating an object with the factory.</param>
+        /// <returns>A factory used to create objects using the specified constructor.</returns>
+        private Func<IObjectFactory, object> CreateFactory(ConstructorInfo ctor)
         {
-            if (type == typeof(IEnumerable))
-            {
-                return typeof(object);
-            }
-
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-            {
-                return type.GetGenericArguments().Single();
-            }
-
-            return null;
+            var factoryExpression = Expression.Parameter(typeof(IObjectFactory), "factory");
+            var parameterExpressions = ctor.GetParameters()
+                .Select(p => this.GetParameterExpression(p, factoryExpression));
+            var newExpression = Expression.New(ctor, parameterExpressions);
+            var lambda = Expression.Lambda<Func<IObjectFactory, object>>(newExpression, factoryExpression);
+            return lambda.Compile();
         }
 
         /// <summary>
@@ -287,18 +282,23 @@ namespace Testing.Specificity
         }
 
         /// <summary>
-        /// Creates a factory using the specified constructor.
+        /// Gets the type of the items in the enumerable.
         /// </summary>
-        /// <param name="ctor">The constructor to use when creating an object with the factory.</param>
-        /// <returns>A factory used to create objects using the specified constructor.</returns>
-        private Func<IObjectFactory, object> CreateFactory(ConstructorInfo ctor)
+        /// <param name="type">The enumerable type.</param>
+        /// <returns>The type of the items in the enumerable.</returns>
+        private Type GetEnumerableItemType(Type type)
         {
-            var factoryExpression = Expression.Parameter(typeof(IObjectFactory), "factory");
-            var parameterExpressions = ctor.GetParameters()
-                .Select(p => this.GetParameterExpression(p, factoryExpression));
-            var newExpression = Expression.New(ctor, parameterExpressions);
-            var lambda = Expression.Lambda<Func<IObjectFactory, object>>(newExpression, factoryExpression);
-            return lambda.Compile();
+            if (type == typeof(IEnumerable))
+            {
+                return typeof(object);
+            }
+
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            {
+                return type.GetGenericArguments().Single();
+            }
+
+            return null;
         }
 
         /// <summary>

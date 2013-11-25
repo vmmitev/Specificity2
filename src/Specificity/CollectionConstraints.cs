@@ -46,147 +46,6 @@ namespace Testing.Specificity
         }
 
         /// <summary>
-        /// Verifies the constrained collection has only items of the specified type or not.
-        /// </summary>
-        /// <typeparam name="T">The type of the constrained collection.</typeparam>
-        /// <param name="self">The constrained collection.</param>
-        /// <param name="expectedType">The type expected for all items.</param>
-        /// <param name="message">The message to display in case of failure.</param>
-        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
-        /// <exception cref="Exception">The constraint failed. The exact type of exception thrown will
-        /// depend on the unit test framework, if any, in use.</exception>
-        public static void HaveOnlyItemsOfType<T>(this IConstraint<T> self, Type expectedType, string message = null, params object[] parameters)
-            where T : IEnumerable
-        {
-            if (self == null)
-            {
-                throw new ArgumentNullException("self");
-            }
-
-            if (expectedType == null)
-            {
-                throw new ArgumentNullException("type");
-            }
-
-            int num = 0;
-            foreach (object item in self.Value)
-            {
-                if (!expectedType.IsInstanceOfType(item))
-                {
-                    string reason;
-                    if (item != null)
-                    {
-                        reason = Messages.ElementTypesAtIndexDoNotMatch(
-                            num,
-                            expectedType,
-                            item.GetType());
-                    }
-                    else
-                    {
-                        reason = Messages.ElementTypesAtIndexDoNotMatch2(
-                            num,
-                            expectedType);
-                    }
-
-                    self.FailIfNotNegated(self.FormatErrorMessage("HaveOnlyItemsOfType", reason, message, parameters));
-                    return;
-                }
-
-                ++num;
-            }
-
-            self.FailIfNegated(self.FormatErrorMessage("HaveOnlyItemsOfType", null, message, parameters));
-        }
-
-        /// <summary>
-        /// Verifies the constrained collection has at least one <see langword="null"/> item.
-        /// </summary>
-        /// <typeparam name="T">The type of the constrained collection.</typeparam>
-        /// <param name="self">The constrained collection.</param>
-        /// <param name="message">The message to display in case of failure.</param>
-        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
-        /// <exception cref="Exception">The constraint failed. The exact type of exception thrown will
-        /// depend on the unit test framework, if any, in use.</exception>
-        public static void HaveNullItems<T>(this IConstraint<T> self, string message = null, params object[] parameters)
-            where T : IEnumerable
-        {
-            if (self == null)
-            {
-                throw new ArgumentNullException("self");
-            }
-
-            if (self.Value.Cast<object>().Any(i => i == null))
-            {
-                self.FailIfNegated(self.FormatErrorMessage("HaveNullItems", null, message, parameters));
-            }
-            else
-            {
-                self.FailIfNotNegated(self.FormatErrorMessage("HaveNullItems", null, message, parameters));
-            }
-        }
-
-        /// <summary>
-        /// Verifies the constrained collection contains only unique items.
-        /// </summary>
-        /// <typeparam name="T">The type of the constrained collection.</typeparam>
-        /// <param name="self">The constrained collection.</param>
-        /// <param name="message">The message to display in case of failure.</param>
-        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
-        /// <exception cref="Exception">The constraint failed. The exact type of exception thrown will
-        /// depend on the unit test framework, if any, in use.</exception>
-        public static void HaveUniqueItems<T>(this IConstraint<T> self, string message = null, params object[] parameters)
-            where T : IEnumerable
-        {
-            if (self == null)
-            {
-                throw new ArgumentNullException("self");
-            }
-
-            bool flag = false;
-            HashSet<object> set = new HashSet<object>();
-            int index = 0;
-            foreach (object item in self.Value)
-            {
-                if (item == null)
-                {
-                    if (!flag)
-                    {
-                        flag = true;
-                    }
-                    else
-                    {
-                        self.FailIfNotNegated(
-                            self.FormatErrorMessage(
-                                "HaveUniqueItems",
-                                Messages.DuplicateElement(Messages.NullValue),
-                                message,
-                                parameters));
-                        return;
-                    }
-                }
-                else if (!set.Add(item))
-                {
-                    self.FailIfNotNegated(
-                        self.FormatErrorMessage(
-                            "HaveUniqueItems",
-                            Messages.DuplicateElement(item),
-                            message,
-                            parameters));
-                    return;
-                }
-
-                ++index;
-            }
-
-            self.FailIfNegated(
-                self.FormatErrorMessage(
-                    "HaveUniqueItems",
-                    null,
-                    message,
-                    parameters));
-        }
-
-        /// <summary>
         /// Verifies the constrained collection is equivalent (contains the same values, though possibly in a different
         /// order) to the specified collection.
         /// </summary>
@@ -307,44 +166,6 @@ namespace Testing.Specificity
         }
 
         /// <summary>
-        /// Verifies the constrained collection contains the specified element.
-        /// </summary>
-        /// <typeparam name="T">The type of the constrained collection.</typeparam>
-        /// <param name="self">The constrained collection.</param>
-        /// <param name="element">The expected element.</param>
-        /// <param name="message">The message to display in case of failure.</param>
-        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
-        /// <exception cref="Exception">The constraint failed. The exact type of exception thrown will
-        /// depend on the unit test framework, if any, in use.</exception>
-        public static void Contain<T>(this IConstraint<T> self, object element, string message = null, params object[] parameters)
-            where T : IEnumerable
-        {
-            if (self == null)
-            {
-                throw new ArgumentNullException("self");
-            }
-
-            if (self.Value.Cast<object>().Contains(element))
-            {
-                self.FailIfNegated(
-                    self.FormatErrorMessage(
-                        "Contain",
-                        null,
-                        message,
-                        parameters));
-            }
-            else
-            {
-                self.FailIfNotNegated(
-                    self.FormatErrorMessage(
-                        "Contain",
-                        null,
-                        message,
-                        parameters));
-            }
-        }
-
-        /// <summary>
         /// Verifies the constrained collection is a subset of the specified collection.
         /// </summary>
         /// <typeparam name="T">The collection type.</typeparam>
@@ -384,6 +205,185 @@ namespace Testing.Specificity
                         message,
                         parameters));
             }
+        }
+
+        /// <summary>
+        /// Verifies the constrained collection contains the specified element.
+        /// </summary>
+        /// <typeparam name="T">The type of the constrained collection.</typeparam>
+        /// <param name="self">The constrained collection.</param>
+        /// <param name="element">The expected element.</param>
+        /// <param name="message">The message to display in case of failure.</param>
+        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
+        /// <exception cref="Exception">The constraint failed. The exact type of exception thrown will
+        /// depend on the unit test framework, if any, in use.</exception>
+        public static void Contain<T>(this IConstraint<T> self, object element, string message = null, params object[] parameters)
+            where T : IEnumerable
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (self.Value.Cast<object>().Contains(element))
+            {
+                self.FailIfNegated(
+                    self.FormatErrorMessage(
+                        "Contain",
+                        null,
+                        message,
+                        parameters));
+            }
+            else
+            {
+                self.FailIfNotNegated(
+                    self.FormatErrorMessage(
+                        "Contain",
+                        null,
+                        message,
+                        parameters));
+            }
+        }
+
+        /// <summary>
+        /// Verifies the constrained collection has at least one <see langword="null"/> item.
+        /// </summary>
+        /// <typeparam name="T">The type of the constrained collection.</typeparam>
+        /// <param name="self">The constrained collection.</param>
+        /// <param name="message">The message to display in case of failure.</param>
+        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
+        /// <exception cref="Exception">The constraint failed. The exact type of exception thrown will
+        /// depend on the unit test framework, if any, in use.</exception>
+        public static void HaveNullItems<T>(this IConstraint<T> self, string message = null, params object[] parameters)
+            where T : IEnumerable
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (self.Value.Cast<object>().Any(i => i == null))
+            {
+                self.FailIfNegated(self.FormatErrorMessage("HaveNullItems", null, message, parameters));
+            }
+            else
+            {
+                self.FailIfNotNegated(self.FormatErrorMessage("HaveNullItems", null, message, parameters));
+            }
+        }
+
+        /// <summary>
+        /// Verifies the constrained collection has only items of the specified type or not.
+        /// </summary>
+        /// <typeparam name="T">The type of the constrained collection.</typeparam>
+        /// <param name="self">The constrained collection.</param>
+        /// <param name="expectedType">The type expected for all items.</param>
+        /// <param name="message">The message to display in case of failure.</param>
+        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
+        /// <exception cref="Exception">The constraint failed. The exact type of exception thrown will
+        /// depend on the unit test framework, if any, in use.</exception>
+        public static void HaveOnlyItemsOfType<T>(this IConstraint<T> self, Type expectedType, string message = null, params object[] parameters)
+            where T : IEnumerable
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (expectedType == null)
+            {
+                throw new ArgumentNullException("type");
+            }
+
+            int num = 0;
+            foreach (object item in self.Value)
+            {
+                if (!expectedType.IsInstanceOfType(item))
+                {
+                    string reason;
+                    if (item != null)
+                    {
+                        reason = Messages.ElementTypesAtIndexDoNotMatch(
+                            num,
+                            expectedType,
+                            item.GetType());
+                    }
+                    else
+                    {
+                        reason = Messages.ElementTypesAtIndexDoNotMatch2(
+                            num,
+                            expectedType);
+                    }
+
+                    self.FailIfNotNegated(self.FormatErrorMessage("HaveOnlyItemsOfType", reason, message, parameters));
+                    return;
+                }
+
+                ++num;
+            }
+
+            self.FailIfNegated(self.FormatErrorMessage("HaveOnlyItemsOfType", null, message, parameters));
+        }
+
+        /// <summary>
+        /// Verifies the constrained collection contains only unique items.
+        /// </summary>
+        /// <typeparam name="T">The type of the constrained collection.</typeparam>
+        /// <param name="self">The constrained collection.</param>
+        /// <param name="message">The message to display in case of failure.</param>
+        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
+        /// <exception cref="Exception">The constraint failed. The exact type of exception thrown will
+        /// depend on the unit test framework, if any, in use.</exception>
+        public static void HaveUniqueItems<T>(this IConstraint<T> self, string message = null, params object[] parameters)
+            where T : IEnumerable
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            bool flag = false;
+            HashSet<object> set = new HashSet<object>();
+            int index = 0;
+            foreach (object item in self.Value)
+            {
+                if (item == null)
+                {
+                    if (!flag)
+                    {
+                        flag = true;
+                    }
+                    else
+                    {
+                        self.FailIfNotNegated(
+                            self.FormatErrorMessage(
+                                "HaveUniqueItems",
+                                Messages.DuplicateElement(Messages.NullValue),
+                                message,
+                                parameters));
+                        return;
+                    }
+                }
+                else if (!set.Add(item))
+                {
+                    self.FailIfNotNegated(
+                        self.FormatErrorMessage(
+                            "HaveUniqueItems",
+                            Messages.DuplicateElement(item),
+                            message,
+                            parameters));
+                    return;
+                }
+
+                ++index;
+            }
+
+            self.FailIfNegated(
+                self.FormatErrorMessage(
+                    "HaveUniqueItems",
+                    null,
+                    message,
+                    parameters));
         }
 
         /// <summary>

@@ -12,14 +12,17 @@ namespace Testing.Specificity.Tests
     public class BooleanConstraintsTests
     {
         [TestMethod]
-        public void BeTrueForFalseShouldFail()
+        public void BeTrueForFalseGivenMessageAndArgShouldFail()
         {
+            string message = "{0}";
+            string arg = "xyzzy";
             try
             {
-                Specify.That(false).Should.BeTrue();
+                Specify.That(false).Should.BeTrue(message, arg);
             }
-            catch (AssertFailedException)
+            catch (AssertFailedException e)
             {
+                StringAssert.EndsWith(e.Message, arg);
                 return;
             }
 
@@ -44,34 +47,18 @@ namespace Testing.Specificity.Tests
         }
 
         [TestMethod]
-        public void BeTrueForFalseGivenMessageAndArgShouldFail()
+        public void BeTrueForFalseShouldFail()
         {
-            string message = "{0}";
-            string arg = "xyzzy";
             try
             {
-                Specify.That(false).Should.BeTrue(message, arg);
+                Specify.That(false).Should.BeTrue();
             }
-            catch (AssertFailedException e)
+            catch (AssertFailedException)
             {
-                StringAssert.EndsWith(e.Message, arg);
                 return;
             }
 
             Specify.Failure("Specification did not fail.");
-        }
-
-        [TestMethod]
-        public void BeTrueForTrueShouldNotFail()
-        {
-            Specify.That(true).Should.BeTrue();
-        }
-
-        [TestMethod]
-        public void BeTrueForTrueGivenMessageShouldNotFail()
-        {
-            string message = "xyzzy";
-            Specify.That(true).Should.BeTrue(message);
         }
 
         [TestMethod]
@@ -83,6 +70,40 @@ namespace Testing.Specificity.Tests
         }
 
         [TestMethod]
+        public void BeTrueForTrueGivenMessageShouldNotFail()
+        {
+            string message = "xyzzy";
+            Specify.That(true).Should.BeTrue(message);
+        }
+
+        [TestMethod]
+        public void BeTrueForTrueShouldNotFail()
+        {
+            Specify.That(true).Should.BeTrue();
+        }
+
+        [TestMethod]
+        public void BeTrueNegatedForFalseGivenMessageAndArgShouldNotFail()
+        {
+            string message = "{0}";
+            string arg = "xyzzy";
+            Specify.That(true).Should.BeTrue(message, arg);
+        }
+
+        [TestMethod]
+        public void BeTrueNegatedForFalseGivenMessageShouldNotFail()
+        {
+            string message = "xyzzy";
+            Specify.That(false).Should.Not.BeTrue(message);
+        }
+
+        [TestMethod]
+        public void BeTrueNegatedForFalseShouldNotFail()
+        {
+            Specify.That(false).Should.Not.BeTrue();
+        }
+
+        [TestMethod]
         public void BeTrueNegatedForShouldFail()
         {
             try
@@ -91,23 +112,6 @@ namespace Testing.Specificity.Tests
             }
             catch (AssertFailedException)
             {
-                return;
-            }
-
-            Specify.Failure("Specification did not fail.");
-        }
-
-        [TestMethod]
-        public void BeTrueNegatedForTrueGivenMessageShouldFail()
-        {
-            string message = "xyzzy";
-            try
-            {
-                Specify.That(true).Should.Not.BeTrue(message);
-            }
-            catch (AssertFailedException e)
-            {
-                StringAssert.EndsWith(e.Message, message);
                 return;
             }
 
@@ -133,24 +137,20 @@ namespace Testing.Specificity.Tests
         }
 
         [TestMethod]
-        public void BeTrueNegatedForFalseShouldNotFail()
-        {
-            Specify.That(false).Should.Not.BeTrue();
-        }
-
-        [TestMethod]
-        public void BeTrueNegatedForFalseGivenMessageShouldNotFail()
+        public void BeTrueNegatedForTrueGivenMessageShouldFail()
         {
             string message = "xyzzy";
-            Specify.That(false).Should.Not.BeTrue(message);
-        }
+            try
+            {
+                Specify.That(true).Should.Not.BeTrue(message);
+            }
+            catch (AssertFailedException e)
+            {
+                StringAssert.EndsWith(e.Message, message);
+                return;
+            }
 
-        [TestMethod]
-        public void BeTrueNegatedForFalseGivenMessageAndArgShouldNotFail()
-        {
-            string message = "{0}";
-            string arg = "xyzzy";
-            Specify.That(true).Should.BeTrue(message, arg);
+            Specify.Failure("Specification did not fail.");
         }
     }
 }

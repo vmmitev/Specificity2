@@ -34,6 +34,12 @@ namespace Testing.Specificity.Tests
         }
 
         [TestMethod]
+        public void BeEmptyNegatedGivenNonEmptyCollectionShouldNotFail()
+        {
+            Specify.That(new[] { "foo" }).Should.Not.BeEmpty();
+        }
+
+        [TestMethod]
         public void BeEmpyGivenNonEmptyCollectionShouldFail()
         {
             try
@@ -49,23 +55,164 @@ namespace Testing.Specificity.Tests
         }
 
         [TestMethod]
-        public void BeEmptyNegatedGivenNonEmptyCollectionShouldNotFail()
+        public void BeEquivalentToGivenEquivalentCollectionsShouldNotFail()
         {
-            Specify.That(new[] { "foo" }).Should.Not.BeEmpty();
+            Specify.That(new[] { 1, 2, 3, 4 }).Should.BeEquivalentTo(new[] { 4, 3, 2, 1 });
         }
 
         [TestMethod]
-        public void HaveOnlyItemsOfTypeGivenCollectionOfSpecifiedTypeShouldNotFail()
-        {
-            Specify.That(new[] { 1, 2, 3, 4 }).Should.HaveOnlyItemsOfType(typeof(int));
-        }
-
-        [TestMethod]
-        public void HaveOnlyItemsOfTypeNegatedGivenCollectionOfSpecifiedTypeShouldFail()
+        public void BeEquivalentToGivenUnequivalentCollectionsShouldFail()
         {
             try
             {
-                Specify.That(new[] { 1, 2, 3, 4 }).Should.Not.HaveOnlyItemsOfType(typeof(int));
+                Specify.That(new[] { 1, 2, 3, 4 }).Should.BeEquivalentTo(new[] { 1, 2 });
+            }
+            catch (AssertFailedException)
+            {
+                return;
+            }
+
+            Specify.Failure("Specification did not fail.");
+        }
+
+        [TestMethod]
+        public void BeEquivalentToNegatedGivenEquivalentCollectionsShouldFail()
+        {
+            try
+            {
+                Specify.That(new[] { 1, 2, 3, 4 }).Should.Not.BeEquivalentTo(new[] { 4, 3, 2, 1 });
+            }
+            catch (AssertFailedException)
+            {
+                return;
+            }
+
+            Specify.Failure("Specification did not fail.");
+        }
+
+        [TestMethod]
+        public void BeEquivalentToNegatedGivenUnequivalentCollectionsShouldNotFail()
+        {
+            Specify.That(new[] { 1, 2, 3, 4 }).Should.Not.BeEquivalentTo(new[] { 1, 2 });
+        }
+
+        [TestMethod]
+        public void BeSubsetOfGivenSubsetShouldFail()
+        {
+            try
+            {
+                Specify.That(new[] { 1, 2, 3 }).Should.BeSubsetOf(new[] { 1, 2 });
+            }
+            catch (AssertFailedException)
+            {
+                return;
+            }
+
+            Specify.Failure("Specification did not fail.");
+        }
+
+        [TestMethod]
+        public void BeSubsetOfGivenSupersetShouldNotFail()
+        {
+            Specify.That(new[] { 1, 2 }).Should.BeSubsetOf(new[] { 1, 2, 3, 4 });
+        }
+
+        [TestMethod]
+        public void BeSubsetOfNegatedGivenSubsetShouldNotFail()
+        {
+            Specify.That(new[] { 1, 2, 3 }).Should.Not.BeSubsetOf(new[] { 1, 2 });
+        }
+
+        [TestMethod]
+        public void BeSubsetOfNegatedGivenSupersetShouldFail()
+        {
+            try
+            {
+                Specify.That(new[] { 1, 2 }).Should.Not.BeSubsetOf(new[] { 1, 2, 3, 4 });
+            }
+            catch (AssertFailedException)
+            {
+                return;
+            }
+
+            Specify.Failure("Specification did not fail.");
+        }
+
+        [TestMethod]
+        public void ContainGivenElementInCollectionShouldNotFail()
+        {
+            Specify.That(new[] { 1, 2, 3, 4 }).Should.Contain(3);
+        }
+
+        [TestMethod]
+        public void ContainGivenElementNotInCollectionShouldFail()
+        {
+            try
+            {
+                Specify.That(new[] { 1, 2, 3, 4 }).Should.Contain(5);
+            }
+            catch (AssertFailedException)
+            {
+                return;
+            }
+
+            Specify.Failure("Specification did not fail.");
+        }
+
+        [TestMethod]
+        public void ContainNegatedGivenElementInCollectionShouldFail()
+        {
+            try
+            {
+                Specify.That(new[] { 1, 2, 3, 4 }).Should.Not.Contain(3);
+            }
+            catch (AssertFailedException)
+            {
+                return;
+            }
+
+            Specify.Failure("Specification did not fail.");
+        }
+
+        [TestMethod]
+        public void ContainNegatedGivenItemNotInCollectionShouldNotFail()
+        {
+            Specify.That(new[] { 1, 2, 3, 4 }).Should.Not.Contain(5);
+        }
+
+        [TestMethod]
+        public void HaveNullItemsGivenCollectionWithNullItemsShouldNotFail()
+        {
+            Specify.That(new[] { "foo", null }).Should.HaveNullItems();
+        }
+
+        [TestMethod]
+        public void HaveNullItemsGivenCollectionWithoutNullItemsShouldFail()
+        {
+            try
+            {
+                Specify.That(new[] { "foo", "bar" }).Should.HaveNullItems();
+            }
+            catch (AssertFailedException)
+            {
+                return;
+            }
+
+            Specify.Failure("Specification did not fail.");
+        }
+
+        [TestMethod]
+        public void HaveNullItemsNegatedGiveCollectionWithoutNullItemsShouldNotFail()
+        {
+            Specify.That(new[] { "foo", "bar" }).Should.Not.HaveNullItems();
+        }
+
+        [TestMethod]
+        public void HaveNullItemsNegatedGivenCollectionWithNullItemsShouldFail()
+        {
+            try
+            {
+                Specify.That(new[] { "foo", null }).Should.Not.HaveNullItems();
             }
             catch (AssertFailedException)
             {
@@ -91,65 +238,23 @@ namespace Testing.Specificity.Tests
         }
 
         [TestMethod]
+        public void HaveOnlyItemsOfTypeGivenCollectionOfSpecifiedTypeShouldNotFail()
+        {
+            Specify.That(new[] { 1, 2, 3, 4 }).Should.HaveOnlyItemsOfType(typeof(int));
+        }
+
+        [TestMethod]
         public void HaveOnlyItemsOfTypeNegatedGivenCollectionOfDifferentTypesShouldNotFail()
         {
             Specify.That(new object[] { 1, 2, 3, "foo" }).Should.Not.HaveOnlyItemsOfType(typeof(int));
         }
 
         [TestMethod]
-        public void HaveNullItemsGivenCollectionWithNullItemsShouldNotFail()
-        {
-            Specify.That(new[] { "foo", null }).Should.HaveNullItems();
-        }
-
-        [TestMethod]
-        public void HaveNullItemsNegatedGivenCollectionWithNullItemsShouldFail()
+        public void HaveOnlyItemsOfTypeNegatedGivenCollectionOfSpecifiedTypeShouldFail()
         {
             try
             {
-                Specify.That(new[] { "foo", null }).Should.Not.HaveNullItems();
-            }
-            catch (AssertFailedException)
-            {
-                return;
-            }
-
-            Specify.Failure("Specification did not fail.");
-        }
-
-        [TestMethod]
-        public void HaveNullItemsGivenCollectionWithoutNullItemsShouldFail()
-        {
-            try
-            {
-                Specify.That(new[] { "foo", "bar" }).Should.HaveNullItems();
-            }
-            catch (AssertFailedException)
-            {
-                return;
-            }
-
-            Specify.Failure("Specification did not fail.");
-        }
-
-        [TestMethod]
-        public void HaveNullItemsNegatedGiveCollectionWithoutNullItemsShouldNotFail()
-        {
-            Specify.That(new[] { "foo", "bar" }).Should.Not.HaveNullItems();
-        }
-
-        [TestMethod]
-        public void HaveUniqueItemsGivenCollectionWithUniqueItemsShouldNotFail()
-        {
-            Specify.That(new[] { 1, 2, 3, 4 }).Should.HaveUniqueItems();
-        }
-
-        [TestMethod]
-        public void HaveUniqueItemsNegatedGivenCollectionWithUniqueItemsShouldFail()
-        {
-            try
-            {
-                Specify.That(new[] { 1, 2, 3, 4 }).Should.Not.HaveUniqueItems();
+                Specify.That(new[] { 1, 2, 3, 4 }).Should.Not.HaveOnlyItemsOfType(typeof(int));
             }
             catch (AssertFailedException)
             {
@@ -175,23 +280,23 @@ namespace Testing.Specificity.Tests
         }
 
         [TestMethod]
+        public void HaveUniqueItemsGivenCollectionWithUniqueItemsShouldNotFail()
+        {
+            Specify.That(new[] { 1, 2, 3, 4 }).Should.HaveUniqueItems();
+        }
+
+        [TestMethod]
         public void HaveUniqueItemsNegatedGivenCollectionWithDuplicateItemsShouldNotFail()
         {
             Specify.That(new[] { 1, 2, 2, 4 }).Should.Not.HaveUniqueItems();
         }
 
         [TestMethod]
-        public void BeEquivalentToGivenEquivalentCollectionsShouldNotFail()
-        {
-            Specify.That(new[] { 1, 2, 3, 4 }).Should.BeEquivalentTo(new[] { 4, 3, 2, 1 });
-        }
-
-        [TestMethod]
-        public void BeEquivalentToNegatedGivenEquivalentCollectionsShouldFail()
+        public void HaveUniqueItemsNegatedGivenCollectionWithUniqueItemsShouldFail()
         {
             try
             {
-                Specify.That(new[] { 1, 2, 3, 4 }).Should.Not.BeEquivalentTo(new[] { 4, 3, 2, 1 });
+                Specify.That(new[] { 1, 2, 3, 4 }).Should.Not.HaveUniqueItems();
             }
             catch (AssertFailedException)
             {
@@ -199,111 +304,6 @@ namespace Testing.Specificity.Tests
             }
 
             Specify.Failure("Specification did not fail.");
-        }
-
-        [TestMethod]
-        public void BeEquivalentToGivenUnequivalentCollectionsShouldFail()
-        {
-            try
-            {
-                Specify.That(new[] { 1, 2, 3, 4 }).Should.BeEquivalentTo(new[] { 1, 2 });
-            }
-            catch (AssertFailedException)
-            {
-                return;
-            }
-
-            Specify.Failure("Specification did not fail.");
-        }
-
-        [TestMethod]
-        public void BeEquivalentToNegatedGivenUnequivalentCollectionsShouldNotFail()
-        {
-            Specify.That(new[] { 1, 2, 3, 4 }).Should.Not.BeEquivalentTo(new[] { 1, 2 });
-        }
-
-        [TestMethod]
-        public void ContainGivenElementInCollectionShouldNotFail()
-        {
-            Specify.That(new[] { 1, 2, 3, 4 }).Should.Contain(3);
-        }
-
-        [TestMethod]
-        public void ContainNegatedGivenElementInCollectionShouldFail()
-        {
-            try
-            {
-                Specify.That(new[] { 1, 2, 3, 4 }).Should.Not.Contain(3);
-            }
-            catch (AssertFailedException)
-            {
-                return;
-            }
-
-            Specify.Failure("Specification did not fail.");
-        }
-
-        [TestMethod]
-        public void ContainGivenElementNotInCollectionShouldFail()
-        {
-            try
-            {
-                Specify.That(new[] { 1, 2, 3, 4 }).Should.Contain(5);
-            }
-            catch (AssertFailedException)
-            {
-                return;
-            }
-
-            Specify.Failure("Specification did not fail.");
-        }
-
-        [TestMethod]
-        public void ContainNegatedGivenItemNotInCollectionShouldNotFail()
-        {
-            Specify.That(new[] { 1, 2, 3, 4 }).Should.Not.Contain(5);
-        }
-
-        [TestMethod]
-        public void BeSubsetOfGivenSupersetShouldNotFail()
-        {
-            Specify.That(new[] { 1, 2 }).Should.BeSubsetOf(new[] { 1, 2, 3, 4 });
-        }
-
-        [TestMethod]
-        public void BeSubsetOfNegatedGivenSupersetShouldFail()
-        {
-            try
-            {
-                Specify.That(new[] { 1, 2 }).Should.Not.BeSubsetOf(new[] { 1, 2, 3, 4 });
-            }
-            catch (AssertFailedException)
-            {
-                return;
-            }
-
-            Specify.Failure("Specification did not fail.");
-        }
-
-        [TestMethod]
-        public void BeSubsetOfGivenSubsetShouldFail()
-        {
-            try
-            {
-                Specify.That(new[] { 1, 2, 3 }).Should.BeSubsetOf(new[] { 1, 2 });
-            }
-            catch (AssertFailedException)
-            {
-                return;
-            }
-
-            Specify.Failure("Specification did not fail.");
-        }
-
-        [TestMethod]
-        public void BeSubsetOfNegatedGivenSubsetShouldNotFail()
-        {
-            Specify.That(new[] { 1, 2, 3 }).Should.Not.BeSubsetOf(new[] { 1, 2 });
         }
     }
 }

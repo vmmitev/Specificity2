@@ -57,6 +57,7 @@
     <Compile Include="BooleanConstraintsTests.cs" />
     <Compile Include="CollectionConstraintsTests.cs" />
     <Compile Include="DistributionTests.cs" />
+    <Compile Include="EquatableVerifierTests.cs" />
     <Compile Include="FakesCustomizationTests.cs" />
     <Compile Include="NumericConstraintsTests.cs" />
     <Compile Include="ObjectConstraintsTests.cs" />

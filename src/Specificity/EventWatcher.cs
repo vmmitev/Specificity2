@@ -49,31 +49,6 @@ namespace Testing.Specificity
         }
 
         /// <summary>
-        /// The event handler that should be added to the event to be watched.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <typeparamref name="TEventArgs"/> instance containing the event data.</param>
-        [SuppressMessage("Microsoft.Security",
-            "CA2109:ReviewVisibleEventHandlers",
-            Justification = "Client code must be able to hook this event handler up.")]
-        public void EventHandler(object sender, TEventArgs e)
-        {
-            this.events.Add(e);
-        }
-
-        /// <summary>
-        /// Adds an item to the <see cref="T:System.Collections.Generic.ICollection`1"/>.
-        /// </summary>
-        /// <param name="item">The object to add to the <see cref="T:System.Collections.Generic.ICollection`1"/>.</param>
-        /// <exception cref="T:System.NotSupportedException">
-        /// The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
-        /// </exception>
-        void ICollection<TEventArgs>.Add(TEventArgs item)
-        {
-            throw new InvalidOperationException();
-        }
-
-        /// <summary>
         /// Removes all items from the <see cref="T:Sys tem.Collections.Generic.ICollection`1"/>.
         /// </summary>
         /// <exception cref="T:System.NotSupportedException">
@@ -107,6 +82,42 @@ namespace Testing.Specificity
         }
 
         /// <summary>
+        /// The event handler that should be added to the event to be watched.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <typeparamref name="TEventArgs"/> instance containing the event data.</param>
+        [SuppressMessage("Microsoft.Security",
+            "CA2109:ReviewVisibleEventHandlers",
+            Justification = "Client code must be able to hook this event handler up.")]
+        public void EventHandler(object sender, TEventArgs e)
+        {
+            this.events.Add(e);
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+        /// </returns>
+        public IEnumerator<TEventArgs> GetEnumerator()
+        {
+            return this.events.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Adds an item to the <see cref="T:System.Collections.Generic.ICollection`1"/>.
+        /// </summary>
+        /// <param name="item">The object to add to the <see cref="T:System.Collections.Generic.ICollection`1"/>.</param>
+        /// <exception cref="T:System.NotSupportedException">
+        /// The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
+        /// </exception>
+        void ICollection<TEventArgs>.Add(TEventArgs item)
+        {
+            throw new InvalidOperationException();
+        }
+
+        /// <summary>
         /// Removes the first occurrence of a specific object from the <see cref="T:System.Collections.Generic.ICollection`1"/>.
         /// </summary>
         /// <param name="item">The object to remove from the <see cref="T:System.Collections.Generic.ICollection`1"/>.</param>
@@ -119,17 +130,6 @@ namespace Testing.Specificity
         bool ICollection<TEventArgs>.Remove(TEventArgs item)
         {
             throw new InvalidOperationException();
-        }
-
-        /// <summary>
-        /// Returns an enumerator that iterates through the collection.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
-        /// </returns>
-        public IEnumerator<TEventArgs> GetEnumerator()
-        {
-            return this.events.GetEnumerator();
         }
 
         /// <summary>

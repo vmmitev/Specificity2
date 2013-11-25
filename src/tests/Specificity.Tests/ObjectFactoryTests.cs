@@ -15,111 +15,9 @@ namespace Testing.Specificity.Tests
     public class ObjectFactoryTests
     {
         [TestMethod]
-        public void AnyDoubleShouldReturnRandomDouble()
-        {
-            this.TestFactory<double>(f => f.AnyDouble());
-        }
-
-        [TestMethod]
-        public void AnyOfDoubleShouldReturnRandomDouble()
-        {
-            this.TestFactory<double>();
-        }
-
-        [TestMethod]
-        public void AnyFloatShouldReturnRandomFloat()
-        {
-            this.TestFactory<float>(f => f.AnyFloat());
-        }
-
-        [TestMethod]
-        public void AnyOfFloatShouldReturnRandomFloat()
-        {
-            this.TestFactory<float>();
-        }
-
-        [TestMethod]
-        public void AnyLongShouldReturnRandomLong()
-        {
-            this.TestFactory<long>(f => f.AnyLong());
-        }
-
-        [TestMethod]
-        public void AnyOfLongShouldReturnRandomLong()
-        {
-            this.TestFactory<long>();
-        }
-
-        [TestMethod]
-        public void AnyULongShouldReturnRandomULong()
-        {
-            this.TestFactory<ulong>(f => f.AnyULong());
-        }
-
-        [TestMethod]
-        public void AnyOfULongShouldReturnRandomULong()
-        {
-            this.TestFactory<ulong>();
-        }
-
-        [TestMethod]
-        public void AnyIntShouldReturnRandomInt()
-        {
-            this.TestFactory<int>(f => f.AnyInt());
-        }
-
-        [TestMethod]
-        public void AnyOfIntShouldReturnRandomInt()
-        {
-            this.TestFactory<int>();
-        }
-
-        [TestMethod]
-        public void AnyUIntShouldReturnRandomUInt()
-        {
-            this.TestFactory<uint>(f => f.AnyUInt());
-        }
-
-        [TestMethod]
-        public void AnyOfUIntShouldReturnRandomUInt()
-        {
-            this.TestFactory<uint>();
-        }
-
-        [TestMethod]
-        public void AnyShortShouldReturnRandomShort()
-        {
-            this.TestFactory<short>(f => f.AnyShort());
-        }
-
-        [TestMethod]
-        public void AnyOfShortShouldReturnRandomShort()
-        {
-            this.TestFactory<short>();
-        }
-
-        [TestMethod]
-        public void AnyUShortShouldReturnRandomUShort()
-        {
-            this.TestFactory<ushort>(f => f.AnyUShort());
-        }
-
-        [TestMethod]
-        public void AnyOfUShortShouldReturnRandomUShort()
-        {
-            this.TestFactory<ushort>();
-        }
-
-        [TestMethod]
         public void AnyByteShouldReturnRandomByte()
         {
             this.TestFactory<byte>(f => f.AnyByte());
-        }
-
-        [TestMethod]
-        public void AnyOfByteShouldReturnRandomByte()
-        {
-            this.TestFactory<byte>();
         }
 
         [TestMethod]
@@ -129,27 +27,9 @@ namespace Testing.Specificity.Tests
         }
 
         [TestMethod]
-        public void AnyOfCharShouldReturnRandomChar()
+        public void AnyDateTimeOffsetShouldReturnRandomDateTimeOffset()
         {
-            this.TestFactory<char>();
-        }
-
-        [TestMethod]
-        public void AnyOfBoolShouldReturnRandomBool()
-        {
-            this.TestFactory<bool>();
-        }
-
-        [TestMethod]
-        public void AnyStringShouldReturnRandomString()
-        {
-            this.TestFactory<string>(f => f.AnyString());
-        }
-
-        [TestMethod]
-        public void AnyOfStringShouldReturnRandomString()
-        {
-            this.TestFactory<string>();
+            this.TestFactory<DateTimeOffset>(f => f.AnyDateTimeOffset());
         }
 
         [TestMethod]
@@ -159,15 +39,45 @@ namespace Testing.Specificity.Tests
         }
 
         [TestMethod]
-        public void AnyOfDateTimeShouldReturnRandomDateTime()
+        public void AnyDoubleShouldReturnRandomDouble()
         {
-            this.TestFactory<DateTime>();
+            this.TestFactory<double>(f => f.AnyDouble());
         }
 
         [TestMethod]
-        public void AnyDateTimeOffsetShouldReturnRandomDateTimeOffset()
+        public void AnyFloatShouldReturnRandomFloat()
         {
-            this.TestFactory<DateTimeOffset>(f => f.AnyDateTimeOffset());
+            this.TestFactory<float>(f => f.AnyFloat());
+        }
+
+        [TestMethod]
+        public void AnyIntShouldReturnRandomInt()
+        {
+            this.TestFactory<int>(f => f.AnyInt());
+        }
+
+        [TestMethod]
+        public void AnyLongShouldReturnRandomLong()
+        {
+            this.TestFactory<long>(f => f.AnyLong());
+        }
+
+        [TestMethod]
+        public void AnyOfBoolShouldReturnRandomBool()
+        {
+            this.TestFactory<bool>();
+        }
+
+        [TestMethod]
+        public void AnyOfByteShouldReturnRandomByte()
+        {
+            this.TestFactory<byte>();
+        }
+
+        [TestMethod]
+        public void AnyOfCharShouldReturnRandomChar()
+        {
+            this.TestFactory<char>();
         }
 
         [TestMethod]
@@ -177,15 +87,21 @@ namespace Testing.Specificity.Tests
         }
 
         [TestMethod]
-        public void AnyTimeSpanShouldReturnRandomTimeSpan()
+        public void AnyOfDateTimeShouldReturnRandomDateTime()
         {
-            this.TestFactory<TimeSpan>(f => f.AnyTimeSpan());
+            this.TestFactory<DateTime>();
         }
 
         [TestMethod]
-        public void AnyOfTimeSpanShouldReturnRandomTimeSpan()
+        public void AnyOfDoubleShouldReturnRandomDouble()
         {
-            this.TestFactory<TimeSpan>();
+            this.TestFactory<double>();
+        }
+
+        [TestMethod]
+        public void AnyOfFloatShouldReturnRandomFloat()
+        {
+            this.TestFactory<float>();
         }
 
         [TestMethod]
@@ -195,15 +111,39 @@ namespace Testing.Specificity.Tests
         }
 
         [TestMethod]
+        public void AnyOfIEnumerableOfIntShouldReturnRandomEnumerableOfInt()
+        {
+            this.TestFactory<IEnumerable<int>>();
+        }
+
+        [TestMethod]
         public void AnyOfIEnumerableShouldReturnRandomEnumerable()
         {
             this.TestFactory<IEnumerable>();
         }
 
         [TestMethod]
-        public void AnyOfIEnumerableOfIntShouldReturnRandomEnumerableOfInt()
+        public void AnyOfIntShouldReturnRandomInt()
         {
-            this.TestFactory<IEnumerable<int>>();
+            this.TestFactory<int>();
+        }
+
+        [TestMethod]
+        public void AnyOfListOfIntShouldReturnRandomListOfInt()
+        {
+            this.TestFactory<List<int>>();
+        }
+
+        [TestMethod]
+        public void AnyOfLongShouldReturnRandomLong()
+        {
+            this.TestFactory<long>();
+        }
+
+        [TestMethod]
+        public void AnyOfShortShouldReturnRandomShort()
+        {
+            this.TestFactory<short>();
         }
 
         [TestMethod]
@@ -213,9 +153,69 @@ namespace Testing.Specificity.Tests
         }
 
         [TestMethod]
-        public void AnyOfListOfIntShouldReturnRandomListOfInt()
+        public void AnyOfStringShouldReturnRandomString()
         {
-            this.TestFactory<List<int>>();
+            this.TestFactory<string>();
+        }
+
+        [TestMethod]
+        public void AnyOfTimeSpanShouldReturnRandomTimeSpan()
+        {
+            this.TestFactory<TimeSpan>();
+        }
+
+        [TestMethod]
+        public void AnyOfUIntShouldReturnRandomUInt()
+        {
+            this.TestFactory<uint>();
+        }
+
+        [TestMethod]
+        public void AnyOfULongShouldReturnRandomULong()
+        {
+            this.TestFactory<ulong>();
+        }
+
+        [TestMethod]
+        public void AnyOfUShortShouldReturnRandomUShort()
+        {
+            this.TestFactory<ushort>();
+        }
+
+        [TestMethod]
+        public void AnyShortShouldReturnRandomShort()
+        {
+            this.TestFactory<short>(f => f.AnyShort());
+        }
+
+        [TestMethod]
+        public void AnyStringShouldReturnRandomString()
+        {
+            this.TestFactory<string>(f => f.AnyString());
+        }
+
+        [TestMethod]
+        public void AnyTimeSpanShouldReturnRandomTimeSpan()
+        {
+            this.TestFactory<TimeSpan>(f => f.AnyTimeSpan());
+        }
+
+        [TestMethod]
+        public void AnyUIntShouldReturnRandomUInt()
+        {
+            this.TestFactory<uint>(f => f.AnyUInt());
+        }
+
+        [TestMethod]
+        public void AnyULongShouldReturnRandomULong()
+        {
+            this.TestFactory<ulong>(f => f.AnyULong());
+        }
+
+        [TestMethod]
+        public void AnyUShortShouldReturnRandomUShort()
+        {
+            this.TestFactory<ushort>(f => f.AnyUShort());
         }
 
         private void TestFactory<T>()

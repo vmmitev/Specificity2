@@ -10,7 +10,6 @@ namespace Testing.Specificity
     using System.ComponentModel;
     using System.Linq;
     using Microsoft.QualityTools.Testing.Fakes.Stubs;
-    using Testing.Specificity;
 
     /// <summary>
     /// Provides extension methods for <see cref="IObjectFactoryRegistry"/> instances used to freeze

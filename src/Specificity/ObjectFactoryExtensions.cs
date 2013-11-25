@@ -56,6 +56,101 @@ namespace Testing.Specificity
         }
 
         /// <summary>
+        /// Generate a pseudo-random <see cref="SByte"/> value.
+        /// </summary>
+        /// <param name="factory">The object factory.</param>
+        /// <param name="minimum">The minimum value to generate.</param>
+        /// <param name="maximum">The maximum value to generate.</param>
+        /// <param name="distribution">The distribution to use.</param>
+        /// <returns>A pseudo-random <see cref="SByte"/> value.</returns>
+        public static byte AnyByte(this IObjectFactory factory, byte minimum = byte.MinValue, byte maximum = byte.MaxValue, Distribution distribution = null)
+        {
+            if (factory == null)
+            {
+                throw new ArgumentNullException("factory");
+            }
+
+            return (byte)factory.AnyDouble(minimum, maximum, distribution);
+        }
+
+        /// <summary>
+        /// Generate a pseudo-random <see cref="Char"/> value.
+        /// </summary>
+        /// <param name="factory">The object factory.</param>
+        /// <param name="minimum">The minimum value to generate.</param>
+        /// <param name="maximum">The maximum value to generate.</param>
+        /// <param name="distribution">The distribution to use.</param>
+        /// <returns>A pseudo-random <see cref="Char"/> value.</returns>
+        public static char AnyChar(this IObjectFactory factory, char minimum = char.MinValue, char maximum = char.MaxValue, Distribution distribution = null)
+        {
+            if (factory == null)
+            {
+                throw new ArgumentNullException("factory");
+            }
+
+            return (char)factory.AnyDouble(minimum, maximum, distribution);
+        }
+
+        /// <summary>
+        /// Generate a pseudo-random <see cref="DateTime"/> value.
+        /// </summary>
+        /// <param name="factory">The object factory.</param>
+        /// <param name="minimum">The minimum value to generate.</param>
+        /// <param name="maximum">The maximum value to generate.</param>
+        /// <param name="distribution">The distribution to use.</param>
+        /// <returns>A pseudo-random <see cref="DateTime"/> value.</returns>
+        public static DateTime AnyDateTime(this IObjectFactory factory, DateTime? minimum = null, DateTime? maximum = null, Distribution distribution = null)
+        {
+            if (factory == null)
+            {
+                throw new ArgumentNullException("factory");
+            }
+
+            minimum = minimum ?? DateTime.MinValue;
+            maximum = maximum ?? DateTime.MaxValue;
+            long ticks = factory.AnyLong(minimum.Value.Ticks, maximum.Value.Ticks, distribution);
+            return new DateTime(ticks);
+        }
+
+        /// <summary>
+        /// Generate a pseudo-random <see cref="DateTimeOffset"/> value.
+        /// </summary>
+        /// <param name="factory">The object factory.</param>
+        /// <param name="minimum">The minimum value to generate.</param>
+        /// <param name="maximum">The maximum value to generate.</param>
+        /// <param name="distribution">The distribution to use.</param>
+        /// <returns>A pseudo-random <see cref="DateTimeOffset"/> value.</returns>
+        public static DateTimeOffset AnyDateTimeOffset(this IObjectFactory factory, DateTimeOffset? minimum = null, DateTimeOffset? maximum = null, Distribution distribution = null)
+        {
+            if (factory == null)
+            {
+                throw new ArgumentNullException("factory");
+            }
+
+            minimum = minimum ?? DateTimeOffset.MinValue;
+            maximum = maximum ?? DateTimeOffset.MaxValue;
+            long ticks = factory.AnyLong(minimum.Value.Ticks, maximum.Value.Ticks, distribution);
+            return new DateTimeOffset(new DateTime(ticks));
+        }
+
+        /// <summary>
+        /// Generate a pseudo-random digit character.
+        /// </summary>
+        /// <param name="factory">The object factory.</param>
+        /// <param name="distribution">The distribution to use.</param>
+        /// <returns>A pseudo-random <see cref="Char"/> value.</returns>
+        public static char AnyDigit(this IObjectFactory factory, Distribution distribution = null)
+        {
+            if (factory == null)
+            {
+                throw new ArgumentNullException("factory");
+            }
+
+            int index = factory.AnyInt(0, ObjectFactoryExtensions.Digits.Length, distribution);
+            return ObjectFactoryExtensions.Digits[index];
+        }
+
+        /// <summary>
         /// Generates an <see cref="IEnumerable"/> of pseudo-random objects of the specified type.
         /// </summary>
         /// <param name="factory">The object factory.</param>
@@ -118,42 +213,6 @@ namespace Testing.Specificity
         }
 
         /// <summary>
-        /// Generate a pseudo-random <see cref="Int64"/> value.
-        /// </summary>
-        /// <param name="factory">The object factory.</param>
-        /// <param name="minimum">The minimum value to generate.</param>
-        /// <param name="maximum">The maximum value to generate.</param>
-        /// <param name="distribution">The distribution to use.</param>
-        /// <returns>A pseudo-random <see cref="Int64"/> value.</returns>
-        public static long AnyLong(this IObjectFactory factory, long minimum = long.MinValue, long maximum = long.MaxValue, Distribution distribution = null)
-        {
-            if (factory == null)
-            {
-                throw new ArgumentNullException("factory");
-            }
-
-            return (long)factory.AnyDouble(minimum, maximum, distribution);
-        }
-
-        /// <summary>
-        /// Generate a pseudo-random <see cref="UInt64"/> value.
-        /// </summary>
-        /// <param name="factory">The object factory.</param>
-        /// <param name="minimum">The minimum value to generate.</param>
-        /// <param name="maximum">The maximum value to generate.</param>
-        /// <param name="distribution">The distribution to use.</param>
-        /// <returns>A pseudo-random <see cref="UInt64"/> value.</returns>
-        public static ulong AnyULong(this IObjectFactory factory, ulong minimum = ulong.MinValue, ulong maximum = ulong.MaxValue, Distribution distribution = null)
-        {
-            if (factory == null)
-            {
-                throw new ArgumentNullException("factory");
-            }
-
-            return (ulong)factory.AnyDouble(minimum, maximum, distribution);
-        }
-
-        /// <summary>
         /// Generate a pseudo-random <see cref="Int32"/> value.
         /// </summary>
         /// <param name="factory">The object factory.</param>
@@ -169,113 +228,6 @@ namespace Testing.Specificity
             }
 
             return (int)factory.AnyDouble(minimum, maximum, distribution);
-        }
-
-        /// <summary>
-        /// Generate a pseudo-random <see cref="UInt32"/> value.
-        /// </summary>
-        /// <param name="factory">The object factory.</param>
-        /// <param name="minimum">The minimum value to generate.</param>
-        /// <param name="maximum">The maximum value to generate.</param>
-        /// <param name="distribution">The distribution to use.</param>
-        /// <returns>A pseudo-random <see cref="UInt32"/> value.</returns>
-        public static uint AnyUInt(this IObjectFactory factory, uint minimum = uint.MinValue, uint maximum = uint.MaxValue, Distribution distribution = null)
-        {
-            if (factory == null)
-            {
-                throw new ArgumentNullException("factory");
-            }
-
-            return (uint)factory.AnyDouble(minimum, maximum, distribution);
-        }
-
-        /// <summary>
-        /// Generate a pseudo-random <see cref="Int16"/> value.
-        /// </summary>
-        /// <param name="factory">The object factory.</param>
-        /// <param name="minimum">The minimum value to generate.</param>
-        /// <param name="maximum">The maximum value to generate.</param>
-        /// <param name="distribution">The distribution to use.</param>
-        /// <returns>A pseudo-random <see cref="Int16"/> value.</returns>
-        public static short AnyShort(this IObjectFactory factory, short minimum = short.MinValue, short maximum = short.MaxValue, Distribution distribution = null)
-        {
-            if (factory == null)
-            {
-                throw new ArgumentNullException("factory");
-            }
-
-            return (short)factory.AnyDouble(minimum, maximum, distribution);
-        }
-
-        /// <summary>
-        /// Generate a pseudo-random <see cref="UInt16"/> value.
-        /// </summary>
-        /// <param name="factory">The object factory.</param>
-        /// <param name="minimum">The minimum value to generate.</param>
-        /// <param name="maximum">The maximum value to generate.</param>
-        /// <param name="distribution">The distribution to use.</param>
-        /// <returns>A pseudo-random <see cref="UInt16"/> value.</returns>
-        public static ushort AnyUShort(this IObjectFactory factory, ushort minimum = ushort.MinValue, ushort maximum = ushort.MaxValue, Distribution distribution = null)
-        {
-            if (factory == null)
-            {
-                throw new ArgumentNullException("factory");
-            }
-
-            return (ushort)factory.AnyDouble(minimum, maximum, distribution);
-        }
-
-        /// <summary>
-        /// Generate a pseudo-random <see cref="SByte"/> value.
-        /// </summary>
-        /// <param name="factory">The object factory.</param>
-        /// <param name="minimum">The minimum value to generate.</param>
-        /// <param name="maximum">The maximum value to generate.</param>
-        /// <param name="distribution">The distribution to use.</param>
-        /// <returns>A pseudo-random <see cref="SByte"/> value.</returns>
-        public static byte AnyByte(this IObjectFactory factory, byte minimum = byte.MinValue, byte maximum = byte.MaxValue, Distribution distribution = null)
-        {
-            if (factory == null)
-            {
-                throw new ArgumentNullException("factory");
-            }
-
-            return (byte)factory.AnyDouble(minimum, maximum, distribution);
-        }
-
-        /// <summary>
-        /// Generate a pseudo-random <see cref="Char"/> value.
-        /// </summary>
-        /// <param name="factory">The object factory.</param>
-        /// <param name="minimum">The minimum value to generate.</param>
-        /// <param name="maximum">The maximum value to generate.</param>
-        /// <param name="distribution">The distribution to use.</param>
-        /// <returns>A pseudo-random <see cref="Char"/> value.</returns>
-        public static char AnyChar(this IObjectFactory factory, char minimum = char.MinValue, char maximum = char.MaxValue, Distribution distribution = null)
-        {
-            if (factory == null)
-            {
-                throw new ArgumentNullException("factory");
-            }
-
-            return (char)factory.AnyDouble(minimum, maximum, distribution);
-        }
-
-        /// <summary>
-        /// Generate a pseudo-random digit character.
-        /// </summary>
-        /// <param name="factory">The object factory.</param>
-        /// <param name="distribution">The distribution to use.</param>
-        /// <returns>A pseudo-random <see cref="Char"/> value.</returns>
-        public static char AnyDigit(this IObjectFactory factory, Distribution distribution = null)
-        {
-            if (factory == null)
-            {
-                throw new ArgumentNullException("factory");
-            }
-
-            int index = factory.AnyInt(0, ObjectFactoryExtensions.Digits.Length, distribution);
-            return ObjectFactoryExtensions.Digits[index];
         }
 
         /// <summary>
@@ -318,6 +270,42 @@ namespace Testing.Specificity
         }
 
         /// <summary>
+        /// Generate a pseudo-random <see cref="Int64"/> value.
+        /// </summary>
+        /// <param name="factory">The object factory.</param>
+        /// <param name="minimum">The minimum value to generate.</param>
+        /// <param name="maximum">The maximum value to generate.</param>
+        /// <param name="distribution">The distribution to use.</param>
+        /// <returns>A pseudo-random <see cref="Int64"/> value.</returns>
+        public static long AnyLong(this IObjectFactory factory, long minimum = long.MinValue, long maximum = long.MaxValue, Distribution distribution = null)
+        {
+            if (factory == null)
+            {
+                throw new ArgumentNullException("factory");
+            }
+
+            return (long)factory.AnyDouble(minimum, maximum, distribution);
+        }
+
+        /// <summary>
+        /// Generate a pseudo-random <see cref="Int16"/> value.
+        /// </summary>
+        /// <param name="factory">The object factory.</param>
+        /// <param name="minimum">The minimum value to generate.</param>
+        /// <param name="maximum">The maximum value to generate.</param>
+        /// <param name="distribution">The distribution to use.</param>
+        /// <returns>A pseudo-random <see cref="Int16"/> value.</returns>
+        public static short AnyShort(this IObjectFactory factory, short minimum = short.MinValue, short maximum = short.MaxValue, Distribution distribution = null)
+        {
+            if (factory == null)
+            {
+                throw new ArgumentNullException("factory");
+            }
+
+            return (short)factory.AnyDouble(minimum, maximum, distribution);
+        }
+
+        /// <summary>
         /// Generates a pseudo-random string.
         /// </summary>
         /// <param name="factory">The object factory.</param>
@@ -344,48 +332,6 @@ namespace Testing.Specificity
         }
 
         /// <summary>
-        /// Generate a pseudo-random <see cref="DateTime"/> value.
-        /// </summary>
-        /// <param name="factory">The object factory.</param>
-        /// <param name="minimum">The minimum value to generate.</param>
-        /// <param name="maximum">The maximum value to generate.</param>
-        /// <param name="distribution">The distribution to use.</param>
-        /// <returns>A pseudo-random <see cref="DateTime"/> value.</returns>
-        public static DateTime AnyDateTime(this IObjectFactory factory, DateTime? minimum = null, DateTime? maximum = null, Distribution distribution = null)
-        {
-            if (factory == null)
-            {
-                throw new ArgumentNullException("factory");
-            }
-
-            minimum = minimum ?? DateTime.MinValue;
-            maximum = maximum ?? DateTime.MaxValue;
-            long ticks = factory.AnyLong(minimum.Value.Ticks, maximum.Value.Ticks, distribution);
-            return new DateTime(ticks);
-        }
-
-        /// <summary>
-        /// Generate a pseudo-random <see cref="DateTimeOffset"/> value.
-        /// </summary>
-        /// <param name="factory">The object factory.</param>
-        /// <param name="minimum">The minimum value to generate.</param>
-        /// <param name="maximum">The maximum value to generate.</param>
-        /// <param name="distribution">The distribution to use.</param>
-        /// <returns>A pseudo-random <see cref="DateTimeOffset"/> value.</returns>
-        public static DateTimeOffset AnyDateTimeOffset(this IObjectFactory factory, DateTimeOffset? minimum = null, DateTimeOffset? maximum = null, Distribution distribution = null)
-        {
-            if (factory == null)
-            {
-                throw new ArgumentNullException("factory");
-            }
-
-            minimum = minimum ?? DateTimeOffset.MinValue;
-            maximum = maximum ?? DateTimeOffset.MaxValue;
-            long ticks = factory.AnyLong(minimum.Value.Ticks, maximum.Value.Ticks, distribution);
-            return new DateTimeOffset(new DateTime(ticks));
-        }
-
-        /// <summary>
         /// Generate a pseudo-random <see cref="TimeSpan"/> value.
         /// </summary>
         /// <param name="factory">The object factory.</param>
@@ -407,6 +353,71 @@ namespace Testing.Specificity
         }
 
         /// <summary>
+        /// Generate a pseudo-random <see cref="UInt32"/> value.
+        /// </summary>
+        /// <param name="factory">The object factory.</param>
+        /// <param name="minimum">The minimum value to generate.</param>
+        /// <param name="maximum">The maximum value to generate.</param>
+        /// <param name="distribution">The distribution to use.</param>
+        /// <returns>A pseudo-random <see cref="UInt32"/> value.</returns>
+        public static uint AnyUInt(this IObjectFactory factory, uint minimum = uint.MinValue, uint maximum = uint.MaxValue, Distribution distribution = null)
+        {
+            if (factory == null)
+            {
+                throw new ArgumentNullException("factory");
+            }
+
+            return (uint)factory.AnyDouble(minimum, maximum, distribution);
+        }
+
+        /// <summary>
+        /// Generate a pseudo-random <see cref="UInt64"/> value.
+        /// </summary>
+        /// <param name="factory">The object factory.</param>
+        /// <param name="minimum">The minimum value to generate.</param>
+        /// <param name="maximum">The maximum value to generate.</param>
+        /// <param name="distribution">The distribution to use.</param>
+        /// <returns>A pseudo-random <see cref="UInt64"/> value.</returns>
+        public static ulong AnyULong(this IObjectFactory factory, ulong minimum = ulong.MinValue, ulong maximum = ulong.MaxValue, Distribution distribution = null)
+        {
+            if (factory == null)
+            {
+                throw new ArgumentNullException("factory");
+            }
+
+            return (ulong)factory.AnyDouble(minimum, maximum, distribution);
+        }
+
+        /// <summary>
+        /// Generate a pseudo-random <see cref="UInt16"/> value.
+        /// </summary>
+        /// <param name="factory">The object factory.</param>
+        /// <param name="minimum">The minimum value to generate.</param>
+        /// <param name="maximum">The maximum value to generate.</param>
+        /// <param name="distribution">The distribution to use.</param>
+        /// <returns>A pseudo-random <see cref="UInt16"/> value.</returns>
+        public static ushort AnyUShort(this IObjectFactory factory, ushort minimum = ushort.MinValue, ushort maximum = ushort.MaxValue, Distribution distribution = null)
+        {
+            if (factory == null)
+            {
+                throw new ArgumentNullException("factory");
+            }
+
+            return (ushort)factory.AnyDouble(minimum, maximum, distribution);
+        }
+
+        /// <summary>
+        /// Freezes the specified instance as the result for any further calls to obtain an object of the specified type.
+        /// </summary>
+        /// <param name="registry">The registry.</param>
+        /// <param name="type">The type to freeze.</param>
+        /// <param name="instance">The instance to return for any further calls to obtain an object of the specified type.</param>
+        public static void Freeze(this IObjectFactoryRegistry registry, Type type, object instance)
+        {
+            registry.Register(type, f => instance);
+        }
+
+        /// <summary>
         /// Registers factory methods using the specified <see cref="IObjectFactoryRegistrar"/> type.
         /// </summary>
         /// <typeparam name="TRegistrar">The registrar type.</typeparam>
@@ -421,17 +432,6 @@ namespace Testing.Specificity
 
             var registrar = new TRegistrar();
             registrar.Register(registry);
-        }
-
-        /// <summary>
-        /// Freezes the specified instance as the result for any further calls to obtain an object of the specified type.
-        /// </summary>
-        /// <param name="registry">The registry.</param>
-        /// <param name="type">The type to freeze.</param>
-        /// <param name="instance">The instance to return for any further calls to obtain an object of the specified type.</param>
-        public static void Freeze(this IObjectFactoryRegistry registry, Type type, object instance)
-        {
-            registry.Register(type, f => instance);
         }
 
         /// <summary>

@@ -28,6 +28,15 @@ namespace Testing.Specificity
         }
 
         /// <summary>
+        /// Adds a customization object to the registry.
+        /// </summary>
+        /// <param name="customization">The customization object.</param>
+        public void Customize(ObjectFactoryCustomization customization)
+        {
+            this.customizations.Push(customization);
+        }
+
+        /// <summary>
         /// Registers a factory method that can be used to create instances of the specified type.
         /// </summary>
         /// <param name="type">The type of object created by the factory.</param>
@@ -35,15 +44,6 @@ namespace Testing.Specificity
         public void Register(Type type, Func<IObjectFactory, object> factoryMethod)
         {
             this[type] = factoryMethod;
-        }
-
-        /// <summary>
-        /// Adds a customization object to the registry.
-        /// </summary>
-        /// <param name="customization">The customization object.</param>
-        public void Customize(ObjectFactoryCustomization customization)
-        {
-            this.customizations.Push(customization);
         }
     }
 }

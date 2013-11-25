@@ -14,28 +14,15 @@ namespace Testing.Specificity.Tests
     {
         private const int RUNS = 1000;
 
-        private DistributionClassifier Classify(Distribution distribution)
-        {
-            var classifier = new DistributionClassifier();
-
-            Random random = new Random(0x73577357);
-            for (int i = 0; i < RUNS; ++i)
-            {
-                classifier.Classify(distribution.NextDouble(random));
-            }
-
-            return classifier;
-        }
-
         [TestMethod]
-        public void PositiveDistribution()
+        public void InvertedDistribution()
         {
-            var classifications = this.Classify(Distribution.PositiveNormal);
+            var classifications = this.Classify(Distribution.InvertedNormal);
             Specify.Aggregate(delegate
             {
                 Specify.That(classifications.LessThan0.Percent).Should.BeEqualTo(0);
-                Specify.That(classifications.LessThan15Hundredths.Percent > .25).Should.BeTrue();
-                Specify.That(classifications.GreaterThan85Hundredths.Percent < .02).Should.BeTrue();
+                Specify.That(classifications.LessThan15Hundredths.Percent > .27).Should.BeTrue();
+                Specify.That(classifications.GreaterThan85Hundredths.Percent > .27).Should.BeTrue();
             });
         }
 
@@ -52,15 +39,28 @@ namespace Testing.Specificity.Tests
         }
 
         [TestMethod]
-        public void InvertedDistribution()
+        public void PositiveDistribution()
         {
-            var classifications = this.Classify(Distribution.InvertedNormal);
+            var classifications = this.Classify(Distribution.PositiveNormal);
             Specify.Aggregate(delegate
             {
                 Specify.That(classifications.LessThan0.Percent).Should.BeEqualTo(0);
-                Specify.That(classifications.LessThan15Hundredths.Percent > .27).Should.BeTrue();
-                Specify.That(classifications.GreaterThan85Hundredths.Percent > .27).Should.BeTrue();
+                Specify.That(classifications.LessThan15Hundredths.Percent > .25).Should.BeTrue();
+                Specify.That(classifications.GreaterThan85Hundredths.Percent < .02).Should.BeTrue();
             });
+        }
+
+        private DistributionClassifier Classify(Distribution distribution)
+        {
+            var classifier = new DistributionClassifier();
+
+            Random random = new Random(0x73577357);
+            for (int i = 0; i < RUNS; ++i)
+            {
+                classifier.Classify(distribution.NextDouble(random));
+            }
+
+            return classifier;
         }
 
         private class DistributionClassifier : Classifier<double>
@@ -73,13 +73,13 @@ namespace Testing.Specificity.Tests
                 this.GreaterThan0 = this.CreateClassification(d => d > 0);
             }
 
-            public Classification LessThan15Hundredths { get; private set; }
+            public Classification GreaterThan0 { get; private set; }
 
             public Classification GreaterThan85Hundredths { get; private set; }
 
             public Classification LessThan0 { get; private set; }
 
-            public Classification GreaterThan0 { get; private set; }
+            public Classification LessThan15Hundredths { get; private set; }
         }
     }
 }

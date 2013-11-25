@@ -13,79 +13,6 @@ namespace Testing.Specificity.Tests
     public class ActionConstraintsTests
     {
         [TestMethod]
-        public void HaveThrownForActionThatDoesNotThrowShouldFail()
-        {
-            try
-            {
-                Specify.ThatAction(delegate
-                {
-                }).Should.HaveThrown();
-            }
-            catch (AssertFailedException)
-            {
-                return;
-            }
-
-            Specify.Failure("Specification did not fail.");
-        }
-
-        [TestMethod]
-        public void HaveThrownForActionThatDoesNotThrowGivenMessageShouldFail()
-        {
-            string message = "xyzzy";
-            try
-            {
-                Specify.ThatAction(delegate
-                {
-                }).Should.HaveThrown(message);
-            }
-            catch (AssertFailedException e)
-            {
-                StringAssert.EndsWith(e.Message, message);
-                return;
-            }
-
-            Specify.Failure("Specification did not fail.");
-        }
-
-        [TestMethod]
-        public void HaveThrownForActionThatDoesNotThrowGivenMessageAndArgsShouldFail()
-        {
-            string message = "{0}";
-            string arg = "xyzzy";
-            try
-            {
-                Specify.ThatAction(delegate
-                {
-                }).Should.HaveThrown(message, arg);
-            }
-            catch (AssertFailedException e)
-            {
-                StringAssert.EndsWith(e.Message, arg);
-                return;
-            }
-
-            Specify.Failure("Specification did not fail.");
-        }
-
-        [TestMethod]
-        public void HaveThrownForActionThatDoesNotThrowGivenExceptionTypeThrowShouldFail()
-        {
-            try
-            {
-                Specify.ThatAction(delegate
-                {
-                }).Should.HaveThrown(typeof(InvalidOperationException));
-            }
-            catch (AssertFailedException)
-            {
-                return;
-            }
-
-            Specify.Failure("Specification did not fail.");
-        }
-
-        [TestMethod]
         public void HaveThrownForActionThatDoesNotThrowGivenExceptionTypeAndMessageShouldFail()
         {
             string message = "xyzzy";
@@ -125,22 +52,106 @@ namespace Testing.Specificity.Tests
         }
 
         [TestMethod]
-        public void HaveThrownForActionThatThrowsShouldNotFail()
+        public void HaveThrownForActionThatDoesNotThrowGivenExceptionTypeThrowShouldFail()
         {
-            Specify.ThatAction(delegate
+            try
             {
-                throw new InvalidOperationException();
-            }).Should.HaveThrown();
+                Specify.ThatAction(delegate
+                {
+                }).Should.HaveThrown(typeof(InvalidOperationException));
+            }
+            catch (AssertFailedException)
+            {
+                return;
+            }
+
+            Specify.Failure("Specification did not fail.");
         }
 
         [TestMethod]
-        public void HaveThrownForActionThatThrowsGivenMessageShouldNotFail()
+        public void HaveThrownForActionThatDoesNotThrowGivenMessageAndArgsShouldFail()
+        {
+            string message = "{0}";
+            string arg = "xyzzy";
+            try
+            {
+                Specify.ThatAction(delegate
+                {
+                }).Should.HaveThrown(message, arg);
+            }
+            catch (AssertFailedException e)
+            {
+                StringAssert.EndsWith(e.Message, arg);
+                return;
+            }
+
+            Specify.Failure("Specification did not fail.");
+        }
+
+        [TestMethod]
+        public void HaveThrownForActionThatDoesNotThrowGivenMessageShouldFail()
+        {
+            string message = "xyzzy";
+            try
+            {
+                Specify.ThatAction(delegate
+                {
+                }).Should.HaveThrown(message);
+            }
+            catch (AssertFailedException e)
+            {
+                StringAssert.EndsWith(e.Message, message);
+                return;
+            }
+
+            Specify.Failure("Specification did not fail.");
+        }
+
+        [TestMethod]
+        public void HaveThrownForActionThatDoesNotThrowShouldFail()
+        {
+            try
+            {
+                Specify.ThatAction(delegate
+                {
+                }).Should.HaveThrown();
+            }
+            catch (AssertFailedException)
+            {
+                return;
+            }
+
+            Specify.Failure("Specification did not fail.");
+        }
+
+        [TestMethod]
+        public void HaveThrownForActionThatThrowsGivenExpectedExceptionTypeAndMessageShouldFail()
         {
             string message = "xyzzy";
             Specify.ThatAction(delegate
             {
                 throw new InvalidOperationException();
-            }).Should.HaveThrown(message);
+            }).Should.HaveThrown(typeof(InvalidOperationException), message);
+        }
+
+        [TestMethod]
+        public void HaveThrownForActionThatThrowsGivenExpectedExceptionTypeMessageAndArgsShouldNotFail()
+        {
+            string message = "{0}";
+            string arg = "xyzzy";
+            Specify.ThatAction(delegate
+            {
+                throw new InvalidOperationException();
+            }).Should.HaveThrown(typeof(InvalidOperationException), message, arg);
+        }
+
+        [TestMethod]
+        public void HaveThrownForActionThatThrowsGivenExpectedExceptionTypeThrowShouldNotFail()
+        {
+            Specify.ThatAction(delegate
+            {
+                throw new InvalidOperationException();
+            }).Should.HaveThrown(typeof(InvalidOperationException));
         }
 
         [TestMethod]
@@ -155,40 +166,13 @@ namespace Testing.Specificity.Tests
         }
 
         [TestMethod]
-        public void HaveThrownForActionThatThrowsGivenUnexpectedExceptionTypeThrowShouldFail()
-        {
-            try
-            {
-                Specify.ThatAction(delegate
-                {
-                    throw new ArgumentException();
-                }).Should.HaveThrown(typeof(InvalidOperationException));
-            }
-            catch (AssertFailedException)
-            {
-                return;
-            }
-
-            Specify.Failure("Specification did not fail.");
-        }
-
-        [TestMethod]
-        public void HaveThrownForActionThatThrowsGivenExpectedExceptionTypeThrowShouldNotFail()
-        {
-            Specify.ThatAction(delegate
-            {
-                throw new InvalidOperationException();
-            }).Should.HaveThrown(typeof(InvalidOperationException));
-        }
-
-        [TestMethod]
-        public void HaveThrownForActionThatThrowsGivenExpectedExceptionTypeAndMessageShouldFail()
+        public void HaveThrownForActionThatThrowsGivenMessageShouldNotFail()
         {
             string message = "xyzzy";
             Specify.ThatAction(delegate
             {
                 throw new InvalidOperationException();
-            }).Should.HaveThrown(typeof(InvalidOperationException), message);
+            }).Should.HaveThrown(message);
         }
 
         [TestMethod]
@@ -233,91 +217,57 @@ namespace Testing.Specificity.Tests
         }
 
         [TestMethod]
-        public void HaveThrownForActionThatThrowsGivenExpectedExceptionTypeMessageAndArgsShouldNotFail()
+        public void HaveThrownForActionThatThrowsGivenUnexpectedExceptionTypeThrowShouldFail()
+        {
+            try
+            {
+                Specify.ThatAction(delegate
+                {
+                    throw new ArgumentException();
+                }).Should.HaveThrown(typeof(InvalidOperationException));
+            }
+            catch (AssertFailedException)
+            {
+                return;
+            }
+
+            Specify.Failure("Specification did not fail.");
+        }
+
+        [TestMethod]
+        public void HaveThrownForActionThatThrowsShouldNotFail()
+        {
+            Specify.ThatAction(delegate
+            {
+                throw new InvalidOperationException();
+            }).Should.HaveThrown();
+        }
+
+        [TestMethod]
+        public void HaveThrownNegatedForActionThatDoesNotThrowGivenMessageAndArgsShouldNotFail()
         {
             string message = "{0}";
             string arg = "xyzzy";
             Specify.ThatAction(delegate
             {
-                throw new InvalidOperationException();
-            }).Should.HaveThrown(typeof(InvalidOperationException), message, arg);
+            }).Should.Not.HaveThrown(message, arg);
         }
 
         [TestMethod]
-        public void HaveThrownNegatedForActionThatThrowsShouldFail()
-        {
-            try
-            {
-                Specify.ThatAction(delegate
-                {
-                    throw new InvalidOperationException();
-                }).Should.Not.HaveThrown();
-            }
-            catch (AssertFailedException)
-            {
-                return;
-            }
-
-            Specify.Failure("Specification did not fail.");
-        }
-
-        [TestMethod]
-        public void HaveThrownNegatedForActionThatThrowsGivenMessageShouldFail()
+        public void HaveThrownNegatedForActionThatDoesNotThrowGivenMessageShouldNotFail()
         {
             string message = "xyzzy";
-            try
+            Specify.ThatAction(delegate
             {
-                Specify.ThatAction(delegate
-                {
-                    throw new InvalidOperationException();
-                }).Should.Not.HaveThrown(message);
-            }
-            catch (AssertFailedException e)
-            {
-                StringAssert.EndsWith(e.Message, message);
-                return;
-            }
-
-            Specify.Failure("Specification did not fail.");
+            }).Should.Not.HaveThrown(message);
         }
 
         [TestMethod]
-        public void HaveThrownNegatedForActionThatThrowsGivenMessageAndArgsShouldFail()
+        public void HaveThrownNegatedForActionThatDoesNotThrowShouldNotFail()
         {
-            string message = "{0}";
-            string arg = "xyzzy";
-            try
+            Specify.ThatAction(delegate
             {
-                Specify.ThatAction(delegate
-                {
-                    throw new InvalidOperationException();
-                }).Should.Not.HaveThrown(message, arg);
-            }
-            catch (AssertFailedException e)
-            {
-                StringAssert.EndsWith(e.Message, arg);
-                return;
-            }
-
-            Specify.Failure("Specification did not fail.");
-        }
-
-        [TestMethod]
-        public void HaveThrownNegatedForActionThatThrowsGivenExpectedExceptionTypeThrowShouldFail()
-        {
-            try
-            {
-                Specify.ThatAction(delegate
-                {
-                    throw new InvalidOperationException();
-                }).Should.Not.HaveThrown(typeof(InvalidOperationException));
-            }
-            catch (AssertFailedException)
-            {
-                return;
-            }
-
-            Specify.Failure("Specification did not fail.");
+            }).Should.Not.HaveThrown();
         }
 
         [TestMethod]
@@ -362,39 +312,62 @@ namespace Testing.Specificity.Tests
         }
 
         [TestMethod]
-        public void HaveThrownNegatedForActionThatDoesNotThrowShouldNotFail()
+        public void HaveThrownNegatedForActionThatThrowsGivenExpectedExceptionTypeThrowShouldFail()
         {
-            Specify.ThatAction(delegate
+            try
             {
-            }).Should.Not.HaveThrown();
+                Specify.ThatAction(delegate
+                {
+                    throw new InvalidOperationException();
+                }).Should.Not.HaveThrown(typeof(InvalidOperationException));
+            }
+            catch (AssertFailedException)
+            {
+                return;
+            }
+
+            Specify.Failure("Specification did not fail.");
         }
 
         [TestMethod]
-        public void HaveThrownNegatedForActionThatDoesNotThrowGivenMessageShouldNotFail()
-        {
-            string message = "xyzzy";
-            Specify.ThatAction(delegate
-            {
-            }).Should.Not.HaveThrown(message);
-        }
-
-        [TestMethod]
-        public void HaveThrownNegatedForActionThatDoesNotThrowGivenMessageAndArgsShouldNotFail()
+        public void HaveThrownNegatedForActionThatThrowsGivenMessageAndArgsShouldFail()
         {
             string message = "{0}";
             string arg = "xyzzy";
-            Specify.ThatAction(delegate
+            try
             {
-            }).Should.Not.HaveThrown(message, arg);
+                Specify.ThatAction(delegate
+                {
+                    throw new InvalidOperationException();
+                }).Should.Not.HaveThrown(message, arg);
+            }
+            catch (AssertFailedException e)
+            {
+                StringAssert.EndsWith(e.Message, arg);
+                return;
+            }
+
+            Specify.Failure("Specification did not fail.");
         }
 
         [TestMethod]
-        public void HaveThrownNegatedForActionThatThrowsGivenUnexpectedExceptionTypeThrowShouldNotFail()
+        public void HaveThrownNegatedForActionThatThrowsGivenMessageShouldFail()
         {
-            Specify.ThatAction(delegate
+            string message = "xyzzy";
+            try
             {
-                throw new ArgumentException();
-            }).Should.Not.HaveThrown(typeof(InvalidOperationException));
+                Specify.ThatAction(delegate
+                {
+                    throw new InvalidOperationException();
+                }).Should.Not.HaveThrown(message);
+            }
+            catch (AssertFailedException e)
+            {
+                StringAssert.EndsWith(e.Message, message);
+                return;
+            }
+
+            Specify.Failure("Specification did not fail.");
         }
 
         [TestMethod]
@@ -416,6 +389,33 @@ namespace Testing.Specificity.Tests
             {
                 throw new ArgumentException();
             }).Should.Not.HaveThrown(typeof(InvalidOperationException), message, arg);
+        }
+
+        [TestMethod]
+        public void HaveThrownNegatedForActionThatThrowsGivenUnexpectedExceptionTypeThrowShouldNotFail()
+        {
+            Specify.ThatAction(delegate
+            {
+                throw new ArgumentException();
+            }).Should.Not.HaveThrown(typeof(InvalidOperationException));
+        }
+
+        [TestMethod]
+        public void HaveThrownNegatedForActionThatThrowsShouldFail()
+        {
+            try
+            {
+                Specify.ThatAction(delegate
+                {
+                    throw new InvalidOperationException();
+                }).Should.Not.HaveThrown();
+            }
+            catch (AssertFailedException)
+            {
+                return;
+            }
+
+            Specify.Failure("Specification did not fail.");
         }
     }
 }

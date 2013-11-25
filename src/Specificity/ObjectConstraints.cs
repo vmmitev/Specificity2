@@ -20,81 +20,6 @@ namespace Testing.Specificity
     public static class ObjectConstraints
     {
         /// <summary>
-        /// Verifies the constrained reference is <see langword="null"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the constrained reference.</typeparam>
-        /// <param name="self">The constrained value.</param>
-        /// <param name="message">The message to display in case of failure.</param>
-        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
-        /// <exception cref="Exception">The constraint failed. The exact type of exception thrown will
-        /// depend on the unit test framework, if any, in use.</exception>
-        public static void BeNull<T>(this IConstraint<T> self, string message = null, params object[] parameters)
-            where T : class
-        {
-            if (self == null)
-            {
-                throw new ArgumentNullException("self");
-            }
-
-            if (self.Value == null)
-            {
-                self.FailIfNegated(
-                    self.FormatErrorMessage(
-                    "BeNull",
-                    null,
-                    message,
-                    parameters));
-            }
-            else
-            {
-                self.FailIfNotNegated(
-                   self.FormatErrorMessage(
-                   "BeNull",
-                   null,
-                   message,
-                   parameters));
-            }
-        }
-
-        /// <summary>
-        /// Verifies the constrained reference references the same instance as the specified reference.
-        /// </summary>
-        /// <typeparam name="T">Type of the constrained reference.</typeparam>
-        /// <param name="self">The constrained reference.</param>
-        /// <param name="expected">The expected reference.</param>
-        /// <param name="message">The message to display in case of failure.</param>
-        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
-        /// <exception cref="Exception">The constraint failed. The exact type of exception thrown will
-        /// depend on the unit test framework, if any, in use.</exception>
-        public static void BeSameAs<T>(this IConstraint<T> self, T expected, string message = null, params object[] parameters)
-            where T : class
-        {
-            if (self == null)
-            {
-                throw new ArgumentNullException("self");
-            }
-
-            if (object.ReferenceEquals(self.Value, expected))
-            {
-                self.FailIfNegated(
-                    self.FormatErrorMessage(
-                    "BeSameAs",
-                    null,
-                    message,
-                    parameters));
-            }
-            else
-            {
-                self.FailIfNotNegated(
-                    self.FormatErrorMessage(
-                    "BeSameAs",
-                    null,
-                    message,
-                    parameters));
-            }
-        }
-
-        /// <summary>
         /// Verifies the constrained value is equal to the specified value.
         /// </summary>
         /// <typeparam name="T">The type of the constrained value.</typeparam>
@@ -239,6 +164,197 @@ namespace Testing.Specificity
         }
 
         /// <summary>
+        /// Verifies the constrained reference is <see langword="null"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the constrained reference.</typeparam>
+        /// <param name="self">The constrained value.</param>
+        /// <param name="message">The message to display in case of failure.</param>
+        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
+        /// <exception cref="Exception">The constraint failed. The exact type of exception thrown will
+        /// depend on the unit test framework, if any, in use.</exception>
+        public static void BeNull<T>(this IConstraint<T> self, string message = null, params object[] parameters)
+            where T : class
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (self.Value == null)
+            {
+                self.FailIfNegated(
+                    self.FormatErrorMessage(
+                    "BeNull",
+                    null,
+                    message,
+                    parameters));
+            }
+            else
+            {
+                self.FailIfNotNegated(
+                   self.FormatErrorMessage(
+                   "BeNull",
+                   null,
+                   message,
+                   parameters));
+            }
+        }
+
+        /// <summary>
+        /// Verifies the constrained reference references the same instance as the specified reference.
+        /// </summary>
+        /// <typeparam name="T">Type of the constrained reference.</typeparam>
+        /// <param name="self">The constrained reference.</param>
+        /// <param name="expected">The expected reference.</param>
+        /// <param name="message">The message to display in case of failure.</param>
+        /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
+        /// <exception cref="Exception">The constraint failed. The exact type of exception thrown will
+        /// depend on the unit test framework, if any, in use.</exception>
+        public static void BeSameAs<T>(this IConstraint<T> self, T expected, string message = null, params object[] parameters)
+            where T : class
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException("self");
+            }
+
+            if (object.ReferenceEquals(self.Value, expected))
+            {
+                self.FailIfNegated(
+                    self.FormatErrorMessage(
+                    "BeSameAs",
+                    null,
+                    message,
+                    parameters));
+            }
+            else
+            {
+                self.FailIfNotNegated(
+                    self.FormatErrorMessage(
+                    "BeSameAs",
+                    null,
+                    message,
+                    parameters));
+            }
+        }
+
+        /// <summary>
+        /// Determines if two collections are logically equal.
+        /// </summary>
+        /// <param name="left">The left instance.</param>
+        /// <param name="right">The right instance.</param>
+        /// <returns>
+        /// <see langword="true"/> if the collections are logically equal; otherwise, <see langword="false"/>.
+        /// </returns>
+        private static bool AreCollectionsLogicallyEqual(ICollection left, ICollection right)
+        {
+            if (left.Count != right.Count)
+            {
+                return false;
+            }
+
+            IEnumerator leftEnumerator = left.GetEnumerator();
+            IEnumerator rightEnumerator = right.GetEnumerator();
+            for (int i = 0; leftEnumerator.MoveNext() && rightEnumerator.MoveNext(); ++i)
+            {
+                object leftValue = leftEnumerator.Current;
+                object rightValue = rightEnumerator.Current;
+                if (leftValue == null || rightValue == null)
+                {
+                    if (leftValue == rightValue)
+                    {
+                        continue;
+                    }
+
+                    return false;
+                }
+
+                Type type = leftValue.GetType();
+                if (rightValue.GetType() != type)
+                {
+                    return false;
+                }
+
+                if (!IsLogicallyEqual(leftValue, rightValue))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Compares the fields.
+        /// </summary>
+        /// <typeparam name="T">Type of objects to compare.</typeparam>
+        /// <param name="left">The left instance.</param>
+        /// <param name="right">The right instance.</param>
+        /// <returns>
+        /// <see langword="true"/> if all fields are logically equal; otherwise <see langword="false"/>.
+        /// </returns>
+        private static bool CompareFields<T>(T left, T right)
+        {
+            FieldInfo[] fields = left.GetType().GetFields();
+            if (fields == null || fields.Length == 0)
+            {
+                return true;
+            }
+
+            foreach (FieldInfo field in fields)
+            {
+                object leftValue = field.GetValue(left);
+                object rightValue = field.GetValue(right);
+                if ((leftValue == null || rightValue == null) && leftValue != rightValue)
+                {
+                    return false;
+                }
+
+                if (!IsLogicallyEqual(leftValue, rightValue))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Compares the properties.
+        /// </summary>
+        /// <typeparam name="T">Type of objects to compare.</typeparam>
+        /// <param name="left">The left instance.</param>
+        /// <param name="right">The right instance.</param>
+        /// <returns>
+        /// <see langword="true"/> if all properties are logically equal; otherwise <see langword="false"/>.
+        /// </returns>
+        private static bool CompareProperties<T>(T left, T right)
+        {
+            PropertyInfo[] props = left.GetType().GetProperties();
+            if (props == null || props.Length == 0)
+            {
+                return true;
+            }
+
+            foreach (PropertyInfo prop in props)
+            {
+                object leftValue = prop.GetValue(left, null);
+                object rightValue = prop.GetValue(right, null);
+                if ((leftValue == null || rightValue == null) && leftValue != rightValue)
+                {
+                    return false;
+                }
+
+                if (!IsLogicallyEqual(leftValue, rightValue))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Determines whether two objects are logically equal.
         /// </summary>
         /// <param name="left">The left instance.</param>
@@ -291,122 +407,6 @@ namespace Testing.Specificity
             }
 
             return CompareProperties(left, right) && CompareFields(left, right);
-        }
-
-        /// <summary>
-        /// Determines if two collections are logically equal.
-        /// </summary>
-        /// <param name="left">The left instance.</param>
-        /// <param name="right">The right instance.</param>
-        /// <returns>
-        /// <see langword="true"/> if the collections are logically equal; otherwise, <see langword="false"/>.
-        /// </returns>
-        private static bool AreCollectionsLogicallyEqual(ICollection left, ICollection right)
-        {
-            if (left.Count != right.Count)
-            {
-                return false;
-            }
-
-            IEnumerator leftEnumerator = left.GetEnumerator();
-            IEnumerator rightEnumerator = right.GetEnumerator();
-            for (int i = 0; leftEnumerator.MoveNext() && rightEnumerator.MoveNext(); ++i)
-            {
-                object leftValue = leftEnumerator.Current;
-                object rightValue = rightEnumerator.Current;
-                if (leftValue == null || rightValue == null)
-                {
-                    if (leftValue == rightValue)
-                    {
-                        continue;
-                    }
-
-                    return false;
-                }
-
-                Type type = leftValue.GetType();
-                if (rightValue.GetType() != type)
-                {
-                    return false;
-                }
-
-                if (!IsLogicallyEqual(leftValue, rightValue))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Compares the properties.
-        /// </summary>
-        /// <typeparam name="T">Type of objects to compare.</typeparam>
-        /// <param name="left">The left instance.</param>
-        /// <param name="right">The right instance.</param>
-        /// <returns>
-        /// <see langword="true"/> if all properties are logically equal; otherwise <see langword="false"/>.
-        /// </returns>
-        private static bool CompareProperties<T>(T left, T right)
-        {
-            PropertyInfo[] props = left.GetType().GetProperties();
-            if (props == null || props.Length == 0)
-            {
-                return true;
-            }
-
-            foreach (PropertyInfo prop in props)
-            {
-                object leftValue = prop.GetValue(left, null);
-                object rightValue = prop.GetValue(right, null);
-                if ((leftValue == null || rightValue == null) && leftValue != rightValue)
-                {
-                    return false;
-                }
-
-                if (!IsLogicallyEqual(leftValue, rightValue))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Compares the fields.
-        /// </summary>
-        /// <typeparam name="T">Type of objects to compare.</typeparam>
-        /// <param name="left">The left instance.</param>
-        /// <param name="right">The right instance.</param>
-        /// <returns>
-        /// <see langword="true"/> if all fields are logically equal; otherwise <see langword="false"/>.
-        /// </returns>
-        private static bool CompareFields<T>(T left, T right)
-        {
-            FieldInfo[] fields = left.GetType().GetFields();
-            if (fields == null || fields.Length == 0)
-            {
-                return true;
-            }
-
-            foreach (FieldInfo field in fields)
-            {
-                object leftValue = field.GetValue(left);
-                object rightValue = field.GetValue(right);
-                if ((leftValue == null || rightValue == null) && leftValue != rightValue)
-                {
-                    return false;
-                }
-
-                if (!IsLogicallyEqual(leftValue, rightValue))
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
 
         /// <summary>
