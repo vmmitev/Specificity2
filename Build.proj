@@ -3,7 +3,7 @@
   <PropertyGroup>
     <LocalBuildExtensionDirectory Condition="'$(LocalBuildExtension)'==''">$(MSBuildProjectDirectory)\.build</LocalBuildExtensionDirectory>
     <Major Condition="'$(Major)'==''">0</Major>
-    <Minor Condition="'$(Mindor)'==''">6</Minor>
+    <Minor Condition="'$(Mindor)'==''">7</Minor>
     <Revision Condition="'$(Revision)'==''">0</Revision>
     <AssemblyCompany>William E. Kempf</AssemblyCompany>
     <AssemblyCopyright>Copyright © 2013 William E. Kempf.</AssemblyCopyright>

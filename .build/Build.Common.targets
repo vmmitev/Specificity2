@@ -26,8 +26,9 @@
     <!--<TestLogger Condition="'$(TestLogger)'=='' and '$(TEAMCITY_VERSION)'!=''">TeamCity</TestLogger>-->
     <TestLogger Condition="'$(TestLogger)'==''">trx</TestLogger>
 
+    <Beta>True</Beta>
     <NuGetExe Condition="'$(NuGetExe)'==''">$(MSBuildProjectDirectory)\.nuget\nuget.exe</NuGetExe>
-    <PkgVersion Condition="'$(PkgVersion)'=='' and '$(TEAMCITY_VERSION)'==''">$(Major).$(Minor).$(Revision)-alpha$([System.String]::Format('{0:0000}',$([System.Convert]::ToInt32($(Build)))))</PkgVersion>
+    <PkgVersion Condition="'$(PkgVersion)'=='' and '$(Beta)'=='True'">$(Major).$(Minor).$(Revision)-beta</PkgVersion>
     <PkgVersion Condition="'$(PkgVersion)'==''">$(Major).$(Minor).$(Revision)</PkgVersion>
   </PropertyGroup>
 
@@ -411,6 +412,7 @@
       Version;
       Build;
       Test;
+      Documentation;
       BeforePackage;
       CorePackage;
       AfterPackage;
@@ -421,9 +423,64 @@
   <Target Name="BeforePackage"/>
   <Target Name="AfterPackage"/>
   <Target Name="CorePackage">
-    <XmlUpdate XmlFileName="%(NuSpecFiles.FullPath)"
-               Xpath="//package/metadata/version"
-               Value="$(PkgVersion)"/>
-    <Exec WorkingDirectory="$(OutRoot)" Command="&quot;$(NuGetExe)&quot; pack %(NuSpecFiles.FullPath) -o $(OutRoot) -base $(OutDir)"/>
+    <Exec WorkingDirectory="$(OutRoot)" Command="&quot;$(NuGetExe)&quot; pack &quot;%(NuSpecFiles.FullPath)&quot; -Version $(PkgVersion) -o &quot;$(OutRoot)&quot; -base &quot;$(OutRoot)\bin&quot; -Symbols"/>
+  </Target>
+
+  <!-- Push -->
+  <Target Name="PushValidateSettings">
+    <ItemGroup>
+      <_RequiredProperties Remove="@(_RequiredProperties)"/>
+      <_RequiredItems Remove="@(_RequiredItems)"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <_RequiredProperties Include="NuGetExe">
+        <Value>$(NuGetExe)</Value>
+      </_RequiredProperties>
+      <_RequiredProperties Include="NuGetSource">
+        <Value>$(NuGetSource)</Value>
+      </_RequiredProperties>
+
+      <_RequiredItems Include="NuSpecFiles">
+        <RequiredValue>@(NuSpecFiles)</RequiredValue>
+        <RequiredFilePath>%(NuSpecFiles.FullPath)</RequiredFilePath>
+      </_RequiredItems>
+    </ItemGroup>
+
+    <!-- Raise an error if any value in _RequiredProperties is missing -->
+    <Error Condition="'%(_RequiredProperties.Value)'==''"
+           Text="Missing required property [%(_RequiredProperties.Identity)]"/>
+               
+    <!-- Raise an error if any value in _RequiredItems is empty -->
+    <Error Condition="'%(_RequiredItems.RequiredValue)'==''"
+           Text="Missing required item value [%(_RequiredItems.Identity)]"/>
+               
+    <!-- Validate any file/directory that should exist -->
+    <Error Condition="'%(_RequiredItems.RequiredFilePath)'!='' and !Exists('%(_RequiredItems.RequiredFilePath)')"
+           Text="Unable to find expected path [%(_RequiredItems.RequiredFilePath)] on item [%(_RequiredItems.Identity)]"/>
+  </Target>
+  <PropertyGroup>
+    <PushDependsOn>
+      PushValidateSettings;
+      Clean;
+      Version;
+      Build;
+      Test;
+      Documentation;
+      Package;
+      BeforePush;
+      CorePush;
+      AfterPush;
+      $(PushDependsOn);
+    </PushDependsOn>
+  </PropertyGroup>
+  <Target Name="Push" DependsOnTargets="$(PushDependsOn)"/>
+  <Target Name="BeforePush"/>
+  <Target Name="AfterPush"/>
+  <Target Name="CorePush">
+    <ItemGroup>
+      <NuPkgFiles Include="$(OutRoot)\*.nupkg"/>
+    </ItemGroup>
+    <Exec WorkingDirectory="$(OutRoot)" Command="&quot;$(NuGetExe)&quot; push %(NuPkgFiles.FullPath) -Source $(NuGetSource)"/>
   </Target>
 </Project>
