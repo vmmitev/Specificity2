@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <LocalBuildExtensionDirectory Condition="'$(LocalBuildExtensionDirectory)'==''">$(MSBuildProjectDirectory)\.build</LocalBuildExtensionDirectory>
     <MSBuildCommunityTasksPath Condition="'$(MSBuildCommunityTasksPath)'==''">$(LocalBuildExtensionDirectory)</MSBuildCommunityTasksPath>
@@ -26,10 +26,10 @@
     <!--<TestLogger Condition="'$(TestLogger)'=='' and '$(TEAMCITY_VERSION)'!=''">TeamCity</TestLogger>-->
     <TestLogger Condition="'$(TestLogger)'==''">trx</TestLogger>
 
-    <Beta>True</Beta>
+    <Beta Condition="'$(Beta)'==''">True</Beta>
     <NuGetExe Condition="'$(NuGetExe)'==''">$(MSBuildProjectDirectory)\.nuget\nuget.exe</NuGetExe>
-    <PkgVersion Condition="'$(PkgVersion)'=='' and '$(Beta)'=='True'">$(Major).$(Minor).$(Revision)-beta</PkgVersion>
-    <PkgVersion Condition="'$(PkgVersion)'==''">$(Major).$(Minor).$(Revision)</PkgVersion>
+    <PkgVersion Condition="'$(PkgVersion)'=='' and '$(Beta)'=='True'">$(Major).$(Minor).$(Revision)-Prerelease$([System.String]::Format('{0:0000}',$([MSBuild]::Add($(Build), 0))))</PkgVersion>
+    <PkgVersion Condition="'$(PkgVersion)'==''">$(Major).$(Minor).$(Revision).$(Build)</PkgVersion>
   </PropertyGroup>
 
   <Import Project="$(LocalBuildExtensionDirectory)\MSBuild.Community.Tasks.targets"/>
@@ -322,7 +322,7 @@
     <ItemGroup>
       <TestAssemblies Include="$(TestAssemblySpec)"/>
     </ItemGroup>
-    <Exec Command="&quot;$(VsTestConsoleExe)&quot; &quot;%(TestAssemblies.FullPath)&quot; /UseVsixExtensions:True /Logger:$(TestLogger)"/>
+    <Exec Command="&quot;$(VsTestConsoleExe)&quot; &quot;%(TestAssemblies.FullPath)&quot; /UseVsixExtensions:True /InIsolation /Logger:$(TestLogger)"/>
   </Target>
 
   <!-- Documentation -->
