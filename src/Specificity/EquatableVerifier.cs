@@ -12,7 +12,7 @@ namespace Testing.Specificity
     using System.Reflection;
 
     /// <summary>
-    /// Provides a contract verifier that verifies the implementation of <see cref="IEquatable{T}"/> types.
+    /// Provides a contract verifier that verifies the implementation of <see cref="IEquatable{T}" /> types.
     /// </summary>
     /// <typeparam name="T">The type to verify.</typeparam>
     public class EquatableVerifier<T> : ContractVerifier
@@ -81,7 +81,7 @@ namespace Testing.Specificity
             var operationTests = new TestCollection();
 
             var list = new List<T>(3);
-            int comparison = -1;
+            int comparison;
             foreach (var ac in this.EquivalenceClasses)
             {
                 comparison = -1;
@@ -105,6 +105,11 @@ namespace Testing.Specificity
                             else
                             {
                                 operationTests.AddRange(this.GetOperationTests(list[0], a, comparison));
+                                symmetryTests.AddRange(this.GetSymmetryTests(list[0], a));
+                                if (list.Count > 2)
+                                {
+                                    transitiveTests.AddRange(this.GetTransitiveTests(list[list.Count - 3], list[list.Count - 2], list[list.Count - 1]));
+                                }
                             }
                         }
                     }
@@ -137,7 +142,42 @@ namespace Testing.Specificity
         /// <returns>A collection of tests.</returns>
         private IEnumerable<Action> GetOperationTests(T lhs, T rhs, int comparison)
         {
-            return Enumerable.Empty<Action>();
+            if (!typeof(T).IsPrimitive && this.ImplementsOperatorOverloads)
+            {
+                yield return () => Specify.That((bool)EqualityOperator.Invoke(null, new object[] { lhs, rhs })).Should.BeEqualTo(comparison == 0, "Testing {0} == {1} failed.", lhs, rhs);
+                yield return () => Specify.That((bool)InequalityOperator.Invoke(null, new object[] { lhs, rhs })).Should.BeEqualTo(comparison != 0, "Testing {0} != {1} failed.", lhs, rhs);
+            }
+        }
+
+        /// <summary>
+        /// Gets the symmetry tests.
+        /// </summary>
+        /// <param name="lhs">The left hand side value.</param>
+        /// <param name="rhs">The right hand side value.</param>
+        /// <returns>A collection of tests.</returns>
+        private IEnumerable<Action> GetSymmetryTests(T lhs, T rhs)
+        {
+            if (!typeof(T).IsPrimitive && this.ImplementsOperatorOverloads)
+            {
+                yield return () => Specify.That((bool)EqualityOperator.Invoke(null, new object[] { lhs, rhs })).Should.BeEqualTo((bool)EqualityOperator.Invoke(null, new object[] { rhs, lhs }), "Testing symmetry quality of {0} == {1} failed.", lhs, rhs);
+                yield return () => Specify.That((bool)InequalityOperator.Invoke(null, new object[] { lhs, rhs })).Should.BeEqualTo((bool)InequalityOperator.Invoke(null, new object[] { rhs, lhs }), "Testing symmetry quality of {0} != {1} failed.", lhs, rhs);
+            }
+        }
+
+        /// <summary>
+        /// Gets the transitive tests.
+        /// </summary>
+        /// <param name="a">The first value.</param>
+        /// <param name="b">The second value.</param>
+        /// <param name="c">The third.</param>
+        /// <returns>A collection of tests.</returns>
+        private IEnumerable<Action> GetTransitiveTests(T a, T b, T c)
+        {
+            if (!typeof(T).IsPrimitive && this.ImplementsOperatorOverloads)
+            {
+                yield return () => Specify.That((bool)EqualityOperator.Invoke(null, new object[] { a, b }) && (bool)EqualityOperator.Invoke(null, new object[] { b, c })).Should.BeEqualTo(true && (bool)EqualityOperator.Invoke(null, new object[] { a, c }), "Testing transitive quality of {0} == {1} and {1} == {2} failed.", a, b, c);
+                yield return () => Specify.That((bool)InequalityOperator.Invoke(null, new object[] { a, b }) && (bool)InequalityOperator.Invoke(null, new object[] { b, c })).Should.BeEqualTo(true && (bool)InequalityOperator.Invoke(null, new object[] { a, c }), "Testing symmetry quality of {0} != {1} and {1} != {2} failed.", a, b, c);
+            }
         }
 
         /// <summary>

@@ -11,6 +11,7 @@ namespace Testing.Specificity
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Runtime.Serialization;
+    using System.Text;
     using Xunit.Sdk;
 
     /// <summary>
@@ -94,6 +95,28 @@ namespace Testing.Specificity
         public ReadOnlyCollection<Exception> InnerExceptions
         {
             get { return this.innerExceptions; }
+        }
+
+        /// <summary>
+        /// Gets a message that describes the current exception.
+        /// </summary>
+        /// <value>
+        /// A message describing the exception.
+        /// </value>
+        public override string Message
+        {
+            get
+            {
+                var builder = new StringBuilder(base.Message);
+                foreach (var message in this.InnerExceptions.Select(e => e.Message))
+                {
+                    builder.AppendLine();
+                    builder.Append("\t");
+                    builder.Append(message);
+                }
+
+                return builder.ToString();
+            }
         }
 
         /// <summary>
