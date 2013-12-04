@@ -68,12 +68,16 @@ namespace Testing.Specificity
         /// <returns>A collection of test methods.</returns>
         protected override IEnumerable<Action> GetTests()
         {
+            if (this.EquivalenceClasses == null || !this.EquivalenceClasses.Any())
+            {
+                throw new InvalidOperationException("No EquivalenceClasses were specified.");
+            }
+
             var tests = new TestCollection();
             tests.Add(this.ShouldBeSealedType);
             tests.Add(this.ShouldOverrideObjectEquals);
             tests.Add(this.ShouldOverrideGetHashCode);
             tests.Add(this.ShouldImplementOperators);
-            tests.Add(this.ShouldNotBeEquatableToNull);
 
             var reflexiveTests = new TestCollection();
             var symmetryTests = new TestCollection();
@@ -101,6 +105,10 @@ namespace Testing.Specificity
                             if (list.Count == 1)
                             {
                                 reflexiveTests.AddRange(this.GetOperationTests(a, a, comparison));
+                                if (!typeof(T).IsValueType)
+                                {
+                                    operationTests.AddRange(this.GetOperationTests(a, default(T), -1));
+                                }
                             }
                             else
                             {
@@ -142,10 +150,20 @@ namespace Testing.Specificity
         /// <returns>A collection of tests.</returns>
         private IEnumerable<Action> GetOperationTests(T lhs, T rhs, int comparison)
         {
+            if (lhs != null)
+            {
+                yield return () => Specify.That(lhs.Equals(rhs)).Should.BeEqualTo(comparison == 0, "Testing IEquatable.Equals with '{0}' and '{1}' failed.", lhs, rhs);
+                yield return () => Specify.That(((object)lhs).Equals(rhs)).Should.BeEqualTo(comparison == 0, "Testing Object.Equals with '{0}' and '{1}' failed.", lhs, rhs);
+                if (comparison == 0)
+                {
+                    yield return () => Specify.That(lhs.GetHashCode()).Should.BeEqualTo(rhs.GetHashCode(), "Testing GetHashCode failed with equivalent objects '{0}' and '{1}'.", lhs, rhs);
+                }
+            }
+
             if (!typeof(T).IsPrimitive && this.ImplementsOperatorOverloads)
             {
-                yield return () => Specify.That((bool)EqualityOperator.Invoke(null, new object[] { lhs, rhs })).Should.BeEqualTo(comparison == 0, "Testing {0} == {1} failed.", lhs, rhs);
-                yield return () => Specify.That((bool)InequalityOperator.Invoke(null, new object[] { lhs, rhs })).Should.BeEqualTo(comparison != 0, "Testing {0} != {1} failed.", lhs, rhs);
+                yield return () => Specify.That((bool)EqualityOperator.Invoke(null, new object[] { lhs, rhs })).Should.BeEqualTo(comparison == 0, "Testing operator == with '{0}' and '{1}' failed.", lhs, rhs);
+                yield return () => Specify.That((bool)InequalityOperator.Invoke(null, new object[] { lhs, rhs })).Should.BeEqualTo(comparison != 0, "Testing operator != with '{0}' and '{1}' failed.", lhs, rhs);
             }
         }
 
@@ -157,10 +175,16 @@ namespace Testing.Specificity
         /// <returns>A collection of tests.</returns>
         private IEnumerable<Action> GetSymmetryTests(T lhs, T rhs)
         {
+            if (lhs != null && rhs != null)
+            {
+                yield return () => Specify.That(lhs.Equals(rhs)).Should.BeEqualTo(rhs.Equals(lhs), "Testing symmetry of IEquatable.Equals with '{0}' and '{1}' failed.", lhs, rhs);
+                yield return () => Specify.That(((object)lhs).Equals(rhs)).Should.BeEqualTo(((object)rhs).Equals(lhs), "Testing symmetry of Object.Equals with '{0}' and '{1}' failed.", lhs, rhs);
+            }
+
             if (!typeof(T).IsPrimitive && this.ImplementsOperatorOverloads)
             {
-                yield return () => Specify.That((bool)EqualityOperator.Invoke(null, new object[] { lhs, rhs })).Should.BeEqualTo((bool)EqualityOperator.Invoke(null, new object[] { rhs, lhs }), "Testing symmetry quality of {0} == {1} failed.", lhs, rhs);
-                yield return () => Specify.That((bool)InequalityOperator.Invoke(null, new object[] { lhs, rhs })).Should.BeEqualTo((bool)InequalityOperator.Invoke(null, new object[] { rhs, lhs }), "Testing symmetry quality of {0} != {1} failed.", lhs, rhs);
+                yield return () => Specify.That((bool)EqualityOperator.Invoke(null, new object[] { lhs, rhs })).Should.BeEqualTo((bool)EqualityOperator.Invoke(null, new object[] { rhs, lhs }), "Testing symmetry of operator == with '{0}' and '{1}' failed.", lhs, rhs);
+                yield return () => Specify.That((bool)InequalityOperator.Invoke(null, new object[] { lhs, rhs })).Should.BeEqualTo((bool)InequalityOperator.Invoke(null, new object[] { rhs, lhs }), "Testing symmetry of operator != with '{0}' and '{1}' failed.", lhs, rhs);
             }
         }
 
@@ -173,10 +197,16 @@ namespace Testing.Specificity
         /// <returns>A collection of tests.</returns>
         private IEnumerable<Action> GetTransitiveTests(T a, T b, T c)
         {
+            if (a != null && b != null && c != null)
+            {
+                yield return () => Specify.That(a.Equals(b) && b.Equals(c)).Should.BeEqualTo(a.Equals(c), "Testing transitive quality of IEquatable.Equals with '{0}', '{1}' and '{2}' failed.", a, b, c);
+                yield return () => Specify.That(((object)a).Equals(b) && ((object)b).Equals(c)).Should.BeEqualTo(((object)a).Equals(c), "Testing transitive quality of Object.Equals with '{0}', '{1}' and '{2}' failed.", a, b, c);
+            }
+
             if (!typeof(T).IsPrimitive && this.ImplementsOperatorOverloads)
             {
-                yield return () => Specify.That((bool)EqualityOperator.Invoke(null, new object[] { a, b }) && (bool)EqualityOperator.Invoke(null, new object[] { b, c })).Should.BeEqualTo(true && (bool)EqualityOperator.Invoke(null, new object[] { a, c }), "Testing transitive quality of {0} == {1} and {1} == {2} failed.", a, b, c);
-                yield return () => Specify.That((bool)InequalityOperator.Invoke(null, new object[] { a, b }) && (bool)InequalityOperator.Invoke(null, new object[] { b, c })).Should.BeEqualTo(true && (bool)InequalityOperator.Invoke(null, new object[] { a, c }), "Testing symmetry quality of {0} != {1} and {1} != {2} failed.", a, b, c);
+                yield return () => Specify.That((bool)EqualityOperator.Invoke(null, new object[] { a, b }) && (bool)EqualityOperator.Invoke(null, new object[] { b, c })).Should.BeEqualTo(true && (bool)EqualityOperator.Invoke(null, new object[] { a, c }), "Testing transitive quality of operator == with '{0}', '{1}' and '{2}' failed.", a, b, c);
+                yield return () => Specify.That((bool)InequalityOperator.Invoke(null, new object[] { a, b }) && (bool)InequalityOperator.Invoke(null, new object[] { b, c })).Should.BeEqualTo(true && (bool)InequalityOperator.Invoke(null, new object[] { a, c }), "Testing transitive quality of operator != with '{0}', '{1}' and '{2}' failed.", a, b, c);
             }
         }
 
@@ -211,13 +241,6 @@ namespace Testing.Specificity
                 },
                 "The type '{0}' does not define equality operators.",
                 typeof(T));
-        }
-
-        /// <summary>
-        /// Tests that comparing to null always fails.
-        /// </summary>
-        private void ShouldNotBeEquatableToNull()
-        {
         }
 
         /// <summary>

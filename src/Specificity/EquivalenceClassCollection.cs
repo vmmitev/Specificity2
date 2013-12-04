@@ -6,6 +6,7 @@
 
 namespace Testing.Specificity
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
@@ -22,6 +23,16 @@ namespace Testing.Specificity
         private readonly List<IEnumerable<T>> classes = new List<IEnumerable<T>>();
 
         /// <summary>
+        /// Adds an equivalence class with element created by using the specified factory, which should return a new
+        /// equivalent instance each time it is called.
+        /// </summary>
+        /// <param name="factory">The factory function used to create equivalent instances.</param>
+        public void Add(Func<T> factory)
+        {
+            this.classes.Add(Enumerable.Range(0, 3).Select(_ => factory()));
+        }
+
+        /// <summary>
         /// Adds an equivalence class.
         /// </summary>
         /// <param name="firstEquatable">The first equatable.</param>
@@ -29,7 +40,10 @@ namespace Testing.Specificity
         /// <param name="otherEquatables">The rest of the equatables.</param>
         public void Add(T firstEquatable, T secondEquatable, params T[] otherEquatables)
         {
-            this.classes.Add(Enumerable.Repeat(firstEquatable, 1).Concat(Enumerable.Repeat(secondEquatable, 1).Concat(otherEquatables).ToList()));
+            this.classes.Add(
+                Enumerable.Repeat(firstEquatable, 1)
+                    .Concat(Enumerable.Repeat(secondEquatable, 1)
+                    .Concat(otherEquatables)));
         }
 
         /// <summary>
