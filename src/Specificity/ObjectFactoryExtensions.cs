@@ -418,6 +418,17 @@ namespace Testing.Specificity
         }
 
         /// <summary>
+        /// Freezes the specified instance as the result for any further calls to obtain an object of the specified type.
+        /// </summary>
+        /// <typeparam name="T">The type to freeze.</typeparam>
+        /// <param name="registry">The registry.</param>
+        /// <param name="instance">The instance to return for any further calls to obtain an object of the specified type.</param>
+        public static void Freeze<T>(this IObjectFactoryRegistry registry, T instance)
+        {
+            registry.Register(typeof(T), f => instance);
+        }
+
+        /// <summary>
         /// Registers factory methods using the specified <see cref="IObjectFactoryRegistrar"/> type.
         /// </summary>
         /// <typeparam name="TRegistrar">The registrar type.</typeparam>

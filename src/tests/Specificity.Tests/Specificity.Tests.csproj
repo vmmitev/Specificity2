@@ -63,6 +63,7 @@
     <Compile Include="NumericConstraintsTests.cs" />
     <Compile Include="ObjectConstraintsTests.cs" />
     <Compile Include="ObjectFactoryTests.cs" />
+    <Compile Include="ObjectPropertyVerifierTests.cs" />
     <Compile Include="SpecifyTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringConstraintsTests.cs" />

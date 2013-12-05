@@ -75,6 +75,7 @@
     <Compile Include="ObjectFactoryCustomization.cs" />
     <Compile Include="ObjectFactoryExtensions.cs" />
     <Compile Include="ObjectFactoryRegistrarAttribute.cs" />
+    <Compile Include="ObjectPropertyVerifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

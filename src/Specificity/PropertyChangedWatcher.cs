@@ -17,8 +17,13 @@ namespace Testing.Specificity
     [SuppressMessage("Microsoft.Naming",
         "CA1710:IdentifiersShouldHaveCorrectSuffix",
         Justification = "The name is correct.")]
-    public class PropertyChangedWatcher : EventWatcher<PropertyChangedEventArgs>
+    public class PropertyChangedWatcher : EventWatcher<PropertyChangedEventArgs>, IDisposable
     {
+        /// <summary>
+        /// The source.
+        /// </summary>
+        private readonly INotifyPropertyChanged source;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyChangedWatcher"/> class.
         /// </summary>
@@ -30,7 +35,16 @@ namespace Testing.Specificity
                 throw new ArgumentNullException("source");
             }
 
-            source.PropertyChanged += this.EventHandler;
+            this.source = source;
+            this.source.PropertyChanged += this.EventHandler;
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.source.PropertyChanged -= this.EventHandler;
         }
     }
 }
