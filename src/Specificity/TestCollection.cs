@@ -16,25 +16,18 @@ namespace Testing.Specificity
     public sealed class TestCollection : List<Action>
     {
         /// <summary>
-        /// The message to use if the tests fail.
-        /// </summary>
-        private string message;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TestCollection"/> class.
-        /// </summary>
-        /// <param name="message">The message to use if any of the tests fail.</param>
-        /// <param name="arguments">The arguments used to format the message.</param>
-        public TestCollection(string message, params object[] arguments)
-        {
-            this.message = string.Format(message, arguments);
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="TestCollection"/> class.
         /// </summary>
         public TestCollection()
-            : this("Multiple tests failed.")
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestCollection" /> class.
+        /// </summary>
+        /// <param name="tests">The tests.</param>
+        public TestCollection(IEnumerable<Action> tests)
+            : base(tests)
         {
         }
 
@@ -52,6 +45,16 @@ namespace Testing.Specificity
         /// </summary>
         public void RunTests()
         {
+            this.RunTests("Multiple tests failed.");
+        }
+
+        /// <summary>
+        /// Runs the tests.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="arguments">The arguments.</param>
+        public void RunTests(string message, params object[] arguments)
+        {
             List<Exception> exceptions = new List<Exception>();
             foreach (var test in this)
             {
@@ -67,7 +70,7 @@ namespace Testing.Specificity
 
             if (exceptions.Any())
             {
-                Specify.Failure(exceptions, this.message);
+                Specify.Failure(exceptions, message, arguments);
             }
         }
     }

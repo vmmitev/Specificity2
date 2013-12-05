@@ -107,7 +107,7 @@ namespace Testing.Specificity
                                 reflexiveTests.AddRange(this.GetOperationTests(a, a, comparison));
                                 if (!typeof(T).IsValueType)
                                 {
-                                    operationTests.AddRange(this.GetOperationTests(a, default(T), -1));
+                                    operationTests.AddRange(this.GetOperationTests(a, default(T), 1));
                                 }
                             }
                             else
@@ -142,13 +142,22 @@ namespace Testing.Specificity
         }
 
         /// <summary>
+        /// Specifies that operators are defined.
+        /// </summary>
+        protected virtual void SpecifyThatOperatorsAreDefined()
+        {
+            Specify.That(EqualityOperator).Should.Not.BeNull("Equality operator not defined for type '{0}'.", typeof(T));
+            Specify.That(InequalityOperator).Should.Not.BeNull("Inequality operator not defined for type '{0}'.", typeof(T));
+        }
+
+        /// <summary>
         /// Gets tests for all of the comparison operations.
         /// </summary>
         /// <param name="lhs">The left hand side value.</param>
         /// <param name="rhs">The right hand side value.</param>
         /// <param name="comparison">How the values should compare.</param>
         /// <returns>A collection of tests.</returns>
-        private IEnumerable<Action> GetOperationTests(T lhs, T rhs, int comparison)
+        protected virtual IEnumerable<Action> GetOperationTests(T lhs, T rhs, int comparison)
         {
             if (lhs != null)
             {
@@ -236,8 +245,7 @@ namespace Testing.Specificity
             Specify.Aggregate(
                 delegate
                 {
-                    Specify.That(EqualityOperator).Should.Not.BeNull("Equality operator not defined for type '{0}'.", typeof(T));
-                    Specify.That(InequalityOperator).Should.Not.BeNull("Inequality operator not defined for type '{0}'.", typeof(T));
+                    this.SpecifyThatOperatorsAreDefined();
                 },
                 "The type '{0}' does not define equality operators.",
                 typeof(T));

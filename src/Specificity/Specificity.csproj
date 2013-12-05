@@ -50,6 +50,7 @@
     <Compile Include="BooleanConstraints.cs" />
     <Compile Include="Classifier.cs" />
     <Compile Include="CollectionConstraints.cs" />
+    <Compile Include="ComparableVerifier.cs" />
     <Compile Include="ConstrainedValue.cs" />
     <Compile Include="Constraint.cs" />
     <Compile Include="ConstraintExtensions.cs" />
