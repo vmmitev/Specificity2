@@ -37,6 +37,7 @@ namespace Testing.Specificity.Tests
         public void VerifyForObservableObjectShouldPass()
         {
             var verifier = new ObjectPropertyVerifier<ObservableObject>(ObservableObject.CreateValid());
+            verifier.Property("LowerCaseName").DependsOn("Name");
 
             verifier.Verify();
         }
@@ -73,9 +74,27 @@ namespace Testing.Specificity.Tests
 
             public string Name
             {
-                get { return this.name; }
+                get
+                {
+                    return this.name;
+                }
 
-                set { this.SetValue(ref this.name, value); }
+                set
+                {
+                    if (this.SetValue(ref this.name, value))
+                    {
+                        var handler = this.PropertyChanged;
+                        if (handler != null)
+                        {
+                            handler(this, new PropertyChangedEventArgs("LowerCaseName"));
+                        }
+                    }
+                }
+            }
+
+            public string LowerCaseName
+            {
+                get { return this.Name.ToLower(); }
             }
 
             public static ObservableObject CreateValid()

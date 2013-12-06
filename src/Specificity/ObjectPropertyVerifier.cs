@@ -24,6 +24,11 @@ namespace Testing.Specificity
         private readonly ObjectFactory factory;
 
         /// <summary>
+        /// The properties (values) expected to be notified when another property (key) is raised.
+        /// </summary>
+        private Dictionary<string, List<string>> expectedNotifications = new Dictionary<string, List<string>>();
+
+        /// <summary>
         /// The property changed watcher.
         /// </summary>
         private PropertyChangedWatcher watcher;
@@ -48,6 +53,16 @@ namespace Testing.Specificity
         }
 
         /// <summary>
+        /// Gets the specified property details for declaring constraints on that property.
+        /// </summary>
+        /// <param name="name">The property name.</param>
+        /// <returns>The property details that can be used to declare constraints on the specified property.</returns>
+        public PropertyDetails Property(string name)
+        {
+            return new PropertyDetails(this, name);
+        }
+
+        /// <summary>
         /// Gets the property changed tests.
         /// </summary>
         /// <returns>A collection of property changed tests.</returns>
@@ -57,6 +72,7 @@ namespace Testing.Specificity
             if (typeof(INotifyPropertyChanged).IsAssignableFrom(typeof(T)))
             {
                 yield return (instance, property, initialValue, newValue) => this.SpecifyThatPropertyChangedWasRaised(property);
+                yield return (Instance, property, initialValue, newValue) => this.SpecifyThatNoOtherPropertyChangedEventsWereRaised(property);
             }
         }
 
@@ -133,6 +149,26 @@ namespace Testing.Specificity
         }
 
         /// <summary>
+        /// Gets the expected property notifications.
+        /// </summary>
+        /// <param name="propertyChanged">The property changed.</param>
+        /// <param name="propertyNames">The property names.</param>
+        private void GetExpectedPropertyNotifications(string propertyChanged, HashSet<string> propertyNames)
+        {
+            if (propertyNames.Add(propertyChanged))
+            {
+                List<string> dependentProperties;
+                if (this.expectedNotifications.TryGetValue(propertyChanged, out dependentProperties))
+                {
+                    foreach (var propertyName in dependentProperties)
+                    {
+                        this.GetExpectedPropertyNotifications(propertyName, propertyNames);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets the properties.
         /// </summary>
         /// <returns>The properties.</returns>
@@ -143,12 +179,80 @@ namespace Testing.Specificity
         }
 
         /// <summary>
+        /// Specifies the that no other property changed events were raised.
+        /// </summary>
+        /// <param name="property">The property.</param>
+        private void SpecifyThatNoOtherPropertyChangedEventsWereRaised(PropertyInfo property)
+        {
+            HashSet<string> propertyNames = new HashSet<string>();
+            this.GetExpectedPropertyNotifications(property.Name, propertyNames);
+            var notified = this.watcher.Select(e => e.PropertyName).Where(n => !propertyNames.Contains(n)).ToArray();
+            Specify.That(notified.Any())
+                .Should.Not.BeTrue(
+                    "PropertyChanged was unexpectedly raised for {0} when '{1}' was changed.",
+                    string.Join(",", notified.Select(n => "'" + n + "'")),
+                    property.Name);
+        }
+
+        /// <summary>
         /// Specifies the that property changed was raised.
         /// </summary>
         /// <param name="property">The property.</param>
         private void SpecifyThatPropertyChangedWasRaised(PropertyInfo property)
         {
-            Specify.That(this.watcher.Any(e => e.PropertyName == property.Name)).Should.BeTrue("PropertyChanged not raised for '{0}' when '{1}' was changed.", property.Name, property.Name);
+            HashSet<string> propertyNames = new HashSet<string>();
+            this.GetExpectedPropertyNotifications(property.Name, propertyNames);
+            var notNotified = propertyNames.Where(n => !this.watcher.Any(e => e.PropertyName == n)).ToArray();
+            Specify.That(notNotified.Any())
+                .Should.Not.BeTrue(
+                    "PropertyChanged was not raised for {0} when '{1}' was changed.",
+                    string.Join(",", notNotified.Select(n => "'" + n + "'")),
+                    property.Name);
+        }
+
+        /// <summary>
+        /// Property details that can be used to declare constraints on a given property.
+        /// </summary>
+        public sealed class PropertyDetails
+        {
+            /// <summary>
+            /// The parent.
+            /// </summary>
+            private readonly ObjectPropertyVerifier<T> parent;
+
+            /// <summary>
+            /// The property name.
+            /// </summary>
+            private readonly string propertyName;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="PropertyDetails"/> class.
+            /// </summary>
+            /// <param name="parent">The parent.</param>
+            /// <param name="propertyName">Name of the property.</param>
+            internal PropertyDetails(ObjectPropertyVerifier<T> parent, string propertyName)
+            {
+                this.parent = parent;
+                this.propertyName = propertyName;
+            }
+
+            /// <summary>
+            /// Declares the property depends on the specified properties.
+            /// </summary>
+            /// <param name="dependencies">The dependency properties.</param>
+            public void DependsOn(params string[] dependencies)
+            {
+                foreach (var dependency in dependencies)
+                {
+                    List<string> expectedNotifications;
+                    if (!this.parent.expectedNotifications.TryGetValue(dependency, out expectedNotifications))
+                    {
+                        expectedNotifications = this.parent.expectedNotifications[dependency] = new List<string>();
+                    }
+
+                    expectedNotifications.Add(this.propertyName);
+                }
+            }
         }
     }
 }
