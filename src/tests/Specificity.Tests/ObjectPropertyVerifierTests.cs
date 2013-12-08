@@ -8,6 +8,7 @@ namespace Testing.Specificity.Tests
 {
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Linq;
     using System.Runtime.CompilerServices;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -38,6 +39,7 @@ namespace Testing.Specificity.Tests
         {
             var verifier = new ObjectPropertyVerifier<ObservableObject>(ObservableObject.CreateValid());
             verifier.Property("LowerCaseName").DependsOn("Name");
+            verifier.Register("Name", f => f.AnyString().ToUpper());
 
             verifier.Verify();
         }
@@ -81,13 +83,9 @@ namespace Testing.Specificity.Tests
 
                 set
                 {
-                    if (this.SetValue(ref this.name, value))
+                    if (this.SetValue(ref this.name, value) && value.Any(c => char.IsUpper(c)))
                     {
-                        var handler = this.PropertyChanged;
-                        if (handler != null)
-                        {
-                            handler(this, new PropertyChangedEventArgs("LowerCaseName"));
-                        }
+                        this.OnPropertyChanged("LowerCaseName");
                     }
                 }
             }
@@ -112,19 +110,23 @@ namespace Testing.Specificity.Tests
                 if (!EqualityComparer<T>.Default.Equals(backingField, value))
                 {
                     backingField = value;
-                    if (this.shouldNotify)
-                    {
-                        var handler = this.PropertyChanged;
-                        if (handler != null)
-                        {
-                            handler(this, new PropertyChangedEventArgs(propertyName));
-                        }
-                    }
-
+                    this.OnPropertyChanged(propertyName);
                     return true;
                 }
 
                 return false;
+            }
+
+            private void OnPropertyChanged(string propertyName)
+            {
+                if (this.shouldNotify)
+                {
+                    var handler = this.PropertyChanged;
+                    if (handler != null)
+                    {
+                        handler(this, new PropertyChangedEventArgs(propertyName));
+                    }
+                }
             }
         }
 

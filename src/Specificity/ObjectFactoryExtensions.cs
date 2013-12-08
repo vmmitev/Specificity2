@@ -33,7 +33,7 @@ namespace Testing.Specificity
         /// Letter characters.
         /// </summary>
         private static readonly char[] Letters =
-            Enumerable.Range(char.MinValue, char.MaxValue - char.MinValue)
+            Enumerable.Range(0x00, 0xFF)
             .Select(c => (char)c)
             .Where(c => char.IsLetter(c))
             .ToArray();

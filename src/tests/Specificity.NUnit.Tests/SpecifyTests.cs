@@ -24,7 +24,7 @@ namespace Testing.Specificity.Tests
             }
             catch (AggregateAssertionException e)
             {
-                StringAssert.EndsWith(e.Message, message);
+                StringAssert.Contains(message, e.Message);
                 Assert.AreSame(exception, e.InnerException);
                 Assert.AreSame(exception, e.InnerExceptions.FirstOrDefault());
                 return;
@@ -45,7 +45,7 @@ namespace Testing.Specificity.Tests
             }
             catch (AggregateAssertionException e)
             {
-                StringAssert.EndsWith(e.Message, arg);
+                StringAssert.Contains(arg, e.Message);
                 Assert.AreSame(exception, e.InnerException);
                 Assert.AreSame(exception, e.InnerExceptions.FirstOrDefault());
                 return;

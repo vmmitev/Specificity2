@@ -16,7 +16,7 @@ namespace Testing.Specificity
     /// Provides a contract verifier that verifies the implementation of properties for the specified type.
     /// </summary>
     /// <typeparam name="T">The type to verify.</typeparam>
-    public class ObjectPropertyVerifier<T> : ContractVerifier
+    public class ObjectPropertyVerifier<T> : ContractVerifier, IObjectFactoryRegistry
     {
         /// <summary>
         /// The factory.
@@ -27,6 +27,11 @@ namespace Testing.Specificity
         /// The properties (values) expected to be notified when another property (key) is raised.
         /// </summary>
         private Dictionary<string, List<string>> expectedNotifications = new Dictionary<string, List<string>>();
+
+        /// <summary>
+        /// The property factory methods
+        /// </summary>
+        private Dictionary<string, Func<IObjectFactory, object>> propertyFactoryMethods = new Dictionary<string, Func<IObjectFactory, object>>();
 
         /// <summary>
         /// The property changed watcher.
@@ -53,6 +58,15 @@ namespace Testing.Specificity
         }
 
         /// <summary>
+        /// Registers a customization object that can change how objects are created.
+        /// </summary>
+        /// <param name="customization">The customization to apply.</param>
+        public void Customize(ObjectFactoryCustomization customization)
+        {
+            this.factory.Customize(customization);
+        }
+
+        /// <summary>
         /// Gets the specified property details for declaring constraints on that property.
         /// </summary>
         /// <param name="name">The property name.</param>
@@ -60,6 +74,32 @@ namespace Testing.Specificity
         public PropertyDetails Property(string name)
         {
             return new PropertyDetails(this, name);
+        }
+
+        /// <summary>
+        /// Registers a factory method that can be used to create instances of the specified type.
+        /// </summary>
+        /// <param name="type">The type of object created by the factory.</param>
+        /// <param name="factoryMethod">The factory method.</param>
+        public void Register(Type type, Func<IObjectFactory, object> factoryMethod)
+        {
+            this.factory.Register(type, factoryMethod);
+        }
+
+        /// <summary>
+        /// Registers a factory method that can be used to create instances of values for the specified property.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <param name="factoryMethod">The factory method.</param>
+        public void Register(string propertyName, Func<IObjectFactory, object> factoryMethod)
+        {
+            var property = this.GetProperties().FirstOrDefault(p => p.Name == propertyName);
+            if (property == null)
+            {
+                throw new ArgumentOutOfRangeException(string.Format("{0} does not contain a property named {1}.", typeof(T), propertyName));
+            }
+
+            this.Register(property.PropertyType, factoryMethod);
         }
 
         /// <summary>
@@ -105,9 +145,18 @@ namespace Testing.Specificity
                         var comparer = EqualityComparer<object>.Default;
                         do
                         {
-                            newValue = this.factory.Any(property.PropertyType);
+                            Func<IObjectFactory, object> factoryMethod;
+                            if (this.propertyFactoryMethods.TryGetValue(property.Name, out factoryMethod))
+                            {
+                                newValue = factoryMethod(this.factory);
+                            }
+                            else
+                            {
+                                newValue = this.factory.Any(property.PropertyType);
+                            }
                         }
                         while (comparer.Equals(initialValue, newValue));
+
                         this.SetValue(instance, property, newValue);
                         test(instance, property, initialValue, newValue);
                     };
