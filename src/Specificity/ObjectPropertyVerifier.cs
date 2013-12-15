@@ -9,6 +9,7 @@ namespace Testing.Specificity
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
 
@@ -16,6 +17,10 @@ namespace Testing.Specificity
     /// Provides a contract verifier that verifies the implementation of properties for the specified type.
     /// </summary>
     /// <typeparam name="T">The type to verify.</typeparam>
+    [SuppressMessage(
+        "Microsoft.Design",
+        "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable",
+        Justification = "The PropertyChangedWatcher is disposed of internally.")]
     public class ObjectPropertyVerifier<T> : ContractVerifier, IObjectFactoryRegistry
     {
         /// <summary>

@@ -13,7 +13,7 @@
     <tags>Specificity NUnit TDD BDD Fluent Assert Test Testing</tags>
     <dependencies>
       <dependency id="NUnit" />
-      <dependency id="Specificity" version="[0.6.0-alpha0000]" />
+      <dependency id="Specificity" version="[0.7.0-Prerelease0002]" />
     </dependencies>
   </metadata>
   <files>

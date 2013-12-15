@@ -17,7 +17,7 @@ namespace Testing.Specificity
     [SuppressMessage("Microsoft.Naming",
         "CA1710:IdentifiersShouldHaveCorrectSuffix",
         Justification = "The name is correct.")]
-    public class PropertyChangedWatcher : EventWatcher<PropertyChangedEventArgs>, IDisposable
+    public sealed class PropertyChangedWatcher : EventWatcher<PropertyChangedEventArgs>, IDisposable
     {
         /// <summary>
         /// The source.

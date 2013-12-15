@@ -38,7 +38,7 @@ namespace Testing.Specificity
             };
 
         /// <summary>
-        /// Initializes static members of the <see cref="Specify"/> class.
+        /// Initializes static members of the <see cref="Specify" /> class.
         /// </summary>
         static Specify()
         {
@@ -52,14 +52,40 @@ namespace Testing.Specificity
                     .First(t => t.GetInterfaces().Any(i => i == typeof(ISpecifyAdapter)));
                 Specify.Adapter = (ISpecifyAdapter)Activator.CreateInstance(adapterType);
             }
+            else
+            {
+                Assembly assembly = null;
+                foreach (var name in PlatformAssemblies)
+                {
+                    try
+                    {
+                        assembly = Assembly.Load(name);
+                        break;
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+
+                if (assembly != null)
+                {
+                    var adapterType = assembly.GetTypes()
+                        .First(t => t.GetInterfaces().Any(i => i == typeof(ISpecifyAdapter)));
+                    Specify.Adapter = (ISpecifyAdapter)Activator.CreateInstance(adapterType);
+                }
+            }
         }
 
         /// <summary>
         /// Tests multiple assertions.
         /// </summary>
         /// <param name="action">Action that performs multiple assertions.</param>
-        /// <param name="message">A message to display. This message can be seen in the unit test results.</param>
-        /// <param name="args">An array of parameters to use when formatting <paramref name="message"/>.</param>
+        /// <param name="message">
+        /// A message to display. This message can be seen in the unit test results.
+        /// </param>
+        /// <param name="args">
+        /// An array of parameters to use when formatting <paramref name="message" />.
+        /// </param>
         public static void Aggregate(Action action, string message = null, params object[] args)
         {
             var exceptions = new List<Exception>();
@@ -89,8 +115,12 @@ namespace Testing.Specificity
         /// <summary>
         /// Fails the assertion without checking any conditions.
         /// </summary>
-        /// <param name="message">A message to display. This message can be seen in the unit test results.</param>
-        /// <param name="args">An array of parameters to use when formatting <paramref name="message"/>.</param>
+        /// <param name="message">
+        /// A message to display. This message can be seen in the unit test results.
+        /// </param>
+        /// <param name="args">
+        /// An array of parameters to use when formatting <paramref name="message" />.
+        /// </param>
         public static void Failure(string message = null, params object[] args)
         {
             try
@@ -111,11 +141,18 @@ namespace Testing.Specificity
         }
 
         /// <summary>
-        /// Fails the assertion without checking any conditions, providing inner exceptions for an aggregate assertion.
+        /// Fails the assertion without checking any conditions, providing inner exceptions for an
+        /// aggregate assertion.
         /// </summary>
-        /// <param name="innerExceptions">The inner exceptions that are the cause of the failed aggregate assertion.</param>
-        /// <param name="message">A message to display. This message can be seen in the unit test results.</param>
-        /// <param name="args">An array of parameters to use when formatting <paramref name="message"/>.</param>
+        /// <param name="innerExceptions">
+        /// The inner exceptions that are the cause of the failed aggregate assertion.
+        /// </param>
+        /// <param name="message">
+        /// A message to display. This message can be seen in the unit test results.
+        /// </param>
+        /// <param name="args">
+        /// An array of parameters to use when formatting <paramref name="message" />.
+        /// </param>
         public static void Failure(IEnumerable<Exception> innerExceptions, string message = null, params object[] args)
         {
             try
@@ -138,8 +175,12 @@ namespace Testing.Specificity
         /// <summary>
         /// Fails the assertion as inconclusive.
         /// </summary>
-        /// <param name="message">A message to display. This message can be seen in the unit test results.</param>
-        /// <param name="args">An array of parameters to use when formatting <paramref name="message"/>.</param>
+        /// <param name="message">
+        /// A message to display. This message can be seen in the unit test results.
+        /// </param>
+        /// <param name="args">
+        /// An array of parameters to use when formatting <paramref name="message" />.
+        /// </param>
         public static void Inonclusive(string message = null, params object[] args)
         {
             Specify.Adapter.Inconclusive(message == null ? null : string.Format(message, args));
@@ -151,7 +192,7 @@ namespace Testing.Specificity
         /// <typeparam name="T">The value type.</typeparam>
         /// <param name="value">The value to make assertions on.</param>
         /// <returns>
-        /// An <see cref="ConstrainedValue{T}"/> instance which wraps the <paramref name="value"/>.
+        /// An <see cref="ConstrainedValue{T}" /> instance which wraps the <paramref name="value" />.
         /// </returns>
         [DebuggerStepThrough]
         public static ConstrainedValue<T> That<T>(T value)
@@ -160,11 +201,11 @@ namespace Testing.Specificity
         }
 
         /// <summary>
-        /// Starts an assertion chain on an <see cref="Action"/> in a fluent API.
+        /// Starts an assertion chain on an <see cref="Action" /> in a fluent API.
         /// </summary>
         /// <param name="action">The action to make assertions on.</param>
         /// <returns>
-        /// An <see cref="ConstrainedValue{T}"/> instance which wraps the <paramref name="action"/>.
+        /// An <see cref="ConstrainedValue{T}" /> instance which wraps the <paramref name="action" />.
         /// </returns>
         [DebuggerStepThrough]
         public static ConstrainedValue<Action> ThatAction(Action action)
@@ -176,7 +217,7 @@ namespace Testing.Specificity
         /// Try to load the specified assembly.
         /// </summary>
         /// <param name="name">The assembly to load.</param>
-        /// <returns>The loaded assembly or <see langname="null"/> if loading failed.</returns>
+        /// <returns>The loaded assembly or <see langname="null" /> if loading failed.</returns>
         private static Assembly TryLoadAssembly(string name)
         {
             try

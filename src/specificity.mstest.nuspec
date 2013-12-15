@@ -12,7 +12,7 @@
     <copyright>Copyright (c) William E. Kempf.</copyright>
     <tags>Specificity MSTest TDD BDD Fluent Assert Test Testing</tags>
     <dependencies>
-      <dependency id="Specificity" version="[0.6.0-alpha0000]" />
+      <dependency id="Specificity" version="[0.7.0-Prerelease0002]" />
     </dependencies>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
