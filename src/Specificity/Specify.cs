@@ -42,37 +42,24 @@ namespace Testing.Specificity
         /// </summary>
         static Specify()
         {
-            var assemblyName = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(a => a.GetReferencedAssemblies())
-                .Where(a => PlatformAssemblies.Contains(a.Name)).FirstOrDefault();
-            if (assemblyName != null)
+            Assembly assembly = null;
+            foreach (var name in PlatformAssemblies)
             {
-                var assembly = Assembly.Load(assemblyName);
+                try
+                {
+                    assembly = Assembly.Load(name);
+                    break;
+                }
+                catch (Exception)
+                {
+                }
+            }
+
+            if (assembly != null)
+            {
                 var adapterType = assembly.GetTypes()
                     .First(t => t.GetInterfaces().Any(i => i == typeof(ISpecifyAdapter)));
                 Specify.Adapter = (ISpecifyAdapter)Activator.CreateInstance(adapterType);
-            }
-            else
-            {
-                Assembly assembly = null;
-                foreach (var name in PlatformAssemblies)
-                {
-                    try
-                    {
-                        assembly = Assembly.Load(name);
-                        break;
-                    }
-                    catch (Exception)
-                    {
-                    }
-                }
-
-                if (assembly != null)
-                {
-                    var adapterType = assembly.GetTypes()
-                        .First(t => t.GetInterfaces().Any(i => i == typeof(ISpecifyAdapter)));
-                    Specify.Adapter = (ISpecifyAdapter)Activator.CreateInstance(adapterType);
-                }
             }
         }
 

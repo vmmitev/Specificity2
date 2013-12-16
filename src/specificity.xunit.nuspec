@@ -13,10 +13,10 @@
     <tags>Specificity xUnit TDD BDD Fluent Assert Test Testing</tags>
     <dependencies>
       <dependency id="xunit" />
-      <dependency id="Specificity" version="[0.7.0-Prerelease0002]" />
+      <dependency id="Specificity" version="[0.7.0-Prerelease0004]" />
     </dependencies>
   </metadata>
   <files>
-    <file src="Specificity.XUnit.dll" target="lib/4.5" />
+    <file src="Specificity.XUnit\Specificity.XUnit.dll" target="lib/4.5" />
   </files>
 </package>

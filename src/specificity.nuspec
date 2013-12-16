@@ -13,8 +13,8 @@
     <tags>Specificity MSTest xUnit NUnit TDD BDD Fluent Assert Test Testing</tags>
   </metadata>
   <files>
-    <file src="Specificity.dll" target="lib/4.5" />
-    <file src="..\..\documentation\documentation\help\*.*" exclude="..\..\documentation\documentation\help\*.log" target="docs" />
+    <file src="Specificity\Specificity.dll" target="lib/4.5" />
+    <file src="..\..\src\documentation\help\*.*" exclude="..\..\src\documentation\help\*.log" target="docs" />
     <file src="..\..\src\specificityinit.ps1" target="tools\init.ps1" />
     <file src="..\..\src\SpecificityDocumentation.psm1" target="tools" />
   </files>

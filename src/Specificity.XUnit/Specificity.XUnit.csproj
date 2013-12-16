@@ -21,21 +21,25 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath Condition=" '$(BuildDir)' == '' ">bin\Debug\</OutputPath>
+    <OutputPath Condition=" '$(BuildDir)' != '' ">$(BuildDir)\Debug\Specificity.XUnit</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Specificity.XUnit.XML</DocumentationFile>
+    <DocumentationFile Condition=" '$(BuildDir)' == '' ">bin\Debug\Specificity.XUnit.XML</DocumentationFile>
+    <DocumentationFile Condition=" '$(BuildDir)' != '' ">$(BuildDir)\Debug\Specificity.XUnit\Specificity.XUnit.XML</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath Condition=" '$(BuildDir)' == '' ">bin\Release\</OutputPath>
+    <OutputPath Condition=" '$(BuildDir)' != '' ">$(BuildDir)\Release\Specificity.XUnit</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Specificity.XUnit.XML</DocumentationFile>
+    <DocumentationFile Condition=" '$(BuildDir)' == '' ">bin\Release\Specificity.XUnit.XML</DocumentationFile>
+    <DocumentationFile Condition=" '$(BuildDir)' != '' ">$(BuildDir)\Release\Specificity.XUnit\Specificity.XUnit.XML</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>

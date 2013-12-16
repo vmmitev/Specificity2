@@ -7,21 +7,20 @@
     <Revision Condition="'$(Revision)'==''">0</Revision>
     <AssemblyCompany>William E. Kempf</AssemblyCompany>
     <AssemblyCopyright>Copyright © 2013 William E. Kempf.</AssemblyCopyright>
-    <TestAssemblySpec>$(MSBuildProjectDirectory)\build\bin\*Tests.dll</TestAssemblySpec>
+    <TestAssemblySpec>$(MSBuildProjectDirectory)\build\**\*Tests.dll</TestAssemblySpec>
   </PropertyGroup>
   <ItemGroup>
-    <AssemblyInfoFiles Include="$(MSBuildProjectDirectory)\src\SolutionInfo.cs"/>
-    <BuildProjectFiles Include="$(MSBuildProjectDirectory)\Specificity.sln"/>
-    <DocumentationProjectFiles Include="$(MSBuildProjectDirectory)\documentation\Documentation.sln"/>
-    <NuSpecFiles Include="$(MSBuildProjectDirectory)\src\*.nuspec"/>
+    <AssemblyInfoFiles Include="$(MSBuildProjectDirectory)\src\SolutionInfo.cs" />
+    <BuildProjectFiles Include="$(MSBuildProjectDirectory)\Specificity.sln" />
+    <NuSpecFiles Include="$(MSBuildProjectDirectory)\src\*.nuspec" />
   </ItemGroup>
 
-  <Import Project="$(LocalBuildExtensionDirectory)\Build.Common.targets"/>
+  <Import Project="$(LocalBuildExtensionDirectory)\Build.Common.targets" />
 
   <!-- Packages that depend on Specificity must do so with the specific package version. -->
   <Target Name="BeforePackage">
     <XmlUpdate XmlFileName="%(NuSpecFiles.FullPath)"
                XPath="//package/metadata/dependencies/dependency[@id='Specificity']/@version"
-               Value="[$(PkgVersion)]"/>
+               Value="[$(PkgVersion)]" />
   </Target>
 </Project>

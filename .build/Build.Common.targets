@@ -15,11 +15,11 @@
     <AssemblyInformationalVersion Condition="'$(AssemblyInformationalVersion)'==''">$(AssemblyVersion)</AssemblyInformationalVersion>
 
     <Configuration Condition="'$(Configuration)'==''">Release</Configuration>
-    <OutRoot Condition="'$(OutRoot)'==''">$(MSBuildProjectDirectory)\build</OutRoot>
-    <OutDir Condition="'$(OutDir)'==''">$(OutRoot)\bin</OutDir>
+    <BuildDir>$(MSBuildProjectDirectory)\build</BuildDir>
     <RunCodeAnalysis Condition="'$(RunCodeAnalysis)'==''">true</RunCodeAnalysis>
     <CodeAnalysisTreatWarningsAsErrors Condition="'$(CodeAnalysisTreatWarningsAsErrors)'==''">true</CodeAnalysisTreatWarningsAsErrors>
-    <BuildOptions Condition="'$(BuildOptions)'==''">Configuration=$(Configuration);OutDir=$(OutDir);RunCodeAnalysis=$(RunCodeAnalysis);CodeAnalysisTreatWarningsAsErrors=$(CodeAnalysisTreatWarningsAsErrors)</BuildOptions> <!-- CodeAnalysisTreatWarningsAsErrors -->
+    <BuildOptions Condition="'$(BuildOptions)'==''">Configuration=$(Configuration);BuildDir=$(BuildDir);RunCodeAnalysis=$(RunCodeAnalysis);CodeAnalysisTreatWarningsAsErrors=$(CodeAnalysisTreatWarningsAsErrors)</BuildOptions>
+    <!-- CodeAnalysisTreatWarningsAsErrors -->
 
     <VsInstallDir Condition="'$(VsInstallDir)'==''">C:\Program Files (x86)\Microsoft Visual Studio 11.0\</VsInstallDir>
     <VsTestConsoleExe Condition="'$(VsTestConsoleExe)'==''">$(VsInstallDir)Common7\IDE\CommonExtensions\Microsoft\TestWindow\VSTest.Console.exe</VsTestConsoleExe>
@@ -32,7 +32,7 @@
     <PkgVersion Condition="'$(PkgVersion)'==''">$(Major).$(Minor).$(Revision).$(Build)</PkgVersion>
   </PropertyGroup>
 
-  <Import Project="$(LocalBuildExtensionDirectory)\MSBuild.Community.Tasks.targets"/>
+  <Import Project="$(LocalBuildExtensionDirectory)\MSBuild.Community.Tasks.targets" />
 
   <!-- Restore -->
   <PropertyGroup>
@@ -43,22 +43,22 @@
       $(RestoreDependsOn);
     </RestoreDependsOn>
   </PropertyGroup>
-  <Target Name="Restore" DependsOnTargets="$(RestoreDependsOn)"/>
-  <Target Name="BeforeRestore"/>
-  <Target Name="AfterRestore"/>
+  <Target Name="Restore" DependsOnTargets="$(RestoreDependsOn)" />
+  <Target Name="BeforeRestore" />
+  <Target Name="AfterRestore" />
   <Target Name="CoreRestore">
     <ItemGroup>
-      <_ConfigFiles Include="$(MSBuildProjectDirectory)\**\packages.config"/>
+      <_ConfigFiles Include="$(MSBuildProjectDirectory)\**\packages.config" />
     </ItemGroup>
-    <Message Text="Restoring packages for [%(_ConfigFiles.FullPath)]"/>
-    <Exec WorkingDirectory="$(MSBuildProjectDirectory)" Command="&quot;$(NuGetExe)&quot; install %(_ConfigFiles.FullPath) -o &quot;$(MSBuildProjectDirectory)\packages&quot;"/>
+    <Message Text="Restoring packages for [%(_ConfigFiles.FullPath)]" />
+    <Exec WorkingDirectory="$(MSBuildProjectDirectory)" Command="&quot;$(NuGetExe)&quot; install %(_ConfigFiles.FullPath) -o &quot;$(MSBuildProjectDirectory)\packages&quot;" />
   </Target>
 
   <!-- Version -->
   <Target Name="VersionValidateSettings">
     <ItemGroup>
-      <_RequiredProperties Remove="@(_RequiredProperties)"/>
-      <_RequiredItems Remove="@(_RequiredItems)"/>
+      <_RequiredProperties Remove="@(_RequiredProperties)" />
+      <_RequiredItems Remove="@(_RequiredItems)" />
     </ItemGroup>
 
     <ItemGroup>
@@ -86,15 +86,15 @@
 
     <!-- Raise an error if any value in _RequiredProperties is missing -->
     <Error Condition="'%(_RequiredProperties.Value)'==''"
-           Text="Missing required property [%(_RequiredProperties.Identity)]"/>
-               
+           Text="Missing required property [%(_RequiredProperties.Identity)]" />
+
     <!-- Raise an error if any value in _RequiredItems is empty -->
     <Error Condition="'%(_RequiredItems.RequiredValue)'==''"
-           Text="Missing required item value [%(_RequiredItems.Identity)]"/>
-               
+           Text="Missing required item value [%(_RequiredItems.Identity)]" />
+
     <!-- Validate any file/directory that should exist -->
     <Error Condition="'%(_RequiredItems.RequiredFilePath)'!='' and !Exists('%(_RequiredItems.RequiredFilePath)')"
-           Text="Unable to find expected path [%(_RequiredItems.RequiredFilePath)] on item [%(_RequiredItems.Identity)]"/>
+           Text="Unable to find expected path [%(_RequiredItems.RequiredFilePath)] on item [%(_RequiredItems.Identity)]" />
   </Target>
   <PropertyGroup>
     <VersionDependsOn>
@@ -105,14 +105,14 @@
       $(VersionDependsOn);
     </VersionDependsOn>
   </PropertyGroup>
-  <Target Name="Version" DependsOnTargets="$(VersionDependsOn)"/>
-  <Target Name="BeforeVersion"/>
-  <Target Name="AfterVersion"/>
+  <Target Name="Version" DependsOnTargets="$(VersionDependsOn)" />
+  <Target Name="BeforeVersion" />
+  <Target Name="AfterVersion" />
   <Target Name="CoreVersion">
-    <Message Text="AssemblyVersion: $(AssemblyVersion)"/>
-    <Message Text="AssemblyFileVersion: $(AssemblyFileVersion)"/>
-    <Message Text="AssemblyInformationalVersion: $(AssemblyInformationalVersion)"/>
-    <Message Text="AssemblyCompany: $(AssemblyCompany)"/>
+    <Message Text="AssemblyVersion: $(AssemblyVersion)" />
+    <Message Text="AssemblyFileVersion: $(AssemblyFileVersion)" />
+    <Message Text="AssemblyInformationalVersion: $(AssemblyInformationalVersion)" />
+    <Message Text="AssemblyCompany: $(AssemblyCompany)" />
 
     <AssemblyInfo CodeLanguage="CS"
                   OutputFile="%(AssemblyInfoFiles.FullPath)"
@@ -120,47 +120,43 @@
                   AssemblyFileVersion="$(AssemblyFileVersion)"
                   AssemblyInformationalVersion="$(AssemblyInformationalVersion)"
                   AssemblyCompany="$(AssemblyCompany)"
-            		  AssemblyCopyright="$(AssemblyCopyright)"/>
+            		  AssemblyCopyright="$(AssemblyCopyright)" />
     <Message Condition="'$(TEAMCITY_VERSION)'!=''"
-             Text="##teamcity[buildNumber '$(AssemblyVersion)']"/>
+             Text="##teamcity[buildNumber '$(AssemblyVersion)']" />
   </Target>
 
   <!-- Clean -->
   <Target Name="CleanValidateSettings">
     <ItemGroup>
-      <_RequiredProperties Remove="@(_RequiredProperties)"/>
-      <_RequiredItems Remove="@(_RequiredItems)"/>
+      <_RequiredProperties Remove="@(_RequiredProperties)" />
+      <_RequiredItems Remove="@(_RequiredItems)" />
     </ItemGroup>
 
     <ItemGroup>
       <_RequiredProperties Include="BuildOptions">
         <Value>$(BuildOptions)</Value>
       </_RequiredProperties>
-      <_RequiredProperties Include="OutRoot">
-        <Value>$(OutRoot)</Value>
+      <_RequiredProperties Include="$(BuildDir)">
+        <Value>$(BuildDir)</Value>
       </_RequiredProperties>
 
       <_RequiredItems Include="BuildProjectFiles">
         <RequiredValue>@(BuildProjectFiles)</RequiredValue>
         <RequiredFilePath>%(BuildProjectFiles.FullPath)</RequiredFilePath>
       </_RequiredItems>
-      <_RequiredItems Include="DocumentationProjectFiles">
-        <RequiredValue>@(DocumentationProjectFiles)</RequiredValue>
-        <RequiredFilePath>%(DocumentationProjectFiles.FullPath)</RequiredFilePath>
-      </_RequiredItems>
     </ItemGroup>
 
     <!-- Raise an error if any value in _RequiredProperties is missing -->
     <Error Condition="'%(_RequiredProperties.Value)'==''"
-           Text="Missing required property [%(_RequiredProperties.Identity)]"/>
-               
+           Text="Missing required property [%(_RequiredProperties.Identity)]" />
+
     <!-- Raise an error if any value in _RequiredItems is empty -->
     <Error Condition="'%(_RequiredItems.RequiredValue)'==''"
-           Text="Missing required item value [%(_RequiredItems.Identity)]"/>
-               
+           Text="Missing required item value [%(_RequiredItems.Identity)]" />
+
     <!-- Validate any file/directory that should exist -->
     <Error Condition="'%(_RequiredItems.RequiredFilePath)'!='' and !Exists('%(_RequiredItems.RequiredFilePath)')"
-           Text="Unable to find expected path [%(_RequiredItems.RequiredFilePath)] on item [%(_RequiredItems.Identity)]"/>
+           Text="Unable to find expected path [%(_RequiredItems.RequiredFilePath)] on item [%(_RequiredItems.Identity)]" />
   </Target>
   <PropertyGroup>
     <CleanDependsOn>
@@ -171,20 +167,19 @@
       $(CleanDependsOn);
     </CleanDependsOn>
   </PropertyGroup>
-  <Target Name="Clean" DependsOnTargets="$(CleanDependsOn)"/>
-  <Target Name="BeforeClean"/>
-  <Target Name="AfterClean"/>
+  <Target Name="Clean" DependsOnTargets="$(CleanDependsOn)" />
+  <Target Name="BeforeClean" />
+  <Target Name="AfterClean" />
   <Target Name="CoreClean">
-    <MSBuild Projects="%(BuildProjectFiles.FullPath)" Targets="Clean" Properties="$(BuildOptions)"/>
-    <MSBuild Projects="%(DocumentationProjectFiles.FullPath)" Targets="Clean" Properties="$(BuildOptions)"/>
-    <RemoveDir Directories="$(OutRoot)"/>
+    <MSBuild Projects="%(BuildProjectFiles.FullPath)" Targets="Clean" Properties="$(BuildOptions)" />
+    <RemoveDir Directories="$(BuildDir)" />
   </Target>
 
   <!-- Build -->
   <Target Name="BuildValidateSettings">
     <ItemGroup>
-      <_RequiredProperties Remove="@(_RequiredProperties)"/>
-      <_RequiredItems Remove="@(_RequiredItems)"/>
+      <_RequiredProperties Remove="@(_RequiredProperties)" />
+      <_RequiredItems Remove="@(_RequiredItems)" />
     </ItemGroup>
 
     <ItemGroup>
@@ -200,15 +195,15 @@
 
     <!-- Raise an error if any value in _RequiredProperties is missing -->
     <Error Condition="'%(_RequiredProperties.Value)'==''"
-           Text="Missing required property [%(_RequiredProperties.Identity)]"/>
-               
+           Text="Missing required property [%(_RequiredProperties.Identity)]" />
+
     <!-- Raise an error if any value in _RequiredItems is empty -->
     <Error Condition="'%(_RequiredItems.RequiredValue)'==''"
-           Text="Missing required item value [%(_RequiredItems.Identity)]"/>
-               
+           Text="Missing required item value [%(_RequiredItems.Identity)]" />
+
     <!-- Validate any file/directory that should exist -->
     <Error Condition="'%(_RequiredItems.RequiredFilePath)'!='' and !Exists('%(_RequiredItems.RequiredFilePath)')"
-           Text="Unable to find expected path [%(_RequiredItems.RequiredFilePath)] on item [%(_RequiredItems.Identity)]"/>
+           Text="Unable to find expected path [%(_RequiredItems.RequiredFilePath)] on item [%(_RequiredItems.Identity)]" />
   </Target>
   <PropertyGroup>
     <BuildDependsOn>
@@ -219,18 +214,18 @@
       $(BuildDependsOn);
     </BuildDependsOn>
   </PropertyGroup>
-  <Target Name="Build" DependsOnTargets="$(BuildDependsOn)"/>
-  <Target Name="BeforeBuild"/>
-  <Target Name="AfterBuild"/>
+  <Target Name="Build" DependsOnTargets="$(BuildDependsOn)" />
+  <Target Name="BeforeBuild" />
+  <Target Name="AfterBuild" />
   <Target Name="CoreBuild">
-    <MSBuild Projects="%(BuildProjectFiles.FullPath)" Targets="Build" Properties="$(BuildOptions)"/>
+    <MSBuild Projects="%(BuildProjectFiles.FullPath)" Targets="Build" Properties="$(BuildOptions)" />
   </Target>
 
   <!-- Rebuild -->
   <Target Name="RebuildValidateSettings">
     <ItemGroup>
-      <_RequiredProperties Remove="@(_RequiredProperties)"/>
-      <_RequiredItems Remove="@(_RequiredItems)"/>
+      <_RequiredProperties Remove="@(_RequiredProperties)" />
+      <_RequiredItems Remove="@(_RequiredItems)" />
     </ItemGroup>
 
     <ItemGroup>
@@ -246,15 +241,15 @@
 
     <!-- Raise an error if any value in _RequiredProperties is missing -->
     <Error Condition="'%(_RequiredProperties.Value)'==''"
-           Text="Missing required property [%(_RequiredProperties.Identity)]"/>
-               
+           Text="Missing required property [%(_RequiredProperties.Identity)]" />
+
     <!-- Raise an error if any value in _RequiredItems is empty -->
     <Error Condition="'%(_RequiredItems.RequiredValue)'==''"
-           Text="Missing required item value [%(_RequiredItems.Identity)]"/>
-               
+           Text="Missing required item value [%(_RequiredItems.Identity)]" />
+
     <!-- Validate any file/directory that should exist -->
     <Error Condition="'%(_RequiredItems.RequiredFilePath)'!='' and !Exists('%(_RequiredItems.RequiredFilePath)')"
-           Text="Unable to find expected path [%(_RequiredItems.RequiredFilePath)] on item [%(_RequiredItems.Identity)]"/>
+           Text="Unable to find expected path [%(_RequiredItems.RequiredFilePath)] on item [%(_RequiredItems.Identity)]" />
   </Target>
   <PropertyGroup>
     <RebuildDependsOn>
@@ -265,18 +260,18 @@
       $(RebuildDependsOn);
     </RebuildDependsOn>
   </PropertyGroup>
-  <Target Name="Rebuild" DependsOnTargets="$(RebuildDependsOn)"/>
-  <Target Name="BeforeRebuild"/>
-  <Target Name="AfterRebuild"/>
+  <Target Name="Rebuild" DependsOnTargets="$(RebuildDependsOn)" />
+  <Target Name="BeforeRebuild" />
+  <Target Name="AfterRebuild" />
   <Target Name="CoreRebuild">
-    <MSBuild Projects="%(BuildProjectFiles.FullPath)" Targets="Rebuild" Properties="$(BuildOptions)"/>
+    <MSBuild Projects="%(BuildProjectFiles.FullPath)" Targets="Rebuild" Properties="$(BuildOptions)" />
   </Target>
 
   <!-- Test -->
   <Target Name="TestValidateSettings">
     <ItemGroup>
-      <_RequiredProperties Remove="@(_RequiredProperties)"/>
-      <_RequiredItems Remove="@(_RequiredItems)"/>
+      <_RequiredProperties Remove="@(_RequiredProperties)" />
+      <_RequiredItems Remove="@(_RequiredItems)" />
     </ItemGroup>
 
     <ItemGroup>
@@ -293,15 +288,15 @@
 
     <!-- Raise an error if any value in _RequiredProperties is missing -->
     <Error Condition="'%(_RequiredProperties.Value)'==''"
-           Text="Missing required property [%(_RequiredProperties.Identity)]"/>
-               
+           Text="Missing required property [%(_RequiredProperties.Identity)]" />
+
     <!-- Raise an error if any value in _RequiredItems is empty -->
     <!--<Error Condition="'%(_RequiredItems.RequiredValue)'==''"
-           Text="Missing required item value [%(_RequiredItems.Identity)]"/>-->
-               
+           Text="Missing required item value [%(_RequiredItems.Identity)]" />-->
+
     <!-- Validate any file/directory that should exist -->
     <!--<Error Condition="'%(_RequiredItems.RequiredFilePath)'!='' and !Exists('%(_RequiredItems.RequiredFilePath)')"
-           Text="Unable to find expected path [%(_RequiredItems.RequiredFilePath)] on item [%(_RequiredItems.Identity)]"/>-->
+           Text="Unable to find expected path [%(_RequiredItems.RequiredFilePath)] on item [%(_RequiredItems.Identity)]" />-->
   </Target>
   <PropertyGroup>
     <TestDependsOn>
@@ -313,70 +308,23 @@
       $(TestDependsOn);
     </TestDependsOn>
   </PropertyGroup>
-  <Target Name="Test" DependsOnTargets="$(TestDependsOn)"/>
-  <Target Name="BeforeTest"/>
-  <Target Name="AfterTest"/>
+  <Target Name="Test" DependsOnTargets="$(TestDependsOn)" />
+  <Target Name="BeforeTest" />
+  <Target Name="AfterTest" />
   <Target Name="CoreTest">
-    <Message Text="Running VSTest.Console.exe for project [%(TestAssemblies.Identity)]"/>
-    <Message Text="TestAssemblies.Directory: %(TestAssemblies.RootDir)%(TestAssemblies.Directory)"/>
+    <Message Text="Running VSTest.Console.exe for project [%(TestAssemblies.Identity)]" />
+    <Message Text="TestAssemblies.Directory: %(TestAssemblies.RootDir)%(TestAssemblies.Directory)" />
     <ItemGroup>
-      <TestAssemblies Include="$(TestAssemblySpec)"/>
+      <TestAssemblies Include="$(TestAssemblySpec)" />
     </ItemGroup>
-    <Exec Command="&quot;$(VsTestConsoleExe)&quot; &quot;%(TestAssemblies.FullPath)&quot; /UseVsixExtensions:True /InIsolation /Logger:$(TestLogger)"/>
-  </Target>
-
-  <!-- Documentation -->
-  <Target Name="DocumentationValidateSettings">
-    <ItemGroup>
-      <_RequiredProperties Remove="@(_RequiredProperties)"/>
-      <_RequiredItems Remove="@(_RequiredItems)"/>
-    </ItemGroup>
-
-    <ItemGroup>
-      <_RequiredProperties Include="BuildOptions">
-        <Value>$(BuildOptions)</Value>
-      </_RequiredProperties>
-
-      <_RequiredItems Include="DocumentationProjectFiles">
-        <RequiredValue>@(DocumentationProjectFiles)</RequiredValue>
-        <RequiredFilePath>%(DocumentationProjectFiles.FullPath)</RequiredFilePath>
-      </_RequiredItems>
-    </ItemGroup>
-
-    <!-- Raise an error if any value in _RequiredProperties is missing -->
-    <Error Condition="'%(_RequiredProperties.Value)'==''"
-           Text="Missing required property [%(_RequiredProperties.Identity)]"/>
-               
-    <!-- Raise an error if any value in _RequiredItems is empty -->
-    <Error Condition="'%(_RequiredItems.RequiredValue)'==''"
-           Text="Missing required item value [%(_RequiredItems.Identity)]"/>
-               
-    <!-- Validate any file/directory that should exist -->
-    <Error Condition="'%(_RequiredItems.RequiredFilePath)'!='' and !Exists('%(_RequiredItems.RequiredFilePath)')"
-           Text="Unable to find expected path [%(_RequiredItems.RequiredFilePath)] on item [%(_RequiredItems.Identity)]"/>
-  </Target>
-  <PropertyGroup>
-    <DocumentationDependsOn>
-      DocumentationValidateSettings;
-      Build;
-      BeforeDocumentation;
-      CoreDocumentation;
-      AfterDocumentation;
-      $(DocumentationDependsOn);
-    </DocumentationDependsOn>
-  </PropertyGroup>
-  <Target Name="Documentation" DependsOnTargets="$(DocumentationDependsOn)"/>
-  <Target Name="BeforeDocumentation"/>
-  <Target Name="AfterDocumentation"/>
-  <Target Name="CoreDocumentation">
-    <MSBuild Projects="%(DocumentationProjectFiles.FullPath)" Targets="Build" Properties="$(BuildOptions)"/>
+    <Exec Command="&quot;$(VsTestConsoleExe)&quot; &quot;%(TestAssemblies.FullPath)&quot; /UseVsixExtensions:True /InIsolation /Logger:$(TestLogger)" />
   </Target>
 
   <!-- Package -->
   <Target Name="PackageValidateSettings">
     <ItemGroup>
-      <_RequiredProperties Remove="@(_RequiredProperties)"/>
-      <_RequiredItems Remove="@(_RequiredItems)"/>
+      <_RequiredProperties Remove="@(_RequiredProperties)" />
+      <_RequiredItems Remove="@(_RequiredItems)" />
     </ItemGroup>
 
     <ItemGroup>
@@ -395,15 +343,15 @@
 
     <!-- Raise an error if any value in _RequiredProperties is missing -->
     <Error Condition="'%(_RequiredProperties.Value)'==''"
-           Text="Missing required property [%(_RequiredProperties.Identity)]"/>
-               
+           Text="Missing required property [%(_RequiredProperties.Identity)]" />
+
     <!-- Raise an error if any value in _RequiredItems is empty -->
     <Error Condition="'%(_RequiredItems.RequiredValue)'==''"
-           Text="Missing required item value [%(_RequiredItems.Identity)]"/>
-               
+           Text="Missing required item value [%(_RequiredItems.Identity)]" />
+
     <!-- Validate any file/directory that should exist -->
     <Error Condition="'%(_RequiredItems.RequiredFilePath)'!='' and !Exists('%(_RequiredItems.RequiredFilePath)')"
-           Text="Unable to find expected path [%(_RequiredItems.RequiredFilePath)] on item [%(_RequiredItems.Identity)]"/>
+           Text="Unable to find expected path [%(_RequiredItems.RequiredFilePath)] on item [%(_RequiredItems.Identity)]" />
   </Target>
   <PropertyGroup>
     <PackageDependsOn>
@@ -412,25 +360,24 @@
       Version;
       Build;
       Test;
-      Documentation;
       BeforePackage;
       CorePackage;
       AfterPackage;
       $(PackageDependsOn);
     </PackageDependsOn>
   </PropertyGroup>
-  <Target Name="Package" DependsOnTargets="$(PackageDependsOn)"/>
-  <Target Name="BeforePackage"/>
-  <Target Name="AfterPackage"/>
+  <Target Name="Package" DependsOnTargets="$(PackageDependsOn)" />
+  <Target Name="BeforePackage" />
+  <Target Name="AfterPackage" />
   <Target Name="CorePackage">
-    <Exec WorkingDirectory="$(OutRoot)" Command="&quot;$(NuGetExe)&quot; pack &quot;%(NuSpecFiles.FullPath)&quot; -Version $(PkgVersion) -o &quot;$(OutRoot)&quot; -base &quot;$(OutRoot)\bin&quot; -Symbols"/>
+    <Exec WorkingDirectory="$(BuildDir)\$(Configuration)" Command="&quot;$(NuGetExe)&quot; pack &quot;%(NuSpecFiles.FullPath)&quot; -Version $(PkgVersion) -o &quot;$(BuildDir)\$(Configuration)&quot; -base &quot;$(BuildDir)\$(Configuration)&quot; -Symbols" />
   </Target>
 
   <!-- Push -->
   <Target Name="PushValidateSettings">
     <ItemGroup>
-      <_RequiredProperties Remove="@(_RequiredProperties)"/>
-      <_RequiredItems Remove="@(_RequiredItems)"/>
+      <_RequiredProperties Remove="@(_RequiredProperties)" />
+      <_RequiredItems Remove="@(_RequiredItems)" />
     </ItemGroup>
 
     <ItemGroup>
@@ -449,15 +396,15 @@
 
     <!-- Raise an error if any value in _RequiredProperties is missing -->
     <Error Condition="'%(_RequiredProperties.Value)'==''"
-           Text="Missing required property [%(_RequiredProperties.Identity)]"/>
-               
+           Text="Missing required property [%(_RequiredProperties.Identity)]" />
+
     <!-- Raise an error if any value in _RequiredItems is empty -->
     <Error Condition="'%(_RequiredItems.RequiredValue)'==''"
-           Text="Missing required item value [%(_RequiredItems.Identity)]"/>
-               
+           Text="Missing required item value [%(_RequiredItems.Identity)]" />
+
     <!-- Validate any file/directory that should exist -->
     <Error Condition="'%(_RequiredItems.RequiredFilePath)'!='' and !Exists('%(_RequiredItems.RequiredFilePath)')"
-           Text="Unable to find expected path [%(_RequiredItems.RequiredFilePath)] on item [%(_RequiredItems.Identity)]"/>
+           Text="Unable to find expected path [%(_RequiredItems.RequiredFilePath)] on item [%(_RequiredItems.Identity)]" />
   </Target>
   <PropertyGroup>
     <PushDependsOn>
@@ -466,7 +413,6 @@
       Version;
       Build;
       Test;
-      Documentation;
       Package;
       BeforePush;
       CorePush;
@@ -474,13 +420,13 @@
       $(PushDependsOn);
     </PushDependsOn>
   </PropertyGroup>
-  <Target Name="Push" DependsOnTargets="$(PushDependsOn)"/>
-  <Target Name="BeforePush"/>
-  <Target Name="AfterPush"/>
+  <Target Name="Push" DependsOnTargets="$(PushDependsOn)" />
+  <Target Name="BeforePush" />
+  <Target Name="AfterPush" />
   <Target Name="CorePush">
     <ItemGroup>
-      <NuPkgFiles Include="$(OutRoot)\*.nupkg"/>
+      <NuPkgFiles Include="$(BuildDir)\**\*.nupkg" />
     </ItemGroup>
-    <Exec WorkingDirectory="$(OutRoot)" Command="&quot;$(NuGetExe)&quot; push %(NuPkgFiles.FullPath) -Source $(NuGetSource)"/>
+    <Exec WorkingDirectory="$(BuildDir)" Command="&quot;$(NuGetExe)&quot; push %(NuPkgFiles.FullPath) -Source $(NuGetSource)" />
   </Target>
 </Project>
