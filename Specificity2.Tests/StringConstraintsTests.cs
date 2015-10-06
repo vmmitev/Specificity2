@@ -15,7 +15,7 @@ namespace Testing.Specificity2.Tests
         [TestMethod]
         public void BeEqualToGivenOrdinalIgnoreCaseAndUppercaseStringShouldNotFail()
         {
-            Specify.That("xyzzy").Should.BeEqualTo("XYZZY", StringComparison.OrdinalIgnoreCase);
+            Specify.That("Test Message").Should.BeEqualTo("TEST MESSAGE", StringComparison.OrdinalIgnoreCase);
         }
 
         [TestMethod]
@@ -23,7 +23,7 @@ namespace Testing.Specificity2.Tests
         {
             try
             {
-                Specify.That("xyzzy").Should.Not.BeEqualTo("XYZZY", StringComparison.OrdinalIgnoreCase);
+                Specify.That("Test Message").Should.Not.BeEqualTo("TEST MESSAGE", StringComparison.OrdinalIgnoreCase);
             }
             catch (AssertFailedException)
             {
@@ -40,7 +40,7 @@ namespace Testing.Specificity2.Tests
         }
 
         [TestMethod]
-        public void BeNullOrEmptyGivenNonEmptyStringShouldFail()
+        public void BeNullOrEmptyGivenNonemptyStringShouldFail()
         {
             try
             {
@@ -76,7 +76,7 @@ namespace Testing.Specificity2.Tests
         }
 
         [TestMethod]
-        public void BeNullOrEmptyNegatedGivenNonEmptyStringShouldNotFail()
+        public void BeNullOrEmptyNegatedGivenNonemptyStringShouldNotFail()
         {
             Specify.That("foo").Should.Not.BeNullOrEmpty();
         }
@@ -103,7 +103,7 @@ namespace Testing.Specificity2.Tests
         }
 
         [TestMethod]
-        public void BeNullOrWhiteSpaceGivenNonEmptyStringShouldFail()
+        public void BeNullOrWhiteSpaceGivenNonemptyStringShouldFail()
         {
             try
             {
@@ -124,7 +124,7 @@ namespace Testing.Specificity2.Tests
         }
 
         [TestMethod]
-        public void BeNullOrWhiteSpaceGivenWhiteSpaceShouldNotfail()
+        public void BeNullOrWhiteSpaceGivenWhiteSpaceShouldNotFail()
         {
             Specify.That(" ").Should.BeNullOrWhiteSpace();
         }
@@ -145,7 +145,7 @@ namespace Testing.Specificity2.Tests
         }
 
         [TestMethod]
-        public void BeNullOrWhiteSpaceNegatedGivenNonEmptyStringShouldNotFail()
+        public void BeNullOrWhiteSpaceNegatedGivenNonemptyStringShouldNotFail()
         {
             Specify.That("foo").Should.Not.BeNullOrWhiteSpace();
         }
@@ -185,7 +185,7 @@ namespace Testing.Specificity2.Tests
         {
             try
             {
-                Specify.That("xyzzy").Should.Contain("zzz");
+                Specify.That("Test Message").Should.Contain("Not a Message");
             }
             catch (AssertFailedException)
             {
@@ -198,19 +198,19 @@ namespace Testing.Specificity2.Tests
         [TestMethod]
         public void ContainSubstringGivenOrdinalIgnoreCaseAndUppercaseSubstringShouldNotFail()
         {
-            Specify.That("xyzzy").Should.Contain("ZZ", StringComparison.OrdinalIgnoreCase);
+            Specify.That("Test Message").Should.Contain("TEST", StringComparison.OrdinalIgnoreCase);
         }
 
         [TestMethod]
         public void ContainSubstringGivenSubstringShouldNotFail()
         {
-            Specify.That("xyzzy").Should.Contain("zz");
+            Specify.That("Test Message").Should.Contain("Test", StringComparison.Ordinal);
         }
 
         [TestMethod]
         public void ContainSubstringNegatedGivenNonSubstringShouldNotFail()
         {
-            Specify.That("xyzzy").Should.Not.Contain("zzz");
+            Specify.That("Test Message").Should.Not.Contain("Not a Message", StringComparison.Ordinal);
         }
 
         [TestMethod]
@@ -218,7 +218,7 @@ namespace Testing.Specificity2.Tests
         {
             try
             {
-                Specify.That("xyzzy").Should.Not.Contain("ZZ", StringComparison.OrdinalIgnoreCase);
+                Specify.That("Test Message").Should.Not.Contain("TEST", StringComparison.OrdinalIgnoreCase);
             }
             catch (AssertFailedException)
             {
@@ -233,7 +233,7 @@ namespace Testing.Specificity2.Tests
         {
             try
             {
-                Specify.That("xyzzy").Should.Not.Contain("zz");
+                Specify.That("Test Message").Should.Not.Contain("Test Message", StringComparison.Ordinal);
             }
             catch (AssertFailedException)
             {
@@ -246,7 +246,7 @@ namespace Testing.Specificity2.Tests
         [TestMethod]
         public void EndWithGivenStringAtEndShouldNotFail()
         {
-            Specify.That("xyzzy").Should.EndWith("zy");
+            Specify.That("Test Message").Should.EndWith("Message", StringComparison.Ordinal);
         }
 
         [TestMethod]
@@ -254,7 +254,7 @@ namespace Testing.Specificity2.Tests
         {
             try
             {
-                Specify.That("zyzzy").Should.EndWith("42");
+                Specify.That("Test Message").Should.EndWith("Test", StringComparison.Ordinal);
             }
             catch (AssertFailedException)
             {
@@ -269,7 +269,7 @@ namespace Testing.Specificity2.Tests
         {
             try
             {
-                Specify.That("xyzzy").Should.Not.EndWith("zy");
+                Specify.That("Test Message").Should.Not.EndWith("Message", StringComparison.Ordinal);
             }
             catch (AssertFailedException)
             {
@@ -292,7 +292,7 @@ namespace Testing.Specificity2.Tests
         }
 
         [TestMethod]
-        public void MatchGivenNonMatchingPatternShouldFail()
+        public void MatchGivenNonmatchingPatternShouldFail()
         {
             try
             {
@@ -322,7 +322,7 @@ namespace Testing.Specificity2.Tests
         }
 
         [TestMethod]
-        public void MatchNegatedGivenNonMatchingPatternShouldNotFail()
+        public void MatchNegatedGivenNonmatchingPatternShouldNotFail()
         {
             Specify.That("aaa").Should.Not.Match("b+");
         }
@@ -330,7 +330,7 @@ namespace Testing.Specificity2.Tests
         [TestMethod]
         public void StartWithGivenStringAtStartShouldNotFail()
         {
-            Specify.That("xyzzy").Should.StartWith("xy");
+            Specify.That("Test Message").Should.StartWith("Test", StringComparison.Ordinal);
         }
 
         [TestMethod]
@@ -338,7 +338,7 @@ namespace Testing.Specificity2.Tests
         {
             try
             {
-                Specify.That("xyzzy").Should.StartWith("42");
+                Specify.That("Test Message").Should.StartWith("Not a Message", StringComparison.Ordinal);
             }
             catch (AssertFailedException)
             {
@@ -353,7 +353,7 @@ namespace Testing.Specificity2.Tests
         {
             try
             {
-                Specify.That("xyzzy").Should.Not.StartWith("xy");
+                Specify.That("Test Message").Should.Not.StartWith("Test", StringComparison.Ordinal);
             }
             catch (AssertFailedException)
             {
@@ -364,9 +364,9 @@ namespace Testing.Specificity2.Tests
         }
 
         [TestMethod]
-        public void StartWithNegatedGivenSttringNotAtStartShouldNotFail()
+        public void StartWithNegatedGivenStringNotAtStartShouldNotFail()
         {
-            Specify.That("xyzzy").Should.Not.StartWith("42");
+            Specify.That("Test Message").Should.Not.StartWith("Not a Message", StringComparison.Ordinal);
         }
     }
 }

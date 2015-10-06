@@ -8,6 +8,8 @@ namespace Testing.Specificity2.Tests
 {
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.Linq;
     using System.Runtime.CompilerServices;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -28,7 +30,7 @@ namespace Testing.Specificity2.Tests
         {
             var verifier = new ObjectPropertyVerifier<SimpleObject>(SimpleObject.CreateInvalid());
 
-            Specify.ThatAction(delegate
+            Specify.ThatAction(() =>
             {
                 verifier.Verify();
             }).Should.HaveThrown(typeof(AggregateAssertFailedException));
@@ -38,8 +40,8 @@ namespace Testing.Specificity2.Tests
         public void VerifyForObservableObjectShouldPass()
         {
             var verifier = new ObjectPropertyVerifier<ObservableObject>(ObservableObject.CreateValid());
-            verifier.Property("LowerCaseName").DependsOn("Name");
-            verifier.Register("Name", f => f.AnyString().ToUpper());
+            verifier.Property("UpperCaseName").DependsOn("Name");
+            verifier.Register("Name", f => f.AnyString().ToUpper(CultureInfo.InvariantCulture));
 
             verifier.Verify();
         }
@@ -49,7 +51,7 @@ namespace Testing.Specificity2.Tests
         {
             var verifier = new ObjectPropertyVerifier<ObservableObject>(ObservableObject.CreateWithOutNotifications());
 
-            Specify.ThatAction(delegate
+            Specify.ThatAction(() =>
             {
                 verifier.Verify();
             }).Should.HaveThrown(typeof(AggregateAssertFailedException));
@@ -57,7 +59,6 @@ namespace Testing.Specificity2.Tests
 
         private class ObservableObject : INotifyPropertyChanged
         {
-            private int age;
             private string name;
             private bool shouldNotify;
 
@@ -68,11 +69,7 @@ namespace Testing.Specificity2.Tests
 
             public event PropertyChangedEventHandler PropertyChanged;
 
-            public int Age
-            {
-                get { return this.age; }
-                set { this.SetValue(ref this.age, value); }
-            }
+            [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Reviewed.")]
 
             public string Name
             {
@@ -85,14 +82,15 @@ namespace Testing.Specificity2.Tests
                 {
                     if (this.SetValue(ref this.name, value) && value.Any(c => char.IsUpper(c)))
                     {
-                        this.OnPropertyChanged("LowerCaseName");
+                        this.OnPropertyChanged("UpperCaseName");
                     }
                 }
             }
 
-            public string LowerCaseName
+            [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Reviewed.")]
+            public string UpperCaseName
             {
-                get { return this.Name.ToLower(); }
+                get { return this.Name.ToUpperInvariant(); }
             }
 
             public static ObservableObject CreateValid()
@@ -105,6 +103,7 @@ namespace Testing.Specificity2.Tests
                 return new ObservableObject(false);
             }
 
+            [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Reviewed.")]
             private bool SetValue<T>(ref T backingField, T value, [CallerMemberName]string propertyName = null)
             {
                 if (!EqualityComparer<T>.Default.Equals(backingField, value))
@@ -117,6 +116,7 @@ namespace Testing.Specificity2.Tests
                 return false;
             }
 
+            [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Reviewed.")]
             private void OnPropertyChanged(string propertyName)
             {
                 if (this.shouldNotify)
@@ -141,6 +141,7 @@ namespace Testing.Specificity2.Tests
                 this.useValidSetters = useValidSetters;
             }
 
+            [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Reviewed.")]
             public int Age
             {
                 get
@@ -157,6 +158,7 @@ namespace Testing.Specificity2.Tests
                 }
             }
 
+            [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Reviewed.")]
             public string Name
             {
                 get

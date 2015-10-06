@@ -81,7 +81,7 @@ namespace Testing.Specificity2.Tests
         }
 
         [TestMethod]
-        public void AnyOfDateTimeOfsetShouldReturnRandomDateTimeOffset()
+        public void AnyOfDateTimeOffsetShouldReturnRandomDateTimeOffset()
         {
             this.TestFactory<DateTimeOffset>();
         }
@@ -230,7 +230,8 @@ namespace Testing.Specificity2.Tests
             Specify.That(result).Should.BeInstanceOfType(typeof(T));
         }
 
-        public class SimpleType
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Reviewed.")]
+        private class SimpleType
         {
             public SimpleType(string text)
             {

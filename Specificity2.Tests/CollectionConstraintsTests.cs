@@ -34,13 +34,13 @@ namespace Testing.Specificity2.Tests
         }
 
         [TestMethod]
-        public void BeEmptyNegatedGivenNonEmptyCollectionShouldNotFail()
+        public void BeEmptyNegatedGivenNonemptyCollectionShouldNotFail()
         {
             Specify.That(new[] { "foo" }).Should.Not.BeEmpty();
         }
 
         [TestMethod]
-        public void BeEmpyGivenNonEmptyCollectionShouldFail()
+        public void BeEmptyGivenNonemptyCollectionShouldFail()
         {
             try
             {
@@ -61,7 +61,7 @@ namespace Testing.Specificity2.Tests
         }
 
         [TestMethod]
-        public void BeEquivalentToGivenUnequivalentCollectionsShouldFail()
+        public void BeEquivalentToGivenDifferentCollectionsShouldFail()
         {
             try
             {
@@ -91,7 +91,7 @@ namespace Testing.Specificity2.Tests
         }
 
         [TestMethod]
-        public void BeEquivalentToNegatedGivenUnequivalentCollectionsShouldNotFail()
+        public void BeEquivalentToNegatedGivenDifferentCollectionsShouldNotFail()
         {
             Specify.That(new[] { 1, 2, 3, 4 }).Should.Not.BeEquivalentTo(new[] { 1, 2 });
         }

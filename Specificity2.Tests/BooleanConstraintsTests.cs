@@ -15,7 +15,7 @@ namespace Testing.Specificity2.Tests
         public void BeTrueForFalseGivenMessageAndArgShouldFail()
         {
             string message = "{0}";
-            string arg = "xyzzy";
+            string arg = "Test Message";
             try
             {
                 Specify.That(false).Should.BeTrue(message, arg);
@@ -32,7 +32,7 @@ namespace Testing.Specificity2.Tests
         [TestMethod]
         public void BeTrueForFalseGivenMessageShouldFail()
         {
-            string message = "xyzzy";
+            string message = "Test Message";
             try
             {
                 Specify.That(false).Should.BeTrue(message);
@@ -65,14 +65,14 @@ namespace Testing.Specificity2.Tests
         public void BeTrueForTrueGivenMessageAndArgShouldNotFail()
         {
             string message = "{0}";
-            string arg = "xyzzy";
+            string arg = "Test Message";
             Specify.That(true).Should.BeTrue(message, arg);
         }
 
         [TestMethod]
         public void BeTrueForTrueGivenMessageShouldNotFail()
         {
-            string message = "xyzzy";
+            string message = "Test Message";
             Specify.That(true).Should.BeTrue(message);
         }
 
@@ -86,14 +86,14 @@ namespace Testing.Specificity2.Tests
         public void BeTrueNegatedForFalseGivenMessageAndArgShouldNotFail()
         {
             string message = "{0}";
-            string arg = "xyzzy";
+            string arg = "Test Message";
             Specify.That(true).Should.BeTrue(message, arg);
         }
 
         [TestMethod]
         public void BeTrueNegatedForFalseGivenMessageShouldNotFail()
         {
-            string message = "xyzzy";
+            string message = "Test Message";
             Specify.That(false).Should.Not.BeTrue(message);
         }
 
@@ -122,7 +122,7 @@ namespace Testing.Specificity2.Tests
         public void BeTrueNegatedForTrueGivenMessageAndArgShouldFail()
         {
             string message = "{0}";
-            string arg = "xyzzy";
+            string arg = "Test Message";
             try
             {
                 Specify.That(true).Should.Not.BeTrue(message, arg);
@@ -139,7 +139,7 @@ namespace Testing.Specificity2.Tests
         [TestMethod]
         public void BeTrueNegatedForTrueGivenMessageShouldFail()
         {
-            string message = "xyzzy";
+            string message = "Test Message";
             try
             {
                 Specify.That(true).Should.Not.BeTrue(message);

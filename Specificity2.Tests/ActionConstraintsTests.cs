@@ -15,10 +15,11 @@ namespace Testing.Specificity2.Tests
         [TestMethod]
         public void HaveThrownForActionThatDoesNotThrowGivenExceptionTypeAndMessageShouldFail()
         {
-            string message = "xyzzy";
+            string message = "Test Message";
+
             try
             {
-                Specify.ThatAction(delegate
+                Specify.ThatAction(() =>
                 {
                 }).Should.HaveThrown(typeof(InvalidOperationException), message);
             }
@@ -35,10 +36,11 @@ namespace Testing.Specificity2.Tests
         public void HaveThrownForActionThatDoesNotThrowGivenExceptionTypeMessageAndArgsShouldFail()
         {
             string message = "{0}";
-            string arg = "xyzzy";
+            string arg = "Test Message";
+
             try
             {
-                Specify.ThatAction(delegate
+                Specify.ThatAction(() =>
                 {
                 }).Should.HaveThrown(typeof(InvalidOperationException), message, arg);
             }
@@ -56,7 +58,7 @@ namespace Testing.Specificity2.Tests
         {
             try
             {
-                Specify.ThatAction(delegate
+                Specify.ThatAction(() =>
                 {
                 }).Should.HaveThrown(typeof(InvalidOperationException));
             }
@@ -72,10 +74,11 @@ namespace Testing.Specificity2.Tests
         public void HaveThrownForActionThatDoesNotThrowGivenMessageAndArgsShouldFail()
         {
             string message = "{0}";
-            string arg = "xyzzy";
+            string arg = "Test Message";
+
             try
             {
-                Specify.ThatAction(delegate
+                Specify.ThatAction(() =>
                 {
                 }).Should.HaveThrown(message, arg);
             }
@@ -91,10 +94,11 @@ namespace Testing.Specificity2.Tests
         [TestMethod]
         public void HaveThrownForActionThatDoesNotThrowGivenMessageShouldFail()
         {
-            string message = "xyzzy";
+            string message = "Test Message";
+
             try
             {
-                Specify.ThatAction(delegate
+                Specify.ThatAction(() =>
                 {
                 }).Should.HaveThrown(message);
             }
@@ -112,7 +116,7 @@ namespace Testing.Specificity2.Tests
         {
             try
             {
-                Specify.ThatAction(delegate
+                Specify.ThatAction(() =>
                 {
                 }).Should.HaveThrown();
             }
@@ -127,8 +131,9 @@ namespace Testing.Specificity2.Tests
         [TestMethod]
         public void HaveThrownForActionThatThrowsGivenExpectedExceptionTypeAndMessageShouldFail()
         {
-            string message = "xyzzy";
-            Specify.ThatAction(delegate
+            string message = "Test Message";
+
+            Specify.ThatAction(() =>
             {
                 throw new InvalidOperationException();
             }).Should.HaveThrown(typeof(InvalidOperationException), message);
@@ -138,8 +143,9 @@ namespace Testing.Specificity2.Tests
         public void HaveThrownForActionThatThrowsGivenExpectedExceptionTypeMessageAndArgsShouldNotFail()
         {
             string message = "{0}";
-            string arg = "xyzzy";
-            Specify.ThatAction(delegate
+            string arg = "Test Message";
+
+            Specify.ThatAction(() =>
             {
                 throw new InvalidOperationException();
             }).Should.HaveThrown(typeof(InvalidOperationException), message, arg);
@@ -148,7 +154,7 @@ namespace Testing.Specificity2.Tests
         [TestMethod]
         public void HaveThrownForActionThatThrowsGivenExpectedExceptionTypeThrowShouldNotFail()
         {
-            Specify.ThatAction(delegate
+            Specify.ThatAction(() =>
             {
                 throw new InvalidOperationException();
             }).Should.HaveThrown(typeof(InvalidOperationException));
@@ -158,8 +164,9 @@ namespace Testing.Specificity2.Tests
         public void HaveThrownForActionThatThrowsGivenMessageAndArgsShouldNotFail()
         {
             string message = "{0}";
-            string arg = "xyzzy";
-            Specify.ThatAction(delegate
+            string arg = "Test Message";
+
+            Specify.ThatAction(() =>
             {
                 throw new InvalidOperationException();
             }).Should.HaveThrown(message, arg);
@@ -168,8 +175,9 @@ namespace Testing.Specificity2.Tests
         [TestMethod]
         public void HaveThrownForActionThatThrowsGivenMessageShouldNotFail()
         {
-            string message = "xyzzy";
-            Specify.ThatAction(delegate
+            string message = "Test Message";
+
+            Specify.ThatAction(() =>
             {
                 throw new InvalidOperationException();
             }).Should.HaveThrown(message);
@@ -178,12 +186,13 @@ namespace Testing.Specificity2.Tests
         [TestMethod]
         public void HaveThrownForActionThatThrowsGivenUnexpectedExceptionTypeAndMessageShouldFail()
         {
-            string message = "xyzzy";
+            string message = "Test Message";
+
             try
             {
-                Specify.ThatAction(delegate
+                Specify.ThatAction(() =>
                 {
-                    throw new ArgumentException();
+                    throw new NotImplementedException();
                 }).Should.HaveThrown(typeof(InvalidOperationException), message);
             }
             catch (AssertFailedException e)
@@ -199,12 +208,12 @@ namespace Testing.Specificity2.Tests
         public void HaveThrownForActionThatThrowsGivenUnexpectedExceptionTypeMessageAndArgsShouldFail()
         {
             string message = "{0}";
-            string arg = "xyzzy";
+            string arg = "Test Message";
             try
             {
-                Specify.ThatAction(delegate
+                Specify.ThatAction(() =>
                 {
-                    throw new ArgumentException();
+                    throw new NotImplementedException();
                 }).Should.HaveThrown(typeof(InvalidOperationException), message, arg);
             }
             catch (AssertFailedException e)
@@ -221,9 +230,9 @@ namespace Testing.Specificity2.Tests
         {
             try
             {
-                Specify.ThatAction(delegate
+                Specify.ThatAction(() =>
                 {
-                    throw new ArgumentException();
+                    throw new NotImplementedException();
                 }).Should.HaveThrown(typeof(InvalidOperationException));
             }
             catch (AssertFailedException)
@@ -237,7 +246,7 @@ namespace Testing.Specificity2.Tests
         [TestMethod]
         public void HaveThrownForActionThatThrowsShouldNotFail()
         {
-            Specify.ThatAction(delegate
+            Specify.ThatAction(() =>
             {
                 throw new InvalidOperationException();
             }).Should.HaveThrown();
@@ -247,8 +256,8 @@ namespace Testing.Specificity2.Tests
         public void HaveThrownNegatedForActionThatDoesNotThrowGivenMessageAndArgsShouldNotFail()
         {
             string message = "{0}";
-            string arg = "xyzzy";
-            Specify.ThatAction(delegate
+            string arg = "Test Message";
+            Specify.ThatAction(() =>
             {
             }).Should.Not.HaveThrown(message, arg);
         }
@@ -256,8 +265,8 @@ namespace Testing.Specificity2.Tests
         [TestMethod]
         public void HaveThrownNegatedForActionThatDoesNotThrowGivenMessageShouldNotFail()
         {
-            string message = "xyzzy";
-            Specify.ThatAction(delegate
+            string message = "Test Message";
+            Specify.ThatAction(() =>
             {
             }).Should.Not.HaveThrown(message);
         }
@@ -265,7 +274,7 @@ namespace Testing.Specificity2.Tests
         [TestMethod]
         public void HaveThrownNegatedForActionThatDoesNotThrowShouldNotFail()
         {
-            Specify.ThatAction(delegate
+            Specify.ThatAction(() =>
             {
             }).Should.Not.HaveThrown();
         }
@@ -273,10 +282,10 @@ namespace Testing.Specificity2.Tests
         [TestMethod]
         public void HaveThrownNegatedForActionThatThrowsGivenExpectedExceptionTypeAndMessageShouldFail()
         {
-            string message = "xyzzy";
+            string message = "Test Message";
             try
             {
-                Specify.ThatAction(delegate
+                Specify.ThatAction(() =>
                 {
                     throw new InvalidOperationException();
                 }).Should.Not.HaveThrown(typeof(InvalidOperationException), message);
@@ -294,10 +303,10 @@ namespace Testing.Specificity2.Tests
         public void HaveThrownNegatedForActionThatThrowsGivenExpectedExceptionTypeMessageAndArgsShouldFail()
         {
             string message = "{0}";
-            string arg = "xyzzy";
+            string arg = "Test Message";
             try
             {
-                Specify.ThatAction(delegate
+                Specify.ThatAction(() =>
                 {
                     throw new InvalidOperationException();
                 }).Should.Not.HaveThrown(typeof(InvalidOperationException), message, arg);
@@ -316,7 +325,7 @@ namespace Testing.Specificity2.Tests
         {
             try
             {
-                Specify.ThatAction(delegate
+                Specify.ThatAction(() =>
                 {
                     throw new InvalidOperationException();
                 }).Should.Not.HaveThrown(typeof(InvalidOperationException));
@@ -333,10 +342,10 @@ namespace Testing.Specificity2.Tests
         public void HaveThrownNegatedForActionThatThrowsGivenMessageAndArgsShouldFail()
         {
             string message = "{0}";
-            string arg = "xyzzy";
+            string arg = "Test Message";
             try
             {
-                Specify.ThatAction(delegate
+                Specify.ThatAction(() =>
                 {
                     throw new InvalidOperationException();
                 }).Should.Not.HaveThrown(message, arg);
@@ -353,10 +362,10 @@ namespace Testing.Specificity2.Tests
         [TestMethod]
         public void HaveThrownNegatedForActionThatThrowsGivenMessageShouldFail()
         {
-            string message = "xyzzy";
+            string message = "Test Message";
             try
             {
-                Specify.ThatAction(delegate
+                Specify.ThatAction(() =>
                 {
                     throw new InvalidOperationException();
                 }).Should.Not.HaveThrown(message);
@@ -373,10 +382,10 @@ namespace Testing.Specificity2.Tests
         [TestMethod]
         public void HaveThrownNegatedForActionThatThrowsGivenUnexpectedExceptionTypeAndMessageShouldFail()
         {
-            string message = "xyzzy";
-            Specify.ThatAction(delegate
+            string message = "Test Message";
+            Specify.ThatAction(() =>
             {
-                throw new ArgumentException();
+                throw new NotImplementedException();
             }).Should.Not.HaveThrown(typeof(InvalidOperationException), message);
         }
 
@@ -384,19 +393,19 @@ namespace Testing.Specificity2.Tests
         public void HaveThrownNegatedForActionThatThrowsGivenUnexpectedExceptionTypeMessageAndArgsShouldNotFail()
         {
             string message = "{0}";
-            string arg = "xyzzy";
-            Specify.ThatAction(delegate
+            string arg = "Test Message";
+            Specify.ThatAction(() =>
             {
-                throw new ArgumentException();
+                throw new NotImplementedException();
             }).Should.Not.HaveThrown(typeof(InvalidOperationException), message, arg);
         }
 
         [TestMethod]
         public void HaveThrownNegatedForActionThatThrowsGivenUnexpectedExceptionTypeThrowShouldNotFail()
         {
-            Specify.ThatAction(delegate
+            Specify.ThatAction(() =>
             {
-                throw new ArgumentException();
+                throw new NotImplementedException();
             }).Should.Not.HaveThrown(typeof(InvalidOperationException));
         }
 
@@ -405,7 +414,7 @@ namespace Testing.Specificity2.Tests
         {
             try
             {
-                Specify.ThatAction(delegate
+                Specify.ThatAction(() =>
                 {
                     throw new InvalidOperationException();
                 }).Should.Not.HaveThrown();

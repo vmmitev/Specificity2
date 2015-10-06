@@ -18,7 +18,7 @@ namespace Testing.Specificity2.Tests
         public void InvertedDistribution()
         {
             var classifications = this.Classify(Distribution.InvertedNormal);
-            Specify.Aggregate(delegate
+            Specify.Aggregate(() =>
             {
                 Specify.That(classifications.LessThan0.Percent).Should.BeEqualTo(0);
                 Specify.That(classifications.LessThan15Hundredths.Percent > .27).Should.BeTrue();
@@ -30,7 +30,7 @@ namespace Testing.Specificity2.Tests
         public void NegativeDistribution()
         {
             var classifications = this.Classify(Distribution.NegativeNormal);
-            Specify.Aggregate(delegate
+            Specify.Aggregate(() =>
             {
                 Specify.That(classifications.LessThan0.Percent).Should.BeEqualTo(0);
                 Specify.That(classifications.LessThan15Hundredths.Percent < .02).Should.BeTrue();
@@ -42,7 +42,7 @@ namespace Testing.Specificity2.Tests
         public void PositiveDistribution()
         {
             var classifications = this.Classify(Distribution.PositiveNormal);
-            Specify.Aggregate(delegate
+            Specify.Aggregate(() =>
             {
                 Specify.That(classifications.LessThan0.Percent).Should.BeEqualTo(0);
                 Specify.That(classifications.LessThan15Hundredths.Percent > .25).Should.BeTrue();
@@ -70,10 +70,7 @@ namespace Testing.Specificity2.Tests
                 this.LessThan15Hundredths = this.CreateClassification(d => d < .15);
                 this.GreaterThan85Hundredths = this.CreateClassification(d => d > .85);
                 this.LessThan0 = this.CreateClassification(d => d < 0);
-                this.GreaterThan0 = this.CreateClassification(d => d > 0);
             }
-
-            public Classification GreaterThan0 { get; private set; }
 
             public Classification GreaterThan85Hundredths { get; private set; }
 

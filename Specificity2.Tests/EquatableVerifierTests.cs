@@ -8,6 +8,8 @@ namespace Testing.Specificity2.Tests
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -42,7 +44,7 @@ namespace Testing.Specificity2.Tests
                 }
             };
 
-            Specify.ThatAction(delegate
+            Specify.ThatAction(() =>
             {
                 verifier.Verify();
             }).Should.HaveThrown(typeof(AggregateAssertFailedException));
@@ -61,7 +63,7 @@ namespace Testing.Specificity2.Tests
                 }
             };
 
-            Specify.ThatAction(delegate
+            Specify.ThatAction(() =>
             {
                 verifier.Verify();
             }).Should.HaveThrown(typeof(AggregateAssertFailedException));
@@ -80,7 +82,7 @@ namespace Testing.Specificity2.Tests
                 }
             };
 
-            Specify.ThatAction(delegate
+            Specify.ThatAction(() =>
             {
                 verifier.Verify();
             }).Should.HaveThrown(typeof(AggregateAssertFailedException));
@@ -99,14 +101,14 @@ namespace Testing.Specificity2.Tests
                 }
             };
 
-            Specify.ThatAction(delegate
+            Specify.ThatAction(() =>
             {
                 verifier.Verify();
             }).Should.HaveThrown(typeof(AggregateAssertFailedException));
         }
 
         [TestMethod]
-        public void VerifyForEquatableObjectWithBadOperatorqualsShouldFail()
+        public void VerifyForEquatableObjectWithBadOperatorEqualsShouldFail()
         {
             var verifier = new EquatableVerifier<EquatableObject>
             {
@@ -118,7 +120,7 @@ namespace Testing.Specificity2.Tests
                 }
             };
 
-            Specify.ThatAction(delegate
+            Specify.ThatAction(() =>
             {
                 verifier.Verify();
             }).Should.HaveThrown(typeof(AggregateAssertFailedException));
@@ -137,7 +139,7 @@ namespace Testing.Specificity2.Tests
                 }
             };
 
-            Specify.ThatAction(delegate
+            Specify.ThatAction(() =>
             {
                 verifier.Verify();
             }).Should.HaveThrown(typeof(AggregateAssertFailedException));
@@ -156,7 +158,7 @@ namespace Testing.Specificity2.Tests
                 }
             };
 
-            Specify.ThatAction(delegate
+            Specify.ThatAction(() =>
             {
                 verifier.Verify();
             }).Should.HaveThrown(typeof(AggregateAssertFailedException));
@@ -175,7 +177,7 @@ namespace Testing.Specificity2.Tests
                 }
             };
 
-            Specify.ThatAction(delegate
+            Specify.ThatAction(() =>
             {
                 verifier.Verify();
             }).Should.HaveThrown(typeof(AggregateAssertFailedException));
@@ -211,7 +213,7 @@ namespace Testing.Specificity2.Tests
                 }
             };
 
-            Specify.ThatAction(delegate
+            Specify.ThatAction(() =>
             {
                 verifier.Verify();
             }).Should.HaveThrown(typeof(AggregateAssertFailedException));
@@ -234,18 +236,14 @@ namespace Testing.Specificity2.Tests
             verifier.Verify();
         }
 
-        #region Test Helpers
-
-#pragma warning disable 660,659,661
-
         private sealed class EquatableObject : IEquatable<EquatableObject>
         {
-            private readonly int value;
+            private readonly int numericValue;
             private int badHashCode;
 
-            public EquatableObject(int value)
+            public EquatableObject(int numericValue)
             {
-                this.value = value;
+                this.numericValue = numericValue;
                 this.IsGetHashCodeValid = true;
                 this.IsObjectEqualsValid = true;
                 this.IsEquatableEqualsValid = true;
@@ -295,7 +293,7 @@ namespace Testing.Specificity2.Tests
 
             public bool Equals(EquatableObject other)
             {
-                var result = !object.ReferenceEquals(other, null) && EqualityComparer<int>.Default.Equals(this.value, other.value);
+                var result = !object.ReferenceEquals(other, null) && EqualityComparer<int>.Default.Equals(this.numericValue, other.numericValue);
                 return this.IsEquatableEqualsValid ? result : !result;
             }
 
@@ -312,15 +310,16 @@ namespace Testing.Specificity2.Tests
                     return this.badHashCode++;
                 }
 
-                return this.value.GetHashCode();
+                return this.numericValue.GetHashCode();
             }
 
             public override string ToString()
             {
-                return this.value.ToString();
+                return this.numericValue.ToString(CultureInfo.InvariantCulture);
             }
         }
 
+        [SuppressMessage("Microsoft.Usage", "CA2224:OverrideEqualsOnOverloadingOperatorEquals", Justification = "Intentional.")]
         private sealed class SansEqualsEquatableObject : IEquatable<SansEqualsEquatableObject>
         {
             private readonly int value;
@@ -362,10 +361,11 @@ namespace Testing.Specificity2.Tests
 
             public override string ToString()
             {
-                return this.value.ToString();
+                return this.value.ToString(CultureInfo.InvariantCulture);
             }
         }
 
+        [SuppressMessage("Microsoft.Usage", "CA2218:OverrideGetHashCodeOnOverridingEquals", Justification = "Intentional.")]
         private sealed class SansGetHashCodeEquatableObject : IEquatable<SansGetHashCodeEquatableObject>
         {
             private readonly int value;
@@ -407,7 +407,7 @@ namespace Testing.Specificity2.Tests
 
             public override string ToString()
             {
-                return this.value.ToString();
+                return this.value.ToString(CultureInfo.InvariantCulture);
             }
         }
 
@@ -438,7 +438,7 @@ namespace Testing.Specificity2.Tests
 
             public override string ToString()
             {
-                return this.value.ToString();
+                return this.value.ToString(CultureInfo.InvariantCulture);
             }
         }
 
@@ -488,12 +488,11 @@ namespace Testing.Specificity2.Tests
 
             public override string ToString()
             {
-                return this.value.ToString();
+                return this.value.ToString(CultureInfo.InvariantCulture);
             }
         }
 
-#pragma warning restore 660,659,661
+#pragma warning restore 660, 659, 661
 
-        #endregion Test Helpers
     }
 }

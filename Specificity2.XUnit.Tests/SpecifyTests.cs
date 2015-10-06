@@ -18,8 +18,9 @@ namespace Testing.Specificity2.Tests
         [Fact, NuTest]
         public void FailGivenInnerExceptionsAndMessageShouldThrowAggregateExceptionWithMessage()
         {
-            var message = "xyzzy";
-            var exception = new Exception();
+            var message = "Test Message";
+            var exception = new InvalidOperationException();
+
             try
             {
                 Specify.Failure(new[] { exception }, message);
@@ -39,8 +40,9 @@ namespace Testing.Specificity2.Tests
         public void FailGivenInnerExceptionsMessageAndArgsShouldThrowAggregateExceptionWithFormattedMessage()
         {
             var message = "{0}";
-            var arg = "xyzzy";
-            var exception = new Exception();
+            var arg = "Test Message";
+            var exception = new InvalidOperationException();
+
             try
             {
                 Specify.Failure(new[] { exception }, message, arg);
@@ -59,7 +61,8 @@ namespace Testing.Specificity2.Tests
         [Fact, NuTest]
         public void FailGivenInnerExceptionsShouldThrowAggregateException()
         {
-            var exception = new Exception();
+            var exception = new InvalidOperationException();
+
             try
             {
                 Specify.Failure(new[] { exception });
@@ -78,14 +81,15 @@ namespace Testing.Specificity2.Tests
         public void FailGivenMessageAndArgsShouldThrowTestFailedExceptionWithFormattedMessage()
         {
             string message = "{0}";
-            string arg = "xyzzy";
+            string arg = "Test Message";
+
             try
             {
                 Specify.Failure(message, arg);
             }
             catch (XunitException e)
             {
-                Assert.True(e.Message.EndsWith(arg));
+                Assert.True(e.Message.EndsWith(arg, StringComparison.Ordinal));
                 return;
             }
 
@@ -95,14 +99,15 @@ namespace Testing.Specificity2.Tests
         [Fact, NuTest]
         public void FailGivenMessageShouldThrowTestFailedExceptionWithMessage()
         {
-            var message = "xyzzy";
+            var message = "Test Message";
+
             try
             {
                 Specify.Failure(message);
             }
             catch (XunitException e)
             {
-                Assert.True(e.Message.EndsWith(message));
+                Assert.True(e.Message.EndsWith(message, StringComparison.Ordinal));
                 return;
             }
 
@@ -128,14 +133,15 @@ namespace Testing.Specificity2.Tests
         public void InconclusiveGivenMessageAndArgsShouldThrowTestInconclusiveExceptionWithFormattedMessage()
         {
             string message = "{0}";
-            string arg = "xyzzy";
+            string arg = "Test Message";
+
             try
             {
                 Specify.Inonclusive(message, arg);
             }
             catch (XunitException e)
             {
-                Assert.True(e.Message.EndsWith(arg));
+                Assert.True(e.Message.EndsWith(arg, StringComparison.Ordinal));
                 return;
             }
 
@@ -145,14 +151,15 @@ namespace Testing.Specificity2.Tests
         [Fact, NuTest]
         public void InconclusiveGivenMessageShouldThrowTestInconclusiveExceptionWithMessage()
         {
-            string message = "xyzzy";
+            string message = "Test Message";
+
             try
             {
                 Specify.Inonclusive(message);
             }
             catch (XunitException e)
             {
-                Assert.True(e.Message.EndsWith(message));
+                Assert.True(e.Message.EndsWith(message, StringComparison.Ordinal));
                 return;
             }
 

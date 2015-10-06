@@ -18,7 +18,7 @@ namespace Testing.Specificity2.Tests
         {
             try
             {
-                Specify.Aggregate(delegate
+                Specify.Aggregate(() =>
                 {
                     Specify.Failure();
                     Specify.Failure();
@@ -36,15 +36,16 @@ namespace Testing.Specificity2.Tests
         [TestMethod]
         public void FailGivenInnerExceptionsAndMessageShouldThrowAggregateAssertFailedExceptionWithMessage()
         {
-            var message = "xyzzy";
-            var exception = new Exception();
+            var message = "Test Message";
+            var exception = new AssertFailedException();
+
             try
             {
                 Specify.Failure(new[] { exception }, message);
             }
             catch (AggregateAssertFailedException e)
             {
-                StringAssert.EndsWith(e.Message.Split()[0], message);
+                StringAssert.EndsWith(string.Join(" ", e.Message.Split().Take(2)), message);
                 Assert.AreSame(exception, e.InnerException);
                 Assert.AreSame(exception, e.InnerExceptions.FirstOrDefault());
                 return;
@@ -57,15 +58,16 @@ namespace Testing.Specificity2.Tests
         public void FailGivenInnerExceptionsMessageAndArgsShouldThrowAggregateAssertFailedExceptionWithFormattedMessage()
         {
             var message = "{0}";
-            var arg = "xyzzy";
-            var exception = new Exception();
+            var arg = "Test Message";
+            var exception = new AssertFailedException();
+
             try
             {
                 Specify.Failure(new[] { exception }, message, arg);
             }
             catch (AggregateAssertFailedException e)
             {
-                StringAssert.EndsWith(e.Message.Split()[0], arg);
+                StringAssert.EndsWith(string.Join(" ", e.Message.Split().Take(2)), arg);
                 Assert.AreSame(exception, e.InnerException);
                 Assert.AreSame(exception, e.InnerExceptions.FirstOrDefault());
                 return;
@@ -77,7 +79,8 @@ namespace Testing.Specificity2.Tests
         [TestMethod]
         public void FailGivenInnerExceptionsShouldThrowAggregateAssertFailedException()
         {
-            var exception = new Exception();
+            var exception = new AssertFailedException();
+
             try
             {
                 Specify.Failure(new[] { exception });
@@ -96,7 +99,8 @@ namespace Testing.Specificity2.Tests
         public void FailGivenMessageAndArgsShouldThrowAssertFailedExceptionWithFormattedMessage()
         {
             string message = "{0}";
-            string arg = "xyzzy";
+            string arg = "Test Message";
+
             try
             {
                 Specify.Failure(message, arg);
@@ -113,7 +117,8 @@ namespace Testing.Specificity2.Tests
         [TestMethod]
         public void FailGivenMessageShouldThrowAssertFailedExceptionWithMessage()
         {
-            var message = "xyzzy";
+            var message = "Test Message";
+
             try
             {
                 Specify.Failure(message);
@@ -146,7 +151,8 @@ namespace Testing.Specificity2.Tests
         public void InconclusiveGivenMessageAndArgsShouldThrowAssertInconclusiveExceptionWithFormattedMessage()
         {
             string message = "{0}";
-            string arg = "xyzzy";
+            string arg = "Test Message";
+
             try
             {
                 Specify.Inonclusive(message, arg);
@@ -163,7 +169,8 @@ namespace Testing.Specificity2.Tests
         [TestMethod]
         public void InconclusiveGivenMessageShouldThrowAssertInconclusiveExceptionWithMessage()
         {
-            string message = "xyzzy";
+            string message = "Test Message";
+
             try
             {
                 Specify.Inonclusive(message);
