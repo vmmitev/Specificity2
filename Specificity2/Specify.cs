@@ -34,7 +34,8 @@ namespace Testing.Specificity2
             {
                 "Specificity2.MSTest",
                 "Specificity2.NUnit",
-                "Specificity2.XUnit"
+                "Specificity2.XUnit",
+                "Specificity2.MbUnit"
             };
 
         /// <summary>

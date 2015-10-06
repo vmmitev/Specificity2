@@ -11,10 +11,12 @@ namespace Testing.Specificity2.Tests
     using Gallio.Framework;
     using MbUnit.Framework;
 
+    using NuTest = NUnit.Framework.TestAttribute;
+
     [TestFixture]
     public class SpecifyTests
     {
-        [Test]
+        [Test, NuTest]
         public void FailShouldThrowTestFailedException()
         {
             try
@@ -29,7 +31,7 @@ namespace Testing.Specificity2.Tests
             Assert.Fail("Specify.Fail did not throw an AssertFailedException");
         }
 
-        [Test]
+        [Test, NuTest]
         public void FailGivenMessageShouldThrowTestFailedExceptionWithMessage()
         {
             var message = "xyzzy";
@@ -39,14 +41,14 @@ namespace Testing.Specificity2.Tests
             }
             catch (TestFailedException e)
             {
-                Assert.EndsWith(e.Message, message);
+                Assert.Contains(e.Message, message);
                 return;
             }
 
             Assert.Fail("Specify.Fail did not throw an AssertFailedException");
         }
 
-        [Test]
+        [Test, NuTest]
         public void FailGivenMessageAndArgsShouldThrowTestFailedExceptionWithFormattedMessage()
         {
             string message = "{0}";
@@ -57,14 +59,14 @@ namespace Testing.Specificity2.Tests
             }
             catch (TestFailedException e)
             {
-                Assert.EndsWith(e.Message, arg);
+                Assert.Contains(e.Message, arg);
                 return;
             }
 
             Assert.Fail("Specify.Fail did not throw an AssertFailedException");
         }
 
-        [Test]
+        [Test, NuTest]
         public void FailGivenInnerExceptionsShouldThrowAggregateAssertionException()
         {
             var exception = new Exception();
@@ -82,7 +84,7 @@ namespace Testing.Specificity2.Tests
             Assert.Fail("Specify.Fail did not throw an AggregateAssertFailedException");
         }
 
-        [Test]
+        [Test, NuTest]
         public void FailGivenInnerExceptionsAndMessageShouldThrowAggregateAssertionExceptionWithMessage()
         {
             var message = "xyzzy";
@@ -93,7 +95,7 @@ namespace Testing.Specificity2.Tests
             }
             catch (AggregateAssertionException e)
             {
-                Assert.EndsWith(e.Message, message);
+                Assert.StartsWith(e.Message, message);
                 Assert.AreSame(exception, e.InnerException);
                 Assert.AreSame(exception, e.InnerExceptions.FirstOrDefault());
                 return;
@@ -102,7 +104,7 @@ namespace Testing.Specificity2.Tests
             Assert.Fail("Specify.Fail did not throw an AggregateAssertFailedException");
         }
 
-        [Test]
+        [Test, NuTest]
         public void FailGivenInnerExceptionsMessageAndArgsShouldThrowAggregateAssertionExceptionWithFormattedMessage()
         {
             var message = "{0}";
@@ -114,7 +116,7 @@ namespace Testing.Specificity2.Tests
             }
             catch (AggregateAssertionException e)
             {
-                Assert.EndsWith(e.Message, arg);
+                Assert.StartsWith(e.Message, arg);
                 Assert.AreSame(exception, e.InnerException);
                 Assert.AreSame(exception, e.InnerExceptions.FirstOrDefault());
                 return;
@@ -123,7 +125,7 @@ namespace Testing.Specificity2.Tests
             Assert.Fail("Specify.Fail did not throw an AggregateAssertFailedException");
         }
 
-        [Test]
+        [Test, NuTest]
         public void InconclusiveShouldThrowTestInconclusiveException()
         {
             try
@@ -138,7 +140,7 @@ namespace Testing.Specificity2.Tests
             Assert.Fail("Specify.Fail did not throw an AssertInconclusiveException");
         }
 
-        [Test]
+        [Test, NuTest]
         public void InconclusiveGivenMessageShouldThrowTestInconclusiveExceptionWithMessage()
         {
             string message = "xyzzy";
@@ -155,7 +157,7 @@ namespace Testing.Specificity2.Tests
             Assert.Fail("Specify.Fail did not throw an AssertInconclusiveException");
         }
 
-        [Test]
+        [Test, NuTest]
         public void InconclusiveGivenMessageAndArgsShouldThrowTestInconclusiveExceptionWithFormattedMessage()
         {
             string message = "{0}";

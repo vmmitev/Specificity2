@@ -11,9 +11,11 @@ namespace Testing.Specificity2.Tests
     using Xunit;
     using Xunit.Sdk;
 
+    using NuTest = NUnit.Framework.TestAttribute;
+
     public class SpecifyTests
     {
-        [Fact]
+        [Fact, NuTest]
         public void FailGivenInnerExceptionsAndMessageShouldThrowAggregateExceptionWithMessage()
         {
             var message = "xyzzy";
@@ -33,7 +35,7 @@ namespace Testing.Specificity2.Tests
             throw new XunitException("Specify.Fail did not throw an AssertFailedException");
         }
 
-        [Fact]
+        [Fact, NuTest]
         public void FailGivenInnerExceptionsMessageAndArgsShouldThrowAggregateExceptionWithFormattedMessage()
         {
             var message = "{0}";
@@ -54,7 +56,7 @@ namespace Testing.Specificity2.Tests
             throw new XunitException("Specify.Fail did not throw an AssertFailedException");
         }
 
-        [Fact]
+        [Fact, NuTest]
         public void FailGivenInnerExceptionsShouldThrowAggregateException()
         {
             var exception = new Exception();
@@ -72,7 +74,7 @@ namespace Testing.Specificity2.Tests
             throw new XunitException("Specify.Fail did not throw an AssertFailedException");
         }
 
-        [Fact]
+        [Fact, NuTest]
         public void FailGivenMessageAndArgsShouldThrowTestFailedExceptionWithFormattedMessage()
         {
             string message = "{0}";
@@ -90,7 +92,7 @@ namespace Testing.Specificity2.Tests
             throw new XunitException("Specify.Fail did not throw an AssertFailedException");
         }
 
-        [Fact]
+        [Fact, NuTest]
         public void FailGivenMessageShouldThrowTestFailedExceptionWithMessage()
         {
             var message = "xyzzy";
@@ -107,7 +109,7 @@ namespace Testing.Specificity2.Tests
             throw new XunitException("Specify.Fail did not throw an AssertFailedException");
         }
 
-        [Fact]
+        [Fact, NuTest]
         public void FailShouldThrowTestFailedException()
         {
             try
@@ -122,7 +124,7 @@ namespace Testing.Specificity2.Tests
             throw new XunitException("Specify.Fail did not throw an AssertFailedException");
         }
 
-        [Fact]
+        [Fact, NuTest]
         public void InconclusiveGivenMessageAndArgsShouldThrowTestInconclusiveExceptionWithFormattedMessage()
         {
             string message = "{0}";
@@ -140,7 +142,7 @@ namespace Testing.Specificity2.Tests
             throw new XunitException("Specify.Fail did not throw an AssertFailedException");
         }
 
-        [Fact]
+        [Fact, NuTest]
         public void InconclusiveGivenMessageShouldThrowTestInconclusiveExceptionWithMessage()
         {
             string message = "xyzzy";
@@ -157,7 +159,7 @@ namespace Testing.Specificity2.Tests
             throw new XunitException("Specify.Fail did not throw an AssertFailedException");
         }
 
-        [Fact]
+        [Fact, NuTest]
         public void InconclusiveShouldThrowTestInconclusiveException()
         {
             try
