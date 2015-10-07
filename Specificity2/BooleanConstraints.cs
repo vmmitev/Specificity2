@@ -16,9 +16,9 @@ namespace Testing.Specificity2
     public static class BooleanConstraints
     {
         /// <summary>
-        /// Verifies the constrained <see cref="Boolean"/> value is <see langword="true"/>.
+        /// Verifies the constrained <see cref="bool"/> value is <see langword="true"/>.
         /// </summary>
-        /// <param name="self">The constrained <see cref="Boolean"/> value.</param>
+        /// <param name="self">The constrained <see cref="bool"/> value.</param>
         /// <param name="message">The message to display in case of failure.</param>
         /// <param name="args">The arguments used to format the <paramref name="message"/>.</param>
         /// <exception cref="Exception">The constraint failed. The exact type of exception thrown will

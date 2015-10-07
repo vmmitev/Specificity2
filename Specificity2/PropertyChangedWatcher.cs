@@ -14,9 +14,7 @@ namespace Testing.Specificity2
     /// Defines a test helper that watches an object that implements <see cref="INotifyPropertyChanged"/> for
     /// <see cref="INotifyPropertyChanged.PropertyChanged"/> events.
     /// </summary>
-    [SuppressMessage("Microsoft.Naming",
-        "CA1710:IdentifiersShouldHaveCorrectSuffix",
-        Justification = "The name is correct.")]
+    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The name is correct.")]
     public sealed class PropertyChangedWatcher : EventWatcher<PropertyChangedEventArgs>, IDisposable
     {
         /// <summary>

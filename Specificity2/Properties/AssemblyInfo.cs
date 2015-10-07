@@ -28,11 +28,8 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("5cec2c43-8c4c-4991-b679-391680488ec8")]
+
 [assembly: InternalsVisibleTo("Specificity2.MSTest")]
 [assembly: InternalsVisibleTo("Specificity2.MbUnit")]
 [assembly: InternalsVisibleTo("Specificity2.NUnit")]
 [assembly: InternalsVisibleTo("Specificity2.XUnit")]
-
-// Analyzer Suppressions
-[assembly: SuppressMessage("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes", Scope = "member", Target = "Testing.Specificity.EventWatcher`1.#System.Collections.Generic.ICollection`1<!0>.Add(!0)")]
-[assembly: SuppressMessage("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes", Scope = "member", Target = "Testing.Specificity.EventWatcher`1.#System.Collections.Generic.ICollection`1<!0>.Remove(!0)")]

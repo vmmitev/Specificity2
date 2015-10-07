@@ -15,6 +15,7 @@ namespace Testing.Specificity2
     /// Provides extension methods for <see cref="IObjectFactoryRegistry"/> instances used to freeze
     /// stubs.
     /// </summary>
+    [CLSCompliant(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class FakesExtensions
     {

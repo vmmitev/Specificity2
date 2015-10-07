@@ -53,7 +53,7 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
-        /// Verifies the constrained <see cref="String"/> is <see langword="null"/> or <see cref="String.Empty"/>.
+        /// Verifies the constrained <see cref="string"/> is <see langword="null"/> or <see cref="string.Empty"/>.
         /// </summary>
         /// <param name="self">The constrained value.</param>
         /// <param name="message">The message to display in case of failure.</param>
@@ -88,7 +88,7 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
-        /// Verifies the constrained <see cref="String"/> is <see langword="null"/> or contains only white-space.
+        /// Verifies the constrained <see cref="string"/> is <see langword="null"/> or contains only white-space.
         /// </summary>
         /// <param name="self">The constrained value.</param>
         /// <param name="message">The message to display in case of failure.</param>
@@ -123,7 +123,7 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
-        /// Verifies the constrained <see cref="String"/> contains the specified substring.
+        /// Verifies the constrained <see cref="string"/> contains the specified substring.
         /// </summary>
         /// <param name="self">The constrained value.</param>
         /// <param name="substring">The substring to verify is contained by the constrained value.</param>
@@ -142,7 +142,7 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
-        /// Verifies the constrained <see cref="String"/> contains the specified substring.
+        /// Verifies the constrained <see cref="string"/> contains the specified substring.
         /// </summary>
         /// <param name="self">The constrained value.</param>
         /// <param name="substring">The substring to verify is contained by the constrained value.</param>
@@ -180,7 +180,7 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
-        /// Verifies the constrained <see cref="String"/> ends with the specified substring.
+        /// Verifies the constrained <see cref="string"/> ends with the specified substring.
         /// </summary>
         /// <param name="self">The constrained value.</param>
         /// <param name="substring">The substring to search for at the end of the constrained value.</param>
@@ -204,7 +204,7 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
-        /// Verifies the constrained <see cref="String"/> ends with the specified substring.
+        /// Verifies the constrained <see cref="string"/> ends with the specified substring.
         /// </summary>
         /// <param name="self">The constrained value.</param>
         /// <param name="substring">The substring to search for at the end of the constrained value.</param>
@@ -246,7 +246,7 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
-        /// Verifies the constrained <see cref="String"/> matches the specified regular expression pattern.
+        /// Verifies the constrained <see cref="string"/> matches the specified regular expression pattern.
         /// </summary>
         /// <param name="self">The constrained value.</param>
         /// <param name="pattern">The regular expression pattern to match.</param>
@@ -270,7 +270,7 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
-        /// Verifies the constrained <see cref="String"/> matches the specified regular expression pattern.
+        /// Verifies the constrained <see cref="string"/> matches the specified regular expression pattern.
         /// </summary>
         /// <param name="self">The constrained value.</param>
         /// <param name="pattern">The regular expression pattern to match.</param>
@@ -311,7 +311,7 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
-        /// Verifies the constrained <see cref="String"/> starts with the specified substring.
+        /// Verifies the constrained <see cref="string"/> starts with the specified substring.
         /// </summary>
         /// <param name="self">The constrained value.</param>
         /// <param name="substring">The substring to search for at the start of the constrained value.</param>
@@ -335,7 +335,7 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
-        /// Verifies the constrained <see cref="String"/> starts with the specified substring.
+        /// Verifies the constrained <see cref="string"/> starts with the specified substring.
         /// </summary>
         /// <param name="self">The constrained value.</param>
         /// <param name="substring">The substring to search for at the start of the constrained value.</param>

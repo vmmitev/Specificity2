@@ -14,9 +14,7 @@ namespace Testing.Specificity2
     /// Defines a test helper that can be used to watch event notifications.
     /// </summary>
     /// <typeparam name="TEventArgs">The type of the event arguments that will be raised.</typeparam>
-    [SuppressMessage("Microsoft.Naming",
-        "CA1710:IdentifiersShouldHaveCorrectSuffix",
-        Justification = "The fact this is a collection isn't the important quality of the class.")]
+    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The fact this is a collection isn't the important quality of the class.")]
     public class EventWatcher<TEventArgs> : ICollection<TEventArgs>
         where TEventArgs : EventArgs
     {
@@ -28,7 +26,6 @@ namespace Testing.Specificity2
         /// <summary>
         /// Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
         /// </summary>
-        /// <value></value>
         /// <returns>
         /// The number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
         /// </returns>
@@ -40,7 +37,6 @@ namespace Testing.Specificity2
         /// <summary>
         /// Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
         /// </summary>
-        /// <value></value>
         /// <returns>true if the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only; otherwise, false.
         /// </returns>
         public bool IsReadOnly
@@ -86,9 +82,7 @@ namespace Testing.Specificity2
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <typeparamref name="TEventArgs"/> instance containing the event data.</param>
-        [SuppressMessage("Microsoft.Security",
-            "CA2109:ReviewVisibleEventHandlers",
-            Justification = "Client code must be able to hook this event handler up.")]
+        [SuppressMessage("Microsoft.Security", "CA2109:ReviewVisibleEventHandlers", Justification = "Client code must be able to hook this event handler up.")]
         public void EventHandler(object sender, TEventArgs e)
         {
             this.events.Add(e);

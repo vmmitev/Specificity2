@@ -243,7 +243,7 @@ namespace Testing.Specificity2
             }
 
             Specify.Aggregate(
-                delegate
+                () =>
                 {
                     this.SpecifyThatOperatorsAreDefined();
                 },

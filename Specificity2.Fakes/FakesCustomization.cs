@@ -29,10 +29,15 @@ namespace Testing.Specificity2
         static FakesCustomization()
         {
             EnsureFakesAssembliesAreLoaded();
-            var stubs = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(a => a.GetTypes())
-                .Where(t => !t.IsInterface && !t.IsAbstract && typeof(IStub).IsAssignableFrom(t));
-            KnownStubs = stubs.ToDictionary(t => GetStubbedType(t));
+
+            var stubTypes = AppDomain.CurrentDomain
+                .GetAssemblies()
+                .SelectMany(assembly => assembly.GetTypes())
+                .Where(type => !type.IsInterface &&
+                               !type.IsAbstract &&
+                               typeof(IStub).IsAssignableFrom(type));
+
+            KnownStubs = stubTypes.ToDictionary(stubType => GetStubbedType(stubType));
         }
 
         /// <summary>
@@ -45,10 +50,21 @@ namespace Testing.Specificity2
         /// <returns><see langword="true"/> if an instance of the specified type was obtained; otherwise <see langword="false"/></returns>
         public override bool TryGetAny(Type type, IObjectFactory factory, CustomizationContext context, out object result)
         {
+            if (factory == null)
+            {
+                throw new ArgumentNullException("factory");
+            }
+
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
             Type stubType;
             if (KnownStubs.TryGetValue(type, out stubType))
             {
                 result = factory.Any(stubType);
+
                 return true;
             }
 
@@ -60,8 +76,10 @@ namespace Testing.Specificity2
         /// </summary>
         private static void EnsureFakesAssembliesAreLoaded()
         {
-            var referencedAssemblies = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(a => a.GetReferencedAssemblies());
+            var referencedAssemblies = AppDomain.CurrentDomain
+                .GetAssemblies()
+                .SelectMany(assembly => assembly.GetReferencedAssemblies());
+
             foreach (var name in referencedAssemblies)
             {
                 if (name.Name.EndsWith(".Fakes"))
@@ -72,18 +90,27 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
-        /// The the stubbed type from the stub type.
+        /// Returns the stubbed type from the stub type.
         /// </summary>
         /// <param name="stubType">The stub type.</param>
         /// <returns>The stubbed type.</returns>
         private static Type GetStubbedType(Type stubType)
         {
-            return (from t in stubType.GetInterfaces()
-                    where t.IsGenericType
-                    let d = t.GetGenericTypeDefinition()
-                    where d == typeof(IStub<>)
-                    select t.GetGenericArguments().First())
-                   .First();
+            return stubType.GetInterfaces()
+                .Where(stubInterface => IsStubInterfaceType(stubInterface))
+                .Select(stubInterface => stubInterface.GetGenericArguments().Single())
+                .Single();
+        }
+
+        /// <summary>
+        /// Returns whether the interface type matches <see cref="IStub{T}"/>.
+        /// </summary>
+        /// <param name="interfaceType">The interface type to check.</param>
+        /// <returns>true if the type matches <see cref="IStub{T}"/>; otherwise, false</returns>
+        private static bool IsStubInterfaceType(Type interfaceType)
+        {
+            return interfaceType.IsGenericType
+                && interfaceType.GetGenericTypeDefinition() == typeof(IStub<>);
         }
     }
 }

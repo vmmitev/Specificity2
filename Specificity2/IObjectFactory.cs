@@ -21,12 +21,12 @@ namespace Testing.Specificity2
         object Any(Type type);
 
         /// <summary>
-        /// Generate a pseudo-random <see cref="System.Double"/> value.
+        /// Generate a pseudo-random <see cref="double"/> value.
         /// </summary>
         /// <param name="minimum">The minimum value to generate.</param>
         /// <param name="maximum">The maximum value to generate.</param>
         /// <param name="distribution">The distribution to use.</param>
-        /// <returns>A pseudo-random <see cref="System.Double"/> value.</returns>
+        /// <returns>A pseudo-random <see cref="double"/> value.</returns>
         double AnyDouble(double minimum = double.MinValue, double maximum = double.MaxValue, Distribution distribution = null);
     }
 }

@@ -8,6 +8,7 @@ namespace Testing.Specificity2
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
 
     /// <summary>
@@ -34,9 +35,11 @@ namespace Testing.Specificity2
         /// <summary>
         /// Adds a collection of tests as a sub-test.
         /// </summary>
-        /// <param name="subTests">The tests to add.</param>
-        public void Add(TestCollection subTests)
+        /// <param name="tests">The tests to add.</param>
+        public void Add(IEnumerable<Action> tests)
         {
+            var subTests = tests as TestCollection ?? new TestCollection(tests);
+
             this.Add(() => subTests.RunTests());
         }
 
@@ -49,7 +52,7 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
-        /// Runs the tests.
+        /// Runs the tests with specific failure message and arguments.
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="arguments">The arguments.</param>

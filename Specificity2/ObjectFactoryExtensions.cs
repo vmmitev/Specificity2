@@ -10,6 +10,7 @@ namespace Testing.Specificity2
     using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
     using System.Text;
@@ -56,13 +57,13 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
-        /// Generate a pseudo-random <see cref="SByte"/> value.
+        /// Generate a pseudo-random <see cref="sbyte"/> value.
         /// </summary>
         /// <param name="factory">The object factory.</param>
         /// <param name="minimum">The minimum value to generate.</param>
         /// <param name="maximum">The maximum value to generate.</param>
         /// <param name="distribution">The distribution to use.</param>
-        /// <returns>A pseudo-random <see cref="SByte"/> value.</returns>
+        /// <returns>A pseudo-random <see cref="sbyte"/> value.</returns>
         public static byte AnyByte(this IObjectFactory factory, byte minimum = byte.MinValue, byte maximum = byte.MaxValue, Distribution distribution = null)
         {
             if (factory == null)
@@ -74,13 +75,13 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
-        /// Generate a pseudo-random <see cref="Char"/> value.
+        /// Generate a pseudo-random <see cref="char"/> value.
         /// </summary>
         /// <param name="factory">The object factory.</param>
         /// <param name="minimum">The minimum value to generate.</param>
         /// <param name="maximum">The maximum value to generate.</param>
         /// <param name="distribution">The distribution to use.</param>
-        /// <returns>A pseudo-random <see cref="Char"/> value.</returns>
+        /// <returns>A pseudo-random <see cref="char"/> value.</returns>
         public static char AnyChar(this IObjectFactory factory, char minimum = char.MinValue, char maximum = char.MaxValue, Distribution distribution = null)
         {
             if (factory == null)
@@ -138,7 +139,7 @@ namespace Testing.Specificity2
         /// </summary>
         /// <param name="factory">The object factory.</param>
         /// <param name="distribution">The distribution to use.</param>
-        /// <returns>A pseudo-random <see cref="Char"/> value.</returns>
+        /// <returns>A pseudo-random <see cref="char"/> value.</returns>
         public static char AnyDigit(this IObjectFactory factory, Distribution distribution = null)
         {
             if (factory == null)
@@ -195,13 +196,13 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
-        /// Generate a pseudo-random <see cref="Single"/> value.
+        /// Generate a pseudo-random <see cref="float"/> value.
         /// </summary>
         /// <param name="factory">The object factory.</param>
         /// <param name="minimum">The minimum value to generate.</param>
         /// <param name="maximum">The maximum value to generate.</param>
         /// <param name="distribution">The distribution to use.</param>
-        /// <returns>A pseudo-random <see cref="Single"/> value.</returns>
+        /// <returns>A pseudo-random <see cref="float"/> value.</returns>
         public static float AnyFloat(this IObjectFactory factory, float minimum = float.MinValue, float maximum = float.MaxValue, Distribution distribution = null)
         {
             if (factory == null)
@@ -213,13 +214,13 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
-        /// Generate a pseudo-random <see cref="Int32"/> value.
+        /// Generate a pseudo-random <see cref="int"/> value.
         /// </summary>
         /// <param name="factory">The object factory.</param>
         /// <param name="minimum">The minimum value to generate.</param>
         /// <param name="maximum">The maximum value to generate.</param>
         /// <param name="distribution">The distribution to use.</param>
-        /// <returns>A pseudo-random <see cref="Int32"/> value.</returns>
+        /// <returns>A pseudo-random <see cref="int"/> value.</returns>
         public static int AnyInt(this IObjectFactory factory, int minimum = int.MinValue, int maximum = int.MaxValue, Distribution distribution = null)
         {
             if (factory == null)
@@ -235,7 +236,7 @@ namespace Testing.Specificity2
         /// </summary>
         /// <param name="factory">The object factory.</param>
         /// <param name="distribution">The distribution to use.</param>
-        /// <returns>A pseudo-random <see cref="Char"/> value.</returns>
+        /// <returns>A pseudo-random <see cref="char"/> value.</returns>
         public static char AnyLetter(this IObjectFactory factory, Distribution distribution = null)
         {
             if (factory == null)
@@ -252,7 +253,7 @@ namespace Testing.Specificity2
         /// </summary>
         /// <param name="factory">The object factory.</param>
         /// <param name="distribution">The distribution to use.</param>
-        /// <returns>A pseudo-random <see cref="Char"/> value.</returns>
+        /// <returns>A pseudo-random <see cref="char"/> value.</returns>
         public static char AnyLetterOrDigit(this IObjectFactory factory, Distribution distribution = null)
         {
             if (factory == null)
@@ -270,13 +271,13 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
-        /// Generate a pseudo-random <see cref="Int64"/> value.
+        /// Generate a pseudo-random <see cref="long"/> value.
         /// </summary>
         /// <param name="factory">The object factory.</param>
         /// <param name="minimum">The minimum value to generate.</param>
         /// <param name="maximum">The maximum value to generate.</param>
         /// <param name="distribution">The distribution to use.</param>
-        /// <returns>A pseudo-random <see cref="Int64"/> value.</returns>
+        /// <returns>A pseudo-random <see cref="long"/> value.</returns>
         public static long AnyLong(this IObjectFactory factory, long minimum = long.MinValue, long maximum = long.MaxValue, Distribution distribution = null)
         {
             if (factory == null)
@@ -288,13 +289,13 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
-        /// Generate a pseudo-random <see cref="Int16"/> value.
+        /// Generate a pseudo-random <see cref="short"/> value.
         /// </summary>
         /// <param name="factory">The object factory.</param>
         /// <param name="minimum">The minimum value to generate.</param>
         /// <param name="maximum">The maximum value to generate.</param>
         /// <param name="distribution">The distribution to use.</param>
-        /// <returns>A pseudo-random <see cref="Int16"/> value.</returns>
+        /// <returns>A pseudo-random <see cref="short"/> value.</returns>
         public static short AnyShort(this IObjectFactory factory, short minimum = short.MinValue, short maximum = short.MaxValue, Distribution distribution = null)
         {
             if (factory == null)
@@ -353,13 +354,14 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
-        /// Generate a pseudo-random <see cref="UInt32"/> value.
+        /// Generate a pseudo-random <see cref="uint"/> value.
         /// </summary>
         /// <param name="factory">The object factory.</param>
         /// <param name="minimum">The minimum value to generate.</param>
         /// <param name="maximum">The maximum value to generate.</param>
         /// <param name="distribution">The distribution to use.</param>
-        /// <returns>A pseudo-random <see cref="UInt32"/> value.</returns>
+        /// <returns>A pseudo-random <see cref="uint"/> value.</returns>
+        [CLSCompliant(false)]
         public static uint AnyUInt(this IObjectFactory factory, uint minimum = uint.MinValue, uint maximum = uint.MaxValue, Distribution distribution = null)
         {
             if (factory == null)
@@ -371,13 +373,14 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
-        /// Generate a pseudo-random <see cref="UInt64"/> value.
+        /// Generate a pseudo-random <see cref="ulong"/> value.
         /// </summary>
         /// <param name="factory">The object factory.</param>
         /// <param name="minimum">The minimum value to generate.</param>
         /// <param name="maximum">The maximum value to generate.</param>
         /// <param name="distribution">The distribution to use.</param>
-        /// <returns>A pseudo-random <see cref="UInt64"/> value.</returns>
+        /// <returns>A pseudo-random <see cref="ulong"/> value.</returns>
+        [CLSCompliant(false)]
         public static ulong AnyULong(this IObjectFactory factory, ulong minimum = ulong.MinValue, ulong maximum = ulong.MaxValue, Distribution distribution = null)
         {
             if (factory == null)
@@ -389,13 +392,14 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
-        /// Generate a pseudo-random <see cref="UInt16"/> value.
+        /// Generate a pseudo-random <see cref="ushort"/> value.
         /// </summary>
         /// <param name="factory">The object factory.</param>
         /// <param name="minimum">The minimum value to generate.</param>
         /// <param name="maximum">The maximum value to generate.</param>
         /// <param name="distribution">The distribution to use.</param>
-        /// <returns>A pseudo-random <see cref="UInt16"/> value.</returns>
+        /// <returns>A pseudo-random <see cref="ushort"/> value.</returns>
+        [CLSCompliant(false)]
         public static ushort AnyUShort(this IObjectFactory factory, ushort minimum = ushort.MinValue, ushort maximum = ushort.MaxValue, Distribution distribution = null)
         {
             if (factory == null)
@@ -433,6 +437,7 @@ namespace Testing.Specificity2
         /// </summary>
         /// <typeparam name="TRegistrar">The registrar type.</typeparam>
         /// <param name="registry">The registry.</param>
+        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "The generic type is the only parameter that needs to be supplied.")]
         public static void Register<TRegistrar>(this IObjectFactoryRegistry registry)
             where TRegistrar : IObjectFactoryRegistrar, new()
         {

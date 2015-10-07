@@ -108,29 +108,6 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
-        /// Gets the property changed tests.
-        /// </summary>
-        /// <returns>A collection of property changed tests.</returns>
-        protected virtual IEnumerable<Action<object, PropertyInfo, object, object>> GetPropertyChangedTests()
-        {
-            yield return (instance, property, initialValue, newValue) => Specify.That(property.GetValue(instance)).Should.BeEqualTo(newValue);
-            if (typeof(INotifyPropertyChanged).IsAssignableFrom(typeof(T)))
-            {
-                yield return (instance, property, initialValue, newValue) => this.SpecifyThatPropertyChangedWasRaised(property);
-                yield return (Instance, property, initialValue, newValue) => this.SpecifyThatNoOtherPropertyChangedEventsWereRaised(property);
-            }
-        }
-
-        /// <summary>
-        /// Gets the property not changed tests.
-        /// </summary>
-        /// <returns>A collection of property not changed tests.</returns>
-        protected virtual IEnumerable<Action<object, PropertyInfo, object, object>> GetPropertyNotChangedTests()
-        {
-            yield return (instance, property, initialValue, newValue) => Specify.That(property.GetValue(instance)).Should.BeEqualTo(newValue);
-        }
-
-        /// <summary>
         /// Gets the test methods used to verify the contract.
         /// </summary>
         /// <returns>
@@ -142,7 +119,7 @@ namespace Testing.Specificity2
             {
                 foreach (var test in this.GetPropertyChangedTests())
                 {
-                    yield return delegate
+                    yield return () =>
                     {
                         var instance = this.factory.Any<T>();
                         object initialValue = property.GetValue(instance);
@@ -169,7 +146,7 @@ namespace Testing.Specificity2
 
                 foreach (var test in this.GetPropertyNotChangedTests())
                 {
-                    yield return delegate
+                    yield return () =>
                     {
                         var instance = this.factory.Any<T>();
                         object initialValue = property.GetValue(instance);
@@ -200,6 +177,29 @@ namespace Testing.Specificity2
             }
 
             property.SetValue(instance, newValue);
+        }
+
+        /// <summary>
+        /// Gets the property changed tests.
+        /// </summary>
+        /// <returns>A collection of property changed tests.</returns>
+        private IEnumerable<Action<object, PropertyInfo, object, object>> GetPropertyChangedTests()
+        {
+            yield return (instance, property, initialValue, newValue) => Specify.That(property.GetValue(instance)).Should.BeEqualTo(newValue);
+            if (typeof(INotifyPropertyChanged).IsAssignableFrom(typeof(T)))
+            {
+                yield return (instance, property, initialValue, newValue) => this.SpecifyThatPropertyChangedWasRaised(property);
+                yield return (instance, property, initialValue, newValue) => this.SpecifyThatNoOtherPropertyChangedEventsWereRaised(property);
+            }
+        }
+
+        /// <summary>
+        /// Gets the property not changed tests.
+        /// </summary>
+        /// <returns>A collection of property not changed tests.</returns>
+        private IEnumerable<Action<object, PropertyInfo, object, object>> GetPropertyNotChangedTests()
+        {
+            yield return (instance, property, initialValue, newValue) => Specify.That(property.GetValue(instance)).Should.BeEqualTo(newValue);
         }
 
         /// <summary>
