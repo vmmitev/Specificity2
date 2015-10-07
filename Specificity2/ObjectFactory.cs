@@ -133,7 +133,7 @@ namespace Testing.Specificity2
 
             object result;
             var context = new CustomizationContext(this.customizations);
-            if (context.CallNextCustomization(type, this, out result))
+            if (context.TryNextCustomization(this, out result))
             {
                 return result;
             }

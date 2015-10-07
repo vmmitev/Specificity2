@@ -6,7 +6,6 @@
 
 namespace Testing.Specificity2
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -32,21 +31,24 @@ namespace Testing.Specificity2
         /// <summary>
         /// Calls the next customization, allowing it to try and get an instance of the requested object type.
         /// </summary>
-        /// <param name="type">The type of object to obtain an instance of.</param>
+        /// <typeparam name="T">The type of object to obtain an instance of.</typeparam>
         /// <param name="factory">The <see cref="IObjectFactory"/> associated with this customization.</param>
         /// <param name="result">The object instance to return to the caller.</param>
         /// <returns><see langword="true"/> if an instance of the specified type was obtained; otherwise <see langword="false"/></returns>
-        public bool CallNextCustomization(Type type, IObjectFactory factory, out object result)
+        public bool TryNextCustomization<T>(IObjectFactory factory, out T result)
+            where T : class
         {
             var nextCustomization = this.nextCustomizations.FirstOrDefault();
             if (nextCustomization == null)
             {
                 result = null;
+
                 return false;
             }
 
             var newContext = new CustomizationContext(this.nextCustomizations.Skip(1));
-            return nextCustomization.TryGetAny(type, factory, newContext, out result);
+
+            return nextCustomization.TryGetAny(factory, newContext, out result);
         }
     }
 }

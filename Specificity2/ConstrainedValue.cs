@@ -59,7 +59,7 @@ namespace Testing.Specificity2
         /// </summary>
         /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>.</param>
         /// <returns>
-        /// true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
+        /// <see langword="true"/> if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, <see langword="false"/>.
         /// </returns>
         /// <exception cref="T:System.NullReferenceException">
         /// The <paramref name="obj"/> parameter is null.

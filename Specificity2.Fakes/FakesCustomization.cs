@@ -40,15 +40,8 @@ namespace Testing.Specificity2
             KnownStubs = stubTypes.ToDictionary(stubType => GetStubbedType(stubType));
         }
 
-        /// <summary>
-        /// Try to obtain an instance of the specified type.
-        /// </summary>
-        /// <param name="type">The type of object to obtain.</param>
-        /// <param name="factory">The factory associated with this customization.</param>
-        /// <param name="context">The context in which the object is being obtained.</param>
-        /// <param name="result">The object instance to return to the caller.</param>
-        /// <returns><see langword="true"/> if an instance of the specified type was obtained; otherwise <see langword="false"/></returns>
-        public override bool TryGetAny(Type type, IObjectFactory factory, CustomizationContext context, out object result)
+        /// <inheritdoc/>
+        public override bool TryGetAny<T>(IObjectFactory factory, CustomizationContext context, out T result)
         {
             if (factory == null)
             {
@@ -61,14 +54,14 @@ namespace Testing.Specificity2
             }
 
             Type stubType;
-            if (KnownStubs.TryGetValue(type, out stubType))
+            if (KnownStubs.TryGetValue(typeof(T), out stubType))
             {
-                result = factory.Any(stubType);
+                result = (T)factory.Any(stubType);
 
                 return true;
             }
 
-            return context.CallNextCustomization(type, factory, out result);
+            return context.TryNextCustomization(factory, out result);
         }
 
         /// <summary>
@@ -106,7 +99,7 @@ namespace Testing.Specificity2
         /// Returns whether the interface type matches <see cref="IStub{T}"/>.
         /// </summary>
         /// <param name="interfaceType">The interface type to check.</param>
-        /// <returns>true if the type matches <see cref="IStub{T}"/>; otherwise, false</returns>
+        /// <returns><see langword="true"/> if the type matches <see cref="IStub{T}"/>; otherwise, <see langword="false"/>.</returns>
         private static bool IsStubInterfaceType(Type interfaceType)
         {
             return interfaceType.IsGenericType

@@ -37,7 +37,7 @@ namespace Testing.Specificity2
         /// <summary>
         /// Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
         /// </summary>
-        /// <returns>true if the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only; otherwise, false.
+        /// <returns><see langword="true"/> if the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only; otherwise, <see langword="false"/>.
         /// </returns>
         public bool IsReadOnly
         {
@@ -60,7 +60,7 @@ namespace Testing.Specificity2
         /// </summary>
         /// <param name="item">The object to locate in the <see cref="T:System.Collections.Generic.ICollection`1"/>.</param>
         /// <returns>
-        /// true if <paramref name="item"/> is found in the <see cref="T:System.Collections.Generic.ICollection`1"/>; otherwise, false.
+        /// <see langword="true"/> if <paramref name="item"/> is found in the <see cref="T:System.Collections.Generic.ICollection`1"/>; otherwise, <see langword="false"/>.
         /// </returns>
         public bool Contains(TEventArgs item)
         {
@@ -116,7 +116,7 @@ namespace Testing.Specificity2
         /// </summary>
         /// <param name="item">The object to remove from the <see cref="T:System.Collections.Generic.ICollection`1"/>.</param>
         /// <returns>
-        /// true if <paramref name="item"/> was successfully removed from the <see cref="T:System.Collections.Generic.ICollection`1"/>; otherwise, false. This method also returns false if <paramref name="item"/> is not found in the original <see cref="T:System.Collections.Generic.ICollection`1"/>.
+        /// <see langword="true"/> if <paramref name="item"/> was successfully removed from the <see cref="T:System.Collections.Generic.ICollection`1"/>; otherwise, <see langword="false"/>. This method also returns <see langword="false"/> if <paramref name="item"/> is not found in the original <see cref="T:System.Collections.Generic.ICollection`1"/>.
         /// </returns>
         /// <exception cref="T:System.NotSupportedException">
         /// The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
