@@ -21,24 +21,7 @@ namespace Testing.Specificity2
         /// <summary>
         /// The known stub types.
         /// </summary>
-        private static readonly Dictionary<Type, Type> KnownStubs;
-
-        /// <summary>
-        /// Initializes static members of the <see cref="FakesCustomization"/> class.
-        /// </summary>
-        static FakesCustomization()
-        {
-            EnsureFakesAssembliesAreLoaded();
-
-            var stubTypes = AppDomain.CurrentDomain
-                .GetAssemblies()
-                .SelectMany(assembly => assembly.GetTypes())
-                .Where(type => !type.IsInterface &&
-                               !type.IsAbstract &&
-                               typeof(IStub).IsAssignableFrom(type));
-
-            KnownStubs = stubTypes.ToDictionary(stubType => GetStubbedType(stubType));
-        }
+        private static IDictionary<Type, Type> KnownStubs { get; } = GetKnownStubs();
 
         /// <inheritdoc/>
         public override bool TryGetAny<T>(IObjectFactory factory, CustomizationContext context, out T result)
@@ -65,6 +48,17 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
+        /// Returns a dictionary of discoverable stub types.
+        /// </summary>
+        /// <returns>The dictionary mapping between stubbed type and the actual stub type.</returns>
+        private static Dictionary<Type, Type> GetKnownStubs()
+        {
+            EnsureFakesAssembliesAreLoaded();
+
+            return GetStubTypes().ToDictionary(stubType => GetStubbedType(stubType));
+        }
+
+        /// <summary>
         /// Ensure Fakes assemblies are loaded.
         /// </summary>
         private static void EnsureFakesAssembliesAreLoaded()
@@ -75,11 +69,25 @@ namespace Testing.Specificity2
 
             foreach (var name in referencedAssemblies)
             {
-                if (name.Name.EndsWith(".Fakes"))
+                if (name.Name.EndsWith(".Fakes", StringComparison.Ordinal))
                 {
                     Assembly.Load(name);
                 }
             }
+        }
+
+        /// <summary>
+        /// Returns an enumeration of discoverable stub types.
+        /// </summary>
+        /// <returns>The enumeration of discovered stub types.</returns>
+        private static IEnumerable<Type> GetStubTypes()
+        {
+            return AppDomain.CurrentDomain
+                            .GetAssemblies()
+                            .SelectMany(assembly => assembly.GetTypes())
+                            .Where(type => !type.IsInterface &&
+                                           !type.IsAbstract &&
+                                           typeof(IStub).IsAssignableFrom(type));
         }
 
         /// <summary>
@@ -90,9 +98,9 @@ namespace Testing.Specificity2
         private static Type GetStubbedType(Type stubType)
         {
             return stubType.GetInterfaces()
-                .Where(stubInterface => IsStubInterfaceType(stubInterface))
-                .Select(stubInterface => stubInterface.GetGenericArguments().Single())
-                .Single();
+                           .Where(stubInterface => IsStubInterfaceType(stubInterface))
+                           .Select(stubInterface => stubInterface.GetGenericArguments().Single())
+                           .Single();
         }
 
         /// <summary>
