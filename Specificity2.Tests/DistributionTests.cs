@@ -72,11 +72,11 @@ namespace Testing.Specificity2.Tests
                 this.LessThan0 = this.CreateClassification(d => d < 0);
             }
 
-            public Classification GreaterThan85Hundredths { get; private set; }
+            public Classification<double> GreaterThan85Hundredths { get; private set; }
 
-            public Classification LessThan0 { get; private set; }
+            public Classification<double> LessThan0 { get; private set; }
 
-            public Classification LessThan15Hundredths { get; private set; }
+            public Classification<double> LessThan15Hundredths { get; private set; }
         }
     }
 }

@@ -29,11 +29,6 @@ namespace Testing.Specificity2
         private readonly ObjectFactory factory;
 
         /// <summary>
-        /// The properties (values) expected to be notified when another property (key) is raised.
-        /// </summary>
-        private Dictionary<string, List<string>> expectedNotifications = new Dictionary<string, List<string>>();
-
-        /// <summary>
         /// The property factory methods
         /// </summary>
         private Dictionary<string, Func<IObjectFactory, object>> propertyFactoryMethods = new Dictionary<string, Func<IObjectFactory, object>>();
@@ -63,6 +58,17 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
+        /// The properties (values) expected to be notified when another property (key) is raised.
+        /// </summary>
+        internal Dictionary<string, List<string>> ExpectedNotifications { get; } = new Dictionary<string, List<string>>();
+
+        /// <inheritdoc/>
+        protected override IEnumerable<Action> Tests
+        {
+            get { return this.GetTests(); }
+        }
+
+        /// <summary>
         /// Registers a customization object that can change how objects are created.
         /// </summary>
         /// <param name="customization">The customization to apply.</param>
@@ -76,9 +82,9 @@ namespace Testing.Specificity2
         /// </summary>
         /// <param name="name">The property name.</param>
         /// <returns>The property details that can be used to declare constraints on the specified property.</returns>
-        public PropertyDetails Property(string name)
+        public PropertyDetails<T> Property(string name)
         {
-            return new PropertyDetails(this, name);
+            return new PropertyDetails<T>(this, name);
         }
 
         /// <summary>
@@ -108,12 +114,34 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
+        /// Sets the property to the specified value.
+        /// </summary>
+        /// <param name="instance">The instance.</param>
+        /// <param name="property">The property.</param>
+        /// <param name="newValue">The new value.</param>
+        protected virtual void SetValue(T instance, PropertyInfo property, object newValue)
+        {
+            if (this.watcher != null)
+            {
+                this.watcher.Dispose();
+            }
+
+            var inpc = instance as INotifyPropertyChanged;
+            if (inpc != null)
+            {
+                this.watcher = new PropertyChangedWatcher(inpc);
+            }
+
+            property.SetValue(instance, newValue);
+        }
+
+        /// <summary>
         /// Gets the test methods used to verify the contract.
         /// </summary>
         /// <returns>
         /// A collection of test methods.
         /// </returns>
-        protected override IEnumerable<Action> GetTests()
+        private IEnumerable<Action> GetTests()
         {
             foreach (var property in this.GetProperties())
             {
@@ -158,28 +186,6 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
-        /// Sets the property to the specified value.
-        /// </summary>
-        /// <param name="instance">The instance.</param>
-        /// <param name="property">The property.</param>
-        /// <param name="newValue">The new value.</param>
-        protected virtual void SetValue(T instance, PropertyInfo property, object newValue)
-        {
-            if (this.watcher != null)
-            {
-                this.watcher.Dispose();
-            }
-
-            var inpc = instance as INotifyPropertyChanged;
-            if (inpc != null)
-            {
-                this.watcher = new PropertyChangedWatcher(inpc);
-            }
-
-            property.SetValue(instance, newValue);
-        }
-
-        /// <summary>
         /// Gets the property changed tests.
         /// </summary>
         /// <returns>A collection of property changed tests.</returns>
@@ -212,7 +218,7 @@ namespace Testing.Specificity2
             if (propertyNames.Add(propertyChanged))
             {
                 List<string> dependentProperties;
-                if (this.expectedNotifications.TryGetValue(propertyChanged, out dependentProperties))
+                if (this.ExpectedNotifications.TryGetValue(propertyChanged, out dependentProperties))
                 {
                     foreach (var propertyName in dependentProperties)
                     {
@@ -262,51 +268,6 @@ namespace Testing.Specificity2
                     "PropertyChanged was not raised for {0} when '{1}' was changed.",
                     string.Join(",", notNotified.Select(n => "'" + n + "'")),
                     property.Name);
-        }
-
-        /// <summary>
-        /// Property details that can be used to declare constraints on a given property.
-        /// </summary>
-        public sealed class PropertyDetails
-        {
-            /// <summary>
-            /// The parent.
-            /// </summary>
-            private readonly ObjectPropertyVerifier<T> parent;
-
-            /// <summary>
-            /// The property name.
-            /// </summary>
-            private readonly string propertyName;
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="PropertyDetails"/> class.
-            /// </summary>
-            /// <param name="parent">The parent.</param>
-            /// <param name="propertyName">Name of the property.</param>
-            internal PropertyDetails(ObjectPropertyVerifier<T> parent, string propertyName)
-            {
-                this.parent = parent;
-                this.propertyName = propertyName;
-            }
-
-            /// <summary>
-            /// Declares the property depends on the specified properties.
-            /// </summary>
-            /// <param name="dependencies">The dependency properties.</param>
-            public void DependsOn(params string[] dependencies)
-            {
-                foreach (var dependency in dependencies)
-                {
-                    List<string> expectedNotifications;
-                    if (!this.parent.expectedNotifications.TryGetValue(dependency, out expectedNotifications))
-                    {
-                        expectedNotifications = this.parent.expectedNotifications[dependency] = new List<string>();
-                    }
-
-                    expectedNotifications.Add(this.propertyName);
-                }
-            }
         }
     }
 }

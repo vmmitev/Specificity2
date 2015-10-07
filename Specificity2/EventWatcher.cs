@@ -106,7 +106,7 @@ namespace Testing.Specificity2
         /// <exception cref="T:System.NotSupportedException">
         /// The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
         /// </exception>
-        void ICollection<TEventArgs>.Add(TEventArgs item)
+        public void Add(TEventArgs item)
         {
             throw new InvalidOperationException();
         }
@@ -121,7 +121,7 @@ namespace Testing.Specificity2
         /// <exception cref="T:System.NotSupportedException">
         /// The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
         /// </exception>
-        bool ICollection<TEventArgs>.Remove(TEventArgs item)
+        public bool Remove(TEventArgs item)
         {
             throw new InvalidOperationException();
         }

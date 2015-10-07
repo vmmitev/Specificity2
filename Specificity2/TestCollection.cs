@@ -9,6 +9,7 @@ namespace Testing.Specificity2
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
     /// <summary>
@@ -56,6 +57,7 @@ namespace Testing.Specificity2
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="arguments">The arguments.</param>
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "The point is to report exception failures.")]
         public void RunTests(string message, params object[] arguments)
         {
             List<Exception> exceptions = new List<Exception>();

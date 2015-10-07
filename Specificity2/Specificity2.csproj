@@ -51,6 +51,7 @@
     </Compile>
     <Compile Include="ActionConstraints.cs" />
     <Compile Include="BooleanConstraints.cs" />
+    <Compile Include="Classification.cs" />
     <Compile Include="Classifier.cs" />
     <Compile Include="CollectionConstraints.cs" />
     <Compile Include="ComparableVerifier.cs" />
@@ -85,6 +86,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="PropertyChangedWatcher.cs" />
+    <Compile Include="PropertyDetails.cs" />
     <Compile Include="Specify.cs" />
     <Compile Include="DefaultObjectFactoryRegistry.cs" />
     <Compile Include="StringConstraints.cs" />

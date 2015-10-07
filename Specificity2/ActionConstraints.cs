@@ -24,7 +24,6 @@ namespace Testing.Specificity2
         /// <param name="parameters">The parameters used to format the <paramref name="message"/>.</param>
         /// <exception cref="Exception">The constraint failed. The exact type of exception thrown will
         /// depend on the unit test framework, if any, in use.</exception>
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "The point is to report exception failures.")]
         public static void HaveThrown(this IConstraint<Action> self, string message = null, params object[] parameters)
         {
             if (self == null)

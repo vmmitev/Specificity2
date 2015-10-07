@@ -9,6 +9,8 @@ namespace Testing.Specificity2
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
+    using System.IO;
     using System.Linq;
     using System.Reflection;
 
@@ -51,7 +53,7 @@ namespace Testing.Specificity2
                     assembly = Assembly.Load(name);
                     break;
                 }
-                catch (Exception)
+                catch (IOException)
                 {
                 }
             }
@@ -74,6 +76,7 @@ namespace Testing.Specificity2
         /// <param name="args">
         /// An array of parameters to use when formatting <paramref name="message" />.
         /// </param>
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "The point is to report exception failures.")]
         public static void Aggregate(Action action, string message = null, params object[] args)
         {
             var exceptions = new List<Exception>();
@@ -199,23 +202,6 @@ namespace Testing.Specificity2
         public static ConstrainedValue<Action> ThatAction(Action action)
         {
             return new ConstrainedValue<Action>(action);
-        }
-
-        /// <summary>
-        /// Try to load the specified assembly.
-        /// </summary>
-        /// <param name="name">The assembly to load.</param>
-        /// <returns>The loaded assembly or <see langname="null" /> if loading failed.</returns>
-        private static Assembly TryLoadAssembly(string name)
-        {
-            try
-            {
-                return Assembly.Load(name);
-            }
-            catch
-            {
-                return null;
-            }
         }
     }
 }

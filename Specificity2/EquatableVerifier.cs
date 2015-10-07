@@ -62,11 +62,52 @@ namespace Testing.Specificity2
         /// </summary>
         public bool IsSealed { get; set; }
 
+        /// <inheritdoc/>
+        protected override IEnumerable<Action> Tests
+        {
+            get { return this.GetTests(); }
+        }
+
+        /// <summary>
+        /// Specifies that operators are defined.
+        /// </summary>
+        protected virtual void SpecifyThatOperatorsAreDefined()
+        {
+            Specify.That(EqualityOperator).Should.Not.BeNull("Equality operator not defined for type '{0}'.", typeof(T));
+            Specify.That(InequalityOperator).Should.Not.BeNull("Inequality operator not defined for type '{0}'.", typeof(T));
+        }
+
+        /// <summary>
+        /// Gets tests for all of the comparison operations.
+        /// </summary>
+        /// <param name="lhs">The left hand side value.</param>
+        /// <param name="rhs">The right hand side value.</param>
+        /// <param name="comparison">How the values should compare.</param>
+        /// <returns>A collection of tests.</returns>
+        protected virtual IEnumerable<Action> GetOperationTests(T lhs, T rhs, int comparison)
+        {
+            if (lhs != null)
+            {
+                yield return () => Specify.That(lhs.Equals(rhs)).Should.BeEqualTo(comparison == 0, "Testing IEquatable.Equals with '{0}' and '{1}' failed.", lhs, rhs);
+                yield return () => Specify.That(((object)lhs).Equals(rhs)).Should.BeEqualTo(comparison == 0, "Testing Object.Equals with '{0}' and '{1}' failed.", lhs, rhs);
+                if (comparison == 0)
+                {
+                    yield return () => Specify.That(lhs.GetHashCode()).Should.BeEqualTo(rhs.GetHashCode(), "Testing GetHashCode failed with equivalent objects '{0}' and '{1}'.", lhs, rhs);
+                }
+            }
+
+            if (!typeof(T).IsPrimitive && this.ImplementsOperatorOverloads)
+            {
+                yield return () => Specify.That((bool)EqualityOperator.Invoke(null, new object[] { lhs, rhs })).Should.BeEqualTo(comparison == 0, "Testing operator == with '{0}' and '{1}' failed.", lhs, rhs);
+                yield return () => Specify.That((bool)InequalityOperator.Invoke(null, new object[] { lhs, rhs })).Should.BeEqualTo(comparison != 0, "Testing operator != with '{0}' and '{1}' failed.", lhs, rhs);
+            }
+        }
+
         /// <summary>
         /// Gets the test methods used to verify the contract.
         /// </summary>
         /// <returns>A collection of test methods.</returns>
-        protected override IEnumerable<Action> GetTests()
+        private IEnumerable<Action> GetTests()
         {
             if (this.EquivalenceClasses == null || !this.EquivalenceClasses.Any())
             {
@@ -139,41 +180,6 @@ namespace Testing.Specificity2
             tests.Add(operationTests);
 
             return tests;
-        }
-
-        /// <summary>
-        /// Specifies that operators are defined.
-        /// </summary>
-        protected virtual void SpecifyThatOperatorsAreDefined()
-        {
-            Specify.That(EqualityOperator).Should.Not.BeNull("Equality operator not defined for type '{0}'.", typeof(T));
-            Specify.That(InequalityOperator).Should.Not.BeNull("Inequality operator not defined for type '{0}'.", typeof(T));
-        }
-
-        /// <summary>
-        /// Gets tests for all of the comparison operations.
-        /// </summary>
-        /// <param name="lhs">The left hand side value.</param>
-        /// <param name="rhs">The right hand side value.</param>
-        /// <param name="comparison">How the values should compare.</param>
-        /// <returns>A collection of tests.</returns>
-        protected virtual IEnumerable<Action> GetOperationTests(T lhs, T rhs, int comparison)
-        {
-            if (lhs != null)
-            {
-                yield return () => Specify.That(lhs.Equals(rhs)).Should.BeEqualTo(comparison == 0, "Testing IEquatable.Equals with '{0}' and '{1}' failed.", lhs, rhs);
-                yield return () => Specify.That(((object)lhs).Equals(rhs)).Should.BeEqualTo(comparison == 0, "Testing Object.Equals with '{0}' and '{1}' failed.", lhs, rhs);
-                if (comparison == 0)
-                {
-                    yield return () => Specify.That(lhs.GetHashCode()).Should.BeEqualTo(rhs.GetHashCode(), "Testing GetHashCode failed with equivalent objects '{0}' and '{1}'.", lhs, rhs);
-                }
-            }
-
-            if (!typeof(T).IsPrimitive && this.ImplementsOperatorOverloads)
-            {
-                yield return () => Specify.That((bool)EqualityOperator.Invoke(null, new object[] { lhs, rhs })).Should.BeEqualTo(comparison == 0, "Testing operator == with '{0}' and '{1}' failed.", lhs, rhs);
-                yield return () => Specify.That((bool)InequalityOperator.Invoke(null, new object[] { lhs, rhs })).Should.BeEqualTo(comparison != 0, "Testing operator != with '{0}' and '{1}' failed.", lhs, rhs);
-            }
         }
 
         /// <summary>
