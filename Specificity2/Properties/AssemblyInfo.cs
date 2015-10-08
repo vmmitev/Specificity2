@@ -7,6 +7,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -15,6 +16,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyTitle("Specificity2")]
 [assembly: AssemblyProduct("Specificity2")]
+[assembly: NeutralResourcesLanguage("en-US")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyTrademark("")]
@@ -33,3 +35,6 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("Specificity2.MbUnit")]
 [assembly: InternalsVisibleTo("Specificity2.NUnit")]
 [assembly: InternalsVisibleTo("Specificity2.XUnit")]
+
+// Analyzer Suppressions
+[assembly: SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "AnyTime", Scope = "member", Target = "Testing.Specificity2.ObjectFactoryExtensions.#AnyTimeSpan(Testing.Specificity2.IObjectFactory,System.Nullable`1<System.TimeSpan>,System.Nullable`1<System.TimeSpan>,Testing.Specificity2.Distribution)", Justification = "Used as compound in 'Any TimeSpan'.")]

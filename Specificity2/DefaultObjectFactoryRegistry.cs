@@ -15,17 +15,17 @@ namespace Testing.Specificity2
     internal class DefaultObjectFactoryRegistry : Dictionary<Type, Func<IObjectFactory, object>>, IObjectFactoryRegistry
     {
         /// <summary>
-        /// The registered customizations;
-        /// </summary>
-        private readonly Stack<ObjectFactoryCustomization> customizations = new Stack<ObjectFactoryCustomization>();
-
-        /// <summary>
         /// Gets the registered customizations.
         /// </summary>
         public IEnumerable<ObjectFactoryCustomization> Customizations
         {
-            get { return this.customizations; }
+            get { return this.CustomizationsStack; }
         }
+
+        /// <summary>
+        /// The registered customizations as a stack.
+        /// </summary>
+        private Stack<ObjectFactoryCustomization> CustomizationsStack { get; } = new Stack<ObjectFactoryCustomization>();
 
         /// <summary>
         /// Adds a customization object to the registry.
@@ -33,7 +33,7 @@ namespace Testing.Specificity2
         /// <param name="customization">The customization object.</param>
         public void Customize(ObjectFactoryCustomization customization)
         {
-            this.customizations.Push(customization);
+            this.CustomizationsStack.Push(customization);
         }
 
         /// <summary>

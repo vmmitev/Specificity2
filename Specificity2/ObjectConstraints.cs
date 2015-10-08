@@ -416,47 +416,39 @@ namespace Testing.Specificity2
         private static class ConstraintComparer<T>
         {
             /// <summary>
-            /// The cached comparer.
+            /// Gets the default comparer for the constraint type.
             /// </summary>
-            private static readonly IEqualityComparer<T> Comparer;
+            public static IEqualityComparer<T> Default { get; } = GetDefaultComparer();
 
             /// <summary>
-            /// Initializes static members of the <see cref="ConstraintComparer{T}"/> class.
+            /// Returns the cached comparer.
             /// </summary>
-            static ConstraintComparer()
+            /// <returns>The cached comparer.</returns>
+            private static IEqualityComparer<T> GetDefaultComparer()
             {
                 var type = typeof(T);
                 if (typeof(IEnumerable).IsAssignableFrom(type))
                 {
-                    var enumerableType = type.GetInterfaces()
-                        .FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEnumerable<>));
+                    var enumerableType = type.GetInterfaces().FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEnumerable<>));
                     if (enumerableType != null)
                     {
-                        var comparerType = typeof(EnumerableComparer<,>)
-                            .MakeGenericType(typeof(T), enumerableType.GetGenericArguments().First());
+                        var comparerType = typeof(EnumerableComparer<,>).MakeGenericType(typeof(T), enumerableType.GetGenericArguments().First());
                         var defaultProperty = comparerType.GetProperty("Default", BindingFlags.Public | BindingFlags.Static);
-                        ConstraintComparer<T>.Comparer = (IEqualityComparer<T>)defaultProperty.GetValue(null);
+
+                        return (IEqualityComparer<T>)defaultProperty.GetValue(null);
                     }
                     else
                     {
-                        var comparerType = typeof(EnumerableComparer<>)
-                            .MakeGenericType(typeof(T));
+                        var comparerType = typeof(EnumerableComparer<>).MakeGenericType(typeof(T));
                         var defaultProperty = comparerType.GetProperty("Default", BindingFlags.Public | BindingFlags.Static);
-                        ConstraintComparer<T>.Comparer = (IEqualityComparer<T>)defaultProperty.GetValue(null);
+
+                        return (IEqualityComparer<T>)defaultProperty.GetValue(null);
                     }
                 }
                 else
                 {
-                    ConstraintComparer<T>.Comparer = EqualityComparer<T>.Default;
+                    return EqualityComparer<T>.Default;
                 }
-            }
-
-            /// <summary>
-            /// Gets the default comparer for the constraint type.
-            /// </summary>
-            public static IEqualityComparer<T> Default
-            {
-                get { return ConstraintComparer<T>.Comparer; }
             }
         }
 
@@ -468,17 +460,9 @@ namespace Testing.Specificity2
             where T : IEnumerable
         {
             /// <summary>
-            /// The cached comparer.
-            /// </summary>
-            private static readonly IEqualityComparer<T> Comparer = new EnumerableComparer<T>();
-
-            /// <summary>
             /// Gets the default comparer for the enumerable type.
             /// </summary>
-            public static IEqualityComparer<T> Default
-            {
-                get { return EnumerableComparer<T>.Comparer; }
-            }
+            public static IEqualityComparer<T> Default { get; } = new EnumerableComparer<T>();
 
             /// <summary>
             /// Determines whether the specified objects are equal.
@@ -540,17 +524,9 @@ namespace Testing.Specificity2
             where TEnumerable : IEnumerable<TItem>
         {
             /// <summary>
-            /// The cached comparer.
-            /// </summary>
-            private static readonly IEqualityComparer<TEnumerable> Comparer = new EnumerableComparer<TEnumerable, TItem>();
-
-            /// <summary>
             /// Gets the default comparer for the enumerable type.
             /// </summary>
-            public static IEqualityComparer<TEnumerable> Default
-            {
-                get { return EnumerableComparer<TEnumerable, TItem>.Comparer; }
-            }
+            public static IEqualityComparer<TEnumerable> Default { get; } = new EnumerableComparer<TEnumerable, TItem>();
 
             /// <summary>
             /// Determines whether the specified objects are equal.

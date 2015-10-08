@@ -9,6 +9,7 @@ namespace Testing.Specificity2
     using System;
     using System.Globalization;
     using System.Text.RegularExpressions;
+    using Properties;
 
     /// <summary>
     /// Provides localized messages obtained from the resource file.
@@ -325,7 +326,7 @@ namespace Testing.Specificity2
         /// <returns>The message text.</returns>
         private static string GetMessage(string name)
         {
-            return Properties.Resources.ResourceManager.GetString(name);
+            return Resources.ResourceManager.GetString(name);
         }
     }
 }

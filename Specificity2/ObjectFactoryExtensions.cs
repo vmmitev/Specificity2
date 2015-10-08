@@ -24,7 +24,7 @@ namespace Testing.Specificity2
         /// <summary>
         /// Digit characters.
         /// </summary>
-        private static readonly char[] Digits =
+        private static char[] Digits { get; } =
             Enumerable.Range(char.MinValue, char.MaxValue - char.MinValue)
             .Select(c => (char)c)
             .Where(c => char.IsDigit(c))
@@ -33,7 +33,7 @@ namespace Testing.Specificity2
         /// <summary>
         /// Letter characters.
         /// </summary>
-        private static readonly char[] Letters =
+        private static char[] Letters { get; } =
             Enumerable.Range(0x00, 0xFF)
             .Select(c => (char)c)
             .Where(c => char.IsLetter(c))
@@ -418,6 +418,8 @@ namespace Testing.Specificity2
         /// <param name="instance">The instance to return for any further calls to obtain an object of the specified type.</param>
         public static void Freeze(this IObjectFactoryRegistry registry, Type type, object instance)
         {
+            ValidateRegistryArgument(registry);
+
             registry.Register(type, f => instance);
         }
 
@@ -429,6 +431,8 @@ namespace Testing.Specificity2
         /// <param name="instance">The instance to return for any further calls to obtain an object of the specified type.</param>
         public static void Freeze<T>(this IObjectFactoryRegistry registry, T instance)
         {
+            ValidateRegistryArgument(registry);
+
             registry.Register(typeof(T), f => instance);
         }
 
@@ -463,6 +467,14 @@ namespace Testing.Specificity2
             for (int i = 0; i < length; ++i)
             {
                 yield return (T)itemFactory(factory);
+            }
+        }
+
+        private static void ValidateRegistryArgument(IObjectFactoryRegistry registry)
+        {
+            if (registry == null)
+            {
+                throw new ArgumentNullException("registry");
             }
         }
     }

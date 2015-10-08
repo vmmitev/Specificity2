@@ -1,4 +1,5 @@
-﻿// <copyright file="EventWatcher.cs" company="William E. Kempf">
+﻿//-----------------------------------------------------------------------------
+// <copyright file="EventWatcher.cs" company="William E. Kempf">
 //     Copyright (c) William E. Kempf.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -19,11 +20,6 @@ namespace Testing.Specificity2
         where TEventArgs : EventArgs
     {
         /// <summary>
-        /// The events that have been raised.
-        /// </summary>
-        private readonly List<TEventArgs> events = new List<TEventArgs>();
-
-        /// <summary>
         /// Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
         /// </summary>
         /// <returns>
@@ -31,7 +27,7 @@ namespace Testing.Specificity2
         /// </returns>
         public int Count
         {
-            get { return this.events.Count; }
+            get { return this.Events.Count; }
         }
 
         /// <summary>
@@ -45,6 +41,11 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
+        /// The events that have been raised.
+        /// </summary>
+        private List<TEventArgs> Events { get; } = new List<TEventArgs>();
+
+        /// <summary>
         /// Removes all items from the <see cref="T:Sys tem.Collections.Generic.ICollection`1"/>.
         /// </summary>
         /// <exception cref="T:System.NotSupportedException">
@@ -52,7 +53,7 @@ namespace Testing.Specificity2
         /// </exception>
         public void Clear()
         {
-            this.events.Clear();
+            this.Events.Clear();
         }
 
         /// <summary>
@@ -64,7 +65,7 @@ namespace Testing.Specificity2
         /// </returns>
         public bool Contains(TEventArgs item)
         {
-            return this.events.Contains(item);
+            return this.Events.Contains(item);
         }
 
         /// <summary>
@@ -74,7 +75,7 @@ namespace Testing.Specificity2
         /// <param name="arrayIndex">Index of the array.</param>
         public void CopyTo(TEventArgs[] array, int arrayIndex)
         {
-            this.events.CopyTo(array, arrayIndex);
+            this.Events.CopyTo(array, arrayIndex);
         }
 
         /// <summary>
@@ -85,7 +86,7 @@ namespace Testing.Specificity2
         [SuppressMessage("Microsoft.Security", "CA2109:ReviewVisibleEventHandlers", Justification = "Client code must be able to hook this event handler up.")]
         public void EventHandler(object sender, TEventArgs e)
         {
-            this.events.Add(e);
+            this.Events.Add(e);
         }
 
         /// <summary>
@@ -96,7 +97,7 @@ namespace Testing.Specificity2
         /// </returns>
         public IEnumerator<TEventArgs> GetEnumerator()
         {
-            return this.events.GetEnumerator();
+            return this.Events.GetEnumerator();
         }
 
         /// <summary>

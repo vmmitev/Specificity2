@@ -9,7 +9,9 @@ namespace Testing.Specificity2
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.Linq;
+    using Properties;
 
     /// <summary>
     /// Base class for objects that can verify type contracts.
@@ -28,13 +30,13 @@ namespace Testing.Specificity2
         public void Verify()
         {
             var exceptions = this.Tests
-                .Select(test => this.RunTest(test))
+                .Select(RunTest)
                 .Where(test => test != null)
                 .ToArray();
 
             if (exceptions.Length > 0)
             {
-                Specify.Failure(exceptions, string.Format("{0} failed verification.", this.GetType()));
+                Specify.Failure(exceptions, string.Format(CultureInfo.CurrentCulture, Resources.ValueFailedVerification, this.GetType()));
             }
         }
 
@@ -44,7 +46,7 @@ namespace Testing.Specificity2
         /// <param name="test">The test method.</param>
         /// <returns>The exception thrown by the test, if any.</returns>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "The point is to report exception failures.")]
-        private Exception RunTest(Action test)
+        private static Exception RunTest(Action test)
         {
             try
             {

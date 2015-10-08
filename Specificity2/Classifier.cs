@@ -16,18 +16,14 @@ namespace Testing.Specificity2
     public abstract class Classifier<T>
     {
         /// <summary>
-        /// Created classifications.
-        /// </summary>
-        private readonly List<Classification<T>> classifications = new List<Classification<T>>();
-
-        /// <summary>
         /// Gets the total number of values that have been classified.
         /// </summary>
-        public int Count
-        {
-            get;
-            private set;
-        }
+        public int Count { get; private set; }
+
+        /// <summary>
+        /// Created classifications.
+        /// </summary>
+        private List<Classification<T>> Classifications { get; } = new List<Classification<T>>();
 
         /// <summary>
         /// Classifies a specified value.
@@ -36,7 +32,7 @@ namespace Testing.Specificity2
         public void Classify(T value)
         {
             this.Count++;
-            foreach (var classification in this.classifications)
+            foreach (var classification in this.Classifications)
             {
                 if (classification.Predicate(value))
                 {
@@ -59,7 +55,7 @@ namespace Testing.Specificity2
             }
 
             var classification = new Classification<T>(this, predicate);
-            this.classifications.Add(classification);
+            this.Classifications.Add(classification);
             return classification;
         }
     }

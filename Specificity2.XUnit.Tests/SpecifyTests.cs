@@ -137,7 +137,7 @@ namespace Testing.Specificity2.Tests
 
             try
             {
-                Specify.Inonclusive(message, arg);
+                Specify.Inconclusive(message, arg);
             }
             catch (XunitException e)
             {
@@ -155,7 +155,7 @@ namespace Testing.Specificity2.Tests
 
             try
             {
-                Specify.Inonclusive(message);
+                Specify.Inconclusive(message);
             }
             catch (XunitException e)
             {
@@ -171,7 +171,7 @@ namespace Testing.Specificity2.Tests
         {
             try
             {
-                Specify.Inonclusive();
+                Specify.Inconclusive();
             }
             catch (XunitException)
             {

@@ -10,6 +10,7 @@ namespace Testing.Specificity2
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -22,49 +23,12 @@ namespace Testing.Specificity2
         /// <summary>
         /// The platform adapter instance.
         /// </summary>
-        private static readonly ISpecifyAdapter Adapter;
+        private static ISpecifyAdapter Adapter { get; } = GetAdapter();
 
         /// <summary>
         /// Records aggregate exceptions.
         /// </summary>
-        private static readonly Stack<List<Exception>> AggregateExceptionStack = new Stack<List<Exception>>();
-
-        /// <summary>
-        /// The platform adapter assembly names.
-        /// </summary>
-        private static readonly string[] PlatformAssemblies = new[]
-            {
-                "Specificity2.MSTest",
-                "Specificity2.NUnit",
-                "Specificity2.XUnit",
-                "Specificity2.MbUnit"
-            };
-
-        /// <summary>
-        /// Initializes static members of the <see cref="Specify" /> class.
-        /// </summary>
-        static Specify()
-        {
-            Assembly assembly = null;
-            foreach (var name in PlatformAssemblies)
-            {
-                try
-                {
-                    assembly = Assembly.Load(name);
-                    break;
-                }
-                catch (IOException)
-                {
-                }
-            }
-
-            if (assembly != null)
-            {
-                var adapterType = assembly.GetTypes()
-                    .First(t => t.GetInterfaces().Any(i => i == typeof(ISpecifyAdapter)));
-                Specify.Adapter = (ISpecifyAdapter)Activator.CreateInstance(adapterType);
-            }
-        }
+        private static Stack<List<Exception>> AggregateExceptionStack { get; } = new Stack<List<Exception>>();
 
         /// <summary>
         /// Tests multiple assertions.
@@ -79,8 +43,13 @@ namespace Testing.Specificity2
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "The point is to report exception failures.")]
         public static void Aggregate(Action action, string message = null, params object[] args)
         {
+            if (action == null)
+            {
+                throw new ArgumentNullException("action");
+            }
+
             var exceptions = new List<Exception>();
-            Specify.AggregateExceptionStack.Push(exceptions);
+            AggregateExceptionStack.Push(exceptions);
             try
             {
                 action();
@@ -94,12 +63,12 @@ namespace Testing.Specificity2
             }
             finally
             {
-                Specify.AggregateExceptionStack.Pop();
+                AggregateExceptionStack.Pop();
             }
 
             if (exceptions.Any())
             {
-                Specify.Failure(exceptions, message, args);
+                Failure(exceptions, message, args);
             }
         }
 
@@ -116,13 +85,13 @@ namespace Testing.Specificity2
         {
             try
             {
-                Specify.Adapter.Fail(message == null ? null : string.Format(message, args));
+                Adapter.Fail(message == null ? null : string.Format(CultureInfo.CurrentCulture, message, args));
             }
             catch (Exception e)
             {
-                if (Specify.AggregateExceptionStack.Any())
+                if (AggregateExceptionStack.Any())
                 {
-                    var exceptions = Specify.AggregateExceptionStack.Peek();
+                    var exceptions = AggregateExceptionStack.Peek();
                     exceptions.Add(e);
                     return;
                 }
@@ -148,11 +117,11 @@ namespace Testing.Specificity2
         {
             try
             {
-                Specify.Adapter.Fail(innerExceptions, message == null ? null : string.Format(message, args));
+                Adapter.Fail(innerExceptions, message == null ? null : string.Format(CultureInfo.CurrentCulture, message, args));
             }
             catch (Exception e)
             {
-                if (Specify.AggregateExceptionStack.Any())
+                if (AggregateExceptionStack.Any())
                 {
                     var exceptions = Specify.AggregateExceptionStack.Peek();
                     exceptions.Add(e);
@@ -172,9 +141,9 @@ namespace Testing.Specificity2
         /// <param name="args">
         /// An array of parameters to use when formatting <paramref name="message" />.
         /// </param>
-        public static void Inonclusive(string message = null, params object[] args)
+        public static void Inconclusive(string message = null, params object[] args)
         {
-            Specify.Adapter.Inconclusive(message == null ? null : string.Format(message, args));
+            Adapter.Inconclusive(message == null ? null : string.Format(CultureInfo.CurrentCulture, message, args));
         }
 
         /// <summary>
@@ -202,6 +171,49 @@ namespace Testing.Specificity2
         public static ConstrainedValue<Action> ThatAction(Action action)
         {
             return new ConstrainedValue<Action>(action);
+        }
+
+        /// <summary>
+        /// Returns the first <see cref="ISpecifyAdapter" /> defined in loaded adapter assemblies.
+        /// </summary>
+        /// <returns>The first <see cref="ISpecifyAdapter" /> defined in loaded adapter assemblies.</returns>
+        private static ISpecifyAdapter GetAdapter()
+        {
+            Assembly assembly = GetAdapterAssembly();
+
+            if (assembly != null)
+            {
+                var adapterType = assembly.GetTypes().First(t => t.GetInterfaces().Any(i => i == typeof(ISpecifyAdapter)));
+
+                return (ISpecifyAdapter)Activator.CreateInstance(adapterType);
+            }
+
+            return null;
+        }
+
+        private static Assembly GetAdapterAssembly()
+        {
+            var platformAssemblies = new[]
+            {
+                "Specificity2.MSTest",
+                "Specificity2.NUnit",
+                "Specificity2.XUnit",
+                "Specificity2.MbUnit"
+            };
+
+            Assembly assembly = null;
+            foreach (var name in platformAssemblies)
+            {
+                try
+                {
+                    return Assembly.Load(name);
+                }
+                catch (IOException)
+                {
+                }
+            }
+
+            return assembly;
         }
     }
 }

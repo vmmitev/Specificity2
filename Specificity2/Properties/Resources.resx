@@ -207,4 +207,106 @@
   <data name="UnexpectedExceptionType" xml:space="preserve">
     <value>Expected exception type: &lt;{0}&gt;. Actual exception type: &lt;{1}&gt;.</value>
   </data>
+  <data name="EqualityOperatorNotDefinedForType" xml:space="preserve">
+    <value>Equality operator not defined for type '{0}'.</value>
+  </data>
+  <data name="GreaterThanOperatorNotDefinedForType" xml:space="preserve">
+    <value>Greater than operator not defined for type '{0}'</value>
+  </data>
+  <data name="GreaterThanOrEqualOperatorNotDefinedForType" xml:space="preserve">
+    <value>Greater than or equal operator not defined for type '{0}'</value>
+  </data>
+  <data name="InequalityOperatorNotDefinedForType" xml:space="preserve">
+    <value>Inequality operator not defined for type '{0}'.</value>
+  </data>
+  <data name="LessThanOperatorNotDefinedForType" xml:space="preserve">
+    <value>Less than operator not defined for type '{0}'.</value>
+  </data>
+  <data name="LessThanOrEqualOperatorNotDefinedForType" xml:space="preserve">
+    <value>Less than or equal operator not defined for type '{0}'.</value>
+  </data>
+  <data name="MultipleTestsFailed" xml:space="preserve">
+    <value>Multiple tests failed.</value>
+  </data>
+  <data name="PropertyChangedWasNotRaised" xml:space="preserve">
+    <value>PropertyChanged was not raised for {0} when '{1}' was changed.</value>
+  </data>
+  <data name="PropertyChangedWasUnexpectedlyRaised" xml:space="preserve">
+    <value>PropertyChanged was unexpectedly raised for {0} when '{1}' was changed.</value>
+  </data>
+  <data name="TestingCompareToWithValuesFailed" xml:space="preserve">
+    <value>Testing CompareTo with '{0}' and '{1}' failed.</value>
+  </data>
+  <data name="TestingGenericCompareToWithValuesFailed" xml:space="preserve">
+    <value>Testing generic CompareTo with '{0}' and '{1}' failed.</value>
+  </data>
+  <data name="TestingGreaterThanOperatorWithValuesFailed" xml:space="preserve">
+    <value>Testing operator &gt; with '{0}' and '{1}' failed.</value>
+  </data>
+  <data name="TestingGreaterThanOrEqualOperatorWithValuesFailed" xml:space="preserve">
+    <value>Testing operator &gt;= with '{0}' and '{1}' failed.</value>
+  </data>
+  <data name="TestingIEquatableEqualsWithValuesFailed" xml:space="preserve">
+    <value>Testing IEquatable.Equals with '{0}' and '{1}' failed.</value>
+  </data>
+  <data name="TestingLessThanOperatorWithValuesFailed" xml:space="preserve">
+    <value>Testing operator &lt; with '{0}' and '{1}' failed.</value>
+  </data>
+  <data name="TestingLessThanOrEqualOperatorWithValuesFailed" xml:space="preserve">
+    <value>Testing operator &lt;= with '{0}' and '{1}' failed.</value>
+  </data>
+  <data name="TestingObjectEqualsWithValuesFailed" xml:space="preserve">
+    <value>Testing Object.Equals with '{0}' and '{1}' failed.</value>
+  </data>
+  <data name="TestingObjectGetHashCodeWithValuesFailed" xml:space="preserve">
+    <value>Testing Object.GetHashCode failed with equivalent objects '{0}' and '{1}'.</value>
+  </data>
+  <data name="TestingOperatorEqualsWithValuesFailed" xml:space="preserve">
+    <value>Testing operator == with '{0}' and '{1}' failed.</value>
+  </data>
+  <data name="TestingOperatorNotEqualsWithValuesFailed" xml:space="preserve">
+    <value>Testing operator != with '{0}' and '{1}' failed.</value>
+  </data>
+  <data name="TestingSymmetryOfIEquatableEqualsWithValuesFailed" xml:space="preserve">
+    <value>Testing symmetry of IEquatable.Equals with '{0}' and '{1}' failed.</value>
+  </data>
+  <data name="TestingSymmetryOfObjectEqualsWithValuesFailed" xml:space="preserve">
+    <value>Testing symmetry of Object.Equals with '{0}' and '{1}' failed.</value>
+  </data>
+  <data name="TestingSymmetryOfOperatorEqualsWithValuesFailed" xml:space="preserve">
+    <value>Testing symmetry of operator == with '{0}' and '{1}' failed.</value>
+  </data>
+  <data name="TestingSymmetryOfOperatorNotEqualsWithValuesFailed" xml:space="preserve">
+    <value>Testing symmetry of operator != with '{0}' and '{1}' failed.</value>
+  </data>
+  <data name="TestingTransitivityOfIEquatableEqualsWithValuesFailed" xml:space="preserve">
+    <value>Testing transitivity of IEquatable.Equals with '{0}', '{1}' and '{2}' failed.</value>
+  </data>
+  <data name="TestingTransitivityOfObjectEqualsWithValuesFailed" xml:space="preserve">
+    <value>Testing transitivity of Object.Equals with '{0}', '{1}' and '{2}' failed.</value>
+  </data>
+  <data name="TestingTransitivityOfOperatorEqualsWithValuesFailed" xml:space="preserve">
+    <value>Testing transitivity of operator == with '{0}', '{1}' and '{2}' failed.</value>
+  </data>
+  <data name="TestingTransitivityOfOperatorNotEqualsWithValuesFailed" xml:space="preserve">
+    <value>Testing transitivity of operator != with '{0}', '{1}' and '{2}' failed.</value>
+  </data>
+  <data name="TheTypeDidNotOverrideObjectEqualsMethod" xml:space="preserve">
+    <value>The type '{0}' did not override the 'Object.Equals' method.</value>
+  </data>
+  <data name="TheTypeDidNotOverrideObjectGetHashCodeMethod" xml:space="preserve">
+    <value>The type '{0}' did not override the 'Object.GetHashCode' method.</value>
+  </data>
+  <data name="TheTypeDoesNotDefineEqualityOperators" xml:space="preserve">
+    <value>The type '{0}' does not define equality operators.</value>
+  </data>
+  <data name="TheTypeShouldBeSealedWhenImplementingIEquatable" xml:space="preserve">
+    <value>The type '{0}' should be sealed as a best practice when implementing 'IEquatable&lt;T&gt;'.</value>
+  </data>
+  <data name="ValueFailedVerification" xml:space="preserve">
+    <value>{0} failed verification.</value>
+  </data>
+  <data name="NoEquivalenceClassesWereSpecified" xml:space="preserve">
+    <value>No EquivalenceClasses were specified.</value>
+  </data>
 </root>

@@ -10,6 +10,7 @@ namespace Testing.Specificity2
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using Properties;
 
     /// <summary>
     /// Provides a contract verifier that verifies the implementation of <see cref="IEquatable{T}" /> types.
@@ -18,26 +19,6 @@ namespace Testing.Specificity2
     public class EquatableVerifier<T> : ContractVerifier
         where T : IEquatable<T>
     {
-        /// <summary>
-        /// The '==' operator method info.
-        /// </summary>
-        private static readonly MethodInfo EqualityOperator = typeof(T).GetMethod("op_Equality", BindingFlags.Static | BindingFlags.Public, null, new Type[] { typeof(T), typeof(T) }, null);
-
-        /// <summary>
-        /// The <see cref="m:Object.GetHashCode"/> method info.
-        /// </summary>
-        private static readonly MethodInfo GetHashCodeMethod = typeof(T).GetMethod("GetHashCode", BindingFlags.Instance | BindingFlags.Public, null, Type.EmptyTypes, null);
-
-        /// <summary>
-        /// The '!=' operator method info.
-        /// </summary>
-        private static readonly MethodInfo InequalityOperator = typeof(T).GetMethod("op_Inequality", BindingFlags.Static | BindingFlags.Public, null, new Type[] { typeof(T), typeof(T) }, null);
-
-        /// <summary>
-        /// The <see cref="m:Object.Equals"/> method info.
-        /// </summary>
-        private static readonly MethodInfo ObjectEqualsMethod = typeof(T).GetMethod("Equals", BindingFlags.Instance | BindingFlags.Public, null, new Type[] { typeof(object) }, null);
-
         /// <summary>
         /// Initializes a new instance of the <see cref="EquatableVerifier{T}"/> class.
         /// </summary>
@@ -69,37 +50,74 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
+        /// The '==' operator method info.
+        /// </summary>
+        private static MethodInfo EqualityOperator { get; } =
+            typeof(T).GetMethod("op_Equality", BindingFlags.Static | BindingFlags.Public, null, new Type[] { typeof(T), typeof(T) }, null);
+
+        /// <summary>
+        /// The <see cref="m:Object.GetHashCode"/> method info.
+        /// </summary>
+        private static MethodInfo GetHashCodeMethod { get; } =
+            typeof(T).GetMethod("GetHashCode", BindingFlags.Instance | BindingFlags.Public, null, Type.EmptyTypes, null);
+
+        /// <summary>
+        /// The '!=' operator method info.
+        /// </summary>
+        private static MethodInfo InequalityOperator { get; } =
+            typeof(T).GetMethod("op_Inequality", BindingFlags.Static | BindingFlags.Public, null, new Type[] { typeof(T), typeof(T) }, null);
+
+        /// <summary>
+        /// The <see cref="m:Object.Equals"/> method info.
+        /// </summary>
+        private static MethodInfo ObjectEqualsMethod { get; } =
+            typeof(T).GetMethod("Equals", BindingFlags.Instance | BindingFlags.Public, null, new Type[] { typeof(object) }, null);
+
+        /// <summary>
         /// Specifies that operators are defined.
         /// </summary>
         protected virtual void SpecifyThatOperatorsAreDefined()
         {
-            Specify.That(EqualityOperator).Should.Not.BeNull("Equality operator not defined for type '{0}'.", typeof(T));
-            Specify.That(InequalityOperator).Should.Not.BeNull("Inequality operator not defined for type '{0}'.", typeof(T));
+            Specify.That(EqualityOperator).Should.Not.BeNull(Resources.EqualityOperatorNotDefinedForType, typeof(T));
+            Specify.That(InequalityOperator).Should.Not.BeNull(Resources.InequalityOperatorNotDefinedForType, typeof(T));
         }
 
         /// <summary>
         /// Gets tests for all of the comparison operations.
         /// </summary>
-        /// <param name="lhs">The left hand side value.</param>
-        /// <param name="rhs">The right hand side value.</param>
+        /// <param name="leftHandSide">The left hand side value.</param>
+        /// <param name="rightHandSide">The right hand side value.</param>
         /// <param name="comparison">How the values should compare.</param>
         /// <returns>A collection of tests.</returns>
-        protected virtual IEnumerable<Action> GetOperationTests(T lhs, T rhs, int comparison)
+        protected virtual IEnumerable<Action> GetOperationTests(T leftHandSide, T rightHandSide, int comparison)
         {
-            if (lhs != null)
+            if (leftHandSide != null)
             {
-                yield return () => Specify.That(lhs.Equals(rhs)).Should.BeEqualTo(comparison == 0, "Testing IEquatable.Equals with '{0}' and '{1}' failed.", lhs, rhs);
-                yield return () => Specify.That(((object)lhs).Equals(rhs)).Should.BeEqualTo(comparison == 0, "Testing Object.Equals with '{0}' and '{1}' failed.", lhs, rhs);
+                yield return () =>
+                    Specify.That(leftHandSide.Equals(rightHandSide))
+                        .Should.BeEqualTo(comparison == 0, Resources.TestingIEquatableEqualsWithValuesFailed, leftHandSide, rightHandSide);
+
+                yield return () =>
+                    Specify.That(((object)leftHandSide).Equals(rightHandSide))
+                        .Should.BeEqualTo(comparison == 0, Resources.TestingObjectEqualsWithValuesFailed, leftHandSide, rightHandSide);
+
                 if (comparison == 0)
                 {
-                    yield return () => Specify.That(lhs.GetHashCode()).Should.BeEqualTo(rhs.GetHashCode(), "Testing GetHashCode failed with equivalent objects '{0}' and '{1}'.", lhs, rhs);
+                    yield return () =>
+                        Specify.That(leftHandSide.GetHashCode())
+                            .Should.BeEqualTo(rightHandSide.GetHashCode(), Resources.TestingObjectGetHashCodeWithValuesFailed, leftHandSide, rightHandSide);
                 }
             }
 
             if (!typeof(T).IsPrimitive && this.ImplementsOperatorOverloads)
             {
-                yield return () => Specify.That((bool)EqualityOperator.Invoke(null, new object[] { lhs, rhs })).Should.BeEqualTo(comparison == 0, "Testing operator == with '{0}' and '{1}' failed.", lhs, rhs);
-                yield return () => Specify.That((bool)InequalityOperator.Invoke(null, new object[] { lhs, rhs })).Should.BeEqualTo(comparison != 0, "Testing operator != with '{0}' and '{1}' failed.", lhs, rhs);
+                yield return () =>
+                    Specify.That((bool)EqualityOperator.Invoke(null, new object[] { leftHandSide, rightHandSide }))
+                        .Should.BeEqualTo(comparison == 0, Resources.TestingOperatorEqualsWithValuesFailed, leftHandSide, rightHandSide);
+
+                yield return () =>
+                    Specify.That((bool)InequalityOperator.Invoke(null, new object[] { leftHandSide, rightHandSide }))
+                        .Should.BeEqualTo(comparison != 0, Resources.TestingOperatorNotEqualsWithValuesFailed, leftHandSide, rightHandSide);
             }
         }
 
@@ -111,7 +129,7 @@ namespace Testing.Specificity2
         {
             if (this.EquivalenceClasses == null || !this.EquivalenceClasses.Any())
             {
-                throw new InvalidOperationException("No EquivalenceClasses were specified.");
+                throw new InvalidOperationException(Resources.NoEquivalenceClassesWereSpecified);
             }
 
             var tests = new TestCollection();
@@ -192,14 +210,14 @@ namespace Testing.Specificity2
         {
             if (lhs != null && rhs != null)
             {
-                yield return () => Specify.That(lhs.Equals(rhs)).Should.BeEqualTo(rhs.Equals(lhs), "Testing symmetry of IEquatable.Equals with '{0}' and '{1}' failed.", lhs, rhs);
-                yield return () => Specify.That(((object)lhs).Equals(rhs)).Should.BeEqualTo(((object)rhs).Equals(lhs), "Testing symmetry of Object.Equals with '{0}' and '{1}' failed.", lhs, rhs);
+                yield return () => Specify.That(lhs.Equals(rhs)).Should.BeEqualTo(rhs.Equals(lhs), Resources.TestingSymmetryOfIEquatableEqualsWithValuesFailed, lhs, rhs);
+                yield return () => Specify.That(((object)lhs).Equals(rhs)).Should.BeEqualTo(((object)rhs).Equals(lhs), Resources.TestingSymmetryOfObjectEqualsWithValuesFailed, lhs, rhs);
             }
 
             if (!typeof(T).IsPrimitive && this.ImplementsOperatorOverloads)
             {
-                yield return () => Specify.That((bool)EqualityOperator.Invoke(null, new object[] { lhs, rhs })).Should.BeEqualTo((bool)EqualityOperator.Invoke(null, new object[] { rhs, lhs }), "Testing symmetry of operator == with '{0}' and '{1}' failed.", lhs, rhs);
-                yield return () => Specify.That((bool)InequalityOperator.Invoke(null, new object[] { lhs, rhs })).Should.BeEqualTo((bool)InequalityOperator.Invoke(null, new object[] { rhs, lhs }), "Testing symmetry of operator != with '{0}' and '{1}' failed.", lhs, rhs);
+                yield return () => Specify.That((bool)EqualityOperator.Invoke(null, new object[] { lhs, rhs })).Should.BeEqualTo((bool)EqualityOperator.Invoke(null, new object[] { rhs, lhs }), Resources.TestingSymmetryOfOperatorEqualsWithValuesFailed, lhs, rhs);
+                yield return () => Specify.That((bool)InequalityOperator.Invoke(null, new object[] { lhs, rhs })).Should.BeEqualTo((bool)InequalityOperator.Invoke(null, new object[] { rhs, lhs }), Resources.TestingSymmetryOfOperatorNotEqualsWithValuesFailed, lhs, rhs);
             }
         }
 
@@ -214,14 +232,14 @@ namespace Testing.Specificity2
         {
             if (a != null && b != null && c != null)
             {
-                yield return () => Specify.That(a.Equals(b) && b.Equals(c)).Should.BeEqualTo(a.Equals(c), "Testing transitive quality of IEquatable.Equals with '{0}', '{1}' and '{2}' failed.", a, b, c);
-                yield return () => Specify.That(((object)a).Equals(b) && ((object)b).Equals(c)).Should.BeEqualTo(((object)a).Equals(c), "Testing transitive quality of Object.Equals with '{0}', '{1}' and '{2}' failed.", a, b, c);
+                yield return () => Specify.That(a.Equals(b) && b.Equals(c)).Should.BeEqualTo(a.Equals(c), Resources.TestingTransitivityOfIEquatableEqualsWithValuesFailed, a, b, c);
+                yield return () => Specify.That(((object)a).Equals(b) && ((object)b).Equals(c)).Should.BeEqualTo(((object)a).Equals(c), Resources.TestingTransitivityOfObjectEqualsWithValuesFailed, a, b, c);
             }
 
             if (!typeof(T).IsPrimitive && this.ImplementsOperatorOverloads)
             {
-                yield return () => Specify.That((bool)EqualityOperator.Invoke(null, new object[] { a, b }) && (bool)EqualityOperator.Invoke(null, new object[] { b, c })).Should.BeEqualTo(true && (bool)EqualityOperator.Invoke(null, new object[] { a, c }), "Testing transitive quality of operator == with '{0}', '{1}' and '{2}' failed.", a, b, c);
-                yield return () => Specify.That((bool)InequalityOperator.Invoke(null, new object[] { a, b }) && (bool)InequalityOperator.Invoke(null, new object[] { b, c })).Should.BeEqualTo(true && (bool)InequalityOperator.Invoke(null, new object[] { a, c }), "Testing transitive quality of operator != with '{0}', '{1}' and '{2}' failed.", a, b, c);
+                yield return () => Specify.That((bool)EqualityOperator.Invoke(null, new object[] { a, b }) && (bool)EqualityOperator.Invoke(null, new object[] { b, c })).Should.BeEqualTo(true && (bool)EqualityOperator.Invoke(null, new object[] { a, c }), Resources.TestingTransitivityOfOperatorEqualsWithValuesFailed, a, b, c);
+                yield return () => Specify.That((bool)InequalityOperator.Invoke(null, new object[] { a, b }) && (bool)InequalityOperator.Invoke(null, new object[] { b, c })).Should.BeEqualTo(true && (bool)InequalityOperator.Invoke(null, new object[] { a, c }), Resources.TestingTransitivityOfOperatorNotEqualsWithValuesFailed, a, b, c);
             }
         }
 
@@ -235,7 +253,7 @@ namespace Testing.Specificity2
                 return;
             }
 
-            Specify.That(typeof(T).IsSealed).Should.BeTrue("The type '{0}' should be sealed as a best practice when implementing 'IEquatable<T>'.", typeof(T));
+            Specify.That(typeof(T).IsSealed).Should.BeTrue(Resources.TheTypeShouldBeSealedWhenImplementingIEquatable, typeof(T));
         }
 
         /// <summary>
@@ -249,11 +267,8 @@ namespace Testing.Specificity2
             }
 
             Specify.Aggregate(
-                () =>
-                {
-                    this.SpecifyThatOperatorsAreDefined();
-                },
-                "The type '{0}' does not define equality operators.",
+                this.SpecifyThatOperatorsAreDefined,
+                Resources.TheTypeDoesNotDefineEqualityOperators,
                 typeof(T));
         }
 
@@ -262,7 +277,7 @@ namespace Testing.Specificity2
         /// </summary>
         private void ShouldOverrideGetHashCode()
         {
-            Specify.That(GetHashCodeMethod.DeclaringType).Should.BeEqualTo(typeof(T), "The type '{0}' did not override the 'Object.GetHashCode' method.", typeof(T));
+            Specify.That(GetHashCodeMethod.DeclaringType).Should.BeEqualTo(typeof(T), Resources.TheTypeDidNotOverrideObjectGetHashCodeMethod, typeof(T));
         }
 
         /// <summary>
@@ -270,7 +285,7 @@ namespace Testing.Specificity2
         /// </summary>
         private void ShouldOverrideObjectEquals()
         {
-            Specify.That(ObjectEqualsMethod.DeclaringType).Should.BeEqualTo(typeof(T), "The type '{0}' did not override the 'Object.Equals' method.", typeof(T));
+            Specify.That(ObjectEqualsMethod.DeclaringType).Should.BeEqualTo(typeof(T), Resources.TheTypeDidNotOverrideObjectEqualsMethod, typeof(T));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace Testing.Specificity2
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -35,6 +36,11 @@
         /// <param name="dependencies">The dependency properties.</param>
         public void DependsOn(params string[] dependencies)
         {
+            if (dependencies == null)
+            {
+                throw new ArgumentNullException("dependencies");
+            }
+
             foreach (var dependency in dependencies)
             {
                 List<string> expectedNotifications;

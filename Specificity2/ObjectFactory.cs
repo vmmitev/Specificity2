@@ -9,6 +9,7 @@ namespace Testing.Specificity2
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
@@ -31,54 +32,9 @@ namespace Testing.Specificity2
     public sealed class ObjectFactory : IObjectFactory, IObjectFactoryRegistry
     {
         /// <summary>
-        /// Cached MethodInfo for the <see cref="m:ObjectFactory.Any{T}"/> method.
-        /// </summary>
-        private static readonly MethodInfo AnyMethod = typeof(IObjectFactory).GetMethod("Any");
-
-        /// <summary>
-        /// Static object factory methods.
-        /// </summary>
-        private static readonly DefaultObjectFactoryRegistry DefaultRegistryInstance;
-
-        /// <summary>
-        /// The registered customizations.
-        /// </summary>
-        private readonly Stack<ObjectFactoryCustomization> customizations = new Stack<ObjectFactoryCustomization>();
-
-        /// <summary>
-        /// The registered object factory methods.
-        /// </summary>
-        private readonly Dictionary<Type, Func<IObjectFactory, object>> factories = new Dictionary<Type, Func<IObjectFactory, object>>();
-
-        /// <summary>
         /// The pseudo-random number generator used when creating objects.
         /// </summary>
         private readonly Random random;
-
-        /// <summary>
-        /// Initializes static members of the <see cref="ObjectFactory"/> class.
-        /// </summary>
-        static ObjectFactory()
-        {
-            var registry = new DefaultObjectFactoryRegistry();
-            registry.Register(typeof(double), f => f.AnyDouble());
-            registry.Register(typeof(float), f => f.AnyFloat());
-            registry.Register(typeof(long), f => f.AnyLong());
-            registry.Register(typeof(ulong), f => f.AnyULong());
-            registry.Register(typeof(int), f => f.AnyInt());
-            registry.Register(typeof(uint), f => f.AnyUInt());
-            registry.Register(typeof(short), f => f.AnyShort());
-            registry.Register(typeof(ushort), f => f.AnyUShort());
-            registry.Register(typeof(byte), f => f.AnyByte());
-            registry.Register(typeof(char), f => f.AnyChar());
-            registry.Register(typeof(bool), f => f.AnyInt() % 2 == 0);
-            registry.Register(typeof(string), f => f.AnyString());
-            registry.Register(typeof(DateTime), f => f.AnyDateTime());
-            registry.Register(typeof(DateTimeOffset), f => f.AnyDateTimeOffset());
-            registry.Register(typeof(TimeSpan), f => f.AnyTimeSpan());
-            registry.Register(typeof(Guid), f => Guid.NewGuid());
-            ObjectFactory.DefaultRegistryInstance = registry;
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectFactory"/> class.
@@ -98,25 +54,36 @@ namespace Testing.Specificity2
         public ObjectFactory(int seed)
         {
             this.random = new Random(seed);
-            foreach (var kv in ObjectFactory.DefaultRegistryInstance)
+            foreach (var kv in DefaultRegistry)
             {
-                this.factories[kv.Key] = kv.Value;
+                this.Factories[kv.Key] = kv.Value;
             }
 
-            foreach (var customization in ObjectFactory.DefaultRegistryInstance.Customizations)
+            foreach (var customization in DefaultRegistry.Customizations)
             {
-                this.customizations.Push(customization);
+                this.Customizations.Push(customization);
             }
         }
 
         /// <summary>
-        /// Gets the default registry used to register factories and customizations used by all <see cref="ObjectFactory"/>
-        /// instances.
+        /// Cached MethodInfo for the <see cref="m:ObjectFactory.Any{T}"/> method.
         /// </summary>
-        public static IObjectFactoryRegistry DefaultRegistry
-        {
-            get { return ObjectFactory.DefaultRegistryInstance; }
-        }
+        private static MethodInfo AnyMethod { get; } = typeof(IObjectFactory).GetMethod("Any");
+
+        /// <summary>
+        /// Static object factory methods.
+        /// </summary>
+        private static DefaultObjectFactoryRegistry DefaultRegistry { get; } = GetDefaultRegistry();
+
+        /// <summary>
+        /// The registered customizations.
+        /// </summary>
+        private Stack<ObjectFactoryCustomization> Customizations { get; } = new Stack<ObjectFactoryCustomization>();
+
+        /// <summary>
+        /// The registered object factory methods.
+        /// </summary>
+        private Dictionary<Type, Func<IObjectFactory, object>> Factories { get; } = new Dictionary<Type, Func<IObjectFactory, object>>();
 
         /// <summary>
         /// Generate a pseudo-random object of the specified type.
@@ -126,13 +93,13 @@ namespace Testing.Specificity2
         public object Any(Type type)
         {
             Func<IObjectFactory, object> factory;
-            if (this.factories.TryGetValue(type, out factory))
+            if (this.Factories.TryGetValue(type, out factory))
             {
                 return factory(this);
             }
 
             object result;
-            var context = new CustomizationContext(this.customizations);
+            var context = new CustomizationContext(this.Customizations);
             if (context.TryNextCustomization(this, out result))
             {
                 return result;
@@ -157,7 +124,7 @@ namespace Testing.Specificity2
         {
             if (minimum >= maximum)
             {
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException("minimum");
             }
 
             distribution = distribution ?? Distribution.Uniform;
@@ -170,115 +137,46 @@ namespace Testing.Specificity2
         /// <param name="customization">The customization to apply.</param>
         public void Customize(ObjectFactoryCustomization customization)
         {
-            this.customizations.Push(customization);
+            this.Customizations.Push(customization);
         }
 
         /// <summary>
         /// Registers a factory method that can be used to create instances of the specified type.
         /// </summary>
         /// <param name="type">The type of object created by the factory.</param>
-        /// <param name="factory">The factory method.</param>
-        public void Register(Type type, Func<IObjectFactory, object> factory)
+        /// <param name="factoryMethod">The factory method.</param>
+        public void Register(Type type, Func<IObjectFactory, object> factoryMethod)
         {
-            this.factories[type] = factory;
+            this.Factories[type] = factoryMethod;
         }
 
         /// <summary>
-        /// Determines if the specified method is a registrar method.
+        /// Returns the default registry instance.
         /// </summary>
-        /// <param name="method">The method to check.</param>
-        /// <returns><see langword="true"/> if the method is a registrar method;
-        /// otherwise <see langword="false"/>.</returns>
-        private static bool IsRegisrar(MethodInfo method)
+        /// <returns>The default registry instance.</returns>
+        [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Any other method of mapping would result in the same readability experience.")]
+        private static DefaultObjectFactoryRegistry GetDefaultRegistry()
         {
-            if (method.GetCustomAttribute(typeof(ObjectFactoryRegistrarAttribute)) == null)
-            {
-                return false;
-            }
+            var registry = new DefaultObjectFactoryRegistry();
 
-            if (method.GetParameters().SingleOrDefault(t => t.ParameterType == typeof(IObjectFactoryRegistry)) == null)
-            {
-                return false;
-            }
+            registry.Register(typeof(double), f => f.AnyDouble());
+            registry.Register(typeof(float), f => f.AnyFloat());
+            registry.Register(typeof(long), f => f.AnyLong());
+            registry.Register(typeof(ulong), f => f.AnyULong());
+            registry.Register(typeof(int), f => f.AnyInt());
+            registry.Register(typeof(uint), f => f.AnyUInt());
+            registry.Register(typeof(short), f => f.AnyShort());
+            registry.Register(typeof(ushort), f => f.AnyUShort());
+            registry.Register(typeof(byte), f => f.AnyByte());
+            registry.Register(typeof(char), f => f.AnyChar());
+            registry.Register(typeof(bool), f => f.AnyInt() % 2 == 0);
+            registry.Register(typeof(string), f => f.AnyString());
+            registry.Register(typeof(DateTime), f => f.AnyDateTime());
+            registry.Register(typeof(DateTimeOffset), f => f.AnyDateTimeOffset());
+            registry.Register(typeof(TimeSpan), f => f.AnyTimeSpan());
+            registry.Register(typeof(Guid), f => Guid.NewGuid());
 
-            return true;
-        }
-
-        /// <summary>
-        /// Creates an instance of the specified collection type, caching the dynamically
-        /// created factory used.
-        /// </summary>
-        /// <param name="type">The type of the items to create.</param>
-        /// <returns>An instance of the specified collection type.</returns>
-        private object CreateCollection(Type type)
-        {
-            var itemType = this.GetEnumerableItemType(type);
-            if (itemType != null)
-            {
-                return this.AnyEnumerable(itemType);
-            }
-
-            if (type.IsAbstract || type.IsInterface)
-            {
-                throw new InvalidOperationException();
-            }
-
-            var ctors = from c in type.GetConstructors()
-                        let args = c.GetParameters()
-                        where args.Length == 1
-                        let argItemType = this.GetEnumerableItemType(args[0].ParameterType)
-                        where argItemType != null
-                        select new { Ctor = c, ItemType = argItemType };
-            var ctor = ctors.SingleOrDefault();
-            if (ctor != null)
-            {
-                return ctor.Ctor.Invoke(new[] { this.AnyEnumerable(ctor.ItemType) });
-            }
-
-            throw new InvalidOperationException();
-        }
-
-        /// <summary>
-        /// Creates a factory using the specified constructor.
-        /// </summary>
-        /// <param name="ctor">The constructor to use when creating an object with the factory.</param>
-        /// <returns>A factory used to create objects using the specified constructor.</returns>
-        private Func<IObjectFactory, object> CreateFactory(ConstructorInfo ctor)
-        {
-            var factoryExpression = Expression.Parameter(typeof(IObjectFactory), "factory");
-            var parameterExpressions = ctor.GetParameters()
-                .Select(p => this.GetParameterExpression(p, factoryExpression));
-            var newExpression = Expression.New(ctor, parameterExpressions);
-            var lambda = Expression.Lambda<Func<IObjectFactory, object>>(newExpression, factoryExpression);
-            return lambda.Compile();
-        }
-
-        /// <summary>
-        /// Creates an instance of the specified type, caching the dynamically created
-        /// factory used.
-        /// </summary>
-        /// <param name="type">The type of the object to create.</param>
-        /// <returns>An instance of the specified type.</returns>
-        private object CreateObject(Type type)
-        {
-            if (type.IsInterface || type.IsAbstract)
-            {
-                throw new InvalidOperationException("Cannot create interface or abstract class " + type + ".");
-            }
-
-            var ctor = type
-                .GetConstructors()
-                .OrderBy(c => c.GetParameters().Length)
-                .FirstOrDefault();
-            if (ctor == null)
-            {
-                throw new InvalidOperationException("No public constructor found for type " + type + ".");
-            }
-
-            var factory = this.CreateFactory(ctor);
-            ObjectFactory.DefaultRegistryInstance[type] = factory;
-            this.factories[type] = factory;
-            return factory(this);
+            return registry;
         }
 
         /// <summary>
@@ -286,7 +184,7 @@ namespace Testing.Specificity2
         /// </summary>
         /// <param name="type">The enumerable type.</param>
         /// <returns>The type of the items in the enumerable.</returns>
-        private Type GetEnumerableItemType(Type type)
+        private static Type GetEnumerableItemType(Type type)
         {
             if (type == typeof(IEnumerable))
             {
@@ -307,11 +205,90 @@ namespace Testing.Specificity2
         /// <param name="parameter">The parameter to create an expression for.</param>
         /// <param name="factory">The factory parameter expression.</param>
         /// <returns>A parameter expression for the specified parameter.</returns>
-        private Expression GetParameterExpression(ParameterInfo parameter, ParameterExpression factory)
+        private static Expression GetParameterExpression(ParameterInfo parameter, ParameterExpression factory)
         {
-            var anyMethod = ObjectFactory.AnyMethod;
+            var anyMethod = AnyMethod;
             var call = Expression.Call(factory, anyMethod, Expression.Constant(parameter.ParameterType));
             return Expression.Convert(call, parameter.ParameterType);
+        }
+
+        /// <summary>
+        /// Creates a factory using the specified constructor.
+        /// </summary>
+        /// <param name="ctor">The constructor to use when creating an object with the factory.</param>
+        /// <returns>A factory used to create objects using the specified constructor.</returns>
+        private static Func<IObjectFactory, object> CreateFactory(ConstructorInfo ctor)
+        {
+            var factoryExpression = Expression.Parameter(typeof(IObjectFactory), "factory");
+            var parameterExpressions = ctor.GetParameters()
+                .Select(p => GetParameterExpression(p, factoryExpression));
+            var newExpression = Expression.New(ctor, parameterExpressions);
+            var lambda = Expression.Lambda<Func<IObjectFactory, object>>(newExpression, factoryExpression);
+            return lambda.Compile();
+        }
+
+        /// <summary>
+        /// Creates an instance of the specified collection type, caching the dynamically
+        /// created factory used.
+        /// </summary>
+        /// <param name="type">The type of the items to create.</param>
+        /// <returns>An instance of the specified collection type.</returns>
+        private object CreateCollection(Type type)
+        {
+            var itemType = GetEnumerableItemType(type);
+            if (itemType != null)
+            {
+                return this.AnyEnumerable(itemType);
+            }
+
+            if (type.IsAbstract || type.IsInterface)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var ctors = from c in type.GetConstructors()
+                        let args = c.GetParameters()
+                        where args.Length == 1
+                        let argItemType = GetEnumerableItemType(args[0].ParameterType)
+                        where argItemType != null
+                        select new { Ctor = c, ItemType = argItemType };
+
+            var ctor = ctors.SingleOrDefault();
+            if (ctor != null)
+            {
+                return ctor.Ctor.Invoke(new[] { this.AnyEnumerable(ctor.ItemType) });
+            }
+
+            throw new InvalidOperationException();
+        }
+
+        /// <summary>
+        /// Creates an instance of the specified type, caching the dynamically created
+        /// factory used.
+        /// </summary>
+        /// <param name="type">The type of the object to create.</param>
+        /// <returns>An instance of the specified type.</returns>
+        private object CreateObject(Type type)
+        {
+            if (type.IsInterface || type.IsAbstract)
+            {
+                throw new InvalidOperationException("Cannot create interface or abstract class " + type + ".");
+            }
+
+            var ctor = type
+                .GetConstructors()
+                .OrderBy(c => c.GetParameters().Length)
+                .FirstOrDefault();
+
+            if (ctor == null)
+            {
+                throw new InvalidOperationException("No public constructor found for type " + type + ".");
+            }
+
+            var factory = CreateFactory(ctor);
+            DefaultRegistry[type] = factory;
+            this.Factories[type] = factory;
+            return factory(this);
         }
     }
 }

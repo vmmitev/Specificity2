@@ -10,8 +10,10 @@ namespace Testing.Specificity2
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.Linq;
     using System.Reflection;
+    using Properties;
 
     /// <summary>
     /// Provides a contract verifier that verifies the implementation of properties for the specified type.
@@ -104,10 +106,15 @@ namespace Testing.Specificity2
         /// <param name="factoryMethod">The factory method.</param>
         public void Register(string propertyName, Func<IObjectFactory, object> factoryMethod)
         {
-            var property = this.GetProperties().FirstOrDefault(p => p.Name == propertyName);
+            var property = GetProperties().FirstOrDefault(p => p.Name == propertyName);
             if (property == null)
             {
-                throw new ArgumentOutOfRangeException(string.Format("{0} does not contain a property named {1}.", typeof(T), propertyName));
+                throw new ArgumentOutOfRangeException(
+                    string.Format(
+                        CultureInfo.CurrentCulture,
+                        "{0} does not contain a property named {1}.",
+                        typeof(T),
+                        propertyName));
             }
 
             this.Register(property.PropertyType, factoryMethod);
@@ -117,10 +124,15 @@ namespace Testing.Specificity2
         /// Sets the property to the specified value.
         /// </summary>
         /// <param name="instance">The instance.</param>
-        /// <param name="property">The property.</param>
+        /// <param name="propertyInfo">The property.</param>
         /// <param name="newValue">The new value.</param>
-        protected virtual void SetValue(T instance, PropertyInfo property, object newValue)
+        protected virtual void SetValue(T instance, PropertyInfo propertyInfo, object newValue)
         {
+            if (propertyInfo == null)
+            {
+                throw new ArgumentNullException("propertyInfo");
+            }
+
             if (this.watcher != null)
             {
                 this.watcher.Dispose();
@@ -132,7 +144,17 @@ namespace Testing.Specificity2
                 this.watcher = new PropertyChangedWatcher(inpc);
             }
 
-            property.SetValue(instance, newValue);
+            propertyInfo.SetValue(instance, newValue);
+        }
+
+        /// <summary>
+        /// Gets the properties.
+        /// </summary>
+        /// <returns>The properties.</returns>
+        private static IEnumerable<PropertyInfo> GetProperties()
+        {
+            return typeof(T).GetProperties()
+                .Where(p => p.CanRead && p.CanWrite);
         }
 
         /// <summary>
@@ -143,7 +165,7 @@ namespace Testing.Specificity2
         /// </returns>
         private IEnumerable<Action> GetTests()
         {
-            foreach (var property in this.GetProperties())
+            foreach (var property in GetProperties())
             {
                 foreach (var test in this.GetPropertyChangedTests())
                 {
@@ -229,16 +251,6 @@ namespace Testing.Specificity2
         }
 
         /// <summary>
-        /// Gets the properties.
-        /// </summary>
-        /// <returns>The properties.</returns>
-        private IEnumerable<PropertyInfo> GetProperties()
-        {
-            return typeof(T).GetProperties()
-                .Where(p => p.CanRead && p.CanWrite);
-        }
-
-        /// <summary>
         /// Specifies the that no other property changed events were raised.
         /// </summary>
         /// <param name="property">The property.</param>
@@ -249,7 +261,7 @@ namespace Testing.Specificity2
             var notified = this.watcher.Select(e => e.PropertyName).Where(n => !propertyNames.Contains(n)).ToArray();
             Specify.That(notified.Any())
                 .Should.Not.BeTrue(
-                    "PropertyChanged was unexpectedly raised for {0} when '{1}' was changed.",
+                    Resources.PropertyChangedWasUnexpectedlyRaised,
                     string.Join(",", notified.Select(n => "'" + n + "'")),
                     property.Name);
         }
@@ -265,7 +277,7 @@ namespace Testing.Specificity2
             var notNotified = propertyNames.Where(n => !this.watcher.Any(e => e.PropertyName == n)).ToArray();
             Specify.That(notNotified.Any())
                 .Should.Not.BeTrue(
-                    "PropertyChanged was not raised for {0} when '{1}' was changed.",
+                    Resources.PropertyChangedWasNotRaised,
                     string.Join(",", notNotified.Select(n => "'" + n + "'")),
                     property.Name);
         }

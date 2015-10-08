@@ -11,6 +11,7 @@ namespace Testing.Specificity2
     using System.Collections.ObjectModel;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using Properties;
 
     /// <summary>
     /// Represents a collection of tests.
@@ -49,7 +50,7 @@ namespace Testing.Specificity2
         /// </summary>
         public void RunTests()
         {
-            this.RunTests("Multiple tests failed.");
+            this.RunTests(Resources.MultipleTestsFailed);
         }
 
         /// <summary>

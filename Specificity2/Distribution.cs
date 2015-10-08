@@ -29,26 +29,6 @@ namespace Testing.Specificity2
         private const double STDDEV = 1.0;
 
         /// <summary>
-        /// The inverted normal distribution random number generator.
-        /// </summary>
-        private static readonly Distribution InvertedNormalInstance = new InvertedNormalDistribution();
-
-        /// <summary>
-        /// The negative normal distribution random number generator.
-        /// </summary>
-        private static readonly Distribution NegativeNormalInstance = new NegativeNormalDistribution();
-
-        /// <summary>
-        /// The positive normal distribution random number generator.
-        /// </summary>
-        private static readonly Distribution PositiveNormalInstance = new PositiveNormalDistribution();
-
-        /// <summary>
-        /// The uniform distribution random number generator.
-        /// </summary>
-        private static readonly Distribution UniformInstance = new UniformDistribution();
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Distribution"/> class.
         /// </summary>
         internal Distribution()
@@ -59,37 +39,25 @@ namespace Testing.Specificity2
         /// Gets a <see cref="Distribution"/> object that can be used to generate
         /// inverted normal pseudo-random numbers.
         /// </summary>
-        public static Distribution InvertedNormal
-        {
-            get { return Distribution.InvertedNormalInstance; }
-        }
+        public static Distribution InvertedNormal { get; } = new InvertedNormalDistribution();
 
         /// <summary>
         /// Gets a <see cref="Distribution"/> object that can be used to generate
         /// negative normal pseudo-random numbers.
         /// </summary>
-        public static Distribution NegativeNormal
-        {
-            get { return Distribution.NegativeNormalInstance; }
-        }
+        public static Distribution NegativeNormal { get; } = new NegativeNormalDistribution();
 
         /// <summary>
         /// Gets a <see cref="Distribution"/> object that can be used to generate
         /// positive normal pseudo-random numbers.
         /// </summary>
-        public static Distribution PositiveNormal
-        {
-            get { return Distribution.PositiveNormalInstance; }
-        }
+        public static Distribution PositiveNormal { get; } = new PositiveNormalDistribution();
 
         /// <summary>
         /// Gets a <see cref="Distribution"/> object that can be used to generate
         /// uniform pseudo-random numbers.
         /// </summary>
-        public static Distribution Uniform
-        {
-            get { return Distribution.UniformInstance; }
-        }
+        public static Distribution Uniform { get; } = new UniformDistribution();
 
         /// <summary>
         /// Gets the next pseudo-radom double value.
@@ -104,13 +72,23 @@ namespace Testing.Specificity2
         /// <param name="random">The pseudo-random number generator to use.</param>
         /// <param name="sigma">The sigma to use.</param>
         /// <returns>A gaussian value.</returns>
-        protected double NextGaussian(Random random, int sigma = SIGMA)
+        protected static double NextGaussian(Random random, int sigma = SIGMA)
         {
+            ValidateRandomArgument(random);
+
             double u1 = random.NextDouble();
             double u2 = random.NextDouble();
             double stdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2);
             double gausian = MEAN + (STDDEV * stdNormal);
             return (gausian % sigma) / sigma;
+        }
+
+        private static void ValidateRandomArgument(Random random)
+        {
+            if (random == null)
+            {
+                throw new ArgumentNullException("random");
+            }
         }
 
         /// <summary>
@@ -125,7 +103,7 @@ namespace Testing.Specificity2
             /// <returns>A uniform pseudo-random number.</returns>
             public override double NextDouble(Random random)
             {
-                double next = this.NextGaussian(random, SIGMA * 2);
+                double next = NextGaussian(random, SIGMA * 2);
                 return (next < 0) ? 1 + next : next;
             }
         }
@@ -142,7 +120,7 @@ namespace Testing.Specificity2
             /// <returns>A uniform pseudo-random number.</returns>
             public override double NextDouble(Random random)
             {
-                return Math.Abs(-1 + Math.Abs(this.NextGaussian(random)));
+                return Math.Abs(-1 + Math.Abs(NextGaussian(random)));
             }
         }
 
@@ -158,7 +136,7 @@ namespace Testing.Specificity2
             /// <returns>A uniform pseudo-random number.</returns>
             public override double NextDouble(Random random)
             {
-                return Math.Abs(this.NextGaussian(random));
+                return Math.Abs(NextGaussian(random));
             }
         }
 
@@ -174,6 +152,8 @@ namespace Testing.Specificity2
             /// <returns>A uniform pseudo-random number.</returns>
             public override double NextDouble(Random random)
             {
+                ValidateRandomArgument(random);
+
                 return random.NextDouble();
             }
         }

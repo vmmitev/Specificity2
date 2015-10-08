@@ -235,6 +235,17 @@ namespace Testing.Specificity2.Properties
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Equality operator not defined for type &apos;{0}&apos;..
+        /// </summary>
+        internal static string EqualityOperatorNotDefinedForType
+        {
+            get
+            {
+                return ResourceManager.GetString("EqualityOperatorNotDefinedForType", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Wrong type: {0}. Actual type: {1}..
         /// </summary>
         internal static string EqualTypes
@@ -242,6 +253,39 @@ namespace Testing.Specificity2.Properties
             get
             {
                 return ResourceManager.GetString("EqualTypes", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Greater than operator not defined for type &apos;{0}&apos;.
+        /// </summary>
+        internal static string GreaterThanOperatorNotDefinedForType
+        {
+            get
+            {
+                return ResourceManager.GetString("GreaterThanOperatorNotDefinedForType", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Greater than or equal operator not defined for type &apos;{0}&apos;.
+        /// </summary>
+        internal static string GreaterThanOrEqualOperatorNotDefinedForType
+        {
+            get
+            {
+                return ResourceManager.GetString("GreaterThanOrEqualOperatorNotDefinedForType", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Inequality operator not defined for type &apos;{0}&apos;..
+        /// </summary>
+        internal static string InequalityOperatorNotDefinedForType
+        {
+            get
+            {
+                return ResourceManager.GetString("InequalityOperatorNotDefinedForType", resourceCulture);
             }
         }
 
@@ -268,6 +312,28 @@ namespace Testing.Specificity2.Properties
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Less than operator not defined for type &apos;{0}&apos;..
+        /// </summary>
+        internal static string LessThanOperatorNotDefinedForType
+        {
+            get
+            {
+                return ResourceManager.GetString("LessThanOperatorNotDefinedForType", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Less than or equal operator not defined for type &apos;{0}&apos;..
+        /// </summary>
+        internal static string LessThanOrEqualOperatorNotDefinedForType
+        {
+            get
+            {
+                return ResourceManager.GetString("LessThanOrEqualOperatorNotDefinedForType", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to The expected collection contains {0} occurrence(s) of &lt;{1}&gt;. The actual collection contains {2} occurrence(s)..
         /// </summary>
         internal static string MismatchedElements
@@ -275,6 +341,28 @@ namespace Testing.Specificity2.Properties
             get
             {
                 return ResourceManager.GetString("MismatchedElements", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Multiple tests failed..
+        /// </summary>
+        internal static string MultipleTestsFailed
+        {
+            get
+            {
+                return ResourceManager.GetString("MultipleTestsFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to No EquivalenceClasses were specified..
+        /// </summary>
+        internal static string NoEquivalenceClassesWereSpecified
+        {
+            get
+            {
+                return ResourceManager.GetString("NoEquivalenceClassesWereSpecified", resourceCulture);
             }
         }
 
@@ -345,6 +433,28 @@ namespace Testing.Specificity2.Properties
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to PropertyChanged was not raised for {0} when &apos;{1}&apos; was changed..
+        /// </summary>
+        internal static string PropertyChangedWasNotRaised
+        {
+            get
+            {
+                return ResourceManager.GetString("PropertyChangedWasNotRaised", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to PropertyChanged was unexpectedly raised for {0} when &apos;{1}&apos; was changed..
+        /// </summary>
+        internal static string PropertyChangedWasUnexpectedlyRaised
+        {
+            get
+            {
+                return ResourceManager.GetString("PropertyChangedWasUnexpectedlyRaised", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Specification failed..
         /// </summary>
         internal static string SpecificationFailure
@@ -378,6 +488,259 @@ namespace Testing.Specificity2.Properties
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Testing CompareTo with &apos;{0}&apos; and &apos;{1}&apos; failed..
+        /// </summary>
+        internal static string TestingCompareToWithValuesFailed
+        {
+            get
+            {
+                return ResourceManager.GetString("TestingCompareToWithValuesFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Testing generic CompareTo with &apos;{0}&apos; and &apos;{1}&apos; failed..
+        /// </summary>
+        internal static string TestingGenericCompareToWithValuesFailed
+        {
+            get
+            {
+                return ResourceManager.GetString("TestingGenericCompareToWithValuesFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Testing operator &gt; with &apos;{0}&apos; and &apos;{1}&apos; failed..
+        /// </summary>
+        internal static string TestingGreaterThanOperatorWithValuesFailed
+        {
+            get
+            {
+                return ResourceManager.GetString("TestingGreaterThanOperatorWithValuesFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Testing operator &gt;= with &apos;{0}&apos; and &apos;{1}&apos; failed..
+        /// </summary>
+        internal static string TestingGreaterThanOrEqualOperatorWithValuesFailed
+        {
+            get
+            {
+                return ResourceManager.GetString("TestingGreaterThanOrEqualOperatorWithValuesFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Testing IEquatable.Equals with &apos;{0}&apos; and &apos;{1}&apos; failed..
+        /// </summary>
+        internal static string TestingIEquatableEqualsWithValuesFailed
+        {
+            get
+            {
+                return ResourceManager.GetString("TestingIEquatableEqualsWithValuesFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Testing operator &lt; with &apos;{0}&apos; and &apos;{1}&apos; failed..
+        /// </summary>
+        internal static string TestingLessThanOperatorWithValuesFailed
+        {
+            get
+            {
+                return ResourceManager.GetString("TestingLessThanOperatorWithValuesFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Testing operator &lt;= with &apos;{0}&apos; and &apos;{1}&apos; failed..
+        /// </summary>
+        internal static string TestingLessThanOrEqualOperatorWithValuesFailed
+        {
+            get
+            {
+                return ResourceManager.GetString("TestingLessThanOrEqualOperatorWithValuesFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Testing Object.Equals with &apos;{0}&apos; and &apos;{1}&apos; failed..
+        /// </summary>
+        internal static string TestingObjectEqualsWithValuesFailed
+        {
+            get
+            {
+                return ResourceManager.GetString("TestingObjectEqualsWithValuesFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Testing Object.GetHashCode failed with equivalent objects &apos;{0}&apos; and &apos;{1}&apos;..
+        /// </summary>
+        internal static string TestingObjectGetHashCodeWithValuesFailed
+        {
+            get
+            {
+                return ResourceManager.GetString("TestingObjectGetHashCodeWithValuesFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Testing operator == with &apos;{0}&apos; and &apos;{1}&apos; failed..
+        /// </summary>
+        internal static string TestingOperatorEqualsWithValuesFailed
+        {
+            get
+            {
+                return ResourceManager.GetString("TestingOperatorEqualsWithValuesFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Testing operator != with &apos;{0}&apos; and &apos;{1}&apos; failed..
+        /// </summary>
+        internal static string TestingOperatorNotEqualsWithValuesFailed
+        {
+            get
+            {
+                return ResourceManager.GetString("TestingOperatorNotEqualsWithValuesFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Testing symmetry of IEquatable.Equals with &apos;{0}&apos; and &apos;{1}&apos; failed..
+        /// </summary>
+        internal static string TestingSymmetryOfIEquatableEqualsWithValuesFailed
+        {
+            get
+            {
+                return ResourceManager.GetString("TestingSymmetryOfIEquatableEqualsWithValuesFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Testing symmetry of Object.Equals with &apos;{0}&apos; and &apos;{1}&apos; failed..
+        /// </summary>
+        internal static string TestingSymmetryOfObjectEqualsWithValuesFailed
+        {
+            get
+            {
+                return ResourceManager.GetString("TestingSymmetryOfObjectEqualsWithValuesFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Testing symmetry of operator == with &apos;{0}&apos; and &apos;{1}&apos; failed..
+        /// </summary>
+        internal static string TestingSymmetryOfOperatorEqualsWithValuesFailed
+        {
+            get
+            {
+                return ResourceManager.GetString("TestingSymmetryOfOperatorEqualsWithValuesFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Testing symmetry of operator != with &apos;{0}&apos; and &apos;{1}&apos; failed..
+        /// </summary>
+        internal static string TestingSymmetryOfOperatorNotEqualsWithValuesFailed
+        {
+            get
+            {
+                return ResourceManager.GetString("TestingSymmetryOfOperatorNotEqualsWithValuesFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Testing transitivity of IEquatable.Equals with &apos;{0}&apos;, &apos;{1}&apos; and &apos;{2}&apos; failed..
+        /// </summary>
+        internal static string TestingTransitivityOfIEquatableEqualsWithValuesFailed
+        {
+            get
+            {
+                return ResourceManager.GetString("TestingTransitivityOfIEquatableEqualsWithValuesFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Testing transitivity of Object.Equals with &apos;{0}&apos;, &apos;{1}&apos; and &apos;{2}&apos; failed..
+        /// </summary>
+        internal static string TestingTransitivityOfObjectEqualsWithValuesFailed
+        {
+            get
+            {
+                return ResourceManager.GetString("TestingTransitivityOfObjectEqualsWithValuesFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Testing transitivity of operator == with &apos;{0}&apos;, &apos;{1}&apos; and &apos;{2}&apos; failed..
+        /// </summary>
+        internal static string TestingTransitivityOfOperatorEqualsWithValuesFailed
+        {
+            get
+            {
+                return ResourceManager.GetString("TestingTransitivityOfOperatorEqualsWithValuesFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Testing transitivity of operator != with &apos;{0}&apos;, &apos;{1}&apos; and &apos;{2}&apos; failed..
+        /// </summary>
+        internal static string TestingTransitivityOfOperatorNotEqualsWithValuesFailed
+        {
+            get
+            {
+                return ResourceManager.GetString("TestingTransitivityOfOperatorNotEqualsWithValuesFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The type &apos;{0}&apos; did not override the &apos;Object.Equals&apos; method..
+        /// </summary>
+        internal static string TheTypeDidNotOverrideObjectEqualsMethod
+        {
+            get
+            {
+                return ResourceManager.GetString("TheTypeDidNotOverrideObjectEqualsMethod", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The type &apos;{0}&apos; did not override the &apos;Object.GetHashCode&apos; method..
+        /// </summary>
+        internal static string TheTypeDidNotOverrideObjectGetHashCodeMethod
+        {
+            get
+            {
+                return ResourceManager.GetString("TheTypeDidNotOverrideObjectGetHashCodeMethod", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The type &apos;{0}&apos; does not define equality operators..
+        /// </summary>
+        internal static string TheTypeDoesNotDefineEqualityOperators
+        {
+            get
+            {
+                return ResourceManager.GetString("TheTypeDoesNotDefineEqualityOperators", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The type &apos;{0}&apos; should be sealed as a best practice when implementing &apos;IEquatable&lt;T&gt;&apos;..
+        /// </summary>
+        internal static string TheTypeShouldBeSealedWhenImplementingIEquatable
+        {
+            get
+            {
+                return ResourceManager.GetString("TheTypeShouldBeSealedWhenImplementingIEquatable", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Exception thrown: &lt;{0}&gt;..
         /// </summary>
         internal static string UnexpectedException
@@ -396,6 +759,17 @@ namespace Testing.Specificity2.Properties
             get
             {
                 return ResourceManager.GetString("UnexpectedExceptionType", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} failed verification..
+        /// </summary>
+        internal static string ValueFailedVerification
+        {
+            get
+            {
+                return ResourceManager.GetString("ValueFailedVerification", resourceCulture);
             }
         }
     }

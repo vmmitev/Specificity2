@@ -155,7 +155,7 @@ namespace Testing.Specificity2.Tests
 
             try
             {
-                Specify.Inonclusive(message, arg);
+                Specify.Inconclusive(message, arg);
             }
             catch (AssertInconclusiveException e)
             {
@@ -173,7 +173,7 @@ namespace Testing.Specificity2.Tests
 
             try
             {
-                Specify.Inonclusive(message);
+                Specify.Inconclusive(message);
             }
             catch (AssertInconclusiveException e)
             {
@@ -189,7 +189,7 @@ namespace Testing.Specificity2.Tests
         {
             try
             {
-                Specify.Inonclusive();
+                Specify.Inconclusive();
             }
             catch (AssertInconclusiveException)
             {

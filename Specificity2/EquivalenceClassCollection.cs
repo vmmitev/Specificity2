@@ -9,6 +9,7 @@ namespace Testing.Specificity2
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
     /// <summary>
@@ -20,7 +21,7 @@ namespace Testing.Specificity2
         /// <summary>
         /// The equivalence classes.
         /// </summary>
-        private readonly List<IEnumerable<T>> classes = new List<IEnumerable<T>>();
+        private List<IEnumerable<T>> Classes { get; } = new List<IEnumerable<T>>();
 
         /// <summary>
         /// Adds an equivalence class with element created by using the specified factory, which should return a new
@@ -29,7 +30,7 @@ namespace Testing.Specificity2
         /// <param name="factory">The factory function used to create equivalent instances.</param>
         public void Add(Func<T> factory)
         {
-            this.classes.Add(Enumerable.Range(0, 3).Select(_ => factory()));
+            this.Classes.Add(Enumerable.Range(0, 3).Select(_ => factory()));
         }
 
         /// <summary>
@@ -37,13 +38,13 @@ namespace Testing.Specificity2
         /// </summary>
         /// <param name="firstEquatable">The first equatable.</param>
         /// <param name="secondEquatable">The second equatable.</param>
-        /// <param name="otherEquatables">The rest of the equatables.</param>
-        public void Add(T firstEquatable, T secondEquatable, params T[] otherEquatables)
+        /// <param name="otherEquatableItems">The rest of the equatables.</param>
+        public void Add(T firstEquatable, T secondEquatable, params T[] otherEquatableItems)
         {
-            this.classes.Add(
+            this.Classes.Add(
                 Enumerable.Repeat(firstEquatable, 1)
                     .Concat(Enumerable.Repeat(secondEquatable, 1)
-                    .Concat(otherEquatables)));
+                    .Concat(otherEquatableItems)));
         }
 
         /// <summary>
@@ -52,7 +53,7 @@ namespace Testing.Specificity2
         /// <returns>An <see cref="IEnumerator{T}"/> that can iterate through the equivalence classes.</returns>
         public IEnumerator<IEnumerable<T>> GetEnumerator()
         {
-            return this.classes.GetEnumerator();
+            return this.Classes.GetEnumerator();
         }
 
         /// <summary>

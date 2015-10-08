@@ -292,7 +292,7 @@ namespace Testing.Specificity2
 
             if (expectedType == null)
             {
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException("expectedType");
             }
 
             int num = 0;
