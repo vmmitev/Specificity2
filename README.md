@@ -40,21 +40,14 @@ scenarios, though you should use ExtensionManager to ensure you're up to date.
 ### StyleCop
 
 StyleCop is used to ensure source code follows style conventions. This is integrated into the
-MSBuild projects and is installed by the NuGet package restore process. Nothing needs to be
-installed by the developer.
+projects' analyzers collection and is installed by the NuGet package restore process. Nothing needs to
+be installed by the developer.
 
 ### NUnit Test Adapter
 
 Specificity2 includes some unit tests written using the NUnit testing framework. In order to run these
 tests with the Visual Studio test runner (used by the Text Explorer in Visual Studio) you must have this
 extension installed. It can be installed via "Tools | Extensions and Updates..." in Visual Studio.
-
-### xUnit.net runner for Visual Studio 2012 and 2013
-
-Specificity2 includes some unit tests written using the xUnit testing framework. In order to run these
-tests with the Visual Studio test runner (used both by the Text Explorer in Visual Studio and from the
-build.proj MSBuild project) you must have this extension installed. It can be installed via
-"Tools | Extensions and Updates..." in Visual Studio.
 
 ### NuGet Packages
 

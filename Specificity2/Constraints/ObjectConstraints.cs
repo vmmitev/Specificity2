@@ -216,7 +216,7 @@ namespace Testing.Specificity2
                 throw new ArgumentNullException("self");
             }
 
-            if (object.ReferenceEquals(self.Value, expected))
+            if (ReferenceEquals(self.Value, expected))
             {
                 self.FailIfNegated(
                     self.FormatErrorMessage(
@@ -251,12 +251,14 @@ namespace Testing.Specificity2
                 return false;
             }
 
-            IEnumerator leftEnumerator = left.GetEnumerator();
-            IEnumerator rightEnumerator = right.GetEnumerator();
+            var leftEnumerator = left.GetEnumerator();
+            var rightEnumerator = right.GetEnumerator();
+
             for (int i = 0; leftEnumerator.MoveNext() && rightEnumerator.MoveNext(); ++i)
             {
                 object leftValue = leftEnumerator.Current;
                 object rightValue = rightEnumerator.Current;
+
                 if (leftValue == null || rightValue == null)
                 {
                     if (leftValue == rightValue)
@@ -293,7 +295,7 @@ namespace Testing.Specificity2
         /// </returns>
         private static bool CompareFields<T>(T left, T right)
         {
-            FieldInfo[] fields = left.GetType().GetFields();
+            var fields = left.GetType().GetFields();
             if (fields == null || fields.Length == 0)
             {
                 return true;
@@ -328,13 +330,13 @@ namespace Testing.Specificity2
         /// </returns>
         private static bool CompareProperties<T>(T left, T right)
         {
-            PropertyInfo[] props = left.GetType().GetProperties();
+            var props = left.GetType().GetProperties();
             if (props == null || props.Length == 0)
             {
                 return true;
             }
 
-            foreach (PropertyInfo prop in props)
+            foreach (var prop in props)
             {
                 object leftValue = prop.GetValue(left, null);
                 object rightValue = prop.GetValue(right, null);
@@ -372,33 +374,33 @@ namespace Testing.Specificity2
                 return false;
             }
 
-            Type type = left.GetType();
+            var type = left.GetType();
             if (type != right.GetType())
             {
                 return false;
             }
 
-            Type equatableType = typeof(IEquatable<>).MakeGenericType(type);
+            var equatableType = typeof(IEquatable<>).MakeGenericType(type);
             if (equatableType.IsAssignableFrom(type))
             {
                 MethodInfo equals = equatableType.GetMethod("Equals");
                 return (bool)equals.Invoke(left, new object[] { right });
             }
 
-            Type comparableType = typeof(IComparable<>).MakeGenericType(type);
+            var comparableType = typeof(IComparable<>).MakeGenericType(type);
             if (comparableType.IsAssignableFrom(type))
             {
                 MethodInfo compare = comparableType.GetMethod("Compare");
                 return (int)compare.Invoke(left, new object[] { right }) == 0;
             }
 
-            IComparable comparable = left as IComparable;
+            var comparable = left as IComparable;
             if (comparable != null)
             {
                 return comparable.CompareTo(right) == 0;
             }
 
-            ICollection collection = left as ICollection;
+            var collection = left as ICollection;
             if (collection != null)
             {
                 return AreCollectionsLogicallyEqual(collection, right as ICollection);
@@ -470,7 +472,7 @@ namespace Testing.Specificity2
             /// <returns><see langword="true"/> if the specified objects are equal; otherwise, <see langword="false"/>.</returns>
             public bool Equals(T x, T y)
             {
-                if (object.ReferenceEquals(x, y))
+                if (ReferenceEquals(x, y))
                 {
                     return true;
                 }
@@ -534,7 +536,7 @@ namespace Testing.Specificity2
             /// <returns><see langword="true"/> if the specified objects are equal; otherwise, <see langword="false"/>.</returns>
             public bool Equals(TEnumerable x, TEnumerable y)
             {
-                if (object.ReferenceEquals(x, y))
+                if (ReferenceEquals(x, y))
                 {
                     return true;
                 }

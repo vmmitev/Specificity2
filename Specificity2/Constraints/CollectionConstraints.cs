@@ -99,6 +99,7 @@ namespace Testing.Specificity2
                         null,
                         message,
                         parameters));
+
                 return;
             }
             else if (expected == null && self.Value == null)
@@ -109,10 +110,11 @@ namespace Testing.Specificity2
                         null,
                         message,
                         parameters));
+
                 return;
             }
 
-            bool areReferencesEqual = object.ReferenceEquals(expected, self.Value);
+            bool areReferencesEqual = ReferenceEquals(expected, self.Value);
             if (areReferencesEqual)
             {
                 self.FailIfNegated(
@@ -121,6 +123,7 @@ namespace Testing.Specificity2
                         null,
                         message,
                         parameters));
+
                 return;
             }
 
@@ -153,6 +156,7 @@ namespace Testing.Specificity2
                         Messages.MismatchedElements(expectedCount, mismatchedObject, actualCount),
                         message,
                         parameters));
+
                 return;
             }
 
@@ -342,7 +346,7 @@ namespace Testing.Specificity2
             }
 
             bool flag = false;
-            HashSet<object> set = new HashSet<object>();
+            var set = new HashSet<object>();
             int index = 0;
             foreach (object item in self.Value)
             {
@@ -360,6 +364,7 @@ namespace Testing.Specificity2
                                 Messages.DuplicateElement(Resources.NullValue),
                                 message,
                                 parameters));
+
                         return;
                     }
                 }
@@ -371,6 +376,7 @@ namespace Testing.Specificity2
                             Messages.DuplicateElement(item),
                             message,
                             parameters));
+
                     return;
                 }
 
@@ -400,8 +406,8 @@ namespace Testing.Specificity2
         {
             int expectedNullCount;
             int actualNullCount;
-            Dictionary<object, int> expectedElementCounts = GetElementCounts(expected, out expectedNullCount);
-            Dictionary<object, int> actualElementCounts = GetElementCounts(actual, out actualNullCount);
+            var expectedElementCounts = GetElementCounts(expected, out expectedNullCount);
+            var actualElementCounts = GetElementCounts(actual, out actualNullCount);
             if (expectedNullCount != actualNullCount)
             {
                 expectedCount = expectedNullCount;
@@ -423,6 +429,7 @@ namespace Testing.Specificity2
 
             expectedCount = actualCount = 0;
             mismatchedElement = null;
+
             return false;
         }
 
@@ -436,8 +443,10 @@ namespace Testing.Specificity2
         /// </returns>
         private static Dictionary<object, int> GetElementCounts(IEnumerable collection, out int nullCount)
         {
-            Dictionary<object, int> dictionary = new Dictionary<object, int>();
+            var dictionary = new Dictionary<object, int>();
+
             nullCount = 0;
+
             foreach (object obj in collection)
             {
                 int num;
@@ -468,8 +477,8 @@ namespace Testing.Specificity2
         {
             int subsetNullCount;
             int supersetNullCount;
-            Dictionary<object, int> subsetCounts = GetElementCounts(subset, out subsetNullCount);
-            Dictionary<object, int> supersetCounts = GetElementCounts(superset, out supersetNullCount);
+            var subsetCounts = GetElementCounts(subset, out subsetNullCount);
+            var supersetCounts = GetElementCounts(superset, out supersetNullCount);
             if (subsetNullCount > supersetNullCount)
             {
                 return false;

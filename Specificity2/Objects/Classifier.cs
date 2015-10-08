@@ -54,6 +54,7 @@ namespace Testing.Specificity2.Objects
 
             var classification = new Classification<T>(this, predicate);
             this.Classifications.Add(classification);
+
             return classification;
         }
     }

@@ -216,6 +216,7 @@ namespace Testing.Specificity2.Objects
         {
             var anyMethod = AnyMethod;
             var call = Expression.Call(factory, anyMethod, Expression.Constant(parameter.ParameterType));
+
             return Expression.Convert(call, parameter.ParameterType);
         }
 
@@ -231,6 +232,7 @@ namespace Testing.Specificity2.Objects
                 .Select(p => GetParameterExpression(p, factoryExpression));
             var newExpression = Expression.New(ctor, parameterExpressions);
             var lambda = Expression.Lambda<Func<IObjectFactory, object>>(newExpression, factoryExpression);
+
             return lambda.Compile();
         }
 
@@ -295,6 +297,7 @@ namespace Testing.Specificity2.Objects
             var factory = CreateFactory(ctor);
             DefaultRegistryInstance[type] = factory;
             this.Factories[type] = factory;
+
             return factory(this);
         }
     }

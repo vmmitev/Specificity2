@@ -150,7 +150,7 @@ namespace Testing.Specificity2.Objects
         private static IEnumerable<PropertyInfo> GetProperties()
         {
             return typeof(T).GetProperties()
-                .Where(p => p.CanRead && p.CanWrite);
+                            .Where(p => p.CanRead && p.CanWrite);
         }
 
         /// <summary>
@@ -252,9 +252,10 @@ namespace Testing.Specificity2.Objects
         /// <param name="property">The property.</param>
         private void SpecifyThatNoOtherPropertyChangedEventsWereRaised(PropertyInfo property)
         {
-            HashSet<string> propertyNames = new HashSet<string>();
+            var propertyNames = new HashSet<string>();
             this.GetExpectedPropertyNotifications(property.Name, propertyNames);
             var notified = this.watcher.Select(e => e.PropertyName).Where(n => !propertyNames.Contains(n)).ToArray();
+
             Specify.That(notified.Any())
                 .Should.Not.BeTrue(
                     Resources.PropertyChangedWasUnexpectedlyRaised,
@@ -268,9 +269,10 @@ namespace Testing.Specificity2.Objects
         /// <param name="property">The property.</param>
         private void SpecifyThatPropertyChangedWasRaised(PropertyInfo property)
         {
-            HashSet<string> propertyNames = new HashSet<string>();
+            var propertyNames = new HashSet<string>();
             this.GetExpectedPropertyNotifications(property.Name, propertyNames);
             var notNotified = propertyNames.Where(n => !this.watcher.Any(e => e.PropertyName == n)).ToArray();
+
             Specify.That(notNotified.Any())
                 .Should.Not.BeTrue(
                     Resources.PropertyChangedWasNotRaised,

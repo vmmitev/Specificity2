@@ -28,7 +28,7 @@ namespace Testing.Specificity2
                 throw new ArgumentNullException("self");
             }
 
-            if (Math.Abs((double)(expected - self.Value)) > delta)
+            if (Math.Abs(expected - self.Value) > delta)
             {
                 self.FailIfNotNegated(
                     self.FormatErrorMessage(

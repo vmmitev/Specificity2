@@ -50,15 +50,15 @@ namespace Testing.Specificity2
             }
 
             exceptionType = exceptionType ?? typeof(Exception);
-            Action action = self.Value;
+            var action = self.Value;
             try
             {
                 action();
             }
             catch (Exception e)
             {
-                Type actualType = e.GetType();
-                Type expectedType = exceptionType;
+                var actualType = e.GetType();
+                var expectedType = exceptionType;
                 if (!expectedType.IsAssignableFrom(actualType))
                 {
                     self.FailIfNotNegated(

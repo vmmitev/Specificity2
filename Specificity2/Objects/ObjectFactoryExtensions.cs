@@ -108,6 +108,7 @@ namespace Testing.Specificity2.Objects
             minimum = minimum ?? DateTime.MinValue;
             maximum = maximum ?? DateTime.MaxValue;
             long ticks = factory.AnyLong(minimum.Value.Ticks, maximum.Value.Ticks, distribution);
+
             return new DateTime(ticks);
         }
 
@@ -129,6 +130,7 @@ namespace Testing.Specificity2.Objects
             minimum = minimum ?? DateTimeOffset.MinValue;
             maximum = maximum ?? DateTimeOffset.MaxValue;
             long ticks = factory.AnyLong(minimum.Value.Ticks, maximum.Value.Ticks, distribution);
+
             return new DateTimeOffset(new DateTime(ticks));
         }
 
@@ -145,8 +147,9 @@ namespace Testing.Specificity2.Objects
                 throw new ArgumentNullException("factory");
             }
 
-            int index = factory.AnyInt(0, ObjectFactoryExtensions.Digits.Length, distribution);
-            return ObjectFactoryExtensions.Digits[index];
+            int index = factory.AnyInt(0, Digits.Length, distribution);
+
+            return Digits[index];
         }
 
         /// <summary>
@@ -169,6 +172,7 @@ namespace Testing.Specificity2.Objects
             int length = factory.AnyInt(minimumLength, maximumLength);
             var method = typeof(ObjectFactoryExtensions).GetMethod("AnyEnumerableInternal", BindingFlags.NonPublic | BindingFlags.Static);
             method = method.MakeGenericMethod(type);
+
             return (IEnumerable)method.Invoke(null, new object[] { factory, length, itemFactory });
         }
 
@@ -190,6 +194,7 @@ namespace Testing.Specificity2.Objects
 
             itemFactory = itemFactory ?? (f => f.Any<T>());
             int length = factory.AnyInt(minimumLength, maximumLength);
+
             return AnyEnumerableInternal<T>(factory, length, f => itemFactory(f));
         }
 
@@ -242,8 +247,9 @@ namespace Testing.Specificity2.Objects
                 throw new ArgumentNullException("factory");
             }
 
-            int index = factory.AnyInt(0, ObjectFactoryExtensions.Letters.Length, distribution);
-            return ObjectFactoryExtensions.Letters[index];
+            int index = factory.AnyInt(0, Letters.Length, distribution);
+
+            return Letters[index];
         }
 
         /// <summary>
@@ -259,13 +265,13 @@ namespace Testing.Specificity2.Objects
                 throw new ArgumentNullException("factory");
             }
 
-            int index = factory.AnyInt(0, ObjectFactoryExtensions.Letters.Length + ObjectFactoryExtensions.Digits.Length, distribution);
-            if (index < ObjectFactoryExtensions.Letters.Length)
+            int index = factory.AnyInt(0, Letters.Length + Digits.Length, distribution);
+            if (index < Letters.Length)
             {
-                return ObjectFactoryExtensions.Letters[index];
+                return Letters[index];
             }
 
-            return ObjectFactoryExtensions.Digits[index - ObjectFactoryExtensions.Letters.Length];
+            return Digits[index - Letters.Length];
         }
 
         /// <summary>
@@ -348,6 +354,7 @@ namespace Testing.Specificity2.Objects
             minimum = minimum ?? TimeSpan.MinValue;
             maximum = maximum ?? TimeSpan.MaxValue;
             long ticks = factory.AnyLong(minimum.Value.Ticks, maximum.Value.Ticks, distribution);
+
             return new TimeSpan(ticks);
         }
 

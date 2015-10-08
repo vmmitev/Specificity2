@@ -58,7 +58,7 @@ namespace Testing.Specificity2.Objects
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "The point is to report exception failures.")]
         public void RunTests(string message, params object[] arguments)
         {
-            List<Exception> exceptions = new List<Exception>();
+            var exceptions = new List<Exception>();
             foreach (var test in this)
             {
                 try

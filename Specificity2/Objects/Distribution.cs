@@ -78,6 +78,7 @@ namespace Testing.Specificity2.Objects
             double u2 = random.NextDouble();
             double stdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2);
             double gausian = MEAN + (STDDEV * stdNormal);
+
             return (gausian % sigma) / sigma;
         }
 
@@ -102,6 +103,7 @@ namespace Testing.Specificity2.Objects
             public override double NextDouble(Random random)
             {
                 double next = NextGaussian(random, SIGMA * 2);
+
                 return (next < 0) ? 1 + next : next;
             }
         }
