@@ -2,7 +2,7 @@
 <TestSettings name="TestSettings" id="feaa9f4f-1a88-4f4c-8b85-b07b82f6b570" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <Description>These are default test settings for a local test run.</Description>
   <Deployment enabled="false" />
-  <Execution hostProcessPlatform="MSIL" parallelTestCount="1">
+  <Execution hostProcessPlatform="MSIL" parallelTestCount="0">
     <TestTypeSpecific>
       <UnitTestRunConfig testTypeId="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b">
         <AssemblyResolution>

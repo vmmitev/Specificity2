@@ -18,15 +18,29 @@ namespace Testing.Specificity2
     /// </summary>
     public static class Specify
     {
-        /// <summary>
-        /// The platform adapter instance.
-        /// </summary>
-        private static ISpecifyAdapter Adapter { get; } = GetAdapter();
+        [ThreadStatic]
+        private static Stack<List<Exception>> threadedExceptionStack;
 
         /// <summary>
         /// Records aggregate exceptions.
         /// </summary>
-        private static Stack<List<Exception>> AggregateExceptionStack { get; } = new Stack<List<Exception>>();
+        private static Stack<List<Exception>> AggregateExceptionStack
+        {
+            get
+            {
+                if (threadedExceptionStack == null)
+                {
+                    threadedExceptionStack = new Stack<List<Exception>>();
+                }
+
+                return threadedExceptionStack;
+            }
+        }
+
+        /// <summary>
+        /// The platform adapter instance.
+        /// </summary>
+        private static ISpecifyAdapter Adapter { get; } = GetAdapter();
 
         /// <summary>
         /// Tests multiple assertions.
@@ -121,7 +135,7 @@ namespace Testing.Specificity2
             {
                 if (AggregateExceptionStack.Any())
                 {
-                    var exceptions = Specify.AggregateExceptionStack.Peek();
+                    var exceptions = AggregateExceptionStack.Peek();
                     exceptions.Add(e);
                     return;
                 }
