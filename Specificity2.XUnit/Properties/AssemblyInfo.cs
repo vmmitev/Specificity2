@@ -1,8 +1,6 @@
-﻿//-----------------------------------------------------------------------------
-// <copyright file="AssemblyInfo.cs" company="William E. Kempf">
+﻿// <copyright file="AssemblyInfo.cs" company="William E. Kempf">
 //     Copyright (c) William E. Kempf.
 // </copyright>
-//-----------------------------------------------------------------------------
 
 using System;
 using System.Diagnostics.CodeAnalysis;

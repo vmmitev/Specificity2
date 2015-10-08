@@ -1,8 +1,6 @@
-﻿//-----------------------------------------------------------------------------
-// <copyright file="Specify.cs" company="William E. Kempf">
+﻿// <copyright file="Specify.cs" company="William E. Kempf">
 //     Copyright (c) William E. Kempf.
 // </copyright>
-//-----------------------------------------------------------------------------
 
 namespace Testing.Specificity2
 {
@@ -173,10 +171,6 @@ namespace Testing.Specificity2
             return new ConstrainedValue<Action>(action);
         }
 
-        /// <summary>
-        /// Returns the first <see cref="ISpecifyAdapter" /> defined in loaded adapter assemblies.
-        /// </summary>
-        /// <returns>The first <see cref="ISpecifyAdapter" /> defined in loaded adapter assemblies.</returns>
         private static ISpecifyAdapter GetAdapter()
         {
             Assembly assembly = GetAdapterAssembly();

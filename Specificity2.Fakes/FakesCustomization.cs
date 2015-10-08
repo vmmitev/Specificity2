@@ -1,10 +1,8 @@
-﻿//-----------------------------------------------------------------------------
-// <copyright file="FakesCustomization.cs" company="William E. Kempf">
+﻿// <copyright file="FakesCustomization.cs" company="William E. Kempf">
 //     Copyright (c) William E. Kempf.
 // </copyright>
-//-----------------------------------------------------------------------------
 
-namespace Testing.Specificity2
+namespace Testing.Specificity2.Objects
 {
     using System;
     using System.Collections.Generic;

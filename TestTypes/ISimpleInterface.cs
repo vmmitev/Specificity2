@@ -1,8 +1,6 @@
-﻿//-----------------------------------------------------------------------------
-// <copyright file="ISimpleInterface.cs" company="William E. Kempf">
+﻿// <copyright file="ISimpleInterface.cs" company="William E. Kempf">
 //     Copyright (c) William E. Kempf.
 // </copyright>
-//-----------------------------------------------------------------------------
 
 namespace TestTypes
 {

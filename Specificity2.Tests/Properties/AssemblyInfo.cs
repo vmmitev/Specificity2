@@ -1,8 +1,6 @@
-﻿//-----------------------------------------------------------------------------
-// <copyright file="AssemblyInfo.cs" company="William E. Kempf">
+﻿// <copyright file="AssemblyInfo.cs" company="William E. Kempf">
 //     Copyright (c) William E. Kempf.
 // </copyright>
-//-----------------------------------------------------------------------------
 
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -29,4 +27,4 @@ using System.Runtime.InteropServices;
 [assembly: Guid("530d70b7-1849-426b-8855-065e7a323366")]
 
 // Analyzer Suppressions
-[assembly: SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "AnyTime", Scope = "member", Target = "Testing.Specificity2.Tests.ObjectFactoryTests.#AnyTimeSpanShouldReturnRandomTimeSpan()", Justification = "Used as compound in 'Any TimeSpan'.")]
+[assembly: SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "AnyTime", Scope = "member", Target = "Testing.Specificity2.Objects.Tests.ObjectFactoryTests.#AnyTimeSpanShouldReturnRandomTimeSpan()", Justification = "Used as compound in 'Any TimeSpan'.")]

@@ -49,53 +49,48 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
-    <Compile Include="ActionConstraints.cs" />
-    <Compile Include="BooleanConstraints.cs" />
-    <Compile Include="Classification.cs" />
-    <Compile Include="Classifier.cs" />
-    <Compile Include="CollectionConstraints.cs" />
-    <Compile Include="ComparableVerifier.cs" />
-    <Compile Include="ConstrainedValue.cs" />
-    <Compile Include="Constraint.cs" />
-    <Compile Include="ConstraintExtensions.cs" />
-    <Compile Include="ContractVerifier.cs" />
-    <Compile Include="CustomizationContext.cs" />
-    <Compile Include="Distribution.cs" />
-    <Compile Include="EquatableVerifier.cs" />
-    <Compile Include="EquivalenceClassCollection.cs" />
-    <Compile Include="EventWatcher.cs" />
-    <Compile Include="IConstraint.cs" />
-    <Compile Include="IObjectFactory.cs" />
-    <Compile Include="IObjectFactoryRegistry.cs" />
-    <Compile Include="IObjectFactoryRegistrar.cs" />
+    <Compile Include="Constraints\ActionConstraints.cs" />
+    <Compile Include="Constraints\BooleanConstraints.cs" />
+    <Compile Include="Objects\Classification.cs" />
+    <Compile Include="Objects\Classifier.cs" />
+    <Compile Include="Constraints\CollectionConstraints.cs" />
+    <Compile Include="Objects\ComparableVerifier.cs" />
+    <Compile Include="Constraints\ConstrainedValue.cs" />
+    <Compile Include="Constraints\Constraint.cs" />
+    <Compile Include="Constraints\ConstraintExtensions.cs" />
+    <Compile Include="Objects\ContractVerifier.cs" />
+    <Compile Include="Objects\CustomizationContext.cs" />
+    <Compile Include="Objects\Distribution.cs" />
+    <Compile Include="Objects\EquatableVerifier.cs" />
+    <Compile Include="Objects\EquivalenceClassCollection.cs" />
+    <Compile Include="Objects\EventWatcher.cs" />
+    <Compile Include="Constraints\IConstraint.cs" />
+    <Compile Include="Objects\IObjectFactory.cs" />
+    <Compile Include="Objects\IObjectFactoryRegistry.cs" />
+    <Compile Include="Objects\IObjectFactoryRegistrar.cs" />
     <Compile Include="ISpecifyAdapter.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="NamespaceDoc.cs" />
-    <Compile Include="NegativeConstraint.cs" />
-    <Compile Include="NumericConstraints.cs" />
-    <Compile Include="ObjectConstraints.cs" />
-    <Compile Include="ObjectFactory.cs" />
-    <Compile Include="ObjectFactoryCustomization.cs" />
-    <Compile Include="ObjectFactoryExtensions.cs" />
-    <Compile Include="ObjectFactoryRegistrarAttribute.cs" />
-    <Compile Include="ObjectPropertyVerifier.cs" />
+    <Compile Include="Constraints\NegativeConstraint.cs" />
+    <Compile Include="Constraints\NumericConstraints.cs" />
+    <Compile Include="Constraints\ObjectConstraints.cs" />
+    <Compile Include="Objects\ObjectFactory.cs" />
+    <Compile Include="Objects\ObjectFactoryCustomization.cs" />
+    <Compile Include="Objects\ObjectFactoryExtensions.cs" />
+    <Compile Include="Objects\ObjectFactoryRegistrarAttribute.cs" />
+    <Compile Include="Objects\ObjectPropertyVerifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="PropertyChangedWatcher.cs" />
-    <Compile Include="PropertyDetails.cs" />
+    <Compile Include="Objects\PropertyChangedWatcher.cs" />
+    <Compile Include="Objects\PropertyDetails.cs" />
     <Compile Include="Specify.cs" />
-    <Compile Include="DefaultObjectFactoryRegistry.cs" />
-    <Compile Include="StringConstraints.cs" />
-    <Compile Include="TestCollection.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <Compile Include="Objects\DefaultObjectFactoryRegistry.cs" />
+    <Compile Include="Constraints\StringConstraints.cs" />
+    <Compile Include="Objects\TestCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -104,8 +99,15 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+    <AdditionalFiles Include="..\stylecop.json">
+      <Link>stylecop.json</Link>
+    </AdditionalFiles>
+  </ItemGroup>
+  <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0-beta013\analyzers\dotnet\cs\Newtonsoft.Json.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0-beta013\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

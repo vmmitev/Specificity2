@@ -1,8 +1,6 @@
-﻿//-----------------------------------------------------------------------------
-// <copyright file="ObjectConstraintsTests.cs" company="William E. Kempf">
+﻿// <copyright file="ObjectConstraintsTests.cs" company="William E. Kempf">
 //     Copyright (c) William E. Kempf.
 // </copyright>
-//-----------------------------------------------------------------------------
 
 namespace Testing.Specificity2.Tests
 {

@@ -164,6 +164,8 @@ ClientBin/
 *.publishsettings
 node_modules/
 bower_components/
+# except stylecop.json
+!stylecop.json
 
 # RIA/Silverlight projects
 Generated_Code/

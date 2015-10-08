@@ -1,8 +1,6 @@
-﻿//-----------------------------------------------------------------------------
-// <copyright file="SpecifyTests.cs" company="William E. Kempf">
+﻿// <copyright file="SpecifyTests.cs" company="William E. Kempf">
 //     Copyright (c) William E. Kempf.
 // </copyright>
-//-----------------------------------------------------------------------------
 
 namespace Testing.Specificity2.Tests
 {
@@ -33,7 +31,7 @@ namespace Testing.Specificity2.Tests
                 return;
             }
 
-            throw new XunitException("Specify.Fail did not throw an AssertFailedException");
+            throw new XunitException("Specify.Failure did not throw an AssertFailedException");
         }
 
         [Fact, NuTest]
@@ -55,7 +53,7 @@ namespace Testing.Specificity2.Tests
                 return;
             }
 
-            throw new XunitException("Specify.Fail did not throw an AssertFailedException");
+            throw new XunitException("Specify.Failure did not throw an AssertFailedException");
         }
 
         [Fact, NuTest]
@@ -74,7 +72,7 @@ namespace Testing.Specificity2.Tests
                 return;
             }
 
-            throw new XunitException("Specify.Fail did not throw an AssertFailedException");
+            throw new XunitException("Specify.Failure did not throw an AssertFailedException");
         }
 
         [Fact, NuTest]
@@ -93,7 +91,7 @@ namespace Testing.Specificity2.Tests
                 return;
             }
 
-            throw new XunitException("Specify.Fail did not throw an AssertFailedException");
+            throw new XunitException("Specify.Failure did not throw an AssertFailedException");
         }
 
         [Fact, NuTest]
@@ -111,7 +109,7 @@ namespace Testing.Specificity2.Tests
                 return;
             }
 
-            throw new XunitException("Specify.Fail did not throw an AssertFailedException");
+            throw new XunitException("Specify.Failure did not throw an AssertFailedException");
         }
 
         [Fact, NuTest]
@@ -126,7 +124,7 @@ namespace Testing.Specificity2.Tests
                 return;
             }
 
-            throw new XunitException("Specify.Fail did not throw an AssertFailedException");
+            throw new XunitException("Specify.Failure did not throw an AssertFailedException");
         }
 
         [Fact, NuTest]
@@ -145,7 +143,7 @@ namespace Testing.Specificity2.Tests
                 return;
             }
 
-            throw new XunitException("Specify.Fail did not throw an AssertFailedException");
+            throw new XunitException("Specify.Failure did not throw an AssertFailedException");
         }
 
         [Fact, NuTest]
@@ -163,7 +161,7 @@ namespace Testing.Specificity2.Tests
                 return;
             }
 
-            throw new XunitException("Specify.Fail did not throw an AssertFailedException");
+            throw new XunitException("Specify.Failure did not throw an AssertFailedException");
         }
 
         [Fact, NuTest]
@@ -178,7 +176,7 @@ namespace Testing.Specificity2.Tests
                 return;
             }
 
-            throw new XunitException("Specify.Fail did not throw an AssertFailedException");
+            throw new XunitException("Specify.Failure did not throw an AssertFailedException");
         }
     }
 }

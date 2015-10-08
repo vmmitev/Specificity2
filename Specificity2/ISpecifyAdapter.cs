@@ -1,8 +1,6 @@
-﻿//-----------------------------------------------------------------------------
-// <copyright file="ISpecifyAdapter.cs" company="William E. Kempf">
+﻿// <copyright file="ISpecifyAdapter.cs" company="William E. Kempf">
 //     Copyright (c) William E. Kempf.
 // </copyright>
-//-----------------------------------------------------------------------------
 
 namespace Testing.Specificity2
 {

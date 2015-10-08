@@ -1,8 +1,6 @@
-﻿//-----------------------------------------------------------------------------
-// <copyright file="SpecifyTests.cs" company="William E. Kempf">
+﻿// <copyright file="SpecifyTests.cs" company="William E. Kempf">
 //     Copyright (c) William E. Kempf.
 // </copyright>
-//-----------------------------------------------------------------------------
 
 namespace Testing.Specificity2.Tests
 {
@@ -31,7 +29,7 @@ namespace Testing.Specificity2.Tests
                 return;
             }
 
-            Assert.Fail("Specify.Fail did not throw an AggregateAssertFailedException");
+            Assert.Fail("Specify.Failure did not throw an AggregateAssertFailedException");
         }
 
         [Test]
@@ -53,7 +51,7 @@ namespace Testing.Specificity2.Tests
                 return;
             }
 
-            Assert.Fail("Specify.Fail did not throw an AggregateAssertFailedException");
+            Assert.Fail("Specify.Failure did not throw an AggregateAssertFailedException");
         }
 
         [Test]
@@ -72,7 +70,7 @@ namespace Testing.Specificity2.Tests
                 return;
             }
 
-            Assert.Fail("Specify.Fail did not throw an AggregateAssertFailedException");
+            Assert.Fail("Specify.Failure did not throw an AggregateAssertFailedException");
         }
 
         [Test]
@@ -91,7 +89,7 @@ namespace Testing.Specificity2.Tests
                 return;
             }
 
-            Assert.Fail("Specify.Fail did not throw an AssertFailedException");
+            Assert.Fail("Specify.Failure did not throw an AssertFailedException");
         }
 
         [Test]
@@ -109,7 +107,7 @@ namespace Testing.Specificity2.Tests
                 return;
             }
 
-            Assert.Fail("Specify.Fail did not throw an AssertFailedException");
+            Assert.Fail("Specify.Failure did not throw an AssertFailedException");
         }
 
         [Test]
@@ -124,7 +122,7 @@ namespace Testing.Specificity2.Tests
                 return;
             }
 
-            Assert.Fail("Specify.Fail did not throw an AssertFailedException");
+            Assert.Fail("Specify.Failure did not throw an AssertFailedException");
         }
 
         [Test]
@@ -143,7 +141,7 @@ namespace Testing.Specificity2.Tests
                 return;
             }
 
-            Assert.Fail("Specify.Fail did not throw an AssertInconclusiveException");
+            Assert.Fail("Specify.Failure did not throw an AssertInconclusiveException");
         }
 
         [Test]
@@ -161,7 +159,7 @@ namespace Testing.Specificity2.Tests
                 return;
             }
 
-            Assert.Fail("Specify.Fail did not throw an AssertInconclusiveException");
+            Assert.Fail("Specify.Failure did not throw an AssertInconclusiveException");
         }
 
         [Test]
@@ -176,7 +174,7 @@ namespace Testing.Specificity2.Tests
                 return;
             }
 
-            Assert.Fail("Specify.Fail did not throw an AssertInconclusiveException");
+            Assert.Fail("Specify.Failure did not throw an AssertInconclusiveException");
         }
     }
 }

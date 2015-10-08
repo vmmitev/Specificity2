@@ -7,6 +7,7 @@
 namespace Testing.Specificity2.Tests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Objects;
     using TestTypes;
     using TestTypes.Fakes;
 

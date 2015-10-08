@@ -1,8 +1,6 @@
-﻿//-----------------------------------------------------------------------------
-// <copyright file="AssemblyInfo.cs" company="William E. Kempf">
+﻿// <copyright file="AssemblyInfo.cs" company="William E. Kempf">
 //     Copyright (c) William E. Kempf.
 // </copyright>
-//-----------------------------------------------------------------------------
 
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -37,4 +35,4 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("Specificity2.XUnit")]
 
 // Analyzer Suppressions
-[assembly: SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "AnyTime", Scope = "member", Target = "Testing.Specificity2.ObjectFactoryExtensions.#AnyTimeSpan(Testing.Specificity2.IObjectFactory,System.Nullable`1<System.TimeSpan>,System.Nullable`1<System.TimeSpan>,Testing.Specificity2.Distribution)", Justification = "Used as compound in 'Any TimeSpan'.")]
+[assembly: SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "AnyTime", Scope = "member", Target = "Testing.Specificity2.Objects.ObjectFactoryExtensions.#AnyTimeSpan(Testing.Specificity2.Objects.IObjectFactory,System.Nullable`1<System.TimeSpan>,System.Nullable`1<System.TimeSpan>,Testing.Specificity2.Objects.Distribution)", Justification = "Used as compound in 'Any TimeSpan'.")]
