@@ -7,14 +7,12 @@ namespace Testing.Specificity2.Objects
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Defines a test helper that can be used to watch event notifications.
     /// </summary>
     /// <typeparam name="TEventArgs">The type of the event arguments that will be raised.</typeparam>
-    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The fact this is a collection isn't the important quality of the class.")]
-    public class EventWatcher<TEventArgs> : ICollection<TEventArgs>
+    internal abstract class EventWatcher<TEventArgs> : ICollection<TEventArgs>
         where TEventArgs : EventArgs
     {
         /// <summary>
@@ -81,7 +79,6 @@ namespace Testing.Specificity2.Objects
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <typeparamref name="TEventArgs"/> instance containing the event data.</param>
-        [SuppressMessage("Microsoft.Security", "CA2109:ReviewVisibleEventHandlers", Justification = "Client code must be able to hook this event handler up.")]
         public void EventHandler(object sender, TEventArgs e)
         {
             this.Events.Add(e);

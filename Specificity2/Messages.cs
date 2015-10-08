@@ -15,49 +15,13 @@ namespace Testing.Specificity2
     internal static partial class Messages
     {
         /// <summary>
-        /// Gets a message string indicating both references are for the same collection.
-        /// </summary>
-        /// <value>A message string indicating that both references are for the same collection.</value>
-        public static string BothSameCollection
-        {
-            get { return GetMessage("BothSameCollection"); }
-        }
-
-        /// <summary>
-        /// Gets a message indicating collections contain the same elements.
-        /// </summary>
-        /// <value>A message string indicating the collections contain the same elements.</value>
-        public static string ContainsSameElements
-        {
-            get { return GetMessage("ContainsSameElements"); }
-        }
-
-        /// <summary>
-        /// Gets a message indicating the elements at a specified index don't match.
-        /// </summary>
-        /// <value>A message string indicating the elements at index do not match.</value>
-        public static string ElementsAtIndexDoNotMatch
-        {
-            get { return GetMessage("ElementsAtIndexDoNotMatch"); }
-        }
-
-        /// <summary>
-        /// Gets a textual representation of a null value.
-        /// </summary>
-        /// <value>The textual representation of a null value.</value>
-        public static string NullValue
-        {
-            get { return GetMessage("NullValue"); }
-        }
-
-        /// <summary>
         /// Gets a message string indicating the constraint failed.
         /// </summary>
         /// <param name="constraint">The constraint.</param>
         /// <returns>A message string indicating the constraint failed.</returns>
         public static string ConstraintFailed(string constraint)
         {
-            return Format("ConstraintFailed", constraint);
+            return Format(Resources.ConstraintFailed, constraint);
         }
 
         /// <summary>
@@ -68,7 +32,7 @@ namespace Testing.Specificity2
         /// <returns>A message string indicating the string does not contain the substring.</returns>
         public static string ContainsFail(string value, string substring)
         {
-            return Format("ContainsFail", value, substring);
+            return Format(Resources.ContainsFail, value, substring);
         }
 
         /// <summary>
@@ -81,7 +45,7 @@ namespace Testing.Specificity2
         /// <returns>A message string indicating the values differ by less than the provided delta.</returns>
         public static string DifferenceLessThanDelta<T>(T delta, T expected, T actual)
         {
-            return Format("DifferenceLessThanDelta", delta, expected, actual);
+            return Format(Resources.DifferenceLessThanDelta, delta, expected, actual);
         }
 
         /// <summary>
@@ -94,7 +58,7 @@ namespace Testing.Specificity2
         /// <returns>A message string indicating the values differ by more than the provided delta.</returns>
         public static string DifferenceMoreThanDelta<T>(T delta, T expected, T actual)
         {
-            return Format("DifferenceMoreThanDelta", delta, expected, actual);
+            return Format(Resources.DifferenceMoreThanDelta, delta, expected, actual);
         }
 
         /// <summary>
@@ -105,7 +69,7 @@ namespace Testing.Specificity2
         /// <returns>A message string indicating the string does not start with the substring.</returns>
         public static string DoesNotStartWith(string value, string substring)
         {
-            return Format("DoesNotStartWith", value, substring);
+            return Format(Resources.DoesNotStartWith, value, substring);
         }
 
         /// <summary>
@@ -115,7 +79,7 @@ namespace Testing.Specificity2
         /// <returns>A message string indicating that a duplicate element was found.</returns>
         public static string DuplicateElement(object duplicateItem)
         {
-            return Format("DuplicateElement", duplicateItem);
+            return Format(Resources.DuplicateElement, duplicateItem);
         }
 
         /// <summary>
@@ -126,7 +90,7 @@ namespace Testing.Specificity2
         /// <returns>A message string indicating that the element numbers do not match.</returns>
         public static string ElementNumbersDoNotMatch(int expectedCount, int actualCount)
         {
-            return Format("ElementNumbersDoNotMatch", expectedCount, actualCount);
+            return Format(Resources.ElementNumbersDoNotMatch, expectedCount, actualCount);
         }
 
         /// <summary>
@@ -138,7 +102,7 @@ namespace Testing.Specificity2
         /// <returns>A message string indicating that element types at the specified index do not match.</returns>
         public static string ElementTypesAtIndexDoNotMatch(int index, Type expectedType, Type actualType)
         {
-            return Format("ElementTypesAtIndexDoNotMatch", index, expectedType, actualType);
+            return Format(Resources.ElementTypesAtIndexDoNotMatch, index, expectedType, actualType);
         }
 
         /// <summary>
@@ -149,7 +113,7 @@ namespace Testing.Specificity2
         /// <returns>A message string indicating that element types at the specified index do not match.</returns>
         public static string ElementTypesAtIndexDoNotMatch2(int index, Type expectedType)
         {
-            return Format("ElementTypesAtIndexDoNotMatch2", index, expectedType);
+            return Format(Resources.ElementTypesAtIndexDoNotMatch2, index, expectedType);
         }
 
         /// <summary>
@@ -160,7 +124,7 @@ namespace Testing.Specificity2
         /// <returns>A message string indicating the string does not end with the substring.</returns>
         public static string EndsWithFail(string value, string substring)
         {
-            return Format("EndsWithFail", value, substring);
+            return Format(Resources.EndsWithFail, value, substring);
         }
 
         /// <summary>
@@ -171,7 +135,7 @@ namespace Testing.Specificity2
         /// <returns>A message string indicating the objects are equal.</returns>
         public static string Equal(object expected, object actual)
         {
-            return Format("Equal", expected, actual);
+            return Format(Resources.Equal, expected, actual);
         }
 
         /// <summary>
@@ -182,7 +146,7 @@ namespace Testing.Specificity2
         /// <returns>A message string indicating the types were equal.</returns>
         public static string EqualTypes(Type wrongType, Type actualType)
         {
-            return Format("EqualTypes", wrongType, actualType);
+            return Format(Resources.EqualTypes, wrongType, actualType);
         }
 
         /// <summary>
@@ -193,7 +157,7 @@ namespace Testing.Specificity2
         /// <returns>A message string indicating the string does not match the pattern.</returns>
         public static string IsMatchFail(string value, Regex pattern)
         {
-            return Format("IsMatchFail", value, pattern);
+            return Format(Resources.IsMatchFail, value, pattern);
         }
 
         /// <summary>
@@ -204,7 +168,7 @@ namespace Testing.Specificity2
         /// <returns>A message string indicating the string matches the pattern.</returns>
         public static string IsNotMatchFail(string value, Regex pattern)
         {
-            return Format("IsNotMatchFail", value, pattern);
+            return Format(Resources.IsNotMatchFail, value, pattern);
         }
 
         /// <summary>
@@ -216,7 +180,7 @@ namespace Testing.Specificity2
         /// <returns>A message string indicating that mismatched elements were found.</returns>
         public static string MismatchedElements(int expectedCount, object mismatchedObject, int actualCount)
         {
-            return Format("MismatchedElements", expectedCount, mismatchedObject, actualCount);
+            return Format(Resources.MismatchedElements, expectedCount, mismatchedObject, actualCount);
         }
 
         /// <summary>
@@ -226,7 +190,7 @@ namespace Testing.Specificity2
         /// <returns>A message string indicating that no exception was thrown.</returns>
         public static string NoExceptionThrown(Type actualType)
         {
-            return Format("NoExceptionThrown", actualType);
+            return Format(Resources.NoExceptionThrown, actualType);
         }
 
         /// <summary>
@@ -237,7 +201,7 @@ namespace Testing.Specificity2
         /// <returns>A message string indicating the string contains the substring.</returns>
         public static string NotContainsFail(string value, string substring)
         {
-            return Format("NotContainsFail", value, substring);
+            return Format(Resources.NotContainsFail, value, substring);
         }
 
         /// <summary>
@@ -248,7 +212,7 @@ namespace Testing.Specificity2
         /// <returns>A message string indicating the string ends with the substring.</returns>
         public static string NotEndsWithFail(string value, string substring)
         {
-            return Format("NotEndsWithFail", value, substring);
+            return Format(Resources.NotEndsWithFail, value, substring);
         }
 
         /// <summary>
@@ -259,7 +223,7 @@ namespace Testing.Specificity2
         /// <returns>A message string indicating the objects are not equal.</returns>
         public static string NotEqual(object expected, object actual)
         {
-            return Format("NotEqual", expected, actual);
+            return Format(Resources.NotEqual, expected, actual);
         }
 
         /// <summary>
@@ -270,7 +234,7 @@ namespace Testing.Specificity2
         /// <returns>A message string indicating the types were not equal.</returns>
         public static string NotEqualTypes(Type expectedType, Type actualType)
         {
-            return Format("NotEqualTypes", expectedType, actualType);
+            return Format(Resources.NotEqualTypes, expectedType, actualType);
         }
 
         /// <summary>
@@ -281,7 +245,7 @@ namespace Testing.Specificity2
         /// <returns>A message string indicating the string starts with the substring.</returns>
         public static string StartsWith(string value, string substring)
         {
-            return Format("StartsWith", value, substring);
+            return Format(Resources.StartsWith, value, substring);
         }
 
         /// <summary>
@@ -291,7 +255,7 @@ namespace Testing.Specificity2
         /// <returns>A message string indicating that an unexpected exception was thrown.</returns>
         public static string UnexpectedException(Type exceptionType)
         {
-            return Format("UnexpectedException", exceptionType);
+            return Format(Resources.UnexpectedException, exceptionType);
         }
 
         /// <summary>
@@ -302,29 +266,12 @@ namespace Testing.Specificity2
         /// <returns>A message string indicating that an unexpected exception type was thrown.</returns>
         public static string UnexpectedExceptionType(Type expectedType, Type actualType)
         {
-            return Format("UnexpectedException", expectedType, actualType);
+            return Format(Resources.UnexpectedExceptionType, expectedType, actualType);
         }
 
-        /// <summary>
-        /// Formats the specified string from the string resources.
-        /// </summary>
-        /// <param name="name">The name of the string resource.</param>
-        /// <param name="parameters">The parameters to use to format the string.</param>
-        /// <returns>The formatted string.</returns>
-        private static string Format(string name, params object[] parameters)
+        private static string Format(string message, params object[] parameters)
         {
-            string format = GetMessage(name);
-            return string.Format(CultureInfo.CurrentCulture, format, parameters);
-        }
-
-        /// <summary>
-        /// Gets the message text from the resources.
-        /// </summary>
-        /// <param name="name">The name of the string resource.</param>
-        /// <returns>The message text.</returns>
-        private static string GetMessage(string name)
-        {
-            return Resources.ResourceManager.GetString(name);
+            return string.Format(CultureInfo.CurrentCulture, message, parameters);
         }
     }
 }

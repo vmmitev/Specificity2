@@ -4,8 +4,6 @@
 
 namespace Testing.Specificity2.Objects
 {
-    using System;
-
     /// <summary>
     /// Base class for objects that can customize the object creation strategy of an <see cref="IObjectFactory"/>.
     /// </summary>

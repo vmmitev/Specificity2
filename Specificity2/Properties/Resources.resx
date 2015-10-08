@@ -117,17 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BothSameCollection" xml:space="preserve">
-    <value>Both collection references point to the same collection object.</value>
-  </data>
   <data name="ConstraintFailed" xml:space="preserve">
     <value>Constraint {0} failed.</value>
   </data>
   <data name="ContainsFail" xml:space="preserve">
     <value>String '{0}' does not contain '{1}'.</value>
-  </data>
-  <data name="ContainsSameElements" xml:space="preserve">
-    <value>Both collections contain the same elements.</value>
   </data>
   <data name="DifferenceLessThanDelta" xml:space="preserve">
     <value>Expected a difference greater than {0}. Expected value: {1}. Actual value: {2}.</value>
@@ -140,15 +134,6 @@
   </data>
   <data name="DuplicateElement" xml:space="preserve">
     <value>Duplicate element found: &lt;{0}&gt;.</value>
-  </data>
-  <data name="ElementNumbersDoNotMatch" xml:space="preserve">
-    <value>element count: &lt;{0}&gt;. Actual element count: &lt;{1}&gt;.</value>
-  </data>
-  <data name="ElementNumbersDoNotMatch1" xml:space="preserve">
-    <value>Expected element count: &lt;{0}&gt;. Actual element count: &lt;{1}&gt;.</value>
-  </data>
-  <data name="ElementsAtIndexDoNotMatch" xml:space="preserve">
-    <value>Expected: &lt;{0}&gt;. Actual: &lt;{1}&gt;. Index: &lt;{2}&gt;.</value>
   </data>
   <data name="ElementTypesAtIndexDoNotMatch" xml:space="preserve">
     <value>Element at index {0} is not of the expected type. Expected type: &lt;{1}&gt;. Actual type: &lt;{2}&gt;.</value>
@@ -191,12 +176,6 @@
   </data>
   <data name="NullValue" xml:space="preserve">
     <value>(null)</value>
-  </data>
-  <data name="SpecificationFailure" xml:space="preserve">
-    <value>Specification failed.</value>
-  </data>
-  <data name="SpecificationInconclusive" xml:space="preserve">
-    <value>Specification is inconclusive.</value>
   </data>
   <data name="StartsWith" xml:space="preserve">
     <value>String '{0}' starts with '{1}'.</value>
@@ -308,5 +287,8 @@
   </data>
   <data name="NoEquivalenceClassesWereSpecified" xml:space="preserve">
     <value>No EquivalenceClasses were specified.</value>
+  </data>
+  <data name="ElementNumbersDoNotMatch" xml:space="preserve">
+    <value>element count: &lt;{0}&gt;. Actual element count: &lt;{1}&gt;.</value>
   </data>
 </root>

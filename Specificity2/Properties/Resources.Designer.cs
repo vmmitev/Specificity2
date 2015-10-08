@@ -70,17 +70,6 @@ namespace Testing.Specificity2.Properties
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to Both collection references point to the same collection object..
-        /// </summary>
-        internal static string BothSameCollection
-        {
-            get
-            {
-                return ResourceManager.GetString("BothSameCollection", resourceCulture);
-            }
-        }
-
-        /// <summary>
         ///   Looks up a localized string similar to Constraint {0} failed..
         /// </summary>
         internal static string ConstraintFailed
@@ -99,17 +88,6 @@ namespace Testing.Specificity2.Properties
             get
             {
                 return ResourceManager.GetString("ContainsFail", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Both collections contain the same elements..
-        /// </summary>
-        internal static string ContainsSameElements
-        {
-            get
-            {
-                return ResourceManager.GetString("ContainsSameElements", resourceCulture);
             }
         }
 
@@ -165,28 +143,6 @@ namespace Testing.Specificity2.Properties
             get
             {
                 return ResourceManager.GetString("ElementNumbersDoNotMatch", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Expected element count: &lt;{0}&gt;. Actual element count: &lt;{1}&gt;..
-        /// </summary>
-        internal static string ElementNumbersDoNotMatch1
-        {
-            get
-            {
-                return ResourceManager.GetString("ElementNumbersDoNotMatch1", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Expected: &lt;{0}&gt;. Actual: &lt;{1}&gt;. Index: &lt;{2}&gt;..
-        /// </summary>
-        internal static string ElementsAtIndexDoNotMatch
-        {
-            get
-            {
-                return ResourceManager.GetString("ElementsAtIndexDoNotMatch", resourceCulture);
             }
         }
 
@@ -451,28 +407,6 @@ namespace Testing.Specificity2.Properties
             get
             {
                 return ResourceManager.GetString("PropertyChangedWasUnexpectedlyRaised", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Specification failed..
-        /// </summary>
-        internal static string SpecificationFailure
-        {
-            get
-            {
-                return ResourceManager.GetString("SpecificationFailure", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Specification is inconclusive..
-        /// </summary>
-        internal static string SpecificationInconclusive
-        {
-            get
-            {
-                return ResourceManager.GetString("SpecificationInconclusive", resourceCulture);
             }
         }
 

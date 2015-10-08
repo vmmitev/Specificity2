@@ -16,29 +16,31 @@ namespace Testing.Specificity2.Objects
     public class ComparableVerifier<T> : EquatableVerifier<T>
         where T : IComparable<T>, IComparable, IEquatable<T>
     {
+        private const BindingFlags PublicStaticFlags = BindingFlags.Static | BindingFlags.Public;
+
         /// <summary>
         /// The '&lt;' operator method info.
         /// </summary>
         private static MethodInfo LessThanOperator { get; } =
-            typeof(T).GetMethod("op_LessThan", BindingFlags.Static | BindingFlags.Public, null, new Type[] { typeof(T), typeof(T) }, null);
+            typeof(T).GetMethod("op_LessThan", PublicStaticFlags, null, new Type[] { typeof(T), typeof(T) }, null);
 
         /// <summary>
         /// The '>' operator method info.
         /// </summary>
         private static MethodInfo GreaterThanOperator { get; } =
-            typeof(T).GetMethod("op_GreaterThan", BindingFlags.Static | BindingFlags.Public, null, new Type[] { typeof(T), typeof(T) }, null);
+            typeof(T).GetMethod("op_GreaterThan", PublicStaticFlags, null, new Type[] { typeof(T), typeof(T) }, null);
 
         /// <summary>
         /// The '&lt;=' operator method info.
         /// </summary>
         private static MethodInfo LessThanOrEqualOperator { get; } =
-            typeof(T).GetMethod("op_LessThanOrEqual", BindingFlags.Static | BindingFlags.Public, null, new Type[] { typeof(T), typeof(T) }, null);
+            typeof(T).GetMethod("op_LessThanOrEqual", PublicStaticFlags, null, new Type[] { typeof(T), typeof(T) }, null);
 
         /// <summary>
         /// The '>=' operator method info.
         /// </summary>
         private static MethodInfo GreaterThanOrEqualOperator { get; }
-            = typeof(T).GetMethod("op_GreaterThanOrEqual", BindingFlags.Static | BindingFlags.Public, null, new Type[] { typeof(T), typeof(T) }, null);
+            = typeof(T).GetMethod("op_GreaterThanOrEqual", PublicStaticFlags, null, new Type[] { typeof(T), typeof(T) }, null);
 
         /// <summary>
         /// Specifies that operators are defined.

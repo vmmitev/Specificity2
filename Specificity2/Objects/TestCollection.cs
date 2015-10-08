@@ -6,7 +6,6 @@ namespace Testing.Specificity2.Objects
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using Properties;
@@ -14,7 +13,7 @@ namespace Testing.Specificity2.Objects
     /// <summary>
     /// Represents a collection of tests.
     /// </summary>
-    public sealed class TestCollection : List<Action>
+    internal sealed class TestCollection : List<Action>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TestCollection"/> class.

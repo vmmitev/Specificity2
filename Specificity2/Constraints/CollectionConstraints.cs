@@ -9,6 +9,7 @@ namespace Testing.Specificity2
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
+    using Properties;
 
     /// <summary>
     /// Provides extension methods for ICollection assertions.
@@ -356,7 +357,7 @@ namespace Testing.Specificity2
                         self.FailIfNotNegated(
                             self.FormatErrorMessage(
                                 "HaveUniqueItems",
-                                Messages.DuplicateElement(Messages.NullValue),
+                                Messages.DuplicateElement(Resources.NullValue),
                                 message,
                                 parameters));
                         return;
