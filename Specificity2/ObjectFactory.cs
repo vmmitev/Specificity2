@@ -54,26 +54,35 @@ namespace Testing.Specificity2
         public ObjectFactory(int seed)
         {
             this.random = new Random(seed);
-            foreach (var kv in DefaultRegistry)
+            foreach (var kv in DefaultRegistryInstance)
             {
                 this.Factories[kv.Key] = kv.Value;
             }
 
-            foreach (var customization in DefaultRegistry.Customizations)
+            foreach (var customization in DefaultRegistryInstance.Customizations)
             {
                 this.Customizations.Push(customization);
             }
         }
 
         /// <summary>
-        /// Cached MethodInfo for the <see cref="m:ObjectFactory.Any{T}"/> method.
+        /// Gets the default registry used to register factories and customizations used by all <see cref="ObjectFactory"/>
+        /// instances.
         /// </summary>
-        private static MethodInfo AnyMethod { get; } = typeof(IObjectFactory).GetMethod("Any");
+        public static IObjectFactoryRegistry DefaultRegistry
+        {
+            get { return DefaultRegistryInstance; }
+        }
 
         /// <summary>
         /// Static object factory methods.
         /// </summary>
-        private static DefaultObjectFactoryRegistry DefaultRegistry { get; } = GetDefaultRegistry();
+        private static DefaultObjectFactoryRegistry DefaultRegistryInstance { get; } = GetDefaultRegistry();
+
+        /// <summary>
+        /// Cached MethodInfo for the <see cref="m:ObjectFactory.Any{T}"/> method.
+        /// </summary>
+        private static MethodInfo AnyMethod { get; } = typeof(IObjectFactory).GetMethod("Any");
 
         /// <summary>
         /// The registered customizations.
@@ -286,7 +295,7 @@ namespace Testing.Specificity2
             }
 
             var factory = CreateFactory(ctor);
-            DefaultRegistry[type] = factory;
+            DefaultRegistryInstance[type] = factory;
             this.Factories[type] = factory;
             return factory(this);
         }
